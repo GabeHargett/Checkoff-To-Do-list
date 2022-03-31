@@ -143,8 +143,7 @@ class FirstVC: UIViewController {
     }
     
     @objc private func addItem() {
-        //myTextField.isHidden = false
-        let vc = TextInputVC()
+        let vc = TextInputVC(textType: 2)
         vc.delegate = self
         vc.showModal(vc: self)
     }

@@ -7,8 +7,9 @@
 
 import UIKit
 
-class HomeViewController: UIViewController {
-    
+class HomeViewController: UIViewController  {
+
+
     let date = Date()
     private let stackView = UIStackView()
     private let label1 = UILabel()
@@ -16,6 +17,19 @@ class HomeViewController: UIViewController {
     private let imageView = UIImageView(image: UIImage(systemName: "list.bullet.rectangle"))
     private let hiarchyStack = UIStackView()
     private let currentWeekTaskLabel = UILabel()
+    
+    private let goalsAddButton = CustomButton(type: .imageAndLabel)
+    private let pencilGoalsIV = UIImageView(image: UIImage(systemName: "pencil"))
+
+    private let imageAddButton = CustomButton(type: .imageAndLabel)
+    private let pencilImageIV = UIImageView(image: UIImage(systemName: "pencil"))
+
+    private let quoteButton = CustomButton(type: .imageAndLabel)
+    private let pencilQuoteIV = UIImageView(image: UIImage(systemName: "pencil"))
+    
+
+
+
 
     
     override func viewDidLoad() {
@@ -143,13 +157,13 @@ class HomeViewController: UIViewController {
         let quoteStack = UIStackView()
         let quoteOfTheWeek = UILabel()
         let quoteSignature = UILabel()
-        let quoteButton = CustomButton(type: .imageAndLabel)
         let imageStack = UIStackView()
-        let imageAddButton = CustomButton(type: .imageAndLabel)
         let imageAddOnStack = UILabel()
         let goalsStack = UIStackView()
         let goalsLabel = UILabel()
-        let goalsAddButton = CustomButton(type: .imageAndLabel)
+        let pencilQuote = UIStackView()
+        let pencilImage = UIStackView ()
+        let pencilGoals = UIStackView ()
 
         
         
@@ -173,6 +187,16 @@ class HomeViewController: UIViewController {
         quoteStack.spacing = 12
         quoteStack.isLayoutMarginsRelativeArrangement = true
         quoteStack.cornerRadius(radius: 8)
+        
+        pencilQuote.layoutMargins = UIEdgeInsets(top: 10, left: 8, bottom: 10, right: 16)
+        pencilQuote.axis = .horizontal
+        pencilQuote.spacing = 0
+        pencilQuote.isLayoutMarginsRelativeArrangement = true
+        
+        pencilQuoteIV.height(constant: 28)
+        pencilQuoteIV.width(constant: 28)
+        pencilQuoteIV.contentMode = .scaleAspectFit
+        pencilQuoteIV.tintColor = .black
 
         
         quoteOfTheWeek.text = "Quote of the week"
@@ -185,7 +209,6 @@ class HomeViewController: UIViewController {
         quoteButton.setImageHeight(size: 26)
         quoteButton.quickConfigure(
                     font: .systemFont(ofSize: 15), titleColor: .black, backgroundColor: .systemGray4, cornerRadius: 8)
-        
         quoteButton.layoutMargins = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
         quoteButton.isUserInteractionEnabled = true
         
@@ -194,19 +217,6 @@ class HomeViewController: UIViewController {
         quoteSignature.font = UIFont.systemFont(ofSize: 12)
         
         
-        hiarchyStack.addArrangedSubviews([
-            imageStack,
-            goalsStack,
-            quoteStack
-            ])
-        
-        quoteStack.addArrangedSubviews([
-            quoteOfTheWeek,
-            quoteButton,
-            quoteSignature
-            
-            ])
-        
         imageStack.addBorders(color: .black, thickness: 1)
         imageStack.layoutMargins = UIEdgeInsets(top: 10, left: 16, bottom: 10, right: 16)
         imageStack.axis = .vertical
@@ -214,6 +224,15 @@ class HomeViewController: UIViewController {
         imageStack.isLayoutMarginsRelativeArrangement = true
         imageStack.cornerRadius(radius: 8)
         
+        pencilImage.layoutMargins = UIEdgeInsets(top: 10, left: 8, bottom: 10, right: 16)
+        pencilImage.axis = .horizontal
+        pencilImage.isLayoutMarginsRelativeArrangement = true
+        
+        pencilImageIV.height(constant: 28)
+        pencilImageIV.width(constant: 28)
+        pencilImageIV.contentMode = .scaleAspectFit
+        pencilImageIV.tintColor = .black
+
         imageAddOnStack.text = "Couple Picture of the Week"
         imageAddOnStack.textAlignment = .center
         imageAddOnStack.font = UIFont.systemFont(ofSize: 21)
@@ -227,12 +246,6 @@ class HomeViewController: UIViewController {
         imageAddButton.layoutMargins = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
         imageAddButton.isUserInteractionEnabled = true
 
-
- 
-        imageStack.addArrangedSubviews([
-            imageAddOnStack,
-            imageAddButton
-            ])
         
         goalsStack.addBorders(color: .black, thickness: 1)
         goalsStack.layoutMargins = UIEdgeInsets(top: 10, left: 16, bottom: 10, right: 16)
@@ -241,6 +254,15 @@ class HomeViewController: UIViewController {
         goalsStack.isLayoutMarginsRelativeArrangement = true
         goalsStack.cornerRadius(radius: 8)
         
+        pencilGoals.layoutMargins = UIEdgeInsets(top: 10, left: 8, bottom: 10, right: 16)
+        pencilGoals.axis = .horizontal
+        pencilGoals.isLayoutMarginsRelativeArrangement = true
+        
+        pencilGoalsIV.height(constant: 28)
+        pencilGoalsIV.width(constant: 28)
+        pencilGoalsIV.contentMode = .scaleAspectFit
+        pencilGoalsIV.tintColor = .black
+
         goalsLabel.text = "Couple Goals of the Week"
         goalsLabel.textAlignment = .center
         goalsLabel.font = UIFont.systemFont(ofSize: 21)
@@ -254,32 +276,82 @@ class HomeViewController: UIViewController {
                     font: .systemFont(ofSize: 15), titleColor: .black, backgroundColor: .systemGray4, cornerRadius: 8)
         goalsAddButton.layoutMargins = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
         goalsAddButton.isUserInteractionEnabled = true
-
+        
+        hiarchyStack.addArrangedSubviews([
+            imageStack,
+            goalsStack,
+            quoteStack
+        ])
+        
+        imageStack.addArrangedSubviews([
+            pencilImage,
+            imageAddButton
+        ])
+        
+        pencilImage.addArrangedSubviews([
+            pencilImageIV,
+            imageAddOnStack
+        ])
         
         goalsStack.addArrangedSubviews([
-            goalsLabel,
+            pencilGoals,
             goalsAddButton
         ])
+        
+        pencilGoals.addArrangedSubviews([
+            pencilGoalsIV,
+            goalsLabel
+        ])
+
+        quoteStack.addArrangedSubviews([
+            pencilQuote,
+            quoteButton,
+            quoteSignature
+        ])
+        
+        pencilQuote.addArrangedSubviews([
+            pencilQuoteIV,
+            quoteOfTheWeek
+        ])
+
+        
+        goalsAddButton.isUserInteractionEnabled = true
+        let tapGesture4 = UITapGestureRecognizer(target: self, action: #selector(addGoals))
+        goalsAddButton.addGestureRecognizer(tapGesture4)
+            
+        quoteButton.isUserInteractionEnabled = true
+        let tapGesture5 = UITapGestureRecognizer(target: self, action: #selector(addQuote))
+        quoteButton.addGestureRecognizer(tapGesture5)
+
+            
+        
 
         }
     
 
-
-
-//        blackBox.isUserInteractionEnabled = true
-//        let tapGesture3 = UITapGestureRecognizer(target: self, action: #selector(didTapBlackBox))
-//        blackBox.addGestureRecognizer(tapGesture3)
-//
-//    }
-//
-//    @objc private func didTapBlackBox() {
-//        let vc = WeeksClassVC()
-//        navigationController?.pushViewController(vc, animated: true)
-//    }
-
-   
+    @objc private func didTapGoalsButton() {
+        let vc = TextInputVC(textType: 0)
+        navigationController?.pushViewController(vc, animated: true)
+    }
     
+    
+    @objc private func addGoals() {
+        let vc = TextInputVC(textType: 0)
+        vc.delegate = self
+        vc.showModal(vc: self)
+    }
+    @objc private func addQuote() {
+        let vc = TextInputVC(textType: 1)
+        vc.delegate = self
+        vc.showModal(vc: self)
+    }
 }
+
+extension HomeViewController: TextInputVCDelegate {
+    func didSubmitText(text: String) {
+    }
+}
+
 extension Date {
     func get(_ components: Calendar.Component..., calendar: Calendar = Calendar.current) -> DateComponents {
         return calendar.dateComponents(Set(components), from: self)

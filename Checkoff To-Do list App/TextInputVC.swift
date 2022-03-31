@@ -11,9 +11,14 @@ import UIKit
 protocol TextInputVCDelegate: AnyObject {
     func didSubmitText(text: String)
 }
+//protocol TextInputVCDelegate2: AnyObject {
+//    func didSubmitQuote(text: String)
+//}
+
 
 class TextInputVC: UIViewController {
     
+    let textType: Int
     private let baseView = BareBonesBottomModalView(frame: .zero, allowsTapToDismiss: true, allowsSwipeToDismiss: true)
     
     override func loadView() {
@@ -25,8 +30,10 @@ class TextInputVC: UIViewController {
     private let submitButton = UIButton()
     
     weak var delegate: TextInputVCDelegate?
-    
-    init() {
+//    weak var delegate2: TextInputVCDelegate2?
+
+    init(textType: Int) {
+        self.textType = textType
         super.init(nibName: nil, bundle: nil)
         
         modalPresentationStyle = .overFullScreen
@@ -78,7 +85,19 @@ class TextInputVC: UIViewController {
         baseView.stack.addArrangedSubview(textField)
         
         textField.height(constant: 50)
-        textField.placeholder = "Enter task"
+        textField.placeholder = "Enter Text"
+        
+        if textType == 0 {
+            textField.placeholder = "Enter Goal"
+
+        }
+        else if textType == 1 {
+            textField.placeholder = "Enter Quote"
+        }
+        else if textType == 2 {
+            textField.placeholder = "Enter Text"
+
+        }
         
         baseView.stack.addArrangedSubview(submitButton)
         
@@ -88,6 +107,7 @@ class TextInputVC: UIViewController {
         
         submitButton.addTarget(self, action: #selector(didSubmit), for: .touchUpInside)
     }
+
     
     @objc private func didSubmit() {
         if let text = textField.text {
@@ -95,6 +115,8 @@ class TextInputVC: UIViewController {
             self.dismiss(animated: true, completion: nil)
         }
     }
+
+    
     
     func showModal(vc: UIViewController) {
         vc.present(self, animated: true, completion: nil)
