@@ -19,6 +19,14 @@
 		778728CF27F434090060B496 /* BottomModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 778728CE27F434090060B496 /* BottomModal.swift */; };
 		778728D127F434470060B496 /* WeeksClassVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 778728D027F434470060B496 /* WeeksClassVC.swift */; };
 		778728D327F4382D0060B496 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 778728D227F4382D0060B496 /* HomeViewController.swift */; };
+		778728D527FB934F0060B496 /* ScrollableStackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 778728D427FB934F0060B496 /* ScrollableStackView.swift */; };
+		778728DD27FF8F500060B496 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 778728DC27FF8F500060B496 /* FirebaseAuth */; };
+		778728DF27FF8F500060B496 /* FirebaseDatabase in Frameworks */ = {isa = PBXBuildFile; productRef = 778728DE27FF8F500060B496 /* FirebaseDatabase */; };
+		778728E127FF8F500060B496 /* FirebaseDatabaseSwift-Beta in Frameworks */ = {isa = PBXBuildFile; productRef = 778728E027FF8F500060B496 /* FirebaseDatabaseSwift-Beta */; };
+		778728E327FF8F500060B496 /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = 778728E227FF8F500060B496 /* FirebaseStorage */; };
+		778728E527FF8F500060B496 /* FirebaseStorageSwift-Beta in Frameworks */ = {isa = PBXBuildFile; productRef = 778728E427FF8F500060B496 /* FirebaseStorageSwift-Beta */; };
+		778728E727FF95750060B496 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 778728E627FF95750060B496 /* GoogleService-Info.plist */; };
+		778728E927FF96170060B496 /* FirebaseAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 778728E827FF96170060B496 /* FirebaseAPI.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -36,6 +44,9 @@
 		778728CE27F434090060B496 /* BottomModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomModal.swift; sourceTree = "<group>"; };
 		778728D027F434470060B496 /* WeeksClassVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeeksClassVC.swift; sourceTree = "<group>"; };
 		778728D227F4382D0060B496 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
+		778728D427FB934F0060B496 /* ScrollableStackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrollableStackView.swift; sourceTree = "<group>"; };
+		778728E627FF95750060B496 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		778728E827FF96170060B496 /* FirebaseAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseAPI.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -43,6 +54,11 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				778728E527FF8F500060B496 /* FirebaseStorageSwift-Beta in Frameworks */,
+				778728E127FF8F500060B496 /* FirebaseDatabaseSwift-Beta in Frameworks */,
+				778728E327FF8F500060B496 /* FirebaseStorage in Frameworks */,
+				778728DF27FF8F500060B496 /* FirebaseDatabase in Frameworks */,
+				778728DD27FF8F500060B496 /* FirebaseAuth in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -71,16 +87,19 @@
 				778728AE27F42C540060B496 /* AppDelegate.swift */,
 				778728B027F42C540060B496 /* SceneDelegate.swift */,
 				778728D227F4382D0060B496 /* HomeViewController.swift */,
-				778728D027F434470060B496 /* WeeksClassVC.swift */,
 				778728CB27F42F3D0060B496 /* FirstVC.swift */,
 				778728C227F42D690060B496 /* TextInputVC.swift */,
 				778728CE27F434090060B496 /* BottomModal.swift */,
 				778728C427F42DB20060B496 /* CustomButton.swift */,
 				778728C627F42E310060B496 /* CustomTableViewCell.swift */,
+				778728D427FB934F0060B496 /* ScrollableStackView.swift */,
 				778728C827F42E590060B496 /* CheckBox.swift */,
+				778728E827FF96170060B496 /* FirebaseAPI.swift */,
 				778728BC27F42C560060B496 /* Info.plist */,
+				778728E627FF95750060B496 /* GoogleService-Info.plist */,
 				778728B927F42C560060B496 /* LaunchScreen.storyboard */,
 				778728B727F42C560060B496 /* Assets.xcassets */,
+				778728D027F434470060B496 /* WeeksClassVC.swift */,
 			);
 			path = "Checkoff To-Do list App";
 			sourceTree = "<group>";
@@ -101,6 +120,13 @@
 			dependencies = (
 			);
 			name = "Checkoff To-Do list App";
+			packageProductDependencies = (
+				778728DC27FF8F500060B496 /* FirebaseAuth */,
+				778728DE27FF8F500060B496 /* FirebaseDatabase */,
+				778728E027FF8F500060B496 /* FirebaseDatabaseSwift-Beta */,
+				778728E227FF8F500060B496 /* FirebaseStorage */,
+				778728E427FF8F500060B496 /* FirebaseStorageSwift-Beta */,
+			);
 			productName = "Checkoff To-Do list App";
 			productReference = 778728AB27F42C540060B496 /* Checkoff To-Do list App.app */;
 			productType = "com.apple.product-type.application";
@@ -129,6 +155,9 @@
 				Base,
 			);
 			mainGroup = 778728A227F42C540060B496;
+			packageReferences = (
+				778728DB27FF8F500060B496 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+			);
 			productRefGroup = 778728AC27F42C540060B496 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -144,6 +173,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				778728BB27F42C560060B496 /* LaunchScreen.storyboard in Resources */,
+				778728E727FF95750060B496 /* GoogleService-Info.plist in Resources */,
 				778728B827F42C560060B496 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -158,12 +188,14 @@
 				778728C727F42E310060B496 /* CustomTableViewCell.swift in Sources */,
 				778728CC27F42F3D0060B496 /* FirstVC.swift in Sources */,
 				778728D127F434470060B496 /* WeeksClassVC.swift in Sources */,
+				778728E927FF96170060B496 /* FirebaseAPI.swift in Sources */,
 				778728AF27F42C540060B496 /* AppDelegate.swift in Sources */,
 				778728CF27F434090060B496 /* BottomModal.swift in Sources */,
 				778728D327F4382D0060B496 /* HomeViewController.swift in Sources */,
 				778728C927F42E590060B496 /* CheckBox.swift in Sources */,
 				778728C327F42D690060B496 /* TextInputVC.swift in Sources */,
 				778728B127F42C540060B496 /* SceneDelegate.swift in Sources */,
+				778728D527FB934F0060B496 /* ScrollableStackView.swift in Sources */,
 				778728C527F42DB20060B496 /* CustomButton.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -307,6 +339,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Checkoff To-Do list App/Info.plist";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "Please allow access to display a photo on the Todo list app main page.";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
@@ -333,6 +366,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Checkoff To-Do list App/Info.plist";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "Please allow access to display a photo on the Todo list app main page.";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
@@ -372,6 +406,45 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		778728DB27FF8F500060B496 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 8.0.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		778728DC27FF8F500060B496 /* FirebaseAuth */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 778728DB27FF8F500060B496 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAuth;
+		};
+		778728DE27FF8F500060B496 /* FirebaseDatabase */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 778728DB27FF8F500060B496 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseDatabase;
+		};
+		778728E027FF8F500060B496 /* FirebaseDatabaseSwift-Beta */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 778728DB27FF8F500060B496 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = "FirebaseDatabaseSwift-Beta";
+		};
+		778728E227FF8F500060B496 /* FirebaseStorage */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 778728DB27FF8F500060B496 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseStorage;
+		};
+		778728E427FF8F500060B496 /* FirebaseStorageSwift-Beta */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 778728DB27FF8F500060B496 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = "FirebaseStorageSwift-Beta";
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 778728A327F42C540060B496 /* Project object */;
 }

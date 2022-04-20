@@ -6,19 +6,26 @@
 //
 
 import UIKit
+import SwiftUI
 
 
 protocol TextInputVCDelegate: AnyObject {
-    func didSubmitText(text: String)
+    func didSubmitText(text: String, textType: TextInputVC.TextType)
 }
-//protocol TextInputVCDelegate2: AnyObject {
-//    func didSubmitQuote(text: String)
-//}
+
 
 
 class TextInputVC: UIViewController {
     
-    let textType: Int
+    enum TextType {
+        case quote
+        case goal
+        case task
+        case author
+    }
+    
+    private let textType: TextType
+    //private let homeVC = HomeViewController()
     private let baseView = BareBonesBottomModalView(frame: .zero, allowsTapToDismiss: true, allowsSwipeToDismiss: true)
     
     override func loadView() {
@@ -30,9 +37,8 @@ class TextInputVC: UIViewController {
     private let submitButton = UIButton()
     
     weak var delegate: TextInputVCDelegate?
-//    weak var delegate2: TextInputVCDelegate2?
 
-    init(textType: Int) {
+    init(textType: TextType) {
         self.textType = textType
         super.init(nibName: nil, bundle: nil)
         
@@ -87,16 +93,15 @@ class TextInputVC: UIViewController {
         textField.height(constant: 50)
         textField.placeholder = "Enter Text"
         
-        if textType == 0 {
-            textField.placeholder = "Enter Goal"
-
-        }
-        else if textType == 1 {
+        switch textType {
+        case .quote:
             textField.placeholder = "Enter Quote"
-        }
-        else if textType == 2 {
+        case .goal:
+            textField.placeholder = "Enter Goal"
+        case .author:
+            textField.placeholder = "Enter Author"
+        default:
             textField.placeholder = "Enter Text"
-
         }
         
         baseView.stack.addArrangedSubview(submitButton)
@@ -110,11 +115,15 @@ class TextInputVC: UIViewController {
 
     
     @objc private func didSubmit() {
+        
+
+        
         if let text = textField.text {
-            delegate?.didSubmitText(text: text)
-            self.dismiss(animated: true, completion: nil)
+            self.dismiss(animated: true) {
+                self.delegate?.didSubmitText(text: text, textType: self.textType)
+            }
+            }
         }
-    }
 
     
     

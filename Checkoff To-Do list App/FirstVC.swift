@@ -8,13 +8,13 @@
 
 import UIKit
 import SwiftUI
-
+import Firebase
 
 struct WeekData {
 
     var weekNumber: Int
-
     var tasks: [WeekTask]
+
     
     func allTasksComplete() -> Bool {
         var allComplete = true
@@ -25,17 +25,22 @@ struct WeekData {
         }
         return allComplete
     }
-
 }
-
-
 
 struct WeekTask {
 
     var title: String
-
     var isComplete: Bool
 
+}
+
+struct Task {
+    
+    let id: String
+    var title: String
+    var isComplete: Bool
+    let dateStamp: Double
+    let author: String
 }
 
 protocol FirstVCDelegate: AnyObject {
@@ -48,6 +53,7 @@ class FirstVC: UIViewController {
 
     
     private var weekData: WeekData
+    
 
     
 
@@ -72,7 +78,10 @@ class FirstVC: UIViewController {
     }()
 
     private var items = [String]()
-    let myTextField: UITextField = UITextField(frame: CGRect(x: 0, y: 0, width: 300.00, height: 50.00))
+    private var weekdata = [WeekData]()
+    private var tasks = [Task]()
+
+
         
     weak var delegate: FirstVCDelegate?
     var isCompleted: Bool?
@@ -87,124 +96,93 @@ class FirstVC: UIViewController {
         tableView.dataSource = self
         view.addAutoLayoutSubview(tableView)
         tableView.fillSuperview()
-        title = "Week \(weekData.weekNumber)"
+        title = "Week Task"
         
-        myTextField.center = self.view.center
-        myTextField.placeholder = "Place holder text"
-        //myTextField.text = "UITextField example"
-        myTextField.borderStyle = UITextField.BorderStyle.line
-        myTextField.backgroundColor = .white
-        myTextField.textColor = UIColor.blue
-        myTextField.isHidden = true
-        self.view.addSubview(myTextField)
-        
-        let barButtonItem = UIBarButtonItem(title: "Next Week", style: .done, target: self, action: #selector(didTapToolBarButton))
 
-        if weekData.weekNumber < 7 {
-            navigationItem.rightBarButtonItem = barButtonItem
-        }
-        else if weekData.weekNumber == 7 {
-            
-        }
-        
-        weekData.tasks.removeAll()
+        tasks.removeAll()
 
-        if let taskTitles = UserDefaults.standard.array(forKey: "Week\(weekData.weekNumber)Titles") as? [String],
-
-           let taskCompletes = UserDefaults.standard.array(forKey: "Week\(weekData.weekNumber)Completes") as? [Bool] {
-
-            for index in 0..<taskTitles.count {
-
-                weekData.tasks.append(WeekTask(title: taskTitles[index], isComplete: taskCompletes[index]))
-
+        FirebaseAPI.getTasks() {result in
+            if let tasks = result {
+                self.tasks = tasks
+                DispatchQueue.main.async {
+                    self.tableView.reloadData()
+                }
             }
-
         }
 
         tableView.reloadData()
 
             
         
-        let add = UIBarButtonItem(title: "Add To-Do task", style: .done, target: self, action: #selector(addItem))
-        toolbarItems = [add]
+//        let add = UIBarButtonItem(title: "Add Task", style: .done, target: self, action: #selector(addItem))
+//        navigationItem.rightBarButtonItem = add
+        navigationItem.rightBarButtonItem = UIBarButtonItem(
+            image: UIImage(systemName: "plus"),
+            style: .done,
+            target: self,
+            action: #selector(addItem)
+            )
         navigationController?.setToolbarHidden(false, animated: false)
         
     }
     
-   
-    @objc private func didTapToolBarButton() {
-        let vc = FirstVC(weekData: WeekData(weekNumber: weekData.weekNumber + 1, tasks: []))
-        navigationController?.pushViewController(vc, animated: true)
-    }
+
         
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        //tableView.frame = view.bounds
-    }
     
     @objc private func addItem() {
-        let vc = TextInputVC(textType: 2)
+        let vc = TextInputVC(textType: .task)
         vc.delegate = self
         vc.showModal(vc: self)
     }
 }
 
 extension FirstVC: TextInputVCDelegate {
-    func didSubmitText(text: String) {
-        weekData.tasks.append(WeekTask(title: text, isComplete: false))
+    func didSubmitText(text: String, textType: TextInputVC.TextType) {
         
-        UserDefaults.standard.set(weekData.tasks.map({$0.title}), forKey: "Week\(weekData.weekNumber)Titles")
+        let id = FirebaseAPI.addTask(task: Task(id: "", title: text, isComplete: false, dateStamp: Date().timeIntervalSince1970 , author: "Gabe"))
+        tasks.append(Task(id: id!, title: text, isComplete: false, dateStamp: Date().timeIntervalSince1970 , author: "Gabe"))
 
-        UserDefaults.standard.set(weekData.tasks.map({$0.isComplete}), forKey: "Week\(weekData.weekNumber)Completes")
-        
         tableView.reloadData()
-        
-        myTextField.text = nil
-    }
+        }
 }
 
 extension FirstVC: CustomTableViewCellDelegate {
     func didCheckBox(taskIndex: Int) {
-        print("checked")
-        weekData.tasks[taskIndex].isComplete.toggle()
+//        print("checked")
+        tasks[taskIndex].isComplete.toggle()
         delegate?.didUpdateData(weekData: weekData)
-        UserDefaults.standard.set(weekData.tasks.map({$0.isComplete}), forKey: "Week\(weekData.weekNumber)Completes")
-//       delegate?.hideText(isCompleted: true)
-    }
+        FirebaseAPI.completeTask(task: tasks[taskIndex])
+   }
 }
+//github change
+
 
 extension FirstVC: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-//        return items.count
-        return weekData.tasks.count
-
-    
+        return tasks.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: CustomTableViewCell.identifier,
                                                  for: indexPath) as! CustomTableViewCell
+        
         cell.delegate = self
         cell.taskIndex = indexPath.item
-        cell.textLabel?.text = weekData.tasks[indexPath.item].title
-        if weekData.tasks[indexPath.item].isComplete {
+        cell.textLabel?.text = tasks[indexPath.item].title
+        if tasks[indexPath.item].isComplete {
             cell.checkbox1.toggle()
         }
         return cell
-
-
     }
+    
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
 
       if editingStyle == .delete {
         print("Deleted")
-          self.weekData.tasks.remove(at: indexPath.item)
+          self.tasks.remove(at: indexPath.item)
           self.tableView.deleteRows(at: [indexPath], with: .automatic)
           delegate?.didUpdateData(weekData: weekData)
-          
-          UserDefaults.standard.set(weekData.tasks.map({$0.title}), forKey: "Week\(weekData.weekNumber)Titles")
 
-          UserDefaults.standard.set(weekData.tasks.map({$0.isComplete}), forKey: "Week\(weekData.weekNumber)Completes")
       }
     
     }
