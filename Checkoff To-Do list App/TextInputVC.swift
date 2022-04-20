@@ -125,7 +125,7 @@ class TextInputVC: UIViewController {
             }
         }
 
-    
+
     
     func showModal(vc: UIViewController) {
         vc.present(self, animated: true, completion: nil)

@@ -82,7 +82,6 @@ class FirstVC: UIViewController {
     private var tasks = [Task]()
 
 
-        
     weak var delegate: FirstVCDelegate?
     var isCompleted: Bool?
   
@@ -134,6 +133,7 @@ class FirstVC: UIViewController {
         vc.delegate = self
         vc.showModal(vc: self)
     }
+    
 }
 
 extension FirstVC: TextInputVCDelegate {
@@ -152,6 +152,7 @@ extension FirstVC: CustomTableViewCellDelegate {
         tasks[taskIndex].isComplete.toggle()
         delegate?.didUpdateData(weekData: weekData)
         FirebaseAPI.completeTask(task: tasks[taskIndex])
+        FirebaseAPI.editTask(task: tasks[taskIndex])
    }
 }
 
@@ -173,7 +174,6 @@ extension FirstVC: UITableViewDataSource, UITableViewDelegate {
         }
         return cell
     }
-//github
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
 

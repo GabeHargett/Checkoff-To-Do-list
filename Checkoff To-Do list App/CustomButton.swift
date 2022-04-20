@@ -56,7 +56,6 @@ class CustomButton: UIControl {
             stackView.spacing = spacing
             
         }
-        
     }
     
     
