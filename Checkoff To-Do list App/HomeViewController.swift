@@ -21,6 +21,7 @@ class HomeViewController: UIViewController  {
 //        cv.isPagingEnabled = true
         return cv
     }()
+    //test
     
     private var goals = [Goal]()
     

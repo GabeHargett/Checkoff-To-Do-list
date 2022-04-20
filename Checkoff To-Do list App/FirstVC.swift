@@ -154,7 +154,6 @@ extension FirstVC: CustomTableViewCellDelegate {
         FirebaseAPI.completeTask(task: tasks[taskIndex])
    }
 }
-//github change
 
 
 extension FirstVC: UITableViewDataSource, UITableViewDelegate {
@@ -174,6 +173,7 @@ extension FirstVC: UITableViewDataSource, UITableViewDelegate {
         }
         return cell
     }
+//github
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
 
