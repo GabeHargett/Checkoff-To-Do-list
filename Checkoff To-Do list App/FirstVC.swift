@@ -147,12 +147,19 @@ extension FirstVC: TextInputVCDelegate {
 }
 
 extension FirstVC: CustomTableViewCellDelegate {
+    func didTapPencil(taskIndex: Int) {
+        FirebaseAPI.editTask(task: tasks[taskIndex])
+        let vc = TextInputVC(textType: .task)
+        vc.delegate = self
+        vc.showModal(vc: self)
+
+    }
+    
     func didCheckBox(taskIndex: Int) {
 //        print("checked")
         tasks[taskIndex].isComplete.toggle()
         delegate?.didUpdateData(weekData: weekData)
         FirebaseAPI.completeTask(task: tasks[taskIndex])
-        FirebaseAPI.editTask(task: tasks[taskIndex])
    }
 }
 

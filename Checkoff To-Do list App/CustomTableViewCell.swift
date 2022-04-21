@@ -9,6 +9,7 @@ import UIKit
 
 protocol CustomTableViewCellDelegate: AnyObject {
     func didCheckBox(taskIndex: Int)
+    func didTapPencil(taskIndex: Int)
 }
 
 
@@ -56,6 +57,10 @@ class CustomTableViewCell: UITableViewCell {
         let gesture = UITapGestureRecognizer(target: self, action: #selector(didTapCheckBox))
         checkbox1.addGestureRecognizer(gesture)
         
+        let gesture1 = UITapGestureRecognizer(target: self, action: #selector(didTapTableViewPencil)
+        myImageView.addGestureRecognizer(gesture1)
+
+        
     }
     
     @objc func didTapCheckBox() {
@@ -67,9 +72,6 @@ class CustomTableViewCell: UITableViewCell {
     }
     
     @objc func didTapTableViewPencil() {
-        let vc = TextInputVC(textType: .task)
-        vc.delegate = self
-//        vc.showModal(vc: self)
         if let taskIndex = taskIndex {
             delegate?.didCheckBox(taskIndex: taskIndex)
         }
