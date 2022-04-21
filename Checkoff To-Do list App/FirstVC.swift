@@ -80,6 +80,7 @@ class FirstVC: UIViewController {
     private var items = [String]()
     private var weekdata = [WeekData]()
     private var tasks = [Task]()
+    var editedTaskIndex: Int?
 
 
     weak var delegate: FirstVCDelegate?
@@ -138,17 +139,24 @@ class FirstVC: UIViewController {
 
 extension FirstVC: TextInputVCDelegate {
     func didSubmitText(text: String, textType: TextInputVC.TextType) {
-        
-        let id = FirebaseAPI.addTask(task: Task(id: "", title: text, isComplete: false, dateStamp: Date().timeIntervalSince1970 , author: "Gabe"))
-        tasks.append(Task(id: id!, title: text, isComplete: false, dateStamp: Date().timeIntervalSince1970 , author: "Gabe"))
+                
+        if let editedTaskIndex = editedTaskIndex {
+            var editedTask = tasks[editedTaskIndex]
+            else {
+                let id = FirebaseAPI.addTask(task: Task(id: "", title: text, isComplete: false, dateStamp: Date().timeIntervalSince1970 , author: "Gabe"))
+                tasks.append(Task(id: id!, title: text, isComplete: false, dateStamp: Date().timeIntervalSince1970 , author: "Gabe"))
 
-        tableView.reloadData()
+            }
+        
         }
+        tableView.reloadData()
+
+    }
 }
 
 extension FirstVC: CustomTableViewCellDelegate {
     func didTapPencil(taskIndex: Int) {
-        FirebaseAPI.editTask(task: tasks[taskIndex])
+        editedTaskIndex = taskIndex
         let vc = TextInputVC(textType: .task)
         vc.delegate = self
         vc.showModal(vc: self)

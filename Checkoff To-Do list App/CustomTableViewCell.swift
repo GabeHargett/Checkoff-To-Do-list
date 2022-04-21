@@ -57,7 +57,7 @@ class CustomTableViewCell: UITableViewCell {
         let gesture = UITapGestureRecognizer(target: self, action: #selector(didTapCheckBox))
         checkbox1.addGestureRecognizer(gesture)
         
-        let gesture1 = UITapGestureRecognizer(target: self, action: #selector(didTapTableViewPencil)
+        let gesture1 = UITapGestureRecognizer(target: self, action: #selector(didTapTableViewPencil))
         myImageView.addGestureRecognizer(gesture1)
 
         
@@ -73,7 +73,7 @@ class CustomTableViewCell: UITableViewCell {
     
     @objc func didTapTableViewPencil() {
         if let taskIndex = taskIndex {
-            delegate?.didCheckBox(taskIndex: taskIndex)
+            delegate?.didTapPencil(taskIndex: taskIndex)
         }
     }
     
