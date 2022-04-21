@@ -2,7 +2,7 @@
 //  CustomTableViewCell.swift
 //  Checkoff To-Do list App
 //
-//  Created by Tanner Rozier on 3/30/22.
+//  Created by Tanner Rozier on 4/20/22.
 //
 
 import UIKit
@@ -19,9 +19,9 @@ class CustomTableViewCell: UITableViewCell {
     
 
     
-    static let identifier = "CustonTableViewCell"
+    static let identifier = "CustomTableViewCell"
     
-    public let checkbox1 = CircularCheckbox(frame: CGRect(x: 150, y: 150, width: 25, height: 25))
+    public var checkbox1 = CircularCheckbox(frame: CGRect(x: 150, y: 150, width: 25, height: 25))
     
     weak var delegate: CustomTableViewCellDelegate?
     var taskIndex: Int?

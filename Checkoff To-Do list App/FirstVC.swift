@@ -139,7 +139,6 @@ class FirstVC: UIViewController {
 
 extension FirstVC: TextInputVCDelegate {
     func didSubmitText(text: String, textType: TextInputVC.TextType) {
-                
         if let editedTaskIndex = editedTaskIndex {
             tasks[editedTaskIndex].title = text
             FirebaseAPI.editTask(task:tasks[editedTaskIndex])
@@ -147,7 +146,6 @@ extension FirstVC: TextInputVCDelegate {
         else {
             let id = FirebaseAPI.addTask(task: Task(id: "", title: text, isComplete: false, dateStamp: Date().timeIntervalSince1970 , author: "Gabe"))
             tasks.append(Task(id: id!, title: text, isComplete: false, dateStamp: Date().timeIntervalSince1970 , author: "Gabe"))
-
         }
         tableView.reloadData()
 
@@ -184,9 +182,11 @@ extension FirstVC: UITableViewDataSource, UITableViewDelegate {
         cell.delegate = self
         cell.taskIndex = indexPath.item
         cell.textLabel?.text = tasks[indexPath.item].title
+//        cell.checkbox1 = tasks[indexPath.item].isComplete
         if tasks[indexPath.item].isComplete {
             cell.checkbox1.toggle()
         }
+        
         return cell
     }
     
@@ -202,3 +202,4 @@ extension FirstVC: UITableViewDataSource, UITableViewDelegate {
     
     }
 }
+

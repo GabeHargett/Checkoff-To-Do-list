@@ -13,24 +13,21 @@ import SwiftUI
 class HomeViewController: UIViewController  {
     
     
-
+    
     private let collectionView: UICollectionView = {
+        
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
-        let cv = UICollectionView(frame: .zero, collectionViewLayout: layout)
-//        cv.isPagingEnabled = true
-        return cv
+        
+        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        collectionView.register(CustomCollectionViewCell.self,
+                                forCellWithReuseIdentifier: CustomCollectionViewCell.identifier)
+
+        return collectionView
     }()
     
     private var goals = [Goal]()
-    
-//    private let spinner: UIActivityIndicatorView = {
-//        let spinner = UIActivityIndicatorView()
-//        spinner.tintColor = .label
-//        spinner.hidesWhenStopped = true
-//        return spinner
-//    }()
-    
+
     public let date = Date()
     private let label1 = UILabel()
     private let label2 = UILabel()
@@ -110,35 +107,10 @@ class HomeViewController: UIViewController  {
         collectionView.dataSource = self
         collectionView.delegate = self
         collectionView.backgroundColor = .systemBackground
-        collectionView.cornerRadius(radius: 8)
 
     }
     
-//    private static func createSectionLayout(section: Int) -> NSCollectionLayoutSection {
-//
-//        let item = NSCollectionLayoutItem(
-//            layoutSize: NSCollectionLayoutSize(
-//                widthDimension: .fractionalWidth(1.0),
-//                heightDimension: .fractionalHeight(1.0)
-//            )
-//        )
-//        item.contentInsets = NSDirectionalEdgeInsets(top: 2, leading: 2, bottom: 2, trailing: 2)
-//
-//        let group = NSCollectionLayoutGroup.horizontal(
-//            layoutSize: NSCollectionLayoutSize(
-//                widthDimension: .fractionalWidth(0.9),
-//                heightDimension: .absolute(100)
-//            ),
-//
-//            subitem: item,
-//            count: 1
-//        )
-//
-//        let section = NSCollectionLayoutSection(group: group)
-//        section.orthogonalScrollingBehavior = .groupPaging
-//        return section
-//    }
-    
+
     
     func configureBackground() {
         view.backgroundColor = .white
@@ -487,14 +459,16 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath)
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CustomCollectionViewCell.identifier,
+                                                      for: indexPath) as! CustomCollectionViewCell
+//        cell.addAutoLayoutSubview(textlabel)
+        cell.cornerRadius(radius: 8)
         cell.backgroundColor = .systemGray4
-        let textlabel = UILabel()
-        cell.addAutoLayoutSubview(textlabel)
-        textlabel.centerInSuperview()
-        textlabel.text = goals[indexPath.item].goal
-        return cell
+
+
+         return cell
     }
+
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         

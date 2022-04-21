@@ -13,7 +13,6 @@
 		778728BB27F42C560060B496 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 778728B927F42C560060B496 /* LaunchScreen.storyboard */; };
 		778728C327F42D690060B496 /* TextInputVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 778728C227F42D690060B496 /* TextInputVC.swift */; };
 		778728C527F42DB20060B496 /* CustomButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 778728C427F42DB20060B496 /* CustomButton.swift */; };
-		778728C727F42E310060B496 /* CustomTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 778728C627F42E310060B496 /* CustomTableViewCell.swift */; };
 		778728C927F42E590060B496 /* CheckBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 778728C827F42E590060B496 /* CheckBox.swift */; };
 		778728CC27F42F3D0060B496 /* FirstVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 778728CB27F42F3D0060B496 /* FirstVC.swift */; };
 		778728CF27F434090060B496 /* BottomModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 778728CE27F434090060B496 /* BottomModal.swift */; };
@@ -27,6 +26,8 @@
 		778728E527FF8F500060B496 /* FirebaseStorageSwift-Beta in Frameworks */ = {isa = PBXBuildFile; productRef = 778728E427FF8F500060B496 /* FirebaseStorageSwift-Beta */; };
 		778728E727FF95750060B496 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 778728E627FF95750060B496 /* GoogleService-Info.plist */; };
 		778728E927FF96170060B496 /* FirebaseAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 778728E827FF96170060B496 /* FirebaseAPI.swift */; };
+		77AD87C12810EF4000998DCC /* CustomCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77AD87C02810EF4000998DCC /* CustomCollectionView.swift */; };
+		77AD87C42810FE9000998DCC /* CustomTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77AD87C32810FE9000998DCC /* CustomTableViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -38,7 +39,6 @@
 		778728BC27F42C560060B496 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		778728C227F42D690060B496 /* TextInputVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextInputVC.swift; sourceTree = "<group>"; };
 		778728C427F42DB20060B496 /* CustomButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomButton.swift; sourceTree = "<group>"; };
-		778728C627F42E310060B496 /* CustomTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTableViewCell.swift; sourceTree = "<group>"; };
 		778728C827F42E590060B496 /* CheckBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckBox.swift; sourceTree = "<group>"; };
 		778728CB27F42F3D0060B496 /* FirstVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirstVC.swift; sourceTree = "<group>"; };
 		778728CE27F434090060B496 /* BottomModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomModal.swift; sourceTree = "<group>"; };
@@ -47,6 +47,8 @@
 		778728D427FB934F0060B496 /* ScrollableStackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrollableStackView.swift; sourceTree = "<group>"; };
 		778728E627FF95750060B496 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		778728E827FF96170060B496 /* FirebaseAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseAPI.swift; sourceTree = "<group>"; };
+		77AD87C02810EF4000998DCC /* CustomCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomCollectionView.swift; sourceTree = "<group>"; };
+		77AD87C32810FE9000998DCC /* CustomTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTableViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -91,7 +93,8 @@
 				778728C227F42D690060B496 /* TextInputVC.swift */,
 				778728CE27F434090060B496 /* BottomModal.swift */,
 				778728C427F42DB20060B496 /* CustomButton.swift */,
-				778728C627F42E310060B496 /* CustomTableViewCell.swift */,
+				77AD87C32810FE9000998DCC /* CustomTableViewCell.swift */,
+				77AD87C02810EF4000998DCC /* CustomCollectionView.swift */,
 				778728D427FB934F0060B496 /* ScrollableStackView.swift */,
 				778728C827F42E590060B496 /* CheckBox.swift */,
 				778728E827FF96170060B496 /* FirebaseAPI.swift */,
@@ -185,15 +188,16 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				778728C727F42E310060B496 /* CustomTableViewCell.swift in Sources */,
 				778728CC27F42F3D0060B496 /* FirstVC.swift in Sources */,
 				778728D127F434470060B496 /* WeeksClassVC.swift in Sources */,
 				778728E927FF96170060B496 /* FirebaseAPI.swift in Sources */,
 				778728AF27F42C540060B496 /* AppDelegate.swift in Sources */,
+				77AD87C12810EF4000998DCC /* CustomCollectionView.swift in Sources */,
 				778728CF27F434090060B496 /* BottomModal.swift in Sources */,
 				778728D327F4382D0060B496 /* HomeViewController.swift in Sources */,
 				778728C927F42E590060B496 /* CheckBox.swift in Sources */,
 				778728C327F42D690060B496 /* TextInputVC.swift in Sources */,
+				77AD87C42810FE9000998DCC /* CustomTableViewCell.swift in Sources */,
 				778728B127F42C540060B496 /* SceneDelegate.swift in Sources */,
 				778728D527FB934F0060B496 /* ScrollableStackView.swift in Sources */,
 				778728C527F42DB20060B496 /* CustomButton.swift in Sources */,
