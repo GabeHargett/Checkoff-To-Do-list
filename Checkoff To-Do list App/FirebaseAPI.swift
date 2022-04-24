@@ -9,7 +9,7 @@ import Foundation
 import Firebase
 
 struct Goal {
-    let goal: String
+    var goal: String
     let dateStamp: Double
     let author: String
 }

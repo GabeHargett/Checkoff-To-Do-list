@@ -27,6 +27,8 @@ class HomeViewController: UIViewController  {
     }()
     
     private var goals = [Goal]()
+    private var goal: Goal?
+
 
     public let date = Date()
     private let label1 = UILabel()
@@ -405,6 +407,7 @@ class HomeViewController: UIViewController  {
         vc.delegate = self
         vc.showModal(vc: self)
     }
+
 }
 
 extension HomeViewController: TextInputVCDelegate {
@@ -461,9 +464,13 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CustomCollectionViewCell.identifier,
                                                       for: indexPath) as! CustomCollectionViewCell
-//        cell.addAutoLayoutSubview(textlabel)
         cell.cornerRadius(radius: 8)
         cell.backgroundColor = .systemGray4
+        cell.configure(index: indexPath.item + 1, goal: goals[indexPath.item])
+
+
+//        cell.textLabel?.text = goals[indexPath.item].goal
+
 
 
          return cell

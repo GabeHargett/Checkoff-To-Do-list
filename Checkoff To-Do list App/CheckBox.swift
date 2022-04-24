@@ -9,7 +9,8 @@ import UIKit
 import SwiftUI
 
 final class CircularCheckbox: UIView {
-    
+//    private var tasks = [Task]()
+//    private var isChecked: Bool?
     private var isChecked = false
     
     override init(frame: CGRect) {
@@ -24,10 +25,32 @@ final class CircularCheckbox: UIView {
     required init?(coder: NSCoder) {
         fatalError()
     }
-    
+    func isComplete() {
+
+    }
+//    func toggle() {
+//        if let isChecked = isChecked {
+//            if isChecked == true {
+//                backgroundColor = .systemBlue
+//            }
+//            else {
+//                backgroundColor = .systemBackground
+//            }
+//         }
+//      }
+//    func toggle2() {
+////        self.tasks.isComplete = !tasks.isComplete
+//
+//        if tasks.isComplete == true {
+//            backgroundColor = .systemBlue
+//        }
+//        else {
+//            backgroundColor = .systemBackground
+//        }
+//    }
     func toggle() {
         self.isChecked = !isChecked
-        
+
         if self.isChecked {
             backgroundColor = .systemBlue
         }
@@ -36,3 +59,7 @@ final class CircularCheckbox: UIView {
         }
     }
 }
+
+    
+
+    
