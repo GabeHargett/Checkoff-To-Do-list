@@ -466,7 +466,9 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
                                                       for: indexPath) as! CustomCollectionViewCell
         cell.cornerRadius(radius: 8)
         cell.backgroundColor = .systemGray4
-        cell.configure(index: indexPath.item + 1, goal: goals[indexPath.item])
+        cell.configure(index: indexPath.item + 1,
+                       text: Goal(goal: text, dateStamp: Date().timeIntervalSince1970, author: "Gabe") ,
+                       goal: goals[indexPath.item])
 
 
 //        cell.textLabel?.text = goals[indexPath.item].goal

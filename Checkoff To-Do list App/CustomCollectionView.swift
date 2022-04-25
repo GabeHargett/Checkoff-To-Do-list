@@ -49,46 +49,10 @@ class CustomCollectionViewCell: UICollectionViewCell {
 //    func configure(key: String) {
 //        textLabel.text = key.capitalized
 //    }
-    func configure(index: Int, goal: Goal) {
+    func configure(index: Int, text: String, goal: Goal) {
         self.goal = goal
-        textLabel.text = "\(index)"
-//        let gradeString: String = problem.grade == -1 ? "V?" : "V\(problem.grade ?? 0)"
-//        if isSearch {
-//            titleLabel.text = "\(problem.title ?? ""), \(gradeString)"
-//        } else {
-//            titleLabel.text = "\(index). \(problem.title ?? ""), \(gradeString)"
-//        }
-//        if isSearch {
-//            self.subtitleLabel.isHidden = false
-//            getAreaTitle(cragID: problem.cragID, areaID: problem.areaID)
-//        }
-//        starsImageView.image = UIImage(named: "\(problem.stars ?? -1)star")
-//
-//        let sunImager: String
-//        switch problem.sun {
-//        case .noSun:
-//            sunImager = "nosun"
-//        case .morningLim:
-//            sunImager = "amlim"
-//        case .morningFull:
-//            sunImager = "amsun"
-//        case .allDayLim:
-//            sunImager = "lotslim"
-//        case .allDayFull:
-//            sunImager = "lotssun"
-//        case .eveningLim:
-//            sunImager = "latelim"
-//        case .eveningFull:
-//            sunImager = "latesun"
-//        default:
-//            sunImager = "none"
-//        }
-//        sunImageView.image = UIImage(named: sunImager)
-//
-//        if let pads = problem.pads {
-//            padCountLabel.text = "= \(pads)"
-//        } else {
-//            padCountLabel.text = "= ?"
-//        }
+        textLabel.text = text
+        goals.append(Goal(goal: text, dateStamp: Date().timeIntervalSince1970, author: "Gabe"))
+
     }
 }

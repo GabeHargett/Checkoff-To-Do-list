@@ -192,7 +192,7 @@ extension FirstVC: UITableViewDataSource, UITableViewDelegate {
 //        }
         
         if tasks[indexPath.item].isComplete {
-            cell.checkbox1.toggle()
+            cell.checkbox1.toggle(isChecked: true)
         }
         
         return cell
