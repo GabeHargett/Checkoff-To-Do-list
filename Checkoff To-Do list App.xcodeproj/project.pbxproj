@@ -28,6 +28,7 @@
 		778728E927FF96170060B496 /* FirebaseAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 778728E827FF96170060B496 /* FirebaseAPI.swift */; };
 		77AD87C12810EF4000998DCC /* CustomCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77AD87C02810EF4000998DCC /* CustomCollectionView.swift */; };
 		77AD87C42810FE9000998DCC /* CustomTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77AD87C32810FE9000998DCC /* CustomTableViewCell.swift */; };
+		77BE974628198CED0030F39D /* PracticeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77BE974528198CED0030F39D /* PracticeVC.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -49,6 +50,7 @@
 		778728E827FF96170060B496 /* FirebaseAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseAPI.swift; sourceTree = "<group>"; };
 		77AD87C02810EF4000998DCC /* CustomCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomCollectionView.swift; sourceTree = "<group>"; };
 		77AD87C32810FE9000998DCC /* CustomTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTableViewCell.swift; sourceTree = "<group>"; };
+		77BE974528198CED0030F39D /* PracticeVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PracticeVC.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -103,6 +105,7 @@
 				778728B927F42C560060B496 /* LaunchScreen.storyboard */,
 				778728B727F42C560060B496 /* Assets.xcassets */,
 				778728D027F434470060B496 /* WeeksClassVC.swift */,
+				77BE974528198CED0030F39D /* PracticeVC.swift */,
 			);
 			path = "Checkoff To-Do list App";
 			sourceTree = "<group>";
@@ -191,6 +194,7 @@
 				778728CC27F42F3D0060B496 /* FirstVC.swift in Sources */,
 				778728D127F434470060B496 /* WeeksClassVC.swift in Sources */,
 				778728E927FF96170060B496 /* FirebaseAPI.swift in Sources */,
+				77BE974628198CED0030F39D /* PracticeVC.swift in Sources */,
 				778728AF27F42C540060B496 /* AppDelegate.swift in Sources */,
 				77AD87C12810EF4000998DCC /* CustomCollectionView.swift in Sources */,
 				778728CF27F434090060B496 /* BottomModal.swift in Sources */,

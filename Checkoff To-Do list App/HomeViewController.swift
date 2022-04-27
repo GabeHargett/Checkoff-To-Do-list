@@ -123,10 +123,15 @@ class HomeViewController: UIViewController  {
             image: UIImage(systemName: "gear"),
             style: .done,
             target: self,
-            action: nil
+            action: #selector(didTapSettings)
         )
         navigationController?.navigationBar.tintColor = .label
         navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.font: UIFont(name: "Times New Roman Bold", size: 27)!]
+    }
+    
+    @objc private func didTapSettings() {
+        let vc = PracticeVC()
+        navigationController?.pushViewController(vc, animated: true)
     }
     
     
