@@ -144,7 +144,11 @@ extension FirstVC: TextInputVCDelegate {
             FirebaseAPI.editTask(task:tasks[editedTaskIndex])
         }
         else {
-            let id = FirebaseAPI.addTask(task: Task(id: "", title: text, isComplete: false, dateStamp: Date().timeIntervalSince1970 , author: "Gabe"))
+            let id = FirebaseAPI.addTask(task: Task(id: "",
+                                                    title: text,
+                                                    isComplete: false, dateStamp: Date().timeIntervalSince1970 ,
+                                                    author: "Gabe"))
+            
             tasks.append(Task(id: id!, title: text, isComplete: false, dateStamp: Date().timeIntervalSince1970 , author: "Gabe"))
         }
         tableView.reloadData()
@@ -192,7 +196,7 @@ extension FirstVC: UITableViewDataSource, UITableViewDelegate {
 //        }
         
         if tasks[indexPath.item].isComplete {
-            cell.checkbox1.toggle(isChecked: true)
+            cell.checkbox1.isComplete(isChecked: true)
         }
         
         return cell

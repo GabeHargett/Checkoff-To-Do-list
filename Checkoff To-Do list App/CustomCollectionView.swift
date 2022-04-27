@@ -9,6 +9,8 @@ import UIKit
 import Firebase
 
 protocol CustomCollectionViewCellDelegate: AnyObject {
+    func didTapCVPencil(goalIndex: Int)
+
 }
 
 class CustomCollectionViewCell: UICollectionViewCell {
@@ -16,7 +18,15 @@ class CustomCollectionViewCell: UICollectionViewCell {
     let textLabel = UILabel()
     private var goals = [Goal]()
     private var goal: Goal?
+    var taskIndex: Int?
+    
+    public let myImageView2: UIImageView = {
+        let imageView2 = UIImageView(image: UIImage(systemName: "pencil"))
+        imageView2.tintColor = .black
+        imageView2.isUserInteractionEnabled = true
 
+        return imageView2
+    }()
 
     static let identifier = "CustomCollectionViewCell"
     weak var delegate: CustomCollectionViewCellDelegate?
@@ -43,16 +53,32 @@ class CustomCollectionViewCell: UICollectionViewCell {
         textLabel.textAlignment = .center
         textLabel.centerInSuperview()
         addAutoLayoutSubview(textLabel)
-
+        
+        addAutoLayoutSubview(myImageView2)
+        NSLayoutConstraint.activate([
+            myImageView2.rightAnchor.constraint(equalTo: rightAnchor,constant: -10),
+            myImageView2.centerYAnchor.constraint(equalTo: centerYAnchor),
+            myImageView2.widthAnchor.constraint(equalToConstant: 25),
+            myImageView2.heightAnchor.constraint(equalToConstant: 25),
+        ])
+        
+        let gesture2 = UITapGestureRecognizer(target: self, action: #selector(didTapCollectionViewPencil))
+        myImageView2.addGestureRecognizer(gesture2)
     }
     
-//    func configure(key: String) {
-//        textLabel.text = key.capitalized
-//    }
     func configure(index: Int, text: String, goal: Goal) {
         self.goal = goal
         textLabel.text = text
-        goals.append(Goal(goal: text, dateStamp: Date().timeIntervalSince1970, author: "Gabe"))
+        goals.append(Goal(id: "", goal: text, dateStamp: Date().timeIntervalSince1970, author: "Gabe"))
+    }
 
+    @objc func didTapCollectionViewPencil() {
+        if let goalIndex = goalIndex {
+            delegate?.didTapCVPencil(goalIndex: goalIndex)
+        }
+    }
+}
+extension CustomCollectionViewCell: TextInputVCDelegate {
+    func didSubmitText(text: String, textType: TextInputVC.TextType) {
     }
 }

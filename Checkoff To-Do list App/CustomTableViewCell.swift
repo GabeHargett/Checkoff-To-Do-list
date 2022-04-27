@@ -20,7 +20,6 @@ class CustomTableViewCell: UITableViewCell {
 
     
     static let identifier = "CustomTableViewCell"
-    
     public var checkbox1 = CircularCheckbox(frame: CGRect(x: 150, y: 150, width: 25, height: 25))
     
     weak var delegate: CustomTableViewCellDelegate?
@@ -59,16 +58,13 @@ class CustomTableViewCell: UITableViewCell {
         
         let gesture1 = UITapGestureRecognizer(target: self, action: #selector(didTapTableViewPencil))
         myImageView.addGestureRecognizer(gesture1)
-
-        
     }
     
     @objc func didTapCheckBox() {
-        checkbox1.toggle(isChecked: true)
+        checkbox1.isComplete(isChecked: true)
         if let taskIndex = taskIndex {
             delegate?.didCheckBox(taskIndex: taskIndex)
         }
-        //protocols and delegates for tableview cells
     }
     
     @objc func didTapTableViewPencil() {

@@ -49,6 +49,8 @@ class HomeViewController: UIViewController  {
 
     private let couplePhoto = UIImageView()
     private let scrollStack = ScrollableStackView()
+    var editedGoalIndex: Int?
+
     
 
     
@@ -422,8 +424,8 @@ extension HomeViewController: TextInputVCDelegate {
             vc.showModal(vc: self)
             FirebaseAPI.setQuote(quote: text)
         case .goal:
-            goals.append(Goal(goal: text, dateStamp: Date().timeIntervalSince1970, author: "Gabe"))
-            FirebaseAPI.addGoal(goal: Goal(goal: text, dateStamp: Date().timeIntervalSince1970, author: "Gabe"))
+            goals.append(Goal(id: "", goal: text, dateStamp: Date().timeIntervalSince1970, author: "Gabe"))
+            FirebaseAPI.addGoal(goal: Goal(id: "", goal: text, dateStamp: Date().timeIntervalSince1970, author: "Gabe"))
             collectionView.reloadData()
         case .task:
             break
@@ -432,11 +434,23 @@ extension HomeViewController: TextInputVCDelegate {
             FirebaseAPI.setAuthor(quote: text)
             
         }
+        if let editedGoalIndex = editedGoalIndex {
+            goals[editedGoalIndex].goal = text
+            FirebaseAPI.editGoal(goal: goals[editedGoalIndex])
+        }
+        else {
+            let id = FirebaseAPI.addGoal(goal: Goal(id: "",
+                                                    goal: text,
+                                                    dateStamp: Date().timeIntervalSince1970,
+                                                    author: "Gabe"))
+            
+            goals.append(Goal(id: id!, goal: text, dateStamp: Date().timeIntervalSince1970, author: "Gabe"))
 
-//        UserDefaults.standard.set(text, forKey: "quote")
-//        UserDefaults.standard.bool(forKey: "hidingButton")
+        }
+        collectionView.reloadData()
     }
 }
+
 
 extension HomeViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info:
@@ -467,7 +481,7 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
         cell.cornerRadius(radius: 8)
         cell.backgroundColor = .systemGray4
         cell.configure(index: indexPath.item + 1,
-                       text: Goal(goal: text, dateStamp: Date().timeIntervalSince1970, author: "Gabe") ,
+                       text: Goal(id: "", goal: text, dateStamp: Date().timeIntervalSince1970, author: "Gabe") ,
                        goal: goals[indexPath.item])
 
 
@@ -483,6 +497,18 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
         
         return CGSize(width: 300, height: 30)
     }
+    
+}
+
+extension HomeViewController: CustomCollectionViewCellDelegate {
+    func didTapCVPencil(goalIndex: Int) {
+        editedGoalIndex = goalIndex
+        let vc = TextInputVC(textType: .goal)
+        vc.delegate = self
+        vc.showModal(vc: self)
+
+    }
+    
     
 }
 

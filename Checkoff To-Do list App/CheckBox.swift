@@ -25,41 +25,18 @@ final class CircularCheckbox: UIView {
     required init?(coder: NSCoder) {
         fatalError()
     }
-    func isComplete() {
-        backgroundColor = .systemBlue
-    }
-    func toggle(isChecked: Bool?) {
+    func isComplete(isChecked: Bool?) {
         if let isChecked = isChecked {
             if isChecked == true {
                 backgroundColor = .systemBlue
-            }
-            else {
+             }
+            else{
                 backgroundColor = .systemBackground
-            }
          }
       }
 }
-//    func toggle2() {
-////        self.tasks.isComplete = !tasks.isComplete
-//
-//        if tasks.isComplete == true {
-//            backgroundColor = .systemBlue
-//        }
-//        else {
-//            backgroundColor = .systemBackground
-//        }
-//    }
-//    func toggle() {
-//        self.isChecked = !isChecked
-//
-//        if self.isChecked {
-//            backgroundColor = .systemBlue
-//        }
-//        else {
-//            backgroundColor = .systemBackground
-//        }
-//    }
-//}
+}
+
 
     
 

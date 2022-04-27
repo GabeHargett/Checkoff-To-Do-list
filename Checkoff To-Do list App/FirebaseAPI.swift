@@ -9,6 +9,7 @@ import Foundation
 import Firebase
 
 struct Goal {
+    let id: String
     var goal: String
     let dateStamp: Double
     let author: String
@@ -61,6 +62,10 @@ class FirebaseAPI {
         let ref = Database.database().reference().child("Goals").childByAutoId()
         ref.setValue(["goal": goal.goal, "dateStamp": goal.dateStamp, "author": goal.author])
     }
+    static func editGoal(goal: Goal) {
+        let ref = Database.database().reference().child("Goals").child(goal.id).child("goal")
+        ref.setValue(goal.goal)
+    }
 
     static func getGoals(completion: @escaping ([Goal]?) -> ()) {
         let ref = Database.database().reference().child("Goals")
@@ -71,7 +76,7 @@ class FirebaseAPI {
                     if let goal = value["goal"] as? String,
                        let dateStamp = value["dateStamp"] as? Double,
                        let author = value["author"] as? String {
-                        goals.append(Goal(goal: goal, dateStamp: dateStamp, author: author))
+                        goals.append(Goal(id:child.key, goal: goal, dateStamp: dateStamp, author: author))
                     }
                 }
             }
@@ -106,7 +111,7 @@ class FirebaseAPI {
                        let dateStamp = value["dateStamp"] as? Double,
                         let title = value["title"] as? String,
                        let isComplete = value["isComplete"] as? Bool {
-                        tasks.append(Task(id:child.key , title: title, isComplete: isComplete, dateStamp: dateStamp, author: author))
+                        tasks.append(Task(id:child.key, title: title, isComplete: isComplete, dateStamp: dateStamp, author: author))
                     }
                 }
             }
