@@ -66,10 +66,9 @@ class CustomCollectionViewCell: UICollectionViewCell {
         myImageView2.addGestureRecognizer(gesture2)
     }
     
-    func configure(index: Int, text: String, goal: Goal) {
+    func configure(goal: Goal) {
         self.goal = goal
-        textLabel.text = text
-        goals.append(Goal(id: "", goal: text, dateStamp: Date().timeIntervalSince1970, author: "Gabe"))
+        textLabel.text = goal.goal
     }
 
     @objc func didTapCollectionViewPencil() {

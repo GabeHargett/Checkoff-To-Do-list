@@ -61,7 +61,7 @@ class CustomTableViewCell: UITableViewCell {
     }
     
     @objc func didTapCheckBox() {
-        checkbox1.isComplete(isChecked: true)
+        checkbox1.toggle()
         if let taskIndex = taskIndex {
             delegate?.didCheckBox(taskIndex: taskIndex)
         }

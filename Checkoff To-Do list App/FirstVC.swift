@@ -185,19 +185,9 @@ extension FirstVC: UITableViewDataSource, UITableViewDelegate {
         
         cell.delegate = self
         cell.taskIndex = indexPath.item
-        cell.textLabel?.text = tasks[indexPath.item].title
+        cell.textLabel?.text = tasks[indexPath.item].title                
+        cell.checkbox1.isComplete(isChecked: tasks[indexPath.item].isComplete)
         
-//        cell.checkbox1 = tasks[indexPath.item].isComplete
-        
-//        if tasks[indexPath.item].isComplete {
-//                  cell.checkbox1 = true
-//        } else {
-//                  cell.checkbox1 = false
-//        }
-        
-        if tasks[indexPath.item].isComplete {
-            cell.checkbox1.isComplete(isChecked: true)
-        }
         
         return cell
     }

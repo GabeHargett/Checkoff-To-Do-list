@@ -419,6 +419,16 @@ class HomeViewController: UIViewController  {
 
 extension HomeViewController: TextInputVCDelegate {
     func didSubmitText(text: String, textType: TextInputVC.TextType) {
+        
+        if let editedGoalIndex = editedGoalIndex {
+            goals[editedGoalIndex].goal = text
+            FirebaseAPI.editGoal(goal: goals[editedGoalIndex])
+            self.editedGoalIndex = nil
+            
+            collectionView.reloadData()
+            return
+        }
+
         switch textType {
             
         case .quote:
@@ -439,19 +449,7 @@ extension HomeViewController: TextInputVCDelegate {
             FirebaseAPI.setAuthor(quote: text)
             
         }
-        if let editedGoalIndex = editedGoalIndex {
-            goals[editedGoalIndex].goal = text
-            FirebaseAPI.editGoal(goal: goals[editedGoalIndex])
-        }
-        else {
-            let id = FirebaseAPI.addGoal(goal: Goal(id: "",
-                                                    goal: text,
-                                                    dateStamp: Date().timeIntervalSince1970,
-                                                    author: "Gabe"))
-            
-            goals.append(Goal(id: id!, goal: text, dateStamp: Date().timeIntervalSince1970, author: "Gabe"))
 
-        }
         collectionView.reloadData()
     }
 }
@@ -485,9 +483,9 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
                                                       for: indexPath) as! CustomCollectionViewCell
         cell.cornerRadius(radius: 8)
         cell.backgroundColor = .systemGray4
-        cell.configure(index: indexPath.item + 1,
-                       text: Goal(id: "", goal: text, dateStamp: Date().timeIntervalSince1970, author: "Gabe") ,
-                       goal: goals[indexPath.item])
+        cell.goalIndex = indexPath.item
+        cell.configure(goal: goals[indexPath.item])
+        cell.delegate = self
 
 
 //        cell.textLabel?.text = goals[indexPath.item].goal
@@ -511,6 +509,7 @@ extension HomeViewController: CustomCollectionViewCellDelegate {
         let vc = TextInputVC(textType: .goal)
         vc.delegate = self
         vc.showModal(vc: self)
+        
 
     }
     

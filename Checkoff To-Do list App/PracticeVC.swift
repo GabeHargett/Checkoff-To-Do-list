@@ -25,6 +25,8 @@ class PracticeVC: UIViewController {
         view.addAutoLayoutSubview(stack)
         stack.fillSuperview()
         stack.addArrangedSubviews([boxWithLabel, boxWithTwoLabels])
+        boxWithLabel.changeText(text: "tanners cool")
+        boxWithTwoLabels.setStackViewSpacing(spacing: 30)
     }
     
 }
@@ -41,6 +43,9 @@ class BoxWithLabel: UIView {
         addAutoLayoutSubview(label)
         label.centerInSuperview()
         label.text = "I'm a label"
+    }
+    func changeText(text: String) {
+        label.text = text
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -65,6 +70,9 @@ class BoxWithTwoLabels: UIView {
         leftLabel.text = "I'm a left label"
         rightLabel.text = "I'm a right label"
         stack.addArrangedSubviews([leftLabel, rightLabel])
+    }
+    func setStackViewSpacing(spacing: CGFloat) {
+        stack.spacing = spacing
     }
     
     required init?(coder aDecoder: NSCoder) {
