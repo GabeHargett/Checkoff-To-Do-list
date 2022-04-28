@@ -15,6 +15,11 @@ class PracticeVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        let weekAndYear = DateAnalyzer.getWeekAndYearFromDate(date: Date())
+        print(weekAndYear)
+        let sunday = Calendar.current.date(from: DateComponents(calendar: .current, timeZone: .current, era: nil, year: nil, month: nil, day: nil, hour: 12, minute: 0, second: 0, nanosecond: 0, weekday: 1, weekdayOrdinal: nil, quarter: nil, weekOfMonth: nil, weekOfYear: weekAndYear!.week, yearForWeekOfYear: weekAndYear!.year))
+        print(sunday?.timeIntervalSince1970)
+        
         setupBoxes()
     }
     
@@ -79,4 +84,20 @@ class BoxWithTwoLabels: UIView {
         super.init(coder: aDecoder)
     }
     
+}
+
+struct WeekAndYear {
+    let week: Int
+    let year: Int
+}
+
+class DateAnalyzer {
+    static func getWeekAndYearFromDate(date: Date) -> WeekAndYear? {
+        let allComponents = Calendar.current.dateComponents([.year, .weekOfYear], from: date)
+        guard let weekOfYear = allComponents.weekOfYear,
+              let year = allComponents.year else {
+            return nil
+        }
+        return WeekAndYear(week: weekOfYear, year: year)
+    }
 }
