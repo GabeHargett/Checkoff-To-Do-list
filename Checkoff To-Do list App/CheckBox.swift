@@ -22,6 +22,7 @@ final class CircularCheckbox: UIView {
         backgroundColor = .systemBackground
         
     }
+    //changes
     required init?(coder: NSCoder) {
         fatalError()
     }
