@@ -49,10 +49,11 @@ class CustomCollectionViewCell: UICollectionViewCell {
     private func configureSubviews() {
         
         textLabel.textColor = .black
-        textLabel.font = UIFont.systemFont(ofSize: 15, weight: .medium)
         textLabel.textAlignment = .center
-        textLabel.centerInSuperview()
+        textLabel.font = UIFont.systemFont(ofSize: 15)
         addAutoLayoutSubview(textLabel)
+        //start new line after 46 characters
+        
         
         addAutoLayoutSubview(myImageView2)
         NSLayoutConstraint.activate([
@@ -61,6 +62,13 @@ class CustomCollectionViewCell: UICollectionViewCell {
             myImageView2.widthAnchor.constraint(equalToConstant: 25),
             myImageView2.heightAnchor.constraint(equalToConstant: 25),
         ])
+//        NSLayoutConstraint.activate([
+//            textLabel.rightAnchor.constraint(equalTo: rightAnchor,constant: -10),
+//            textLabel.centerYAnchor.constraint(equalTo: centerYAnchor),
+//            textLabel.widthAnchor.constraint(equalToConstant: 25),
+//            textLabel.heightAnchor.constraint(equalToConstant: 25),
+//        ])
+        
         
         let gesture2 = UITapGestureRecognizer(target: self, action: #selector(didTapCollectionViewPencil))
         myImageView2.addGestureRecognizer(gesture2)
