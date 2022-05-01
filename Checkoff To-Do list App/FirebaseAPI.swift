@@ -66,6 +66,11 @@ class FirebaseAPI {
         let ref = Database.database().reference().child("Goals").child(goal.id).child("goal")
         ref.setValue(goal.goal)
     }
+    static func removeGoal(goal: Goal) {
+        let ref = Database.database().reference().child("Goals").child(goal.id)
+        ref.removeValue()
+    }
+    
 
     static func getGoals(completion: @escaping ([Goal]?) -> ()) {
         let ref = Database.database().reference().child("Goals")
@@ -99,6 +104,10 @@ class FirebaseAPI {
     static func editTask(task: Task) {
         let ref = Database.database().reference().child("Tasks").child(task.id).child("title")
         ref.setValue(task.title)
+    }
+    static func removeTask(task: Task) {
+        let ref = Database.database().reference().child("Tasks").child(task.id)
+        ref.removeValue()
     }
 
     static func getTasks(completion: @escaping ([Task]?) -> ()) {

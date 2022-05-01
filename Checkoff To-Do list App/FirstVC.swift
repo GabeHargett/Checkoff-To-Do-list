@@ -81,6 +81,7 @@ class FirstVC: UIViewController {
     private var weekdata = [WeekData]()
     private var tasks = [Task]()
     var editedTaskIndex: Int?
+    static let ref = Database.database().reference()
 
 
     weak var delegate: FirstVCDelegate?
@@ -146,7 +147,7 @@ extension FirstVC: TextInputVCDelegate {
         else {
             let id = FirebaseAPI.addTask(task: Task(id: "",
                                                     title: text,
-                                                    isComplete: false, dateStamp: Date().timeIntervalSince1970 ,
+                                                    isComplete: false, dateStamp: Date().timeIntervalSince1970,
                                                     author: "Gabe"))
             
             tasks.append(Task(id: id!, title: text, isComplete: false, dateStamp: Date().timeIntervalSince1970 , author: "Gabe"))
@@ -194,11 +195,13 @@ extension FirstVC: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
 
+
       if editingStyle == .delete {
         print("Deleted")
-          self.tasks.remove(at: indexPath.item)
+          let removeTask = self.tasks.remove(at: indexPath.item)
           self.tableView.deleteRows(at: [indexPath], with: .automatic)
           delegate?.didUpdateData(weekData: weekData)
+          FirebaseAPI.removeTask(task: removeTask)
 
       }
     

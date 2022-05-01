@@ -26,8 +26,10 @@ class HomeViewController: UIViewController  {
         return collectionView
     }()
     
+
     private var goals = [Goal]()
     private var goal: Goal?
+    static let ref = Database.database().reference()
 
 
     public let date = Date()
@@ -504,6 +506,16 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
 }
 
 extension HomeViewController: CustomCollectionViewCellDelegate {
+    
+    func didTapTrash(goalIndex: Int) {
+        FirebaseAPI.removeGoal(goal: goals[goalIndex])
+        self.goals.remove(at: goalIndex)
+        self.collectionView.deleteItems(at: [IndexPath(item: goalIndex, section: 0)])
+
+    }
+    
+
+    
     func didTapCVPencil(goalIndex: Int) {
         editedGoalIndex = goalIndex
         let vc = TextInputVC(textType: .goal)
