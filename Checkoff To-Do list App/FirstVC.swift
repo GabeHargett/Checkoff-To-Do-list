@@ -47,25 +47,15 @@ protocol FirstVCDelegate: AnyObject {
 //    func hideText(isCompleted: Bool)
     func didUpdateData(weekData: WeekData)
 }
-
-
 class FirstVC: UIViewController {
-
     
-    private var weekData: WeekData
-    
+    private let weekAndYear: WeekAndYear
 
-    
+    init(weekAndYear: WeekAndYear) {
 
-    init(weekData: WeekData) {
-
-        self.weekData = weekData
-        
+        self.weekAndYear = weekAndYear
         super.init(nibName: nil, bundle: nil)
-
     }
-
-  
     
     private let tableView: UITableView = {
         let tableView = UITableView()
@@ -73,15 +63,12 @@ class FirstVC: UIViewController {
                            forCellReuseIdentifier: CustomTableViewCell.identifier)
 
         return tableView
-        
-
     }()
 
     private var items = [String]()
     private var weekdata = [WeekData]()
     private var tasks = [Task]()
     var editedTaskIndex: Int?
-    static let ref = Database.database().reference()
 
 
     weak var delegate: FirstVCDelegate?
@@ -103,8 +90,13 @@ class FirstVC: UIViewController {
         tasks.removeAll()
 
         FirebaseAPI.getTasks() {result in
-            if let tasks = result {
-                self.tasks = tasks
+            if let allTasks = result {
+                self.tasks = allTasks.filter({task in
+                    let taskDate = Date(timeIntervalSince1970: task.dateStamp)
+                    let taskWeekAndYear = DateAnalyzer.getWeekAndYearFromDate(date: taskDate)
+                    return self.weekAndYear == taskWeekAndYear
+                                                                    
+                })
                 DispatchQueue.main.async {
                     self.tableView.reloadData()
                 }
@@ -169,7 +161,6 @@ extension FirstVC: CustomTableViewCellDelegate {
     func didCheckBox(taskIndex: Int) {
 //        print("checked")
         tasks[taskIndex].isComplete.toggle()
-        delegate?.didUpdateData(weekData: weekData)
         FirebaseAPI.completeTask(task: tasks[taskIndex])
    }
 }
@@ -200,7 +191,6 @@ extension FirstVC: UITableViewDataSource, UITableViewDelegate {
         print("Deleted")
           let removeTask = self.tasks.remove(at: indexPath.item)
           self.tableView.deleteRows(at: [indexPath], with: .automatic)
-          delegate?.didUpdateData(weekData: weekData)
           FirebaseAPI.removeTask(task: removeTask)
 
       }

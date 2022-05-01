@@ -86,9 +86,9 @@ class BoxWithTwoLabels: UIView {
     
 }
 
-struct WeekAndYear {
-    let week: Int
-    let year: Int
+struct WeekAndYear: Equatable {
+    var week: Int
+    var year: Int
 }
 
 class DateAnalyzer {

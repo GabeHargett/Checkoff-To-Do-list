@@ -20,6 +20,7 @@ struct Goal {
 
 class FirebaseAPI {
     
+    
     static func setQuote(quote: String) {
         let ref = Database.database().reference().child("Quote")
         ref.setValue(quote)

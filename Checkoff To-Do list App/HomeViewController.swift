@@ -29,7 +29,6 @@ class HomeViewController: UIViewController  {
 
     private var goals = [Goal]()
     private var goal: Goal?
-    static let ref = Database.database().reference()
 
 
     public let date = Date()
@@ -367,7 +366,7 @@ class HomeViewController: UIViewController  {
         ])
 
         stackView1.isUserInteractionEnabled = true
-        let tapGesture3 = UITapGestureRecognizer(target: self, action: #selector(didTapStackView))
+        let tapGesture3 = UITapGestureRecognizer(target: self, action: #selector(didTapCurrentWeek))
         stackView1.addGestureRecognizer(tapGesture3)
 
                 
@@ -393,9 +392,12 @@ class HomeViewController: UIViewController  {
 
         }
     
-    @objc private func didTapStackView() {
-        let weekData = WeekData(weekNumber: 1, tasks: [])
-        let vc = FirstVC(weekData: weekData)
+    @objc private func didTapCurrentWeek() {
+        guard let weekAndYear = DateAnalyzer.getWeekAndYearFromDate(date: Date()) else{
+            return
+        }
+//        weekAndYear.week -= 1
+        let vc = FirstVC(weekAndYear: weekAndYear)
         navigationController?.pushViewController(vc, animated: true)
     }
     
