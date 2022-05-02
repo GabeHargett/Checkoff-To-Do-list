@@ -25,7 +25,6 @@ class TextInputVC: UIViewController {
     }
     
     private let textType: TextType
-    //private let homeVC = HomeViewController()
     private let baseView = BareBonesBottomModalView(frame: .zero, allowsTapToDismiss: true, allowsSwipeToDismiss: true)
     
     override func loadView() {

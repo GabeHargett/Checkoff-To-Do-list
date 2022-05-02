@@ -66,7 +66,6 @@ class FirstVC: UIViewController {
     }()
 
     private var items = [String]()
-    private var weekdata = [WeekData]()
     private var tasks = [Task]()
     var editedTaskIndex: Int?
 

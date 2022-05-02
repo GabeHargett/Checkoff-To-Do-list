@@ -34,6 +34,7 @@ class HomeViewController: UIViewController  {
     public let date = Date()
     private let label1 = UILabel()
     private let label2 = UILabel()
+    private let label6 = UILabel()
     private let imageView = UIImageView(image: UIImage(systemName: "list.bullet.rectangle"))
     private let hiarchyStack = UIStackView()
     private let currentWeekTaskLabel = UILabel()
@@ -203,6 +204,12 @@ class HomeViewController: UIViewController  {
         label2.height(constant: 40)
         label2.cornerRadius(radius: 8)
         
+        label6.text = "  Other Weeks"
+        label6.addBorders(color: .black, thickness: 1)
+        label6.height(constant: 40)
+        label6.cornerRadius(radius: 8)
+
+        
         label3.text = "Current week task"
         label3.font = UIFont.systemFont(ofSize: 21)
         
@@ -314,8 +321,7 @@ class HomeViewController: UIViewController  {
         
         scrollStack.stackView.addArrangedSubviews([
             stackView1,
-            label1,
-            label2,
+            label6,
             imageStack,
             goalsStack,
             quoteStack
@@ -368,6 +374,10 @@ class HomeViewController: UIViewController  {
         stackView1.isUserInteractionEnabled = true
         let tapGesture3 = UITapGestureRecognizer(target: self, action: #selector(didTapCurrentWeek))
         stackView1.addGestureRecognizer(tapGesture3)
+        
+        label6.isUserInteractionEnabled = true
+        let tapGesture10 = UITapGestureRecognizer(target: self, action: #selector(didTapOtherWeek))
+        label6.addGestureRecognizer(tapGesture10)
 
                 
         plusButton.isUserInteractionEnabled = true
@@ -398,6 +408,10 @@ class HomeViewController: UIViewController  {
         }
 //        weekAndYear.week -= 1
         let vc = FirstVC(weekAndYear: weekAndYear)
+        navigationController?.pushViewController(vc, animated: true)
+    }
+    @objc private func didTapOtherWeek() {
+        let vc = DatePickerVC()
         navigationController?.pushViewController(vc, animated: true)
     }
     
