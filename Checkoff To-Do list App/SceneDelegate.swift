@@ -21,6 +21,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         window.rootViewController = nav
         self.window = window
         window.makeKeyAndVisible()
+//        nav.navigationBar.prefersLargeTitles = true
      }
 
     func sceneDidDisconnect(_ scene: UIScene) {

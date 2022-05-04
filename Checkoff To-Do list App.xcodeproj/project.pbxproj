@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		776B8101281F86FF004BD812 /* UIDatePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 776B8100281F86FF004BD812 /* UIDatePicker.swift */; };
+		776B81052822E1F7004BD812 /* DatePickerVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 776B81042822E1F7004BD812 /* DatePickerVC.swift */; };
 		778728AF27F42C540060B496 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 778728AE27F42C540060B496 /* AppDelegate.swift */; };
 		778728B127F42C540060B496 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 778728B027F42C540060B496 /* SceneDelegate.swift */; };
 		778728B827F42C560060B496 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 778728B727F42C560060B496 /* Assets.xcassets */; };
@@ -33,7 +33,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		776B8100281F86FF004BD812 /* UIDatePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIDatePicker.swift; sourceTree = "<group>"; };
+		776B81042822E1F7004BD812 /* DatePickerVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatePickerVC.swift; sourceTree = "<group>"; };
 		778728AB27F42C540060B496 /* Checkoff To-Do list App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Checkoff To-Do list App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		778728AE27F42C540060B496 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		778728B027F42C540060B496 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -95,6 +95,7 @@
 				778728D227F4382D0060B496 /* HomeViewController.swift */,
 				778728CB27F42F3D0060B496 /* FirstVC.swift */,
 				778728C227F42D690060B496 /* TextInputVC.swift */,
+				776B81042822E1F7004BD812 /* DatePickerVC.swift */,
 				778728CE27F434090060B496 /* BottomModal.swift */,
 				778728C427F42DB20060B496 /* CustomButton.swift */,
 				77AD87C32810FE9000998DCC /* CustomTableViewCell.swift */,
@@ -108,7 +109,6 @@
 				778728B727F42C560060B496 /* Assets.xcassets */,
 				778728D027F434470060B496 /* WeeksClassVC.swift */,
 				77BE974528198CED0030F39D /* PracticeVC.swift */,
-				776B8100281F86FF004BD812 /* UIDatePicker.swift */,
 			);
 			path = "Checkoff To-Do list App";
 			sourceTree = "<group>";
@@ -199,11 +199,11 @@
 				778728E927FF96170060B496 /* FirebaseAPI.swift in Sources */,
 				77BE974628198CED0030F39D /* PracticeVC.swift in Sources */,
 				778728AF27F42C540060B496 /* AppDelegate.swift in Sources */,
+				776B81052822E1F7004BD812 /* DatePickerVC.swift in Sources */,
 				77AD87C12810EF4000998DCC /* CustomCollectionView.swift in Sources */,
 				778728CF27F434090060B496 /* BottomModal.swift in Sources */,
 				778728D327F4382D0060B496 /* HomeViewController.swift in Sources */,
 				778728C927F42E590060B496 /* CheckBox.swift in Sources */,
-				776B8101281F86FF004BD812 /* UIDatePicker.swift in Sources */,
 				778728C327F42D690060B496 /* TextInputVC.swift in Sources */,
 				77AD87C42810FE9000998DCC /* CustomTableViewCell.swift in Sources */,
 				778728B127F42C540060B496 /* SceneDelegate.swift in Sources */,

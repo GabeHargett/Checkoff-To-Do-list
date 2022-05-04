@@ -83,6 +83,6 @@ class CustomTableViewCell: UITableViewCell {
     
 }
 extension CustomTableViewCell: TextInputVCDelegate {
-    func didSubmitText(text: String, textType: TextInputVC.TextType) {
+    func didSubmitText(text: String, textType: TextInputVC.TextType, date: Date?) {
     }
 }

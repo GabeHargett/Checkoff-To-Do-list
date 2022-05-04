@@ -32,9 +32,10 @@ class HomeViewController: UIViewController  {
 
 
     public let date = Date()
-    private let label1 = UILabel()
-    private let label2 = UILabel()
-    private let label6 = UILabel()
+    
+    private let nextWeekLabel = UILabel()
+    private let previousWeekLabel = UILabel()
+    private let otherWeeksLabel = UILabel()
     private let imageView = UIImageView(image: UIImage(systemName: "list.bullet.rectangle"))
     private let hiarchyStack = UIStackView()
     private let currentWeekTaskLabel = UILabel()
@@ -53,23 +54,16 @@ class HomeViewController: UIViewController  {
     private let scrollStack = ScrollableStackView()
     var editedGoalIndex: Int?
 
-    
 
-    
-//    public let textInputVC = TextInputVC(textType: 0)
-        
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         title = "Home"
-        
+
         setupStackView()
         configureBackground()
         configureCollectionView()
-//        view.addAutoLayoutSubview(spinner)
-        
-        //let quoteLabelSave = UserDefaults.standard.string(forKey: "quote")
+
         FirebaseAPI.getQuote() {result in
             DispatchQueue.main.async {
                 if let quote =  result {
@@ -96,11 +90,6 @@ class HomeViewController: UIViewController  {
                 }
             }
         }
-        
-        
-//        let quoteButtonSave = UserDefaults.standard.bool(forKey: "hidingButton")
-//        quoteButton.isHidden = quoteButtonSave
-        
     }
     
     override func viewDidLayoutSubviews() {
@@ -157,10 +146,10 @@ class HomeViewController: UIViewController  {
     
     private func setupStackView() {
         
-        let stackView1 = UIStackView()
+        let currentWeekStack = UIStackView()
         let label3 = UILabel()
-        let label4 = UILabel()
-        let label5 = UILabel()
+        let openTaskLabel = UILabel()
+        let finishedTaskLabel = UILabel()
         let labelStack = UIStackView()
         let quoteStack = UIStackView()
         let quoteOfTheWeek = UnderlinedLabel()
@@ -181,41 +170,41 @@ class HomeViewController: UIViewController  {
         view.addAutoLayoutSubview(scrollStack)
         scrollStack.fillSuperview()
         
-        stackView1.axis = .horizontal
-        stackView1.addBorders(color: .black, thickness: 1)
-        stackView1.layoutMargins = UIEdgeInsets(top: 10, left: 16, bottom: 10, right: 16)
-        stackView1.isLayoutMarginsRelativeArrangement = true
-        stackView1.alignment = .center
-        stackView1.spacing = 12
-        stackView1.cornerRadius(radius: 8)
+        currentWeekStack.axis = .horizontal
+        currentWeekStack.addBorders(color: .black, thickness: 1)
+        currentWeekStack.layoutMargins = UIEdgeInsets(top: 10, left: 16, bottom: 10, right: 16)
+        currentWeekStack.isLayoutMarginsRelativeArrangement = true
+        currentWeekStack.alignment = .center
+        currentWeekStack.spacing = 12
+        currentWeekStack.cornerRadius(radius: 8)
         
         imageView.height(constant: 64)
         imageView.width(constant: 64)
         imageView.contentMode = .scaleAspectFit
         imageView.tintColor = .black
         
-        label1.text = "  Future Weeks"
-        label1.addBorders(color: .black, thickness: 1)
-        label1.height(constant: 40)
-        label1.layer.cornerRadius = 8
+        nextWeekLabel.text = "  Next Week"
+        nextWeekLabel.addBorders(color: .black, thickness: 1)
+        nextWeekLabel.height(constant: 40)
+        nextWeekLabel.layer.cornerRadius = 8
         
-        label2.text = "  Past Weeks"
-        label2.addBorders(color: .black, thickness: 1)
-        label2.height(constant: 40)
-        label2.cornerRadius(radius: 8)
+        previousWeekLabel.text = "  Previous Week"
+        previousWeekLabel.addBorders(color: .black, thickness: 1)
+        previousWeekLabel.height(constant: 40)
+        previousWeekLabel.cornerRadius(radius: 8)
         
-        label6.text = "  Other Weeks"
-        label6.addBorders(color: .black, thickness: 1)
-        label6.height(constant: 40)
-        label6.cornerRadius(radius: 8)
+        otherWeeksLabel.text = "  Other Weeks"
+        otherWeeksLabel.addBorders(color: .black, thickness: 1)
+        otherWeeksLabel.height(constant: 40)
+        otherWeeksLabel.cornerRadius(radius: 8)
 
         
-        label3.text = "Current week task"
+        label3.text = "Current Week Tasks"
         label3.font = UIFont.systemFont(ofSize: 21)
         
-        label4.text = "3 open task"
+        openTaskLabel.text = "3 open task"
         
-        label5.text = "4 finished task"
+        finishedTaskLabel.text = "4 finished task"
         
         quoteStack.addBorders(color: .black, thickness: 1)
         quoteStack.layoutMargins = UIEdgeInsets(top: 10, left: 16, bottom: 10, right: 16)
@@ -320,22 +309,24 @@ class HomeViewController: UIViewController  {
         
         
         scrollStack.stackView.addArrangedSubviews([
-            stackView1,
-            label6,
+            currentWeekStack,
+            nextWeekLabel,
+            previousWeekLabel,
+            otherWeeksLabel,
             imageStack,
             goalsStack,
             quoteStack
         ])
         
-        stackView1.addArrangedSubviews([
+        currentWeekStack.addArrangedSubviews([
             imageView,
             labelStack
             ])
         
         labelStack.addArrangedSubviews([
             label3,
-            label4,
-            label5
+            openTaskLabel,
+            finishedTaskLabel
             ])
                 
         imageStack.addArrangedSubviews([
@@ -371,10 +362,23 @@ class HomeViewController: UIViewController  {
             quoteOfTheWeek
         ])
 
-        stackView1.isUserInteractionEnabled = true
+        currentWeekStack.isUserInteractionEnabled = true
         let tapGesture3 = UITapGestureRecognizer(target: self, action: #selector(didTapCurrentWeek))
-        stackView1.addGestureRecognizer(tapGesture3)
+        currentWeekStack.addGestureRecognizer(tapGesture3)
+        
+        previousWeekLabel.isUserInteractionEnabled = true
+        let tapGesture12 = UITapGestureRecognizer(target: self, action: #selector(didTapPreviousWeek))
+        previousWeekLabel.addGestureRecognizer(tapGesture12)
+        
+        nextWeekLabel.isUserInteractionEnabled = true
+        let tapGesture13 = UITapGestureRecognizer(target: self, action: #selector(didTapNextWeek))
+        nextWeekLabel.addGestureRecognizer(tapGesture13)
+
                 
+        otherWeeksLabel.isUserInteractionEnabled = true
+        let tapGesture10 = UITapGestureRecognizer(target: self, action: #selector(didTapOtherWeek))
+        otherWeeksLabel.addGestureRecognizer(tapGesture10)
+
         plusButton.isUserInteractionEnabled = true
         let tapGesture9 = UITapGestureRecognizer(target: self, action: #selector(addGoals))
         plusButton.addGestureRecognizer(tapGesture9)
@@ -405,8 +409,31 @@ class HomeViewController: UIViewController  {
         let vc = FirstVC(weekAndYear: weekAndYear)
         navigationController?.pushViewController(vc, animated: true)
     }
-
     
+    @objc private func didTapPreviousWeek() {
+        guard let weekAndYear = DateAnalyzer.getWeekAndYearFromDate(date: Date()) else{
+            return
+        }
+//        weekAndYear.week -= 1
+        let vc = FirstVC(weekAndYear: weekAndYear)
+        navigationController?.pushViewController(vc, animated: true)        
+    }
+
+    @objc private func didTapNextWeek() {
+        guard let weekAndYear = DateAnalyzer.getWeekAndYearFromDate(date: Date()) else{
+            return
+        }
+//        weekAndYear.week -= 1
+        let vc = FirstVC(weekAndYear: weekAndYear)
+        navigationController?.pushViewController(vc, animated: true)
+    }
+
+
+    @objc private func didTapOtherWeek() {
+        let vc = DatePickerVC()
+        vc.delegate = self
+        navigationController?.pushViewController(vc, animated: true)
+    }
     @objc private func addPhoto() {
         let vc = UIImagePickerController()
         vc.delegate = self
@@ -414,27 +441,20 @@ class HomeViewController: UIViewController  {
     }
         
     @objc private func addGoals() {
-        guard let weekAndYear = DateAnalyzer.getWeekAndYearFromDate(date: Date()) else{
-            return
-        }
-            let vc = TextInputVC(textType: .goal, weekAndYear: weekAndYear, datePickerDate: 1)
+            let vc = TextInputVC(textType: .goal)
             vc.delegate = self
             vc.showModal(vc: self)
         }
     
     @objc private func addQuote() {
-        guard let weekAndYear = DateAnalyzer.getWeekAndYearFromDate(date: Date()) else{
-            return
-        }
-            let vc = TextInputVC(textType: .quote, weekAndYear: weekAndYear, datePickerDate: 1)
+            let vc = TextInputVC(textType: .quote)
         vc.delegate = self
         vc.showModal(vc: self)
     }
-
 }
 
 extension HomeViewController: TextInputVCDelegate {
-    func didSubmitText(text: String, textType: TextInputVC.TextType) {
+    func didSubmitText(text: String, textType: TextInputVC.TextType, date: Date?) {
         
         if let editedGoalIndex = editedGoalIndex {
             goals[editedGoalIndex].goal = text
@@ -450,10 +470,7 @@ extension HomeViewController: TextInputVCDelegate {
         case .quote:
             quoteLabel.text =  "\"" + text + "\""
             quoteButton.isHidden = true
-            guard let weekAndYear = DateAnalyzer.getWeekAndYearFromDate(date: Date()) else{
-                return
-            }
-                let vc = TextInputVC(textType: .author, weekAndYear: weekAndYear, datePickerDate: 1)
+                let vc = TextInputVC(textType: .author)
             vc.delegate = self
             vc.showModal(vc: self)
             FirebaseAPI.setQuote(quote: text)
@@ -535,17 +552,25 @@ extension HomeViewController: CustomCollectionViewCellDelegate {
     
     func didTapCVPencil(goalIndex: Int) {
         editedGoalIndex = goalIndex
-        guard let weekAndYear = DateAnalyzer.getWeekAndYearFromDate(date: Date()) else{
-            return
-        }
-        let vc = TextInputVC(textType: .goal, weekAndYear: weekAndYear, datePickerDate: 1)
+        let vc = TextInputVC(textType: .goal)
         vc.delegate = self
         vc.showModal(vc: self)
         
 
     }
+}
+
+extension HomeViewController: DatePickerVCDelegate {
     
-    
+func didSubmitDate(date: Date?) {
+    let dateStamp = date?.timeIntervalSince1970 ?? Date().timeIntervalSince1970
+    guard let weekAndYear = DateAnalyzer.getWeekAndYearFromDate(date: Date.init(timeIntervalSince1970: dateStamp)) else {
+      return
+    }
+    let vc = FirstVC(weekAndYear: weekAndYear)
+    navigationController?.pushViewController(vc, animated: true)
+
+    }
 }
 
 extension Date {

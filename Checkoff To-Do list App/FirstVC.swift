@@ -44,16 +44,18 @@ struct Task {
 }
 
 protocol FirstVCDelegate: AnyObject {
-//    func hideText(isCompleted: Bool)
     func didUpdateData(weekData: WeekData)
 }
+
 class FirstVC: UIViewController {
     
-    private let weekAndYear: WeekAndYear
+    private var weekAndYear: WeekAndYear
+//    private var task: Task
 
-    init(weekAndYear: WeekAndYear) {
+    init(weekAndYear: WeekAndYear) { //task: Task
 
         self.weekAndYear = weekAndYear
+//        self.task = task
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -83,7 +85,7 @@ class FirstVC: UIViewController {
         tableView.dataSource = self
         view.addAutoLayoutSubview(tableView)
         tableView.fillSuperview()
-        title = "Week Task"
+        title = "Week \(weekAndYear.week)" //task.dateStamp
         
 
         tasks.removeAll()
@@ -121,10 +123,7 @@ class FirstVC: UIViewController {
         
     
     @objc private func addItem() {
-        guard let weekAndYear = DateAnalyzer.getWeekAndYearFromDate(date: Date()) else{
-            return
-        }
-        let vc = TextInputVC(textType: .task, weekAndYear: weekAndYear, datePickerDate: 1)
+        let vc = TextInputVC(textType: .task)
         vc.delegate = self
         vc.showModal(vc: self)
     }
@@ -132,7 +131,9 @@ class FirstVC: UIViewController {
 }
 
 extension FirstVC: TextInputVCDelegate {
-    func didSubmitText(text: String, textType: TextInputVC.TextType) {
+    func didSubmitText(text: String, textType: TextInputVC.TextType, date: Date?) {
+        let dateStamp = date?.timeIntervalSince1970 ?? Date().timeIntervalSince1970
+        let weekAndYear = DateAnalyzer.getWeekAndYearFromDate(date: Date.init(timeIntervalSince1970: dateStamp))
         if let editedTaskIndex = editedTaskIndex {
             tasks[editedTaskIndex].title = text
             FirebaseAPI.editTask(task:tasks[editedTaskIndex])
@@ -140,10 +141,16 @@ extension FirstVC: TextInputVCDelegate {
         else {
             let id = FirebaseAPI.addTask(task: Task(id: "",
                                                     title: text,
-                                                    isComplete: false, dateStamp: Date().timeIntervalSince1970,
+                                                    isComplete: false, dateStamp: dateStamp,
                                                     author: "Gabe"))
+            if self.weekAndYear == weekAndYear {
+            tasks.append(Task(id: id!,
+                              title: text,
+                              isComplete: false,
+                              dateStamp: dateStamp,
+                              author: "Gabe"))
+            }
             
-            tasks.append(Task(id: id!, title: text, isComplete: false, dateStamp: Date().timeIntervalSince1970 , author: "Gabe"))
         }
         tableView.reloadData()
     }
@@ -152,17 +159,13 @@ extension FirstVC: TextInputVCDelegate {
 extension FirstVC: CustomTableViewCellDelegate {
     func didTapPencil(taskIndex: Int) {
         editedTaskIndex = taskIndex
-        guard let weekAndYear = DateAnalyzer.getWeekAndYearFromDate(date: Date()) else{
-            return
-        }
-        let vc = TextInputVC(textType: .task, weekAndYear: weekAndYear, datePickerDate: 1)
+        let vc = TextInputVC(textType: .task)
         vc.delegate = self
         vc.showModal(vc: self)
 
     }
     
     func didCheckBox(taskIndex: Int) {
-//        print("checked")
         tasks[taskIndex].isComplete.toggle()
         FirebaseAPI.completeTask(task: tasks[taskIndex])
    }
@@ -196,8 +199,10 @@ extension FirstVC: UITableViewDataSource, UITableViewDelegate {
           self.tableView.deleteRows(at: [indexPath], with: .automatic)
           FirebaseAPI.removeTask(task: removeTask)
 
-      }
-    
+        }
     }
 }
+
+
+
 

@@ -116,6 +116,6 @@ class CustomCollectionViewCell: UICollectionViewCell {
     }
 }
 extension CustomCollectionViewCell: TextInputVCDelegate {
-    func didSubmitText(text: String, textType: TextInputVC.TextType) {
+    func didSubmitText(text: String, textType: TextInputVC.TextType, date: Date?) {
     }
 }
