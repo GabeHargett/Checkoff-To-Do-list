@@ -115,14 +115,16 @@ class FirstVC: UIViewController {
             action: #selector(addItem)
             )
         navigationController?.setToolbarHidden(false, animated: false)
-        
     }
     
 
         
     
     @objc private func addItem() {
-        let vc = TextInputVC(textType: .task)
+        guard let weekAndYear = DateAnalyzer.getWeekAndYearFromDate(date: Date()) else{
+            return
+        }
+        let vc = TextInputVC(textType: .task, weekAndYear: weekAndYear, datePickerDate: 1)
         vc.delegate = self
         vc.showModal(vc: self)
     }
@@ -144,14 +146,16 @@ extension FirstVC: TextInputVCDelegate {
             tasks.append(Task(id: id!, title: text, isComplete: false, dateStamp: Date().timeIntervalSince1970 , author: "Gabe"))
         }
         tableView.reloadData()
-
     }
 }
 
 extension FirstVC: CustomTableViewCellDelegate {
     func didTapPencil(taskIndex: Int) {
         editedTaskIndex = taskIndex
-        let vc = TextInputVC(textType: .task)
+        guard let weekAndYear = DateAnalyzer.getWeekAndYearFromDate(date: Date()) else{
+            return
+        }
+        let vc = TextInputVC(textType: .task, weekAndYear: weekAndYear, datePickerDate: 1)
         vc.delegate = self
         vc.showModal(vc: self)
 

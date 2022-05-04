@@ -96,7 +96,6 @@
 				778728CB27F42F3D0060B496 /* FirstVC.swift */,
 				778728C227F42D690060B496 /* TextInputVC.swift */,
 				778728CE27F434090060B496 /* BottomModal.swift */,
-				776B8100281F86FF004BD812 /* UIDatePicker.swift */,
 				778728C427F42DB20060B496 /* CustomButton.swift */,
 				77AD87C32810FE9000998DCC /* CustomTableViewCell.swift */,
 				778728C827F42E590060B496 /* CheckBox.swift */,
@@ -109,6 +108,7 @@
 				778728B727F42C560060B496 /* Assets.xcassets */,
 				778728D027F434470060B496 /* WeeksClassVC.swift */,
 				77BE974528198CED0030F39D /* PracticeVC.swift */,
+				776B8100281F86FF004BD812 /* UIDatePicker.swift */,
 			);
 			path = "Checkoff To-Do list App";
 			sourceTree = "<group>";

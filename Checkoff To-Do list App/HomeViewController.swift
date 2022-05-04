@@ -374,11 +374,6 @@ class HomeViewController: UIViewController  {
         stackView1.isUserInteractionEnabled = true
         let tapGesture3 = UITapGestureRecognizer(target: self, action: #selector(didTapCurrentWeek))
         stackView1.addGestureRecognizer(tapGesture3)
-        
-        label6.isUserInteractionEnabled = true
-        let tapGesture10 = UITapGestureRecognizer(target: self, action: #selector(didTapOtherWeek))
-        label6.addGestureRecognizer(tapGesture10)
-
                 
         plusButton.isUserInteractionEnabled = true
         let tapGesture9 = UITapGestureRecognizer(target: self, action: #selector(addGoals))
@@ -410,10 +405,7 @@ class HomeViewController: UIViewController  {
         let vc = FirstVC(weekAndYear: weekAndYear)
         navigationController?.pushViewController(vc, animated: true)
     }
-    @objc private func didTapOtherWeek() {
-        let vc = DatePickerVC()
-        navigationController?.pushViewController(vc, animated: true)
-    }
+
     
     @objc private func addPhoto() {
         let vc = UIImagePickerController()
@@ -422,13 +414,19 @@ class HomeViewController: UIViewController  {
     }
         
     @objc private func addGoals() {
-        let vc = TextInputVC(textType: .goal)
-        vc.delegate = self
-        vc.showModal(vc: self)
-    }
+        guard let weekAndYear = DateAnalyzer.getWeekAndYearFromDate(date: Date()) else{
+            return
+        }
+            let vc = TextInputVC(textType: .goal, weekAndYear: weekAndYear, datePickerDate: 1)
+            vc.delegate = self
+            vc.showModal(vc: self)
+        }
     
     @objc private func addQuote() {
-        let vc = TextInputVC(textType: .quote)
+        guard let weekAndYear = DateAnalyzer.getWeekAndYearFromDate(date: Date()) else{
+            return
+        }
+            let vc = TextInputVC(textType: .quote, weekAndYear: weekAndYear, datePickerDate: 1)
         vc.delegate = self
         vc.showModal(vc: self)
     }
@@ -452,7 +450,10 @@ extension HomeViewController: TextInputVCDelegate {
         case .quote:
             quoteLabel.text =  "\"" + text + "\""
             quoteButton.isHidden = true
-            let vc = TextInputVC(textType: .author)
+            guard let weekAndYear = DateAnalyzer.getWeekAndYearFromDate(date: Date()) else{
+                return
+            }
+                let vc = TextInputVC(textType: .author, weekAndYear: weekAndYear, datePickerDate: 1)
             vc.delegate = self
             vc.showModal(vc: self)
             FirebaseAPI.setQuote(quote: text)
@@ -534,7 +535,10 @@ extension HomeViewController: CustomCollectionViewCellDelegate {
     
     func didTapCVPencil(goalIndex: Int) {
         editedGoalIndex = goalIndex
-        let vc = TextInputVC(textType: .goal)
+        guard let weekAndYear = DateAnalyzer.getWeekAndYearFromDate(date: Date()) else{
+            return
+        }
+        let vc = TextInputVC(textType: .goal, weekAndYear: weekAndYear, datePickerDate: 1)
         vc.delegate = self
         vc.showModal(vc: self)
         
