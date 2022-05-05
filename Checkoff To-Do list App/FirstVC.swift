@@ -50,12 +50,10 @@ protocol FirstVCDelegate: AnyObject {
 class FirstVC: UIViewController {
     
     private var weekAndYear: WeekAndYear
-//    private var task: Task
 
     init(weekAndYear: WeekAndYear) { //task: Task
 
         self.weekAndYear = weekAndYear
-//        self.task = task
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -70,6 +68,7 @@ class FirstVC: UIViewController {
     private var items = [String]()
     private var tasks = [Task]()
     var editedTaskIndex: Int?
+    
 
 
     weak var delegate: FirstVCDelegate?
@@ -85,8 +84,11 @@ class FirstVC: UIViewController {
         tableView.dataSource = self
         view.addAutoLayoutSubview(tableView)
         tableView.fillSuperview()
-        title = "Week \(weekAndYear.week)" //task.dateStamp
+        title = "Week \(weekAndYear.week)"
         
+        let weekAndYear = DateAnalyzer.getWeekAndYearFromDate(date: Date())
+        let sunday = Calendar.current.date(from: DateComponents(calendar: .current, timeZone: .current, era: nil, year: nil, month: nil, day: nil, hour: 12, minute: 0, second: 0, nanosecond: 0, weekday: 1, weekdayOrdinal: nil, quarter: nil, weekOfMonth: nil, weekOfYear: weekAndYear!.week, yearForWeekOfYear: weekAndYear!.year))
+
 
         tasks.removeAll()
 
@@ -200,6 +202,15 @@ extension FirstVC: UITableViewDataSource, UITableViewDelegate {
           FirebaseAPI.removeTask(task: removeTask)
 
         }
+    }
+}
+extension Date {
+    func dateString() -> String {
+        let weekAndYear = DateAnalyzer.getWeekAndYearFromDate(date: Date())
+        let sunday = Calendar.current.date(from: DateComponents(calendar: .current, timeZone: .current, era: nil, year: nil, month: nil, day: nil, hour: 12, minute: 0, second: 0, nanosecond: 0, weekday: 1, weekdayOrdinal: nil, quarter: nil, weekOfMonth: nil, weekOfYear: weekAndYear!.week, yearForWeekOfYear: weekAndYear!.year))
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "MMM dd YY"
+        return dateFormatter.string(from: self)
     }
 }
 
