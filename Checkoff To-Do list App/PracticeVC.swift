@@ -18,6 +18,7 @@ class PracticeVC: UIViewController {
         let weekAndYear = DateAnalyzer.getWeekAndYearFromDate(date: Date())
         print(weekAndYear)
         let sunday = Calendar.current.date(from: DateComponents(calendar: .current, timeZone: .current, era: nil, year: nil, month: nil, day: nil, hour: 12, minute: 0, second: 0, nanosecond: 0, weekday: 1, weekdayOrdinal: nil, quarter: nil, weekOfMonth: nil, weekOfYear: weekAndYear!.week, yearForWeekOfYear: weekAndYear!.year))
+        let saturday = Calendar.current.date(from: DateComponents(calendar: .current, timeZone: .current, era: nil, year: nil, month: nil, day: nil, hour: 12, minute: 0, second: 0, nanosecond: 0, weekday: 7, weekdayOrdinal: nil, quarter: nil, weekOfMonth: nil, weekOfYear: weekAndYear!.week, yearForWeekOfYear: weekAndYear!.year))
         print(sunday?.timeIntervalSince1970)
         
         setupBoxes()

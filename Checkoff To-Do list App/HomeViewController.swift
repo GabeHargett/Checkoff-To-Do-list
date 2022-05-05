@@ -117,7 +117,7 @@ class HomeViewController: UIViewController  {
             action: #selector(didTapSettings)
         )
         navigationController?.navigationBar.tintColor = .label
-        navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.font: UIFont(name: "Times New Roman Bold", size: 27)!]
+//        navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.font: UIFont(name: "Times New Roman Bold", size: 27)!]
     }
     
     @objc private func didTapSettings() {
