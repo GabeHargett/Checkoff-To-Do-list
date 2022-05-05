@@ -85,10 +85,6 @@ class FirstVC: UIViewController {
         view.addAutoLayoutSubview(tableView)
         tableView.fillSuperview()
         title = "Week \(weekAndYear.week)"
-        
-        let weekAndYear = DateAnalyzer.getWeekAndYearFromDate(date: Date())
-        let sunday = Calendar.current.date(from: DateComponents(calendar: .current, timeZone: .current, era: nil, year: nil, month: nil, day: nil, hour: 12, minute: 0, second: 0, nanosecond: 0, weekday: 1, weekdayOrdinal: nil, quarter: nil, weekOfMonth: nil, weekOfYear: weekAndYear!.week, yearForWeekOfYear: weekAndYear!.year))
-
 
         tasks.removeAll()
 
