@@ -405,25 +405,24 @@ class HomeViewController: UIViewController  {
         guard let weekAndYear = DateAnalyzer.getWeekAndYearFromDate(date: Date()) else{
             return
         }
-//        weekAndYear.week -= 1
         let vc = FirstVC(weekAndYear: weekAndYear)
         navigationController?.pushViewController(vc, animated: true)
     }
     
     @objc private func didTapPreviousWeek() {
-        guard let weekAndYear = DateAnalyzer.getWeekAndYearFromDate(date: Date()) else{
+        guard var weekAndYear = DateAnalyzer.getWeekAndYearFromDate(date: Date()) else{
             return
         }
-//        weekAndYear.week -= 1
+        weekAndYear.week -= 1
         let vc = FirstVC(weekAndYear: weekAndYear)
         navigationController?.pushViewController(vc, animated: true)        
     }
 
     @objc private func didTapNextWeek() {
-        guard let weekAndYear = DateAnalyzer.getWeekAndYearFromDate(date: Date()) else{
+        guard var weekAndYear = DateAnalyzer.getWeekAndYearFromDate(date: Date()) else{
             return
         }
-//        weekAndYear.week -= 1
+        weekAndYear.week += 1
         let vc = FirstVC(weekAndYear: weekAndYear)
         navigationController?.pushViewController(vc, animated: true)
     }
