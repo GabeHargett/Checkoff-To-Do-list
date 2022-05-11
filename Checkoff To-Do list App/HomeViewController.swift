@@ -12,30 +12,14 @@ import SwiftUI
 
 class HomeViewController: UIViewController  {
     
-    
-    
-//    private let collectionView: UICollectionView = {
-//
-//        let layout = UICollectionViewFlowLayout()
-//        layout.scrollDirection = .horizontal
-//
-//        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
-//        collectionView.register(CustomCollectionViewCell.self,
-//                                forCellWithReuseIdentifier: CustomCollectionViewCell.identifier)
-//
-//        return collectionView
-//    }()
-    
-
     private var goals = [Goal]()
-    private var goal: Goal?
-
-
     public let date = Date()
     
     private let nextWeekLabel = UILabel()
     private let previousWeekLabel = UILabel()
     private let otherWeeksLabel = UILabel()
+    private let openTaskLabel = UILabel()
+    private let finishedTaskLabel = UILabel()
     
     private let nextWeekGoalLabel = UILabel()
     private let previousWeekGoalLabel = UILabel()
@@ -48,10 +32,10 @@ class HomeViewController: UIViewController  {
     
     private let goalsAddButton = CustomButton(type: .imageAndLabel)
     private let plusButton = CustomButton(type: .image)
-    private let pencilImageButton = CustomButton(type: .image)
+    private let imageButton = CustomButton(type: .image)
     private let pencilQuoteButton = CustomButton(type: .image)
     private let imageAddButton = CustomButton(type: .imageAndLabel)
-    public let quoteButton = CustomButton(type: .imageAndLabel)
+    private let quoteButton = CustomButton(type: .imageAndLabel)
 
     private let quoteLabel = UILabel()
     private let quoteSignature = UILabel()
@@ -60,26 +44,57 @@ class HomeViewController: UIViewController  {
     private let scrollStack = ScrollableStackView()
     var editedGoalIndex: Int?
 
-    // Create a storage reference from our storage service
-
-
-    override func viewDidLoad() {
+    override func viewDidLoad(){
         super.viewDidLoad()
-        
+                
         title = "Home"
 
         setupStackView()
         configureBackground()
-//        configureCollectionView()
+//        getTaskCount()
+        downloadImage()
+        getQuote()
         
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        getTaskCount()
+    }
+    
+    private func getTaskCount() {
+        FirebaseAPI.getTasks() {result in
+            if let allTasks = result {
+                let currentWeekTask = allTasks.filter({task in
+                    let taskDate = Date(timeIntervalSince1970: task.dateStamp)
+                    let taskWeekAndYear = DateAnalyzer.getWeekAndYearFromDate(date: taskDate)
+                    return DateAnalyzer.getWeekAndYearFromDate(date: Date()) == taskWeekAndYear
+                                                                    
+                })
+                DispatchQueue.main.async {
+                    var completedTask = 0
+                    for task in currentWeekTask {
+                        if task.isComplete {
+                            completedTask += 1
+                        }
+                    }
+                    self.finishedTaskLabel.text = "\(completedTask) Finished Task"
+                    self.openTaskLabel.text = "\(currentWeekTask.count - completedTask) Open Task"
+                }
+            }
+        }
+    }
+    
+    private func downloadImage() {
         FirebaseAPI.downloadImage() {
             image in self.couplePhoto.image = image
-            
+            UIView.animate(withDuration: 0.5, animations: {
+                self.couplePhoto.isHidden = false
+                self.imageAddButton.isHidden = true
+            })
         }
-        
-        
-
-
+    }
+    
+    private func getQuote() {
         FirebaseAPI.getQuote() {result in
             DispatchQueue.main.async {
                 if let quote =  result {
@@ -90,6 +105,9 @@ class HomeViewController: UIViewController  {
                 }
             }
         }
+    }
+    
+    private func getAuthor() {
         FirebaseAPI.getAuthor() {result in
             DispatchQueue.main.async {
                 if let author =  result {
@@ -97,33 +115,18 @@ class HomeViewController: UIViewController  {
                 }
             }
         }
-        
+    }
+    private func getGoals() {
         FirebaseAPI.getGoals() {result in
             if let goals = result {
                 self.goals = goals
                 DispatchQueue.main.async {
-//                    self.collectionView.reloadData()
                 }
             }
         }
     }
-    
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-//        collectionView.frame = view.bounds
-    }
-//    private func configureCollectionView() {
-//        collectionView.register(UICollectionViewCell.self,
-//        forCellWithReuseIdentifier: "cell")
-//        collectionView.dataSource = self
-//        collectionView.delegate = self
-//        collectionView.backgroundColor = .systemBackground
-//
-//    }
-    
 
-    
-    func configureBackground() {
+    private func configureBackground() {
         view.backgroundColor = .white
         
         navigationItem.rightBarButtonItem = UIBarButtonItem(
@@ -133,15 +136,13 @@ class HomeViewController: UIViewController  {
             action: #selector(didTapSettings)
         )
         navigationController?.navigationBar.tintColor = .label
-//        navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.font: UIFont(name: "Times New Roman Bold", size: 27)!]
     }
     
     @objc private func didTapSettings() {
         let vc = PracticeVC()
         navigationController?.pushViewController(vc, animated: true)
     }
-    
-    
+        
     func didTapImageAddButton(){
         let vc = UIImagePickerController()
         vc.sourceType = .photoLibrary
@@ -149,8 +150,7 @@ class HomeViewController: UIViewController  {
         vc.allowsEditing = true
         present(vc, animated: true)
     }
-    
-    
+        
     func getComponetsOfDates() {
     
     let components = date.get(.day, .month, .year)
@@ -162,16 +162,18 @@ class HomeViewController: UIViewController  {
     
     private func setupStackView() {
         
+        let currecntWeekPreviousOtherStack = UIStackView()
         let currentWeekStack = UIStackView()
+        let nextPreviousOtherGoalStack = UIStackView()
+        let nextPreviousOtherStack = UIStackView()
         let currentTaskLabel = UnderlinedLabel()
-        let openTaskLabel = UILabel()
-        let finishedTaskLabel = UILabel()
         let labelStack = UIStackView()
         let quoteStack = UIStackView()
         let quoteOfTheWeek = UnderlinedLabel()
         let imageStack = UIStackView()
         let imageAddOnStack = UnderlinedLabel()
-        let goalsStack = UIStackView()
+        let goalsStack1 = UIStackView()
+        let goalsStack2 = UIStackView()
         let goalsLabel = UnderlinedLabel()
         let quoteStackWithPencil = UIStackView()
         let imageStackWithPencil = UIStackView ()
@@ -185,13 +187,35 @@ class HomeViewController: UIViewController  {
         view.addAutoLayoutSubview(scrollStack)
         scrollStack.fillSuperview()
         
+        currecntWeekPreviousOtherStack.addBorders(color: .black, thickness: 1)
+        currecntWeekPreviousOtherStack.layoutMargins = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+        currecntWeekPreviousOtherStack.axis = .vertical
+        currecntWeekPreviousOtherStack.spacing = 12
+        currecntWeekPreviousOtherStack.isLayoutMarginsRelativeArrangement = true
+        currecntWeekPreviousOtherStack.cornerRadius(radius: 8)
+
+        
         currentWeekStack.axis = .horizontal
-        currentWeekStack.addBorders(color: .black, thickness: 1)
-        currentWeekStack.layoutMargins = UIEdgeInsets(top: 10, left: 16, bottom: 10, right: 16)
+        currentWeekStack.layoutMargins = UIEdgeInsets(top: 10, left: 16, bottom: 0, right: 16)
         currentWeekStack.isLayoutMarginsRelativeArrangement = true
         currentWeekStack.alignment = .center
         currentWeekStack.spacing = 12
         currentWeekStack.cornerRadius(radius: 8)
+        
+        nextPreviousOtherStack.axis = .horizontal
+        nextPreviousOtherStack.layoutMargins = UIEdgeInsets(top: 0, left: 16, bottom: 10, right: 16)
+        nextPreviousOtherStack.isLayoutMarginsRelativeArrangement = true
+        nextPreviousOtherStack.alignment = .center
+        nextPreviousOtherStack.spacing = 12
+        nextPreviousOtherStack.cornerRadius(radius: 8)
+
+        nextPreviousOtherGoalStack.axis = .horizontal
+        nextPreviousOtherGoalStack.layoutMargins = UIEdgeInsets(top: 0, left: 0, bottom: 10, right: 0)
+        nextPreviousOtherGoalStack.isLayoutMarginsRelativeArrangement = true
+        nextPreviousOtherGoalStack.alignment = .center
+        nextPreviousOtherGoalStack.spacing = 12
+        nextPreviousOtherGoalStack.cornerRadius(radius: 8)
+
         
         imageView.height(constant: 64)
         imageView.width(constant: 64)
@@ -204,32 +228,32 @@ class HomeViewController: UIViewController  {
         goalImageView.tintColor = .black
 
         
-        nextWeekLabel.text = "  Next Week"
+        nextWeekLabel.text = " Next Week "
         nextWeekLabel.addBorders(color: .black, thickness: 1)
         nextWeekLabel.height(constant: 40)
         nextWeekLabel.layer.cornerRadius = 8
         
-        previousWeekLabel.text = "  Previous Week"
+        previousWeekLabel.text = " Previous Week "
         previousWeekLabel.addBorders(color: .black, thickness: 1)
         previousWeekLabel.height(constant: 40)
         previousWeekLabel.cornerRadius(radius: 8)
         
-        otherWeeksLabel.text = "  Other Weeks"
+        otherWeeksLabel.text = " Other Weeks "
         otherWeeksLabel.addBorders(color: .black, thickness: 1)
         otherWeeksLabel.height(constant: 40)
         otherWeeksLabel.cornerRadius(radius: 8)
         
-        nextWeekGoalLabel.text = "  Next Week"
+        nextWeekGoalLabel.text = " Next Week "
         nextWeekGoalLabel.addBorders(color: .black, thickness: 1)
         nextWeekGoalLabel.height(constant: 40)
         nextWeekGoalLabel.layer.cornerRadius = 8
         
-        previousWeekGoalLabel.text = "  Previous Week"
+        previousWeekGoalLabel.text = " Previous Week "
         previousWeekGoalLabel.addBorders(color: .black, thickness: 1)
         previousWeekGoalLabel.height(constant: 40)
         previousWeekGoalLabel.cornerRadius(radius: 8)
                 
-        otherWeeksGoalLabel.text = "  Other Weeks"
+        otherWeeksGoalLabel.text = " Other Weeks "
         otherWeeksGoalLabel.addBorders(color: .black, thickness: 1)
         otherWeeksGoalLabel.height(constant: 40)
         otherWeeksGoalLabel.cornerRadius(radius: 8)
@@ -244,13 +268,13 @@ class HomeViewController: UIViewController  {
         finishedTaskLabel.text = "4 finished task"
         
         quoteStack.addBorders(color: .black, thickness: 1)
-        quoteStack.layoutMargins = UIEdgeInsets(top: 10, left: 16, bottom: 10, right: 16)
+        quoteStack.layoutMargins = UIEdgeInsets(top: 0, left: 16, bottom: 10, right: 16)
         quoteStack.axis = .vertical
         quoteStack.spacing = 12
         quoteStack.isLayoutMarginsRelativeArrangement = true
         quoteStack.cornerRadius(radius: 8)
         
-        quoteStackWithPencil.layoutMargins = UIEdgeInsets(top: 10, left: 8, bottom: 10, right: 16)
+        quoteStackWithPencil.layoutMargins = UIEdgeInsets(top: 10, left: 8, bottom: 0, right: 16)
         quoteStackWithPencil.axis = .horizontal
         quoteStackWithPencil.spacing = 0
         quoteStackWithPencil.isLayoutMarginsRelativeArrangement = true
@@ -268,7 +292,8 @@ class HomeViewController: UIViewController  {
         quoteButton.layoutMargins = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
         quoteButton.isUserInteractionEnabled = true
 
-        quoteLabel.textAlignment = .center
+        quoteLabel.textAlignment = .left
+        quoteLabel.numberOfLines = 0
         quoteLabel.font = UIFont.systemFont(ofSize: 20)
 
         quoteSignature.textAlignment = .right
@@ -276,13 +301,13 @@ class HomeViewController: UIViewController  {
         
         
         imageStack.addBorders(color: .black, thickness: 1)
-        imageStack.layoutMargins = UIEdgeInsets(top: 10, left: 16, bottom: 10, right: 16)
+        imageStack.layoutMargins = UIEdgeInsets(top: 0, left: 16, bottom: 10, right: 16)
         imageStack.axis = .vertical
         imageStack.spacing = 12
         imageStack.isLayoutMarginsRelativeArrangement = true
         imageStack.cornerRadius(radius: 8)
         
-        imageStackWithPencil.layoutMargins = UIEdgeInsets(top: 10, left: 8, bottom: 10, right: 16)
+        imageStackWithPencil.layoutMargins = UIEdgeInsets(top: 10, left: 8, bottom: 0, right: 16)
         imageStackWithPencil.axis = .horizontal
         imageStackWithPencil.isLayoutMarginsRelativeArrangement = true
                 
@@ -293,12 +318,12 @@ class HomeViewController: UIViewController  {
         plusButton.quickConfigure(font: .systemFont(ofSize: 15), titleColor: .black, backgroundColor: .systemGray4, cornerRadius: 8)
         plusButton.isUserInteractionEnabled = true
 
-        pencilImageButton.setImage(image:UIImage(systemName: "photo"),color:.systemGray)
-        pencilImageButton.setImageWidth(size: 25)
-        pencilImageButton.setImageHeight(size: 25)
-        pencilImageButton.layoutMargins = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
-        pencilImageButton.quickConfigure(font: .systemFont(ofSize: 15), titleColor: .black, backgroundColor: .systemGray4, cornerRadius: 8)
-        pencilImageButton.isUserInteractionEnabled = true
+        imageButton.setImage(image:UIImage(systemName: "photo"),color:.systemGray)
+        imageButton.setImageWidth(size: 25)
+        imageButton.setImageHeight(size: 25)
+        imageButton.layoutMargins = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
+        imageButton.quickConfigure(font: .systemFont(ofSize: 15), titleColor: .black, backgroundColor: .systemGray4, cornerRadius: 8)
+        imageButton.isUserInteractionEnabled = true
 
         pencilQuoteButton.setImage(image:UIImage(systemName: "pencil"),color:.systemGray)
         pencilQuoteButton.setImageWidth(size: 25)
@@ -334,63 +359,88 @@ class HomeViewController: UIViewController  {
 //        goalsStack.isLayoutMarginsRelativeArrangement = true
 //        goalsStack.cornerRadius(radius: 8)
         
-        goalsStack.axis = .horizontal
-        goalsStack.addBorders(color: .black, thickness: 1)
-        goalsStack.layoutMargins = UIEdgeInsets(top: 10, left: 16, bottom: 10, right: 16)
-        goalsStack.isLayoutMarginsRelativeArrangement = true
-        goalsStack.alignment = .center
-        goalsStack.spacing = 12
-        goalsStack.cornerRadius(radius: 8)
+        goalsStack2.axis = .horizontal
+        goalsStack2.layoutMargins = UIEdgeInsets(top: 10, left: 16, bottom: 0, right: 16)
+        goalsStack2.isLayoutMarginsRelativeArrangement = true
+        goalsStack2.alignment = .center
+        goalsStack2.spacing = 12
+        goalsStack2.cornerRadius(radius: 8)
+        
+        goalsStack1.addBorders(color: .black, thickness: 1)
+        goalsStack1.layoutMargins = UIEdgeInsets(top: 0, left: 16, bottom: 0, right: 16)
+        goalsStack1.axis = .vertical
+        goalsStack1.spacing = 12
+        goalsStack1.isLayoutMarginsRelativeArrangement = true
+        goalsStack1.cornerRadius(radius: 8)
+
 
                 
         
 //        collectionView.height(constant: 30)
         
         goalsLabel.text = "Couple Goals of the Week"
-//        goalsLabel.textAlignment = .center
+        goalsLabel.textAlignment = .center
         goalsLabel.font = UIFont.systemFont(ofSize: 21)
         
         
         scrollStack.stackView.addArrangedSubviews([
-            currentWeekStack,
-            nextWeekLabel,
-            previousWeekLabel,
-            otherWeeksLabel,
+            currecntWeekPreviousOtherStack,
             imageStack,
-            goalsStack,
-            nextWeekGoalLabel,
-            previousWeekGoalLabel,
-            otherWeeksGoalLabel,
+            goalsStack1,
             quoteStack
+        ])
+        
+        currecntWeekPreviousOtherStack.addArrangedSubviews([
+            currentWeekStack,
+            nextPreviousOtherStack,
         ])
         
         currentWeekStack.addArrangedSubviews([
             imageView,
             labelStack
-            ])
+        ])
+        
+        nextPreviousOtherStack.addArrangedSubviews([
+            nextWeekLabel,
+            previousWeekLabel,
+            otherWeeksLabel,
+        ])
         
         labelStack.addArrangedSubviews([
             currentTaskLabel,
             openTaskLabel,
             finishedTaskLabel
-            ])
-                
+        ])
+        
         imageStack.addArrangedSubviews([
             imageStackWithPencil,
             imageAddButton,
             couplePhoto
         ])
         
+        
         imageStackWithPencil.addArrangedSubviews([
-            pencilImageButton,
+            imageButton,
             imageAddOnStack
         ])
         
-        goalsStack.addArrangedSubviews([
+        goalsStack1.addArrangedSubviews([
+            goalsStack2,
+            nextPreviousOtherGoalStack
+        ])
+        
+        goalsStack2.addArrangedSubviews([
             goalImageView,
             goalsLabel
         ])
+        
+        nextPreviousOtherGoalStack.addArrangedSubviews([
+            nextWeekGoalLabel,
+            previousWeekGoalLabel,
+            otherWeeksGoalLabel,
+        ])
 
+        
         quoteStack.addArrangedSubviews([
             quoteStackWithPencil,
             quoteButton,
@@ -419,9 +469,9 @@ class HomeViewController: UIViewController  {
         let tapGesture10 = UITapGestureRecognizer(target: self, action: #selector(didTapOtherWeek))
         otherWeeksLabel.addGestureRecognizer(tapGesture10)
         
-        goalsStack.isUserInteractionEnabled = true
+        goalsStack2.isUserInteractionEnabled = true
         let tapGesture14 = UITapGestureRecognizer(target: self, action: #selector(didTapGoalsStack))
-        goalsStack.addGestureRecognizer(tapGesture14)
+        goalsStack2.addGestureRecognizer(tapGesture14)
         
         previousWeekGoalLabel.isUserInteractionEnabled = true
         let tapGesture22 = UITapGestureRecognizer(target: self, action: #selector(didTapPreviousGoalWeek))
@@ -447,9 +497,9 @@ class HomeViewController: UIViewController  {
         let tapGesture6 = UITapGestureRecognizer(target: self, action: #selector(addPhoto))
         imageAddButton.addGestureRecognizer(tapGesture6)
         
-        pencilImageButton.isUserInteractionEnabled = true
+        imageButton.isUserInteractionEnabled = true
         let tapGesture7 = UITapGestureRecognizer(target: self, action: #selector(addPhoto))
-        pencilImageButton.addGestureRecognizer(tapGesture7)
+        imageButton.addGestureRecognizer(tapGesture7)
 
         }
     
@@ -562,7 +612,7 @@ extension HomeViewController: TextInputVCDelegate {
             FirebaseAPI.setQuote(quote: text)
         case .goal:
             goals.append(Goal(id: "", goal: text, dateStamp: Date().timeIntervalSince1970, author: "Gabe"))
-            FirebaseAPI.addGoal(goal: Goal(id: "", goal: text, dateStamp: Date().timeIntervalSince1970, author: "Gabe"))
+//            FirebaseAPI.addGoal(goal: Goal(id: "", goal: text, dateStamp: Date().timeIntervalSince1970, author: "Gabe"))
        case .task:
             break
         case .author:
