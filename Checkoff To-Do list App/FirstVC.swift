@@ -10,6 +10,8 @@ import UIKit
 import SwiftUI
 import Firebase
 
+
+
 struct WeekData {
 
     var weekNumber: Int
@@ -70,7 +72,6 @@ class FirstVC: UIViewController {
     var editedTaskIndex: Int?
     
     
-    
 
 
     weak var delegate: FirstVCDelegate?
@@ -92,7 +93,7 @@ class FirstVC: UIViewController {
         
         let weeks = "\(sunday!.dateString()) - \(saturday!.dateString())"
         
-        title = "Week \(weeks)"
+        title = "Tasks: \(weeks)"
         
         
         

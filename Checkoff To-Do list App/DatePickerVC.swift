@@ -10,6 +10,7 @@ import SwiftUI
 
 protocol DatePickerVCDelegate: AnyObject {
     func didSubmitDate(date: Date?)
+    func didSubmitGoalDate(date: Date?)
 }
 
 class DatePickerVC: UIViewController {

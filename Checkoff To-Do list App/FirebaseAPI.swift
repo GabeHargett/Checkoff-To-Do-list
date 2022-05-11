@@ -7,19 +7,15 @@
 
 import Foundation
 import Firebase
-
-struct Goal {
-    let id: String
-    var goal: String
-    let dateStamp: Double
-    let author: String
-}
+import UIKit
 
 
 
 
 class FirebaseAPI {
     
+    let storage = Storage.storage().reference()
+
     
     static func setQuote(quote: String) {
         let ref = Database.database().reference().child("Quote")
@@ -59,10 +55,12 @@ class FirebaseAPI {
         })
     }
     
-    static func addGoal(goal: Goal) {
+    static func addGoal(goal: Goal) -> String? {
         let ref = Database.database().reference().child("Goals").childByAutoId()
         ref.setValue(["goal": goal.goal, "dateStamp": goal.dateStamp, "author": goal.author])
+        return ref.key
     }
+
     static func editGoal(goal: Goal) {
         let ref = Database.database().reference().child("Goals").child(goal.id).child("goal")
         ref.setValue(goal.goal)
@@ -131,6 +129,32 @@ class FirebaseAPI {
             completion(nil)
         })
     }
-    
-
+    static func downloadImage(completion: @escaping (UIImage?) -> ()) {
+            let ref = Storage.storage().reference().child("images/couplePhoto")
+            ref.getData(maxSize: 1024 * 1024 * 2) { data, error in
+                if let error = error {
+                    print(error)
+                    completion(nil)
+                } else {
+                    if let data = data, let image = UIImage(data: data) {
+                        completion(image)
+                    }
+                }
+            }
+        }
+    static func uploadImage(image: UIImage, completion: @escaping () -> ()) {
+        guard let imageData = image.jpegData(compressionQuality: 0.2) else {
+            return
+        }
+        let imageURL = "images/couplePhoto"
+        let storageRef = Storage.storage().reference().child(imageURL)
+        let newMetadata = StorageMetadata()
+        storageRef.putData(imageData, metadata: newMetadata) { (metadata, error) in
+            guard metadata != nil else {
+                completion()
+                // Uh-oh, an error occurred!
+                return
+            }
+        }
+    }
 }
