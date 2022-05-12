@@ -12,9 +12,13 @@ import SwiftUI
 
 class HomeViewController: UIViewController  {
     
+    //    let baseView = HomeView()
     private var goals = [Goal]()
     public let date = Date()
     
+    let currentWeekStack = UIStackView()
+    let goalsStack2 = UIStackView()
+
     private let nextWeekLabel = UILabel()
     private let previousWeekLabel = UILabel()
     private let otherWeeksLabel = UILabel()
@@ -51,10 +55,8 @@ class HomeViewController: UIViewController  {
 
         setupStackView()
         configureBackground()
-//        getTaskCount()
         downloadImage()
         getQuote()
-        
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -68,7 +70,6 @@ class HomeViewController: UIViewController  {
                     let taskDate = Date(timeIntervalSince1970: task.dateStamp)
                     let taskWeekAndYear = DateAnalyzer.getWeekAndYearFromDate(date: taskDate)
                     return DateAnalyzer.getWeekAndYearFromDate(date: Date()) == taskWeekAndYear
-                                                                    
                 })
                 DispatchQueue.main.async {
                     var completedTask = 0
@@ -163,7 +164,6 @@ class HomeViewController: UIViewController  {
     private func setupStackView() {
         
         let currecntWeekPreviousOtherStack = UIStackView()
-        let currentWeekStack = UIStackView()
         let nextPreviousOtherGoalStack = UIStackView()
         let nextPreviousOtherStack = UIStackView()
         let currentTaskLabel = UnderlinedLabel()
@@ -173,7 +173,6 @@ class HomeViewController: UIViewController  {
         let imageStack = UIStackView()
         let imageAddOnStack = UnderlinedLabel()
         let goalsStack1 = UIStackView()
-        let goalsStack2 = UIStackView()
         let goalsLabel = UnderlinedLabel()
         let quoteStackWithPencil = UIStackView()
         let imageStackWithPencil = UIStackView ()
@@ -350,14 +349,6 @@ class HomeViewController: UIViewController  {
         couplePhoto.cornerRadius(radius: 8)
         couplePhoto.addBorders(color: .black, thickness: 1)
         couplePhoto.height(constant: 300)
-
-        
-//        goalsStack.addBorders(color: .black, thickness: 1)
-//        goalsStack.layoutMargins = UIEdgeInsets(top: 10, left: 16, bottom: 10, right: 16)
-//        goalsStack.axis = .vertical
-//        goalsStack.spacing = 12
-//        goalsStack.isLayoutMarginsRelativeArrangement = true
-//        goalsStack.cornerRadius(radius: 8)
         
         goalsStack2.axis = .horizontal
         goalsStack2.layoutMargins = UIEdgeInsets(top: 10, left: 16, bottom: 0, right: 16)
@@ -373,16 +364,10 @@ class HomeViewController: UIViewController  {
         goalsStack1.isLayoutMarginsRelativeArrangement = true
         goalsStack1.cornerRadius(radius: 8)
 
-
-                
-        
-//        collectionView.height(constant: 30)
-        
         goalsLabel.text = "Couple Goals of the Week"
         goalsLabel.textAlignment = .center
         goalsLabel.font = UIFont.systemFont(ofSize: 21)
-        
-        
+                
         scrollStack.stackView.addArrangedSubviews([
             currecntWeekPreviousOtherStack,
             imageStack,
@@ -401,8 +386,8 @@ class HomeViewController: UIViewController  {
         ])
         
         nextPreviousOtherStack.addArrangedSubviews([
-            nextWeekLabel,
             previousWeekLabel,
+            nextWeekLabel,
             otherWeeksLabel,
         ])
         
@@ -417,8 +402,7 @@ class HomeViewController: UIViewController  {
             imageAddButton,
             couplePhoto
         ])
-        
-        
+                
         imageStackWithPencil.addArrangedSubviews([
             imageButton,
             imageAddOnStack
@@ -435,8 +419,8 @@ class HomeViewController: UIViewController  {
         ])
         
         nextPreviousOtherGoalStack.addArrangedSubviews([
-            nextWeekGoalLabel,
             previousWeekGoalLabel,
+            nextWeekGoalLabel,
             otherWeeksGoalLabel,
         ])
 
@@ -453,55 +437,59 @@ class HomeViewController: UIViewController  {
             quoteOfTheWeek
         ])
 
-        currentWeekStack.isUserInteractionEnabled = true
-        let tapGesture3 = UITapGestureRecognizer(target: self, action: #selector(didTapCurrentWeek))
-        currentWeekStack.addGestureRecognizer(tapGesture3)
-        
-        previousWeekLabel.isUserInteractionEnabled = true
-        let tapGesture12 = UITapGestureRecognizer(target: self, action: #selector(didTapPreviousWeek))
-        previousWeekLabel.addGestureRecognizer(tapGesture12)
-        
-        nextWeekLabel.isUserInteractionEnabled = true
-        let tapGesture13 = UITapGestureRecognizer(target: self, action: #selector(didTapNextWeek))
-        nextWeekLabel.addGestureRecognizer(tapGesture13)
-                
-        otherWeeksLabel.isUserInteractionEnabled = true
-        let tapGesture10 = UITapGestureRecognizer(target: self, action: #selector(didTapOtherWeek))
-        otherWeeksLabel.addGestureRecognizer(tapGesture10)
-        
-        goalsStack2.isUserInteractionEnabled = true
-        let tapGesture14 = UITapGestureRecognizer(target: self, action: #selector(didTapGoalsStack))
-        goalsStack2.addGestureRecognizer(tapGesture14)
-        
-        previousWeekGoalLabel.isUserInteractionEnabled = true
-        let tapGesture22 = UITapGestureRecognizer(target: self, action: #selector(didTapPreviousGoalWeek))
-        previousWeekGoalLabel.addGestureRecognizer(tapGesture22)
-
-        nextWeekGoalLabel.isUserInteractionEnabled = true
-        let tapGesture20 = UITapGestureRecognizer(target: self, action: #selector(didTapNextGoalWeek))
-        nextWeekGoalLabel.addGestureRecognizer(tapGesture20)
-                
-        otherWeeksGoalLabel.isUserInteractionEnabled = true
-        let tapGesture21 = UITapGestureRecognizer(target: self, action: #selector(didTapOtherGoalWeek))
-        otherWeeksGoalLabel.addGestureRecognizer(tapGesture21)
-
-        quoteButton.isUserInteractionEnabled = true
-        let tapGesture5 = UITapGestureRecognizer(target: self, action: #selector(addQuote))
-        quoteButton.addGestureRecognizer(tapGesture5)
-        
-        pencilQuoteButton.isUserInteractionEnabled = true
-        let tapGesture8 = UITapGestureRecognizer(target: self, action: #selector(addQuote))
-        pencilQuoteButton.addGestureRecognizer(tapGesture8)
-        
-        imageAddButton.isUserInteractionEnabled = true
-        let tapGesture6 = UITapGestureRecognizer(target: self, action: #selector(addPhoto))
-        imageAddButton.addGestureRecognizer(tapGesture6)
-        
-        imageButton.isUserInteractionEnabled = true
-        let tapGesture7 = UITapGestureRecognizer(target: self, action: #selector(addPhoto))
-        imageButton.addGestureRecognizer(tapGesture7)
-
         }
+        func setUpDidTaps() {
+            
+            currentWeekStack.isUserInteractionEnabled = true
+            let tapGesture3 = UITapGestureRecognizer(target: self, action: #selector(didTapCurrentWeek))
+            currentWeekStack.addGestureRecognizer(tapGesture3)
+            
+            previousWeekLabel.isUserInteractionEnabled = true
+            let tapGesture12 = UITapGestureRecognizer(target: self, action: #selector(didTapPreviousWeek))
+            previousWeekLabel.addGestureRecognizer(tapGesture12)
+            
+            nextWeekLabel.isUserInteractionEnabled = true
+            let tapGesture13 = UITapGestureRecognizer(target: self, action: #selector(didTapNextWeek))
+            nextWeekLabel.addGestureRecognizer(tapGesture13)
+                    
+            otherWeeksLabel.isUserInteractionEnabled = true
+            let tapGesture10 = UITapGestureRecognizer(target: self, action: #selector(didTapOtherWeek))
+            otherWeeksLabel.addGestureRecognizer(tapGesture10)
+            
+            goalsStack2.isUserInteractionEnabled = true
+            let tapGesture14 = UITapGestureRecognizer(target: self, action: #selector(didTapGoalsStack))
+            goalsStack2.addGestureRecognizer(tapGesture14)
+            
+            previousWeekGoalLabel.isUserInteractionEnabled = true
+            let tapGesture22 = UITapGestureRecognizer(target: self, action: #selector(didTapPreviousGoalWeek))
+            previousWeekGoalLabel.addGestureRecognizer(tapGesture22)
+
+            nextWeekGoalLabel.isUserInteractionEnabled = true
+            let tapGesture20 = UITapGestureRecognizer(target: self, action: #selector(didTapNextGoalWeek))
+            nextWeekGoalLabel.addGestureRecognizer(tapGesture20)
+                    
+            otherWeeksGoalLabel.isUserInteractionEnabled = true
+            let tapGesture21 = UITapGestureRecognizer(target: self, action: #selector(didTapOtherGoalWeek))
+            otherWeeksGoalLabel.addGestureRecognizer(tapGesture21)
+
+            quoteButton.isUserInteractionEnabled = true
+            let tapGesture5 = UITapGestureRecognizer(target: self, action: #selector(addQuote))
+            quoteButton.addGestureRecognizer(tapGesture5)
+            
+            pencilQuoteButton.isUserInteractionEnabled = true
+            let tapGesture8 = UITapGestureRecognizer(target: self, action: #selector(addQuote))
+            pencilQuoteButton.addGestureRecognizer(tapGesture8)
+            
+            imageAddButton.isUserInteractionEnabled = true
+            let tapGesture6 = UITapGestureRecognizer(target: self, action: #selector(addPhoto))
+            imageAddButton.addGestureRecognizer(tapGesture6)
+            
+
+            imageButton.isUserInteractionEnabled = true
+            let tapGesture7 = UITapGestureRecognizer(target: self, action: #selector(addPhoto))
+            imageButton.addGestureRecognizer(tapGesture7)
+
+}
     
     @objc private func didTapCurrentWeek() {
         guard let weekAndYear = DateAnalyzer.getWeekAndYearFromDate(date: Date()) else{
@@ -596,8 +584,6 @@ extension HomeViewController: TextInputVCDelegate {
             goals[editedGoalIndex].goal = text
             FirebaseAPI.editGoal(goal: goals[editedGoalIndex])
             self.editedGoalIndex = nil
-
-//            collectionView.reloadData()
             return
         }
 
@@ -611,8 +597,7 @@ extension HomeViewController: TextInputVCDelegate {
             vc.showModal(vc: self)
             FirebaseAPI.setQuote(quote: text)
         case .goal:
-            goals.append(Goal(id: "", goal: text, dateStamp: Date().timeIntervalSince1970, author: "Gabe"))
-//            FirebaseAPI.addGoal(goal: Goal(id: "", goal: text, dateStamp: Date().timeIntervalSince1970, author: "Gabe"))
+            break
        case .task:
             break
         case .author:
@@ -620,11 +605,8 @@ extension HomeViewController: TextInputVCDelegate {
             FirebaseAPI.setAuthor(quote: text)
             
         }
-
-//        collectionView.reloadData()
     }
 }
-
 
 extension HomeViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info:
@@ -648,57 +630,6 @@ extension HomeViewController: UIImagePickerControllerDelegate, UINavigationContr
     }
 }
 
-//extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
-//    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-//        return goals.count
-//    }
-//
-//    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-//        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CustomCollectionViewCell.identifier,
-//                                                      for: indexPath) as! CustomCollectionViewCell
-//        cell.cornerRadius(radius: 8)
-//        cell.backgroundColor = .systemGray4
-//        cell.goalIndex = indexPath.item
-//        cell.configure(goal: goals[indexPath.item])
-//        cell.delegate = self
-//
-//
-////        cell.textLabel?.text = goals[indexPath.item].goal
-//
-//
-//
-//         return cell
-//    }
-//
-//
-//    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-//
-//        return CGSize(width: 300, height: 30)
-//    }
-//
-//}
-
-//extension HomeViewController: CustomCollectionViewCellDelegate {
-//
-//    func didTapTrash(goalIndex: Int) {
-//        FirebaseAPI.removeGoal(goal: goals[goalIndex])
-//        self.goals.remove(at: goalIndex)
-//        self.collectionView.deleteItems(at: [IndexPath(item: goalIndex, section: 0)])
-//
-//    }
-//
-//
-//
-//    func didTapCVPencil(goalIndex: Int) {
-//        editedGoalIndex = goalIndex
-//        let vc = TextInputVC(textType: .goal)
-//        vc.delegate = self
-//        vc.showModal(vc: self)
-//
-//
-//    }
-//}
-
 extension HomeViewController: DatePickerVCDelegate {
     
 func didSubmitDate(date: Date?) {
@@ -710,6 +641,7 @@ func didSubmitDate(date: Date?) {
     navigationController?.pushViewController(vc, animated: true)
 
     }
+    
     func didSubmitGoalDate(date: Date?) {
         let dateStamp = date?.timeIntervalSince1970 ?? Date().timeIntervalSince1970
         guard let weekAndYear = DateAnalyzer.getWeekAndYearFromDate(date: Date.init(timeIntervalSince1970: dateStamp)) else {
@@ -720,4 +652,3 @@ func didSubmitDate(date: Date?) {
 
         }
 }
-

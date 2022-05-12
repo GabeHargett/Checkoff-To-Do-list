@@ -10,6 +10,7 @@
 		776B81052822E1F7004BD812 /* DatePickerVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 776B81042822E1F7004BD812 /* DatePickerVC.swift */; };
 		776B8107282AB08A004BD812 /* GoalVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 776B8106282AB08A004BD812 /* GoalVC.swift */; };
 		776B810B282B7410004BD812 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 776B810A282B7410004BD812 /* Extensions.swift */; };
+		776B810D282DB91D004BD812 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 776B810C282DB91C004BD812 /* HomeView.swift */; };
 		778728AF27F42C540060B496 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 778728AE27F42C540060B496 /* AppDelegate.swift */; };
 		778728B127F42C540060B496 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 778728B027F42C540060B496 /* SceneDelegate.swift */; };
 		778728B827F42C560060B496 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 778728B727F42C560060B496 /* Assets.xcassets */; };
@@ -37,6 +38,7 @@
 		776B81042822E1F7004BD812 /* DatePickerVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatePickerVC.swift; sourceTree = "<group>"; };
 		776B8106282AB08A004BD812 /* GoalVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalVC.swift; sourceTree = "<group>"; };
 		776B810A282B7410004BD812 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
+		776B810C282DB91C004BD812 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		778728AB27F42C540060B496 /* Checkoff To-Do list App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Checkoff To-Do list App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		778728AE27F42C540060B496 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		778728B027F42C540060B496 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -95,6 +97,7 @@
 				778728AE27F42C540060B496 /* AppDelegate.swift */,
 				778728B027F42C540060B496 /* SceneDelegate.swift */,
 				778728D227F4382D0060B496 /* HomeViewController.swift */,
+				776B810C282DB91C004BD812 /* HomeView.swift */,
 				778728CB27F42F3D0060B496 /* FirstVC.swift */,
 				776B8106282AB08A004BD812 /* GoalVC.swift */,
 				778728C227F42D690060B496 /* TextInputVC.swift */,
@@ -202,6 +205,7 @@
 				77BE974628198CED0030F39D /* PracticeVC.swift in Sources */,
 				778728AF27F42C540060B496 /* AppDelegate.swift in Sources */,
 				776B8107282AB08A004BD812 /* GoalVC.swift in Sources */,
+				776B810D282DB91D004BD812 /* HomeView.swift in Sources */,
 				776B81052822E1F7004BD812 /* DatePickerVC.swift in Sources */,
 				77AD87C12810EF4000998DCC /* CustomCollectionView.swift in Sources */,
 				778728CF27F434090060B496 /* BottomModal.swift in Sources */,
