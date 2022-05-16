@@ -66,6 +66,10 @@ class HomeView: UIView {
 
 
     private func setupStackView() {
+        for view in [currentWeekStack, previousWeekLabel, nextWeekLabel, otherWeeksLabel, goalsStack2, previousWeekGoalLabel, nextWeekGoalLabel,
+                     otherWeeksGoalLabel, quoteButton, pencilQuoteButton, imageAddButton, imageButton] {
+            view.isUserInteractionEnabled = true
+        }
                 
         labelStack.axis = .vertical
         

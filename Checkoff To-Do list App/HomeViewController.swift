@@ -135,52 +135,39 @@ class HomeViewController: UIViewController  {
 
     func setUpDidTaps() {
             
-            baseView.currentWeekStack.isUserInteractionEnabled = true
             let tapGesture3 = UITapGestureRecognizer(target: self, action: #selector(didTapCurrentWeek))
             baseView.currentWeekStack.addGestureRecognizer(tapGesture3)
             
-            baseView.previousWeekLabel.isUserInteractionEnabled = true
             let tapGesture12 = UITapGestureRecognizer(target: self, action: #selector(didTapPreviousWeek))
             baseView.previousWeekLabel.addGestureRecognizer(tapGesture12)
             
-            baseView.nextWeekLabel.isUserInteractionEnabled = true
             let tapGesture13 = UITapGestureRecognizer(target: self, action: #selector(didTapNextWeek))
             baseView.nextWeekLabel.addGestureRecognizer(tapGesture13)
                     
-            baseView.otherWeeksLabel.isUserInteractionEnabled = true
             let tapGesture10 = UITapGestureRecognizer(target: self, action: #selector(didTapOtherWeek))
             baseView.otherWeeksLabel.addGestureRecognizer(tapGesture10)
             
-            baseView.goalsStack2.isUserInteractionEnabled = true
             let tapGesture14 = UITapGestureRecognizer(target: self, action: #selector(didTapGoalsStack))
             baseView.goalsStack2.addGestureRecognizer(tapGesture14)
             
-            baseView.previousWeekGoalLabel.isUserInteractionEnabled = true
             let tapGesture22 = UITapGestureRecognizer(target: self, action: #selector(didTapPreviousGoalWeek))
             baseView.previousWeekGoalLabel.addGestureRecognizer(tapGesture22)
 
-            baseView.nextWeekGoalLabel.isUserInteractionEnabled = true
             let tapGesture20 = UITapGestureRecognizer(target: self, action: #selector(didTapNextGoalWeek))
             baseView.nextWeekGoalLabel.addGestureRecognizer(tapGesture20)
                     
-            baseView.otherWeeksGoalLabel.isUserInteractionEnabled = true
             let tapGesture21 = UITapGestureRecognizer(target: self, action: #selector(didTapOtherGoalWeek))
             baseView.otherWeeksGoalLabel.addGestureRecognizer(tapGesture21)
 
-            baseView.quoteButton.isUserInteractionEnabled = true
             let tapGesture5 = UITapGestureRecognizer(target: self, action: #selector(addQuote))
             baseView.quoteButton.addGestureRecognizer(tapGesture5)
             
-            baseView.pencilQuoteButton.isUserInteractionEnabled = true
             let tapGesture8 = UITapGestureRecognizer(target: self, action: #selector(addQuote))
             baseView.pencilQuoteButton.addGestureRecognizer(tapGesture8)
             
-            baseView.imageAddButton.isUserInteractionEnabled = true
             let tapGesture6 = UITapGestureRecognizer(target: self, action: #selector(addPhoto))
             baseView.imageAddButton.addGestureRecognizer(tapGesture6)
             
-
-            baseView.imageButton.isUserInteractionEnabled = true
             let tapGesture7 = UITapGestureRecognizer(target: self, action: #selector(addPhoto))
             baseView.imageButton.addGestureRecognizer(tapGesture7)
 
