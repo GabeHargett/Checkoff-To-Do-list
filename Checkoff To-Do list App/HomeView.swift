@@ -18,35 +18,38 @@ class HomeView: UIView {
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
-    private let nextWeekLabel = UILabel()
-    private let previousWeekLabel = UILabel()
-    private let otherWeeksLabel = UILabel()
-    private let openTaskLabel = UILabel()
-    private let finishedTaskLabel = UILabel()
+    let currentWeekStack = UIStackView()
+    let nextWeekLabel = UILabel()
+    let previousWeekLabel = UILabel()
+    let otherWeeksLabel = UILabel()
     
-    private let nextWeekGoalLabel = UILabel()
-    private let previousWeekGoalLabel = UILabel()
-    private let otherWeeksGoalLabel = UILabel()
+    let openTaskLabel = UILabel()
+    let finishedTaskLabel = UILabel()
+    
+    let nextWeekGoalLabel = UILabel()
+    let previousWeekGoalLabel = UILabel()
+    let otherWeeksGoalLabel = UILabel()
+    
+    let goalsAddButton = CustomButton(type: .imageAndLabel)
+    let goalsStack2 = UIStackView()
+
+    let imageButton = CustomButton(type: .image)
+    let imageAddButton = CustomButton(type: .imageAndLabel)
+    let couplePhoto = UIImageView()
+    
+    let pencilQuoteButton = CustomButton(type: .image)
+    let quoteButton = CustomButton(type: .imageAndLabel)
+    
+    let quoteLabel = UILabel()
+    let quoteSignature = UILabel()
 
     private let imageView = UIImageView(image: UIImage(systemName: "list.bullet.rectangle"))
     private let goalImageView = UIImageView(image: UIImage(systemName: "list.bullet.rectangle"))
     private let hiarchyStack = UIStackView()
     private let currentWeekTaskLabel = UILabel()
     
-    private let goalsAddButton = CustomButton(type: .imageAndLabel)
-    private let plusButton = CustomButton(type: .image)
-    private let imageButton = CustomButton(type: .image)
-    private let pencilQuoteButton = CustomButton(type: .image)
-    private let imageAddButton = CustomButton(type: .imageAndLabel)
-    private let quoteButton = CustomButton(type: .imageAndLabel)
-
-    private let quoteLabel = UILabel()
-    private let quoteSignature = UILabel()
-
-    private let couplePhoto = UIImageView()
     private let scrollStack = ScrollableStackView()
     private let currecntWeekPreviousOtherStack = UIStackView()
-    private let currentWeekStack = UIStackView()
     private let nextPreviousOtherGoalStack = UIStackView()
     private let nextPreviousOtherStack = UIStackView()
     private let currentTaskLabel = UnderlinedLabel()
@@ -56,7 +59,6 @@ class HomeView: UIView {
     private let imageStack = UIStackView()
     private let imageAddOnStack = UnderlinedLabel()
     private let goalsStack1 = UIStackView()
-    private let goalsStack2 = UIStackView()
     private let goalsLabel = UnderlinedLabel()
     private let quoteStackWithPencil = UIStackView()
     private let imageStackWithPencil = UIStackView ()
@@ -197,13 +199,6 @@ class HomeView: UIView {
         imageStackWithPencil.layoutMargins = UIEdgeInsets(top: 10, left: 8, bottom: 0, right: 16)
         imageStackWithPencil.axis = .horizontal
         imageStackWithPencil.isLayoutMarginsRelativeArrangement = true
-                
-        plusButton.setImage(image:UIImage(systemName: "plus"),color:.systemGray)
-        plusButton.setImageWidth(size: 22)
-        plusButton.setImageHeight(size: 22)
-        plusButton.layoutMargins = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
-        plusButton.quickConfigure(font: .systemFont(ofSize: 15), titleColor: .black, backgroundColor: .systemGray4, cornerRadius: 8)
-        plusButton.isUserInteractionEnabled = true
 
         imageButton.setImage(image:UIImage(systemName: "photo"),color:.systemGray)
         imageButton.setImageWidth(size: 25)
