@@ -135,41 +135,41 @@ class HomeViewController: UIViewController  {
 
     func setUpDidTaps() {
             
-            let tapGesture3 = UITapGestureRecognizer(target: self, action: #selector(didTapCurrentWeek))
-            baseView.currentWeekStack.addGestureRecognizer(tapGesture3)
+            let tapGesture1 = UITapGestureRecognizer(target: self, action: #selector(didTapCurrentWeek))
+            baseView.currentWeekStack.addGestureRecognizer(tapGesture1)
             
-            let tapGesture12 = UITapGestureRecognizer(target: self, action: #selector(didTapPreviousWeek))
-            baseView.previousWeekLabel.addGestureRecognizer(tapGesture12)
+            let tapGesture2 = UITapGestureRecognizer(target: self, action: #selector(didTapPreviousWeek))
+            baseView.previousWeekLabel.addGestureRecognizer(tapGesture2)
             
-            let tapGesture13 = UITapGestureRecognizer(target: self, action: #selector(didTapNextWeek))
-            baseView.nextWeekLabel.addGestureRecognizer(tapGesture13)
+            let tapGesture3 = UITapGestureRecognizer(target: self, action: #selector(didTapNextWeek))
+            baseView.nextWeekLabel.addGestureRecognizer(tapGesture3)
                     
-            let tapGesture10 = UITapGestureRecognizer(target: self, action: #selector(didTapOtherWeek))
-            baseView.otherWeeksLabel.addGestureRecognizer(tapGesture10)
+            let tapGesture4 = UITapGestureRecognizer(target: self, action: #selector(didTapOtherWeek))
+            baseView.otherWeeksLabel.addGestureRecognizer(tapGesture4)
             
-            let tapGesture14 = UITapGestureRecognizer(target: self, action: #selector(didTapGoalsStack))
-            baseView.goalsStack2.addGestureRecognizer(tapGesture14)
+            let tapGesture5 = UITapGestureRecognizer(target: self, action: #selector(didTapGoalsStack))
+            baseView.goalsStack2.addGestureRecognizer(tapGesture5)
             
-            let tapGesture22 = UITapGestureRecognizer(target: self, action: #selector(didTapPreviousGoalWeek))
-            baseView.previousWeekGoalLabel.addGestureRecognizer(tapGesture22)
+            let tapGesture6 = UITapGestureRecognizer(target: self, action: #selector(didTapPreviousGoalWeek))
+            baseView.previousWeekGoalLabel.addGestureRecognizer(tapGesture6)
 
-            let tapGesture20 = UITapGestureRecognizer(target: self, action: #selector(didTapNextGoalWeek))
-            baseView.nextWeekGoalLabel.addGestureRecognizer(tapGesture20)
+            let tapGesture7 = UITapGestureRecognizer(target: self, action: #selector(didTapNextGoalWeek))
+            baseView.nextWeekGoalLabel.addGestureRecognizer(tapGesture7)
                     
-            let tapGesture21 = UITapGestureRecognizer(target: self, action: #selector(didTapOtherGoalWeek))
-            baseView.otherWeeksGoalLabel.addGestureRecognizer(tapGesture21)
+            let tapGesture8 = UITapGestureRecognizer(target: self, action: #selector(didTapOtherGoalWeek))
+            baseView.otherWeeksGoalLabel.addGestureRecognizer(tapGesture8)
 
-            let tapGesture5 = UITapGestureRecognizer(target: self, action: #selector(addQuote))
-            baseView.quoteButton.addGestureRecognizer(tapGesture5)
+            let tapGesture9 = UITapGestureRecognizer(target: self, action: #selector(addQuote))
+            baseView.quoteButton.addGestureRecognizer(tapGesture9)
             
-            let tapGesture8 = UITapGestureRecognizer(target: self, action: #selector(addQuote))
-            baseView.pencilQuoteButton.addGestureRecognizer(tapGesture8)
+            let tapGesture10 = UITapGestureRecognizer(target: self, action: #selector(addQuote))
+            baseView.pencilQuoteButton.addGestureRecognizer(tapGesture10)
             
-            let tapGesture6 = UITapGestureRecognizer(target: self, action: #selector(addPhoto))
-            baseView.imageAddButton.addGestureRecognizer(tapGesture6)
+            let tapGesture11 = UITapGestureRecognizer(target: self, action: #selector(addPhoto))
+            baseView.imageAddButton.addGestureRecognizer(tapGesture11)
             
-            let tapGesture7 = UITapGestureRecognizer(target: self, action: #selector(addPhoto))
-            baseView.imageButton.addGestureRecognizer(tapGesture7)
+            let tapGesture12 = UITapGestureRecognizer(target: self, action: #selector(addPhoto))
+            baseView.imageButton.addGestureRecognizer(tapGesture12)
 
 }
     
