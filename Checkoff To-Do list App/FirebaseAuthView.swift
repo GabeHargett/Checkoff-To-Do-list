@@ -61,6 +61,11 @@ class FirebaseAuthView: UIView {
         signOutButton.setTitle("Log Out", for: .normal)
         signOutButton.isUserInteractionEnabled = true
 
+        
+        addAutoLayoutSubview(button)
+        addAutoLayoutSubview(passField)
+        addAutoLayoutSubview(emailField)
+        addAutoLayoutSubview(label)
 
                 
         NSLayoutConstraint.activate([
@@ -89,11 +94,6 @@ class FirebaseAuthView: UIView {
             signOutButton.widthAnchor.constraint(equalToConstant: 20),
             signOutButton.heightAnchor.constraint(equalToConstant: 20),
         ])
-        
-        addAutoLayoutSubview(button)
-        addAutoLayoutSubview(passField)
-        addAutoLayoutSubview(emailField)
-        addAutoLayoutSubview(label)
 
     }
 }
