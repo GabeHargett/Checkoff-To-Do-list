@@ -21,6 +21,37 @@ class FirebaseAuthVC: UIViewController {
         super.viewDidLoad()
         
         baseView.button.addTarget(self, action: #selector(didTapButton), for: .touchUpInside)
+        
+        if FirebaseAuth.Auth.auth().currentUser != nil {
+            baseView.label.isHidden = true
+            baseView.emailField.isHidden = true
+            baseView.passField.isHidden = true
+            baseView.button.isHidden = true
+            
+            baseView.signOutButton.addTarget(self, action: #selector(logOutTapped), for: .touchUpInside)
+        }
+    }
+    @objc private func logOutTapped() {
+        do{
+            try FirebaseAuth.Auth.auth().signOut()
+            baseView.label.isHidden = false
+            baseView.emailField.isHidden = false
+            baseView.passField.isHidden = false
+            baseView.button.isHidden = false
+            
+            view.addAutoLayoutSubview(baseView.signOutButton)
+            baseView.signOutButton.removeFromSuperview()
+        }
+        catch{
+           print("An error occurred")
+        }
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        if FirebaseAuth.Auth.auth().currentUser == nil {
+            baseView.emailField.becomeFirstResponder()
+        }
     }
     @objc private func didTapButton() {
         guard let email = baseView.emailField.text, !email.isEmpty,
@@ -42,6 +73,9 @@ class FirebaseAuthVC: UIViewController {
             strongSelf.baseView.emailField.isHidden = true
             strongSelf.baseView.passField.isHidden = true
             strongSelf.baseView.button.isHidden = true
+            strongSelf.baseView.emailField.resignFirstResponder()
+            strongSelf.baseView.passField.resignFirstResponder()
+
 
         })
     }
@@ -67,6 +101,9 @@ class FirebaseAuthVC: UIViewController {
                 strongSelf.baseView.emailField.isHidden = true
                 strongSelf.baseView.passField.isHidden = true
                 strongSelf.baseView.button.isHidden = true
+                strongSelf.baseView.emailField.resignFirstResponder()
+                strongSelf.baseView.passField.resignFirstResponder()
+
             })
         }))
         alert.addAction(UIAlertAction(title: "Cancel",
