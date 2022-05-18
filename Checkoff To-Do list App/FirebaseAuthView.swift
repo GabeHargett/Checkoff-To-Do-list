@@ -26,6 +26,7 @@ class FirebaseAuthView: UIView {
     let signOutButton = UIButton()
 
 
+
     private func setupUserInputs() {
         backgroundColor = .systemPurple
         label.textAlignment = .center
@@ -40,7 +41,6 @@ class FirebaseAuthView: UIView {
         emailField.leftViewMode = .always
         emailField.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 5, height: 0))
         
-        
         passField.placeholder = "Password"
         passField.layer.borderWidth = 1
         passField.isSecureTextEntry = true
@@ -48,8 +48,6 @@ class FirebaseAuthView: UIView {
         passField.backgroundColor = .white
         passField.leftViewMode = .always
         passField.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 5, height: 0))
-
-
         
         button.backgroundColor = .systemGray4
         button.setTitleColor(.black, for: .normal)
@@ -66,33 +64,34 @@ class FirebaseAuthView: UIView {
         addAutoLayoutSubview(passField)
         addAutoLayoutSubview(emailField)
         addAutoLayoutSubview(label)
-
+        addAutoLayoutSubview(signOutButton)
                 
         NSLayoutConstraint.activate([
             label.centerXAnchor.constraint(equalTo: centerXAnchor),
-            label.centerYAnchor.constraint(equalTo: centerYAnchor),
-            label.widthAnchor.constraint(equalToConstant: 20),
-            label.heightAnchor.constraint(equalToConstant: 20),
+            label.centerYAnchor.constraint(equalTo: centerYAnchor,constant: -120),
+            label.widthAnchor.constraint(equalToConstant: 400),
+            label.heightAnchor.constraint(equalToConstant: 25),
             
-            emailField.rightAnchor.constraint(equalTo: rightAnchor,constant: -20),
-            emailField.centerYAnchor.constraint(equalTo: centerYAnchor),
-            emailField.widthAnchor.constraint(equalToConstant: 20),
-            emailField.heightAnchor.constraint(equalToConstant: 20),
+            emailField.centerXAnchor.constraint(equalTo: centerXAnchor),
+            emailField.centerYAnchor.constraint(equalTo: centerYAnchor,constant: -80),
+            emailField.widthAnchor.constraint(equalToConstant: 400),
+            emailField.heightAnchor.constraint(equalToConstant: 25),
 
-            passField.centerXAnchor.constraint(equalTo: centerXAnchor,constant: -40),
-            passField.centerYAnchor.constraint(equalTo: centerYAnchor),
-            passField.widthAnchor.constraint(equalToConstant: 20),
-            passField.heightAnchor.constraint(equalToConstant: 20),
+            passField.centerXAnchor.constraint(equalTo: centerXAnchor),
+            passField.centerYAnchor.constraint(equalTo: centerYAnchor,constant: -40),
+            passField.widthAnchor.constraint(equalToConstant: 400),
+            passField.heightAnchor.constraint(equalToConstant: 25),
 
-            button.centerXAnchor.constraint(equalTo: centerXAnchor,constant: -60),
+            button.centerXAnchor.constraint(equalTo: centerXAnchor),
             button.centerYAnchor.constraint(equalTo: centerYAnchor),
-            button.widthAnchor.constraint(equalToConstant: 20),
-            button.heightAnchor.constraint(equalToConstant: 20),
+            button.widthAnchor.constraint(equalToConstant: 400),
+            button.heightAnchor.constraint(equalToConstant: 25),
             
-            signOutButton.centerXAnchor.constraint(equalTo: centerXAnchor,constant: -80),
-            signOutButton.centerYAnchor.constraint(equalTo: centerYAnchor),
-            signOutButton.widthAnchor.constraint(equalToConstant: 20),
-            signOutButton.heightAnchor.constraint(equalToConstant: 20),
+            signOutButton.centerXAnchor.constraint(equalTo: centerXAnchor),
+            signOutButton.centerYAnchor.constraint(equalTo: centerYAnchor, constant: 60),
+            signOutButton.widthAnchor.constraint(equalToConstant: 400),
+            signOutButton.heightAnchor.constraint(equalToConstant: 25),
+            
         ])
 
     }

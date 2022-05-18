@@ -16,6 +16,9 @@ class FirebaseAuthVC: UIViewController {
     }
     
     let baseView = FirebaseAuthView()
+    let signOutButton = UIButton()
+
+
 
 
     override func viewDidLoad() {
@@ -30,6 +33,7 @@ class FirebaseAuthVC: UIViewController {
             baseView.button.isHidden = true
             
             baseView.signOutButton.addTarget(self, action: #selector(logOutTapped), for: .touchUpInside)
+
         }
     }
     @objc private func logOutTapped() {
@@ -40,7 +44,6 @@ class FirebaseAuthVC: UIViewController {
             baseView.passField.isHidden = false
             baseView.button.isHidden = false
             
-            view.addAutoLayoutSubview(baseView.signOutButton)
             baseView.signOutButton.removeFromSuperview()
         }
         catch{
@@ -58,6 +61,10 @@ class FirebaseAuthVC: UIViewController {
         guard let email = baseView.emailField.text, !email.isEmpty,
               let password = baseView.passField.text, !password.isEmpty else {
                   print("Missing data")
+                  if FirebaseAuth.Auth.auth().currentUser != nil {
+                  let vc = HomeViewController()
+                  navigationController?.pushViewController(vc, animated: true)
+                  }
                   return
               }
         FirebaseAuth.Auth.auth().signIn(withEmail: email, password: password, completion: { [weak self] result, error in
