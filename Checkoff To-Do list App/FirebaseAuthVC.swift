@@ -64,6 +64,7 @@ class FirebaseAuthVC: UIViewController {
                   if FirebaseAuth.Auth.auth().currentUser != nil {
                   let vc = HomeViewController()
                   navigationController?.pushViewController(vc, animated: true)
+                      //lines 64-69 dont't work, after inputting a user and selecting the continue button, it glitches out the log out button making it unable to log out, and isn't able to push to HomeVC
                   }
                   return
               }
