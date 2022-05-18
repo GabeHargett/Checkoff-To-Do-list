@@ -10,6 +10,7 @@ import Firebase
 
 
 class FirebaseAuthVC: UIViewController {
+    
     override func loadView() {
         view = baseView
     }

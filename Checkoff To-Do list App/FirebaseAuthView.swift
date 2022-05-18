@@ -27,7 +27,7 @@ class FirebaseAuthView: UIView {
 
 
     private func setupUserInputs() {
-
+        backgroundColor = .systemPurple
         label.textAlignment = .center
         label.text = "Log In"
         label.font = .systemFont(ofSize: 24, weight: .semibold)
@@ -62,39 +62,38 @@ class FirebaseAuthView: UIView {
         signOutButton.isUserInteractionEnabled = true
 
 
+                
+        NSLayoutConstraint.activate([
+            label.centerXAnchor.constraint(equalTo: centerXAnchor),
+            label.centerYAnchor.constraint(equalTo: centerYAnchor),
+            label.widthAnchor.constraint(equalToConstant: 20),
+            label.heightAnchor.constraint(equalToConstant: 20),
+            
+            emailField.rightAnchor.constraint(equalTo: rightAnchor,constant: -20),
+            emailField.centerYAnchor.constraint(equalTo: centerYAnchor),
+            emailField.widthAnchor.constraint(equalToConstant: 20),
+            emailField.heightAnchor.constraint(equalToConstant: 20),
+
+            passField.centerXAnchor.constraint(equalTo: centerXAnchor,constant: -40),
+            passField.centerYAnchor.constraint(equalTo: centerYAnchor),
+            passField.widthAnchor.constraint(equalToConstant: 20),
+            passField.heightAnchor.constraint(equalToConstant: 20),
+
+            button.centerXAnchor.constraint(equalTo: centerXAnchor,constant: -60),
+            button.centerYAnchor.constraint(equalTo: centerYAnchor),
+            button.widthAnchor.constraint(equalToConstant: 20),
+            button.heightAnchor.constraint(equalToConstant: 20),
+            
+            signOutButton.centerXAnchor.constraint(equalTo: centerXAnchor,constant: -80),
+            signOutButton.centerYAnchor.constraint(equalTo: centerYAnchor),
+            signOutButton.widthAnchor.constraint(equalToConstant: 20),
+            signOutButton.heightAnchor.constraint(equalToConstant: 20),
+        ])
         
         addAutoLayoutSubview(button)
         addAutoLayoutSubview(passField)
         addAutoLayoutSubview(emailField)
         addAutoLayoutSubview(label)
-        
-        NSLayoutConstraint.activate([
-            label.rightAnchor.constraint(equalTo: rightAnchor,constant: -40),
-            label.centerYAnchor.constraint(equalTo: centerYAnchor),
-            label.widthAnchor.constraint(equalToConstant: 25),
-            label.heightAnchor.constraint(equalToConstant: 25),
-            
-            emailField.rightAnchor.constraint(equalTo: rightAnchor,constant: -40),
-            emailField.centerYAnchor.constraint(equalTo: centerYAnchor),
-            emailField.widthAnchor.constraint(equalToConstant: 25),
-            emailField.heightAnchor.constraint(equalToConstant: 25),
 
-            passField.rightAnchor.constraint(equalTo: rightAnchor,constant: -40),
-            passField.centerYAnchor.constraint(equalTo: centerYAnchor),
-            passField.widthAnchor.constraint(equalToConstant: 25),
-            passField.heightAnchor.constraint(equalToConstant: 25),
-
-            button.rightAnchor.constraint(equalTo: rightAnchor,constant: -40),
-            button.centerYAnchor.constraint(equalTo: centerYAnchor),
-            button.widthAnchor.constraint(equalToConstant: 25),
-            button.heightAnchor.constraint(equalToConstant: 25),
-            
-            signOutButton.rightAnchor.constraint(equalTo: rightAnchor,constant: -40),
-            signOutButton.centerYAnchor.constraint(equalTo: centerYAnchor),
-            signOutButton.widthAnchor.constraint(equalToConstant: 25),
-            signOutButton.heightAnchor.constraint(equalToConstant: 25),
-
-
-        ])
     }
 }
