@@ -32,8 +32,11 @@ class FirebaseAuthVC: UIViewController {
             baseView.passField.isHidden = true
             baseView.button.isHidden = true
             
+            let vc = HomeViewController()
+            navigationController?.pushViewController(vc, animated: true)
+                //lines 35-36 dont't work, after inputting a user and selecting the continue button, it glitches out the log out button making it unable to log out, and isn't able to push to HomeVC
+            
             baseView.signOutButton.addTarget(self, action: #selector(logOutTapped), for: .touchUpInside)
-
         }
     }
     @objc private func logOutTapped() {
@@ -61,11 +64,6 @@ class FirebaseAuthVC: UIViewController {
         guard let email = baseView.emailField.text, !email.isEmpty,
               let password = baseView.passField.text, !password.isEmpty else {
                   print("Missing data")
-                  if FirebaseAuth.Auth.auth().currentUser != nil {
-                  let vc = HomeViewController()
-                  navigationController?.pushViewController(vc, animated: true)
-                      //lines 64-69 dont't work, after inputting a user and selecting the continue button, it glitches out the log out button making it unable to log out, and isn't able to push to HomeVC
-                  }
                   return
               }
         FirebaseAuth.Auth.auth().signIn(withEmail: email, password: password, completion: { [weak self] result, error in
