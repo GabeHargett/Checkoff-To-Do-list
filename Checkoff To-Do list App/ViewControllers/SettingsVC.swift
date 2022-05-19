@@ -21,7 +21,7 @@ class SettingsVC: UIViewController {
     }
     
     private func setUpViews() {
-        
+
         view.backgroundColor = .white
         signOutButton.setImage(image:UIImage(systemName: "hand.wave"),color: .black)
         signOutButton.setTitle(title: "Log Out")
@@ -53,9 +53,13 @@ class SettingsVC: UIViewController {
     @objc private func logOutTapped() {
         do{
             try FirebaseAuth.Auth.auth().signOut()
+            DispatchQueue.main.async {
                 let vc = FirebaseAuthVC()
-                navigationController?.pushViewController(vc, animated: true)
+                self.navigationController?.pushViewController(vc, animated: true)
+                self.navigationItem.leftBarButtonItem = nil
+
         }
+    }
         catch{
            print("An error occurred")
         }

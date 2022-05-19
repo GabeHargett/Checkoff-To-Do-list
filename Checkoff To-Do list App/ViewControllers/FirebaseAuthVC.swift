@@ -51,6 +51,8 @@ class FirebaseAuthVC: UIViewController {
             DispatchQueue.main.async {
                     let vc = HomeViewController()
                     strongSelf.navigationController?.pushViewController(vc, animated: true)
+                    strongSelf.navigationItem.leftBarButtonItem = nil
+
             }
 //            strongSelf.baseView.label.isHidden = true
 //            strongSelf.baseView.emailField.isHidden = true

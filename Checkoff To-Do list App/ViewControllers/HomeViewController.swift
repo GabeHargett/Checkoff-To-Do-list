@@ -102,7 +102,7 @@ class HomeViewController: UIViewController  {
 
     private func configureBackground() {
         view.backgroundColor = .white
-        
+//        self.navigationItem.leftBarButtonItem = nil
         navigationItem.rightBarButtonItem = UIBarButtonItem(
             image: UIImage(systemName: "gear"),
             style: .done,
@@ -110,7 +110,12 @@ class HomeViewController: UIViewController  {
             action: #selector(didTapSettings)
         )
         navigationController?.navigationBar.tintColor = .label
+        if FirebaseAuth.Auth.auth().currentUser != nil {
+            DispatchQueue.main.async {
+            self.navigationItem.leftBarButtonItem = nil
+        }
     }
+}
     
     @objc private func didTapSettings() {
         let vc = SettingsVC()
