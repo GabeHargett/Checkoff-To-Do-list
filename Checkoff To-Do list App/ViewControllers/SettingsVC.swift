@@ -56,8 +56,6 @@ class SettingsVC: UIViewController {
             DispatchQueue.main.async {
                 let vc = FirebaseAuthVC()
                 self.navigationController?.pushViewController(vc, animated: true)
-                self.navigationItem.leftBarButtonItem = nil
-
         }
     }
         catch{

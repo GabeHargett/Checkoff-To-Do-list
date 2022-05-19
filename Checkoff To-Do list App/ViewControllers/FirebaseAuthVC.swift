@@ -17,12 +17,11 @@ class FirebaseAuthVC: UIViewController {
     
     let baseView = FirebaseAuthView()
 
-
-
-
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        navigationItem.hidesBackButton = true
+
         baseView.button.addTarget(self, action: #selector(didTapButton), for: .touchUpInside)
             }
 
@@ -54,14 +53,6 @@ class FirebaseAuthVC: UIViewController {
                     strongSelf.navigationItem.leftBarButtonItem = nil
 
             }
-//            strongSelf.baseView.label.isHidden = true
-//            strongSelf.baseView.emailField.isHidden = true
-//            strongSelf.baseView.passField.isHidden = true
-//            strongSelf.baseView.button.isHidden = true
-//            strongSelf.baseView.emailField.resignFirstResponder()
-//            strongSelf.baseView.passField.resignFirstResponder()
-//
-
         })
     }
     func showCreateAccount(email: String, password: String) {
@@ -82,13 +73,6 @@ class FirebaseAuthVC: UIViewController {
                     return
                 }
                 print("You have signed in")
-//                strongSelf.baseView.label.isHidden = true
-//                strongSelf.baseView.emailField.isHidden = true
-//                strongSelf.baseView.passField.isHidden = true
-//                strongSelf.baseView.button.isHidden = true
-//                strongSelf.baseView.emailField.resignFirstResponder()
-//                strongSelf.baseView.passField.resignFirstResponder()
-//
             })
         }))
         alert.addAction(UIAlertAction(title: "Cancel",
