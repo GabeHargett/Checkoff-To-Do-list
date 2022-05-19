@@ -23,28 +23,30 @@ class FirebaseAuthView: UIView {
     let emailField = UITextField()
     let passField = UITextField()
     let button = UIButton()
-    let signOutButton = UIButton()
-
-
 
     private func setupUserInputs() {
-        backgroundColor = .systemPurple
+        backgroundColor = .white
         label.textAlignment = .center
         label.text = "Log In"
         label.font = .systemFont(ofSize: 24, weight: .semibold)
+        label.cornerRadius(radius: 8)
+
         
         emailField.placeholder = "Email Address"
         emailField.layer.borderWidth = 1
         emailField.autocapitalizationType = .none
-        emailField.layer.borderColor = UIColor.systemGray4.cgColor
+        emailField.layer.borderColor = UIColor.black.cgColor
         emailField.backgroundColor = .white
         emailField.leftViewMode = .always
         emailField.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 5, height: 0))
+        emailField.cornerRadius(radius: 8)
+
         
         passField.placeholder = "Password"
         passField.layer.borderWidth = 1
+        passField.cornerRadius(radius: 8)
         passField.isSecureTextEntry = true
-        passField.layer.borderColor = UIColor.systemGray4.cgColor
+        passField.layer.borderColor = UIColor.black.cgColor
         passField.backgroundColor = .white
         passField.leftViewMode = .always
         passField.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 5, height: 0))
@@ -53,46 +55,36 @@ class FirebaseAuthView: UIView {
         button.setTitleColor(.black, for: .normal)
         button.setTitle("Continue", for: .normal)
         button.isUserInteractionEnabled = true
-        
-        signOutButton.backgroundColor = .systemGray4
-        signOutButton.setTitleColor(.black, for: .normal)
-        signOutButton.setTitle("Log Out", for: .normal)
-        signOutButton.isUserInteractionEnabled = true
+        button.cornerRadius(radius: 8)
 
-        
+
         addAutoLayoutSubview(button)
         addAutoLayoutSubview(passField)
         addAutoLayoutSubview(emailField)
         addAutoLayoutSubview(label)
-        addAutoLayoutSubview(signOutButton)
                 
         NSLayoutConstraint.activate([
             label.centerXAnchor.constraint(equalTo: centerXAnchor),
             label.centerYAnchor.constraint(equalTo: centerYAnchor,constant: -120),
             label.widthAnchor.constraint(equalToConstant: 400),
-            label.heightAnchor.constraint(equalToConstant: 25),
+            label.heightAnchor.constraint(equalToConstant: 30),
             
             emailField.centerXAnchor.constraint(equalTo: centerXAnchor),
             emailField.centerYAnchor.constraint(equalTo: centerYAnchor,constant: -80),
             emailField.widthAnchor.constraint(equalToConstant: 400),
-            emailField.heightAnchor.constraint(equalToConstant: 25),
+            emailField.heightAnchor.constraint(equalToConstant: 30),
 
             passField.centerXAnchor.constraint(equalTo: centerXAnchor),
             passField.centerYAnchor.constraint(equalTo: centerYAnchor,constant: -40),
             passField.widthAnchor.constraint(equalToConstant: 400),
-            passField.heightAnchor.constraint(equalToConstant: 25),
+            passField.heightAnchor.constraint(equalToConstant: 30),
 
             button.centerXAnchor.constraint(equalTo: centerXAnchor),
             button.centerYAnchor.constraint(equalTo: centerYAnchor),
             button.widthAnchor.constraint(equalToConstant: 400),
-            button.heightAnchor.constraint(equalToConstant: 25),
-            
-            signOutButton.centerXAnchor.constraint(equalTo: centerXAnchor),
-            signOutButton.centerYAnchor.constraint(equalTo: centerYAnchor, constant: 60),
-            signOutButton.widthAnchor.constraint(equalToConstant: 400),
-            signOutButton.heightAnchor.constraint(equalToConstant: 25),
-            
-        ])
+            button.heightAnchor.constraint(equalToConstant: 30),
+            ])
+
 
     }
 }

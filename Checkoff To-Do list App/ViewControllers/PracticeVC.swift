@@ -87,18 +87,3 @@ class BoxWithTwoLabels: UIView {
     
 }
 
-struct WeekAndYear: Equatable {
-    var week: Int
-    var year: Int
-}
-
-class DateAnalyzer {
-    static func getWeekAndYearFromDate(date: Date) -> WeekAndYear? {
-        let allComponents = Calendar.current.dateComponents([.year, .weekOfYear], from: date)
-        guard let weekOfYear = allComponents.weekOfYear,
-              let year = allComponents.year else {
-            return nil
-        }
-        return WeekAndYear(week: weekOfYear, year: year)
-    }
-}

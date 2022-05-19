@@ -16,7 +16,6 @@ class FirebaseAuthVC: UIViewController {
     }
     
     let baseView = FirebaseAuthView()
-    let signOutButton = UIButton()
 
 
 
@@ -25,35 +24,8 @@ class FirebaseAuthVC: UIViewController {
         super.viewDidLoad()
         
         baseView.button.addTarget(self, action: #selector(didTapButton), for: .touchUpInside)
-        
-        if FirebaseAuth.Auth.auth().currentUser != nil {
-            baseView.label.isHidden = true
-            baseView.emailField.isHidden = true
-            baseView.passField.isHidden = true
-            baseView.button.isHidden = true
-            
-            let vc = HomeViewController()
-            navigationController?.pushViewController(vc, animated: true)
-                //lines 35-36 dont't work, after inputting a user and selecting the continue button, it glitches out the log out button making it unable to log out, and isn't able to push to HomeVC
-            
-            baseView.signOutButton.addTarget(self, action: #selector(logOutTapped), for: .touchUpInside)
-        }
-    }
-    @objc private func logOutTapped() {
-        do{
-            try FirebaseAuth.Auth.auth().signOut()
-            baseView.label.isHidden = false
-            baseView.emailField.isHidden = false
-            baseView.passField.isHidden = false
-            baseView.button.isHidden = false
-            
-            baseView.signOutButton.removeFromSuperview()
-        }
-        catch{
-           print("An error occurred")
-        }
-    }
-    
+            }
+
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         if FirebaseAuth.Auth.auth().currentUser == nil {
@@ -67,8 +39,7 @@ class FirebaseAuthVC: UIViewController {
                   return
               }
         FirebaseAuth.Auth.auth().signIn(withEmail: email, password: password, completion: { [weak self] result, error in
-            guard let strongSelf = self else{
-                
+            guard let strongSelf = self else{                
                 return
             }
             guard error == nil else{
@@ -76,13 +47,18 @@ class FirebaseAuthVC: UIViewController {
                 return
             }
             print("You have signed in")
-            strongSelf.baseView.label.isHidden = true
-            strongSelf.baseView.emailField.isHidden = true
-            strongSelf.baseView.passField.isHidden = true
-            strongSelf.baseView.button.isHidden = true
-            strongSelf.baseView.emailField.resignFirstResponder()
-            strongSelf.baseView.passField.resignFirstResponder()
-
+            
+            DispatchQueue.main.async {
+                    let vc = HomeViewController()
+                    strongSelf.navigationController?.pushViewController(vc, animated: true)
+            }
+//            strongSelf.baseView.label.isHidden = true
+//            strongSelf.baseView.emailField.isHidden = true
+//            strongSelf.baseView.passField.isHidden = true
+//            strongSelf.baseView.button.isHidden = true
+//            strongSelf.baseView.emailField.resignFirstResponder()
+//            strongSelf.baseView.passField.resignFirstResponder()
+//
 
         })
     }
@@ -95,7 +71,7 @@ class FirebaseAuthVC: UIViewController {
                                       handler: {_ in
             
             FirebaseAuth.Auth.auth().createUser(withEmail: email, password: password, completion: { [weak self] result, error in
-                guard let strongSelf = self else{
+                guard let _ = self else{
                     
                     return
                 }
@@ -104,13 +80,13 @@ class FirebaseAuthVC: UIViewController {
                     return
                 }
                 print("You have signed in")
-                strongSelf.baseView.label.isHidden = true
-                strongSelf.baseView.emailField.isHidden = true
-                strongSelf.baseView.passField.isHidden = true
-                strongSelf.baseView.button.isHidden = true
-                strongSelf.baseView.emailField.resignFirstResponder()
-                strongSelf.baseView.passField.resignFirstResponder()
-
+//                strongSelf.baseView.label.isHidden = true
+//                strongSelf.baseView.emailField.isHidden = true
+//                strongSelf.baseView.passField.isHidden = true
+//                strongSelf.baseView.button.isHidden = true
+//                strongSelf.baseView.emailField.resignFirstResponder()
+//                strongSelf.baseView.passField.resignFirstResponder()
+//
             })
         }))
         alert.addAction(UIAlertAction(title: "Cancel",

@@ -7,37 +7,14 @@
 
 
 import UIKit
-import SwiftUI
 import Firebase
 
-
-
-struct WeekData {
-
-    var weekNumber: Int
-    var tasks: [WeekTask]
-
-    
-    func allTasksComplete() -> Bool {
-        var allComplete = true
-        for task in tasks {
-            if !task.isComplete {
-                allComplete = false
-            }
-        }
-        return allComplete
-    }
+struct WeekAndYear: Equatable {
+    var week: Int
+    var year: Int
 }
 
-struct WeekTask {
-
-    var title: String
-    var isComplete: Bool
-
-}
-
-struct Task {
-    
+struct Task {    
     let id: String
     var title: String
     var isComplete: Bool
@@ -45,11 +22,7 @@ struct Task {
     let author: String
 }
 
-protocol FirstVCDelegate: AnyObject {
-    func didUpdateData(weekData: WeekData)
-}
-
-class FirstVC: UIViewController {
+class WeeksVC: UIViewController {
     
     private var weekAndYear: WeekAndYear
 
@@ -71,13 +44,8 @@ class FirstVC: UIViewController {
     private var tasks = [Task]()
     var editedTaskIndex: Int?
     
-    
-
-
-    weak var delegate: FirstVCDelegate?
     var isCompleted: Bool?
-  
-    
+      
     required init?(coder aDecoder: NSCoder) { fatalError() }
     
     override func viewDidLoad() {
@@ -95,8 +63,6 @@ class FirstVC: UIViewController {
         
         title = "Tasks: \(weeks)"
         
-        
-        
         tasks.removeAll()
 
         FirebaseAPI.getTasks() {result in
@@ -105,20 +71,14 @@ class FirstVC: UIViewController {
                     let taskDate = Date(timeIntervalSince1970: task.dateStamp)
                     let taskWeekAndYear = DateAnalyzer.getWeekAndYearFromDate(date: taskDate)
                     return self.weekAndYear == taskWeekAndYear
-                                                                    
                 })
                 DispatchQueue.main.async {
                     self.tableView.reloadData()
                 }
             }
         }
-
         tableView.reloadData()
 
-            
-        
-//        let add = UIBarButtonItem(title: "Add Task", style: .done, target: self, action: #selector(addItem))
-//        navigationItem.rightBarButtonItem = add
         navigationItem.rightBarButtonItem = UIBarButtonItem(
             image: UIImage(systemName: "plus"),
             style: .done,
@@ -127,19 +87,15 @@ class FirstVC: UIViewController {
             )
         navigationController?.setToolbarHidden(false, animated: false)
     }
-    
 
-        
-    
     @objc private func addItem() {
         let vc = TextInputVC(textType: .task)
         vc.delegate = self
         vc.showModal(vc: self)
     }
-    
 }
 
-extension FirstVC: TextInputVCDelegate {
+extension WeeksVC: TextInputVCDelegate {
     func didSubmitText(text: String, textType: TextInputVC.TextType, date: Date?) {
         let dateStamp = date?.timeIntervalSince1970 ?? Date().timeIntervalSince1970
         let weekAndYear = DateAnalyzer.getWeekAndYearFromDate(date: Date.init(timeIntervalSince1970: dateStamp))
@@ -159,19 +115,17 @@ extension FirstVC: TextInputVCDelegate {
                               dateStamp: dateStamp,
                               author: "Gabe"))
             }
-            
         }
         tableView.reloadData()
     }
 }
 
-extension FirstVC: CustomTableViewCellDelegate {
+extension WeeksVC: CustomTableViewCellDelegate {
     func didTapPencil(taskIndex: Int) {
         editedTaskIndex = taskIndex
         let vc = TextInputVC(textType: .task)
         vc.delegate = self
         vc.showModal(vc: self)
-
     }
     
     func didCheckBox(taskIndex: Int) {
@@ -180,8 +134,7 @@ extension FirstVC: CustomTableViewCellDelegate {
    }
 }
 
-
-extension FirstVC: UITableViewDataSource, UITableViewDelegate {
+extension WeeksVC: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return tasks.count
     }
@@ -189,28 +142,23 @@ extension FirstVC: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: CustomTableViewCell.identifier,
                                                  for: indexPath) as! CustomTableViewCell
-        
         cell.delegate = self
         cell.taskIndex = indexPath.item
         cell.textLabel?.text = tasks[indexPath.item].title                
         cell.checkbox1.isComplete(isChecked: tasks[indexPath.item].isComplete)
-        
-        
         return cell
     }
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-
-
       if editingStyle == .delete {
         print("Deleted")
           let removeTask = self.tasks.remove(at: indexPath.item)
           self.tableView.deleteRows(at: [indexPath], with: .automatic)
           FirebaseAPI.removeTask(task: removeTask)
-
         }
     }
 }
+
 extension Date {
     func dateString() -> String {
         let dateFormatter = DateFormatter()
@@ -219,6 +167,14 @@ extension Date {
     }
 }
 
-
-
+class DateAnalyzer {
+    static func getWeekAndYearFromDate(date: Date) -> WeekAndYear? {
+        let allComponents = Calendar.current.dateComponents([.year, .weekOfYear], from: date)
+        guard let weekOfYear = allComponents.weekOfYear,
+              let year = allComponents.year else {
+            return nil
+        }
+        return WeekAndYear(week: weekOfYear, year: year)
+    }
+}
 

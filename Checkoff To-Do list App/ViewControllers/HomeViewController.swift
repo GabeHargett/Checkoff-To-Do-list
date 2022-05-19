@@ -29,6 +29,7 @@ class HomeViewController: UIViewController  {
         downloadImage()
         getQuote()
         setUpDidTaps()
+        getAuthor()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -112,7 +113,7 @@ class HomeViewController: UIViewController  {
     }
     
     @objc private func didTapSettings() {
-        let vc = PracticeVC()
+        let vc = SettingsVC()
         navigationController?.pushViewController(vc, animated: true)
     }
         
@@ -176,7 +177,7 @@ class HomeViewController: UIViewController  {
         guard let weekAndYear = DateAnalyzer.getWeekAndYearFromDate(date: Date()) else{
             return
         }
-        let vc = FirstVC(weekAndYear: weekAndYear)
+        let vc = WeeksVC(weekAndYear: weekAndYear)
         navigationController?.pushViewController(vc, animated: true)
     }
     
@@ -185,7 +186,7 @@ class HomeViewController: UIViewController  {
             return
         }
         weekAndYear.week -= 1
-        let vc = FirstVC(weekAndYear: weekAndYear)
+        let vc = WeeksVC(weekAndYear: weekAndYear)
         navigationController?.pushViewController(vc, animated: true)        
     }
 
@@ -194,10 +195,9 @@ class HomeViewController: UIViewController  {
             return
         }
         weekAndYear.week += 1
-        let vc = FirstVC(weekAndYear: weekAndYear)
+        let vc = WeeksVC(weekAndYear: weekAndYear)
         navigationController?.pushViewController(vc, animated: true)
     }
-
 
     @objc private func didTapOtherWeek() {
         let vc = DatePickerVC()
@@ -210,20 +210,18 @@ class HomeViewController: UIViewController  {
             return
         }
         weekAndYear.week -= 1
-        let vc = GoalVC(weekAndYear: weekAndYear)
+        let vc = GoalsVC(weekAndYear: weekAndYear)
         navigationController?.pushViewController(vc, animated: true)
     }
-
     
     @objc private func didTapNextGoalWeek() {
         guard var weekAndYear = DateAnalyzer.getWeekAndYearFromDate(date: Date()) else{
             return
         }
         weekAndYear.week += 1
-        let vc = GoalVC(weekAndYear: weekAndYear)
+        let vc = GoalsVC(weekAndYear: weekAndYear)
         navigationController?.pushViewController(vc, animated: true)
     }
-
 
     @objc private func didTapOtherGoalWeek() {
         let vc = DatePickerVC()
@@ -235,7 +233,7 @@ class HomeViewController: UIViewController  {
         guard let weekAndYear = DateAnalyzer.getWeekAndYearFromDate(date: Date()) else{
             return
         }
-        let vc = GoalVC(weekAndYear: weekAndYear)
+        let vc = GoalsVC(weekAndYear: weekAndYear)
         navigationController?.pushViewController(vc, animated: true)
     }
     
@@ -284,7 +282,6 @@ extension HomeViewController: TextInputVCDelegate {
         case .author:
             baseView.quoteSignature.text = "- " + text
             FirebaseAPI.setAuthor(quote: text)
-            
         }
     }
 }
@@ -313,23 +310,22 @@ extension HomeViewController: UIImagePickerControllerDelegate, UINavigationContr
 
 extension HomeViewController: DatePickerVCDelegate {
     
-func didSubmitDate(date: Date?) {
-    let dateStamp = date?.timeIntervalSince1970 ?? Date().timeIntervalSince1970
-    guard let weekAndYear = DateAnalyzer.getWeekAndYearFromDate(date: Date.init(timeIntervalSince1970: dateStamp)) else {
-      return
-    }
-    let vc = FirstVC(weekAndYear: weekAndYear)
-    navigationController?.pushViewController(vc, animated: true)
-
+    func didSubmitDate(date: Date?) {
+        let dateStamp = date?.timeIntervalSince1970 ?? Date().timeIntervalSince1970
+        guard let weekAndYear = DateAnalyzer.getWeekAndYearFromDate(date: Date.init(timeIntervalSince1970: dateStamp)) else {
+            return
+        }
+        let vc = WeeksVC(weekAndYear: weekAndYear)
+        navigationController?.pushViewController(vc, animated: true)
     }
     
     func didSubmitGoalDate(date: Date?) {
         let dateStamp = date?.timeIntervalSince1970 ?? Date().timeIntervalSince1970
         guard let weekAndYear = DateAnalyzer.getWeekAndYearFromDate(date: Date.init(timeIntervalSince1970: dateStamp)) else {
-          return
+            return
         }
-        let vc = GoalVC(weekAndYear: weekAndYear)
+        let vc = GoalsVC(weekAndYear: weekAndYear)
         navigationController?.pushViewController(vc, animated: true)
-
-        }
+        
+    }
 }

@@ -8,11 +8,12 @@
 
 /* Begin PBXBuildFile section */
 		776B81052822E1F7004BD812 /* DatePickerVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 776B81042822E1F7004BD812 /* DatePickerVC.swift */; };
-		776B8107282AB08A004BD812 /* GoalVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 776B8106282AB08A004BD812 /* GoalVC.swift */; };
+		776B8107282AB08A004BD812 /* GoalsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 776B8106282AB08A004BD812 /* GoalsVC.swift */; };
 		776B810B282B7410004BD812 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 776B810A282B7410004BD812 /* Extensions.swift */; };
 		776B810D282DB91D004BD812 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 776B810C282DB91C004BD812 /* HomeView.swift */; };
 		776B810F28334698004BD812 /* FirebaseAuthView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 776B810E28334698004BD812 /* FirebaseAuthView.swift */; };
 		776B8111283349CB004BD812 /* FirebaseAuthVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 776B8110283349CB004BD812 /* FirebaseAuthVC.swift */; };
+		776B811328360C21004BD812 /* SettingsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 776B811228360C21004BD812 /* SettingsVC.swift */; };
 		778728AF27F42C540060B496 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 778728AE27F42C540060B496 /* AppDelegate.swift */; };
 		778728B127F42C540060B496 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 778728B027F42C540060B496 /* SceneDelegate.swift */; };
 		778728B827F42C560060B496 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 778728B727F42C560060B496 /* Assets.xcassets */; };
@@ -20,7 +21,7 @@
 		778728C327F42D690060B496 /* TextInputVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 778728C227F42D690060B496 /* TextInputVC.swift */; };
 		778728C527F42DB20060B496 /* CustomButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 778728C427F42DB20060B496 /* CustomButton.swift */; };
 		778728C927F42E590060B496 /* CheckBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 778728C827F42E590060B496 /* CheckBox.swift */; };
-		778728CC27F42F3D0060B496 /* FirstVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 778728CB27F42F3D0060B496 /* FirstVC.swift */; };
+		778728CC27F42F3D0060B496 /* WeeksVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 778728CB27F42F3D0060B496 /* WeeksVC.swift */; };
 		778728CF27F434090060B496 /* BottomModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 778728CE27F434090060B496 /* BottomModal.swift */; };
 		778728D327F4382D0060B496 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 778728D227F4382D0060B496 /* HomeViewController.swift */; };
 		778728D527FB934F0060B496 /* ScrollableStackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 778728D427FB934F0060B496 /* ScrollableStackView.swift */; };
@@ -38,11 +39,12 @@
 
 /* Begin PBXFileReference section */
 		776B81042822E1F7004BD812 /* DatePickerVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatePickerVC.swift; sourceTree = "<group>"; };
-		776B8106282AB08A004BD812 /* GoalVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalVC.swift; sourceTree = "<group>"; };
+		776B8106282AB08A004BD812 /* GoalsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalsVC.swift; sourceTree = "<group>"; };
 		776B810A282B7410004BD812 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		776B810C282DB91C004BD812 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		776B810E28334698004BD812 /* FirebaseAuthView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseAuthView.swift; sourceTree = "<group>"; };
 		776B8110283349CB004BD812 /* FirebaseAuthVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseAuthVC.swift; sourceTree = "<group>"; };
+		776B811228360C21004BD812 /* SettingsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsVC.swift; sourceTree = "<group>"; };
 		778728AB27F42C540060B496 /* Checkoff To-Do list App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Checkoff To-Do list App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		778728AE27F42C540060B496 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		778728B027F42C540060B496 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -52,7 +54,7 @@
 		778728C227F42D690060B496 /* TextInputVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextInputVC.swift; sourceTree = "<group>"; };
 		778728C427F42DB20060B496 /* CustomButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomButton.swift; sourceTree = "<group>"; };
 		778728C827F42E590060B496 /* CheckBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckBox.swift; sourceTree = "<group>"; };
-		778728CB27F42F3D0060B496 /* FirstVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirstVC.swift; sourceTree = "<group>"; };
+		778728CB27F42F3D0060B496 /* WeeksVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeeksVC.swift; sourceTree = "<group>"; };
 		778728CE27F434090060B496 /* BottomModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomModal.swift; sourceTree = "<group>"; };
 		778728D227F4382D0060B496 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		778728D427FB934F0060B496 /* ScrollableStackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrollableStackView.swift; sourceTree = "<group>"; };
@@ -79,6 +81,56 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		776B811428360C84004BD812 /* ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				776B8110283349CB004BD812 /* FirebaseAuthVC.swift */,
+				778728D227F4382D0060B496 /* HomeViewController.swift */,
+				778728CB27F42F3D0060B496 /* WeeksVC.swift */,
+				776B8106282AB08A004BD812 /* GoalsVC.swift */,
+				778728C227F42D690060B496 /* TextInputVC.swift */,
+				776B81042822E1F7004BD812 /* DatePickerVC.swift */,
+				776B811228360C21004BD812 /* SettingsVC.swift */,
+				77BE974528198CED0030F39D /* PracticeVC.swift */,
+			);
+			path = ViewControllers;
+			sourceTree = "<group>";
+		};
+		776B811528360CC6004BD812 /* SwiftDelegates */ = {
+			isa = PBXGroup;
+			children = (
+				778728AE27F42C540060B496 /* AppDelegate.swift */,
+				778728B027F42C540060B496 /* SceneDelegate.swift */,
+			);
+			path = SwiftDelegates;
+			sourceTree = "<group>";
+		};
+		776B811628360CDE004BD812 /* VCViews */ = {
+			isa = PBXGroup;
+			children = (
+				776B810E28334698004BD812 /* FirebaseAuthView.swift */,
+				776B810C282DB91C004BD812 /* HomeView.swift */,
+				778728CE27F434090060B496 /* BottomModal.swift */,
+				778728C427F42DB20060B496 /* CustomButton.swift */,
+				77AD87C32810FE9000998DCC /* CustomTableViewCells.swift */,
+				77AD87C02810EF4000998DCC /* CustomCollectionView.swift */,
+				778728C827F42E590060B496 /* CheckBox.swift */,
+				778728D427FB934F0060B496 /* ScrollableStackView.swift */,
+			);
+			path = VCViews;
+			sourceTree = "<group>";
+		};
+		776B811828360D48004BD812 /* SwiftAssets */ = {
+			isa = PBXGroup;
+			children = (
+				778728BC27F42C560060B496 /* Info.plist */,
+				778728E627FF95750060B496 /* GoogleService-Info.plist */,
+				778728B927F42C560060B496 /* LaunchScreen.storyboard */,
+				778728B727F42C560060B496 /* Assets.xcassets */,
+			);
+			path = SwiftAssets;
+			sourceTree = "<group>";
+		};
 		778728A227F42C540060B496 = {
 			isa = PBXGroup;
 			children = (
@@ -98,29 +150,12 @@
 		778728AD27F42C540060B496 /* Checkoff To-Do list App */ = {
 			isa = PBXGroup;
 			children = (
-				778728AE27F42C540060B496 /* AppDelegate.swift */,
-				778728B027F42C540060B496 /* SceneDelegate.swift */,
-				776B810E28334698004BD812 /* FirebaseAuthView.swift */,
-				776B8110283349CB004BD812 /* FirebaseAuthVC.swift */,
-				776B810C282DB91C004BD812 /* HomeView.swift */,
-				778728D227F4382D0060B496 /* HomeViewController.swift */,
-				778728CB27F42F3D0060B496 /* FirstVC.swift */,
-				776B8106282AB08A004BD812 /* GoalVC.swift */,
-				778728C227F42D690060B496 /* TextInputVC.swift */,
-				776B81042822E1F7004BD812 /* DatePickerVC.swift */,
-				778728CE27F434090060B496 /* BottomModal.swift */,
-				778728C427F42DB20060B496 /* CustomButton.swift */,
-				77AD87C32810FE9000998DCC /* CustomTableViewCells.swift */,
-				778728C827F42E590060B496 /* CheckBox.swift */,
-				77AD87C02810EF4000998DCC /* CustomCollectionView.swift */,
-				778728D427FB934F0060B496 /* ScrollableStackView.swift */,
+				776B811828360D48004BD812 /* SwiftAssets */,
+				776B811528360CC6004BD812 /* SwiftDelegates */,
+				776B811428360C84004BD812 /* ViewControllers */,
+				776B811628360CDE004BD812 /* VCViews */,
 				778728E827FF96170060B496 /* FirebaseAPI.swift */,
 				776B810A282B7410004BD812 /* Extensions.swift */,
-				77BE974528198CED0030F39D /* PracticeVC.swift */,
-				778728BC27F42C560060B496 /* Info.plist */,
-				778728E627FF95750060B496 /* GoogleService-Info.plist */,
-				778728B927F42C560060B496 /* LaunchScreen.storyboard */,
-				778728B727F42C560060B496 /* Assets.xcassets */,
 			);
 			path = "Checkoff To-Do list App";
 			sourceTree = "<group>";
@@ -206,15 +241,16 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				778728CC27F42F3D0060B496 /* FirstVC.swift in Sources */,
+				778728CC27F42F3D0060B496 /* WeeksVC.swift in Sources */,
 				778728E927FF96170060B496 /* FirebaseAPI.swift in Sources */,
 				77BE974628198CED0030F39D /* PracticeVC.swift in Sources */,
 				778728AF27F42C540060B496 /* AppDelegate.swift in Sources */,
-				776B8107282AB08A004BD812 /* GoalVC.swift in Sources */,
+				776B8107282AB08A004BD812 /* GoalsVC.swift in Sources */,
 				776B8111283349CB004BD812 /* FirebaseAuthVC.swift in Sources */,
 				776B810D282DB91D004BD812 /* HomeView.swift in Sources */,
 				776B81052822E1F7004BD812 /* DatePickerVC.swift in Sources */,
 				77AD87C12810EF4000998DCC /* CustomCollectionView.swift in Sources */,
+				776B811328360C21004BD812 /* SettingsVC.swift in Sources */,
 				776B810F28334698004BD812 /* FirebaseAuthView.swift in Sources */,
 				778728CF27F434090060B496 /* BottomModal.swift in Sources */,
 				778728D327F4382D0060B496 /* HomeViewController.swift in Sources */,

@@ -17,8 +17,7 @@ struct Goal {
     let author: String
 }
 
-
-class GoalVC: UIViewController {
+class GoalsVC: UIViewController {
     
     private var weekAndYear: WeekAndYear
 
@@ -49,15 +48,12 @@ class GoalVC: UIViewController {
         tableView.fillSuperview()
         tableView.dataSource = self
 
-        
         let sunday = Calendar.current.date(from: DateComponents(calendar: .current, timeZone: .current, era: nil, year: nil, month: nil, day: nil, hour: 12, minute: 0, second: 0, nanosecond: 0, weekday: 1, weekdayOrdinal: nil, quarter: nil, weekOfMonth: nil, weekOfYear: weekAndYear.week, yearForWeekOfYear: weekAndYear.year))
         let saturday = Calendar.current.date(from: DateComponents(calendar: .current, timeZone: .current, era: nil, year: nil, month: nil, day: nil, hour: 12, minute: 0, second: 0, nanosecond: 0, weekday: 7, weekdayOrdinal: nil, quarter: nil, weekOfMonth: nil, weekOfYear: weekAndYear.week, yearForWeekOfYear: weekAndYear.year))
         
         let weeks = "\(sunday!.dateString()) - \(saturday!.dateString())"
         
         title = "Goals: \(weeks)"
-        
-        
         
         goals.removeAll()
 
@@ -67,7 +63,6 @@ class GoalVC: UIViewController {
                     let goalDate = Date(timeIntervalSince1970: goal.dateStamp)
                     let goalWeekAndYear = DateAnalyzer.getWeekAndYearFromDate(date: goalDate)
                     return self.weekAndYear == goalWeekAndYear
-                                                                    
                 })
                 DispatchQueue.main.async {
                     self.tableView.reloadData()
@@ -85,16 +80,14 @@ class GoalVC: UIViewController {
         navigationController?.setToolbarHidden(false, animated: false)
     }
     
-
     @objc private func addItem() {
         let vc = TextInputVC(textType: .goal)
         vc.delegate = self
         vc.showModal(vc: self)
     }
-    
 }
 
-extension GoalVC: TextInputVCDelegate {
+extension GoalsVC: TextInputVCDelegate {
     func didSubmitText(text: String, textType: TextInputVC.TextType, date: Date?) {
         let dateStamp = date?.timeIntervalSince1970 ?? Date().timeIntervalSince1970
         let weekAndYear = DateAnalyzer.getWeekAndYearFromDate(date: Date.init(timeIntervalSince1970: dateStamp))
@@ -113,23 +106,21 @@ extension GoalVC: TextInputVCDelegate {
                               dateStamp: dateStamp,
                               author: "Gabe"))
             }
-            
         }
         tableView.reloadData()
     }
 }
 
-extension GoalVC: GoalTableViewCellDelegate {
+extension GoalsVC: GoalTableViewCellDelegate {
     func didTapPencil(goalIndex: Int) {
         editedGoalIndex = goalIndex
         let vc = TextInputVC(textType: .goal)
         vc.delegate = self
         vc.showModal(vc: self)
-
     }
-
 }
-extension GoalVC: UITableViewDataSource, UITableViewDelegate {
+
+extension GoalsVC: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return goals.count
     }
@@ -137,12 +128,9 @@ extension GoalVC: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: GoalTableViewCell.identifier,
                                                  for: indexPath) as! GoalTableViewCell
-        
         cell.delegate = self
         cell.goalIndex = indexPath.item
         cell.textLabel?.text = goals[indexPath.item].goal
-        
-        
         return cell
     }
     

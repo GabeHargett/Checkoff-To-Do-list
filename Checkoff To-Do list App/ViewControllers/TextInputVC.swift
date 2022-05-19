@@ -13,8 +13,6 @@ protocol TextInputVCDelegate: AnyObject {
     func didSubmitText(text: String, textType: TextInputVC.TextType, date: Date?)
 }
 
-
-
 class TextInputVC: UIViewController {
     
     enum TextType {

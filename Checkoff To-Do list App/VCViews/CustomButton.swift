@@ -99,7 +99,7 @@ class CustomButton: UIControl {
         color = .black
         
         stackView.layoutMargins = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
-        spacing = 8
+        spacing = 200
         
         imageView.contentMode = .scaleAspectFit
         

@@ -185,7 +185,7 @@ class HomeView: UIView {
         quoteButton.layoutMargins = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
         quoteButton.isUserInteractionEnabled = true
 
-        quoteLabel.textAlignment = .left
+        quoteLabel.textAlignment = .center
         quoteLabel.numberOfLines = 0
         quoteLabel.font = UIFont.systemFont(ofSize: 20)
 
