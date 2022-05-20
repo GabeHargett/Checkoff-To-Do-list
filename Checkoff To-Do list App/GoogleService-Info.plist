@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>36096302322-pt8aru76i75ujdbs5uve5j9a286ulhc5.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.36096302322-pt8aru76i75ujdbs5uve5j9a286ulhc5</string>
+	<key>API_KEY</key>
+	<string>AIzaSyAjG-oX5nzjSJGq92oKFj7itWUmKjWbnzQ</string>
+	<key>GCM_SENDER_ID</key>
+	<string>36096302322</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>GabeHargett.Checkoff-To-Do-list-App</string>
+	<key>PROJECT_ID</key>
+	<string>couple-todo-list</string>
+	<key>STORAGE_BUCKET</key>
+	<string>couple-todo-list.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:36096302322:ios:3b55e9742194db47ef846b</string>
+	<key>DATABASE_URL</key>
+	<string>https://couple-todo-list-default-rtdb.firebaseio.com</string>
+</dict>
+</plist>
