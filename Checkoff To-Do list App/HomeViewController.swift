@@ -6,9 +6,11 @@
 //
 import Firebase
 import UIKit
-import nanopb
 
-
+struct Quote {
+    var quote:String
+    var author:String
+}
 
 class HomeViewController: UIViewController  {
     
