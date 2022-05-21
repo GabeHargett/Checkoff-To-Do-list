@@ -8,6 +8,7 @@ import Firebase
 import UIKit
 
 struct Quote {
+    let id: String
     var quote:String
     var author:String
 }
@@ -19,10 +20,10 @@ class HomeViewController: UIViewController  {
     }
     
     let baseView = HomeView()
-    private var goals = [Goal]()
-    public let date = Date()    
-    var editedGoalIndex: Int?
-
+    public let date = Date()
+    private var quotes = [Quote]()
+    var editedQuoteAndAuthor: Int?
+    
     override func viewDidLoad(){
         super.viewDidLoad()
                 
@@ -31,9 +32,7 @@ class HomeViewController: UIViewController  {
 
         configureBackground()
         downloadImage()
-        getQuote()
         setUpDidTaps()
-        getAuthor()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -72,37 +71,46 @@ class HomeViewController: UIViewController  {
         }
     }
     
-    private func getQuote() {
-        FirebaseAPI.getQuote() {result in
-            DispatchQueue.main.async {
-                if let quote =  result {
-                    self.baseView.quoteLabel.text =  "\"" + quote + "\""
-                    self.baseView.quoteButton.isHidden = true
-                } else {
-                    self.baseView.quoteButton.isHidden = false
-                }
-            }
-        }
-    }
+//    private func getQuoteInfo() {
+//        FirebaseAPI.getQuoteInfo() {result in
+//            DispatchQueue.main.async {
+//                if let quote = result {
+//                    let _ = quote.filter({quote in
+//                        let quote = quote.quote
+//                        self.baseView.quoteLabel.text =  "\"" + quote + "\""
+//                        self.baseView.quoteButton.isHidden = true
+//                        return
+//                   })
+//                }
+//                if let author = result {
+//                    let _ = author.filter({author in
+//                        let author = author.author
+//                        self.baseView.quoteSignature.text = "- " + author
+//                        return
+//                   })
+//                }
+//            }
+//        }
+//    }
     
-    private func getAuthor() {
-        FirebaseAPI.getAuthor() {result in
-            DispatchQueue.main.async {
-                if let author =  result {
-                    self.baseView.quoteSignature.text = "- " + author
-                }
-            }
-        }
-    }
-    private func getGoals() {
-        FirebaseAPI.getGoals() {result in
-            if let goals = result {
-                self.goals = goals
-                DispatchQueue.main.async {
-                }
-            }
-        }
-    }
+//    private func getAuthor() {
+//        FirebaseAPI.getAuthor() {result in
+//            DispatchQueue.main.async {
+//                if let author =  result {
+//                    self.baseView.quoteSignature.text = "- " + author
+//                }
+//            }
+//        }
+//    }
+//    private func getGoals() {
+//        FirebaseAPI.getGoals() {result in
+//            if let goals = result {
+//                self.goals = goals
+//                DispatchQueue.main.async {
+//                }
+//            }
+//        }
+//    }
 
     private func configureBackground() {
         view.backgroundColor = .white
@@ -262,32 +270,37 @@ class HomeViewController: UIViewController  {
 extension HomeViewController: TextInputVCDelegate {
     func didSubmitText(text: String, textType: TextInputVC.TextType, date: Date?) {
         
-        if let editedGoalIndex = editedGoalIndex {
-            goals[editedGoalIndex].goal = text
-            FirebaseAPI.editGoal(goal: goals[editedGoalIndex])
-            self.editedGoalIndex = nil
-            return
-        }
+//        if let editedQuoteAndAuthor = editedQuoteAndAuthor {
+//            quotes[editedQuoteAndAuthor].quote = text
+//            quotes[editedQuoteAndAuthor].author = text
+//            FirebaseAPI.setQuote(quote: quotes[editedQuoteAndAuthor])
+//            FirebaseAPI.setAuthor(quote: quotes[editedQuoteAndAuthor])
+//            self.editedQuoteAndAuthor = nil
+//            return
+//        }
 
         switch textType {
             
         case .quote:
             baseView.quoteLabel.text =  "\"" + text + "\""
             baseView.quoteButton.isHidden = true
-                let vc = TextInputVC(textType: .author)
+            let vc = TextInputVC(textType: .author)
             vc.delegate = self
             vc.showModal(vc: self)
-            FirebaseAPI.setQuote(quote: text)
+            quotes.append(Quote(id: "", quote: text, author: text))
+            FirebaseAPI.setQuote(quote: Quote(id: "", quote: text, author: text))
         case .goal:
             break
        case .task:
             break
         case .author:
             baseView.quoteSignature.text = "- " + text
-            FirebaseAPI.setAuthor(quote: text)
+            quotes.append(Quote(id: "", quote: text, author: text))
+            FirebaseAPI.setAuthor(quote: Quote(id: "", quote: text, author: text))
         }
     }
 }
+
 
 extension HomeViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info:
