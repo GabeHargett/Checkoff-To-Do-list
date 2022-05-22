@@ -22,7 +22,7 @@ class HomeViewController: UIViewController  {
     let baseView = HomeView()
     public let date = Date()
     private var quotes = [Quote]()
-    var editedQuoteAndAuthor: Int?
+    var quoteAndAuthor: Int?
     
     override func viewDidLoad(){
         super.viewDidLoad()
@@ -72,58 +72,27 @@ class HomeViewController: UIViewController  {
         }
     }
     
-//    private func getQuoteInfo() {
-//        FirebaseAPI.getQuoteInfo() {result in
-//            DispatchQueue.main.async {
-//                if let quote = result {
-//                    let _ = quote.filter({quote in
-//                        let quote = quote.quote
-//                        self.baseView.quoteLabel.text =  "\"" + quote + "\""
-//                        self.baseView.quoteButton.isHidden = true
-//                        return true
-//                   })
-//                }
-//                if let author = result {
-//                    let _ = author.filter({author in
-//                        let author = author.author
-//                        self.baseView.quoteSignature.text = "- " + author
-//                        return true
-//                   })
-//                }
-//            }
-//        }
-//    }
-//        private func getQuoteInfo() {
-//            FirebaseAPI.getQuoteInfo() {result in
-//                if let quotes = result {
-//                    self.quotes = quotes.quote
-//                    DispatchQueue.main.async {
-//                        self.baseView.quoteLabel.text =  "\"" + quote + "\""
-//                        self.baseView.quoteButton.isHidden = true
-//                    }
-//                }
-//            }
-//        }
-    
-//    private func getQuoteInfo() {
-//        FirebaseAPI.getQuoteInfo() {result in
-//            DispatchQueue.main.async {
-//                if let author =  result {
-//                   let author = quotes.author
-//                    self.baseView.quoteSignature.text = "- " + author
-//                }
-//            }
-//        }
-//    }
-//    private func getGoals() {
-//        FirebaseAPI.getGoals() {result in
-//            if let goals = result {
-//                self.goals = goals
-//                DispatchQueue.main.async {
-//                }
-//            }
-//        }
-//    }
+    private func getQuoteInfo() {
+        FirebaseAPI.getQuoteInfo() {result in
+            DispatchQueue.main.async {
+                if let quote = result {
+                    let _ = quote.filter({quote in
+                        let quote = quote.quote
+                        self.baseView.quoteLabel.text =  "\"" + quote + "\""
+                        self.baseView.quoteButton.isHidden = true
+                        return true
+                   })
+                }
+                if let author = result {
+                    let _ = author.filter({author in
+                        let author = author.author
+                        self.baseView.quoteSignature.text = "- " + author
+                        return true
+                   })
+                }
+            }
+        }
+    }
 
     private func configureBackground() {
         view.backgroundColor = .white
@@ -295,22 +264,22 @@ extension HomeViewController: TextInputVCDelegate {
         switch textType {
             
         case .quote:
-//            baseView.quoteLabel.text =  "\"" + text + "\""
-//            baseView.quoteButton.isHidden = true
+            baseView.quoteLabel.text =  "\"" + text + "\""
+            baseView.quoteButton.isHidden = true
             let vc = TextInputVC(textType: .author)
             vc.delegate = self
             vc.showModal(vc: self)
             quotes.append(Quote(id: "", quote: text, author: text))
-            FirebaseAPI.setQuote(quote: Quote(id: "", quote: text, author: text))
+            FirebaseAPI.addQuote(quote: Quote(id: "", quote: text, author: ""))
         case .goal:
             break
        case .task:
             break
         case .author:
-//            baseView.quoteSignature.text = "- " + text
-//            quotes.append(Quote(id: "", quote: text, author: text))
+            baseView.quoteSignature.text = "- " + text
             quotes.append(Quote(id: "", quote: text, author: text))
-            FirebaseAPI.setAuthor(quote: Quote(id: "", quote: text, author: text))
+            FirebaseAPI.addQuote(quote: Quote(id: "", quote: text, author: text))
+
         }
     }
 }

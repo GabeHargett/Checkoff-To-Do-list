@@ -16,43 +16,16 @@ class FirebaseAPI {
     let storage = Storage.storage().reference()
 
     
-//    static func setQuote(quote: String) {
-//        let ref = Database.database().reference().child("Quote")
-//        ref.setValue(quote)
-//    }
-//
-//    static func getQuote(completion: @escaping (String?) -> ()) {
-//        let ref = Database.database().reference().child("Quote")
-//        ref.observeSingleEvent(of: .value, with: { (snapshot) in
-//            if let quote = snapshot.value as? String {
-//                completion(quote)
-//            } else {
-//                completion(nil)
-//            }
-//
-//        }, withCancel: {error in
-//            completion(nil)
-//        })
-//    }
-//    static func addQuote(quote: Quote) -> String? {
-//        let ref = Database.database().reference().child("Quote").childByAutoId()
-//        ref.setValue(["quote": quote.quote, "author": quote.author])
-//        return ref.key
-//    }
+    static func addQuote(quote: Quote) -> String? {
+        let ref = Database.database().reference().child("Quote").childByAutoId()
+        ref.setValue(["quote": quote.quote, "author": quote.author])
+        return ref.key
+    }
     static func setAuthor(quote: Quote) {
         let ref = Database.database().reference().child("Quote").child(quote.id).child("author")
         ref.setValue(quote.author)
     }
-//    static func setAuthor(quote: Quote) {
-//        let ref = Database.database().reference().child("Author")
-//        ref.setValue(quote.author)
-//    }
-//    static func setQuote(quote: Quote) {
-//        let ref = Database.database().reference().child("Quote")
-//        ref.setValue(quote.author)
-//    }
 
-    
     static func setQuote(quote: Quote) {
         let ref = Database.database().reference().child("Quote").child(quote.id).child("quote")
         ref.setValue(quote.quote)
@@ -76,25 +49,6 @@ class FirebaseAPI {
             completion(nil)
         })
     }
-    
-//    static func setAuthor(quote: String) {
-//        let ref = Database.database().reference().child("Author")
-//        ref.setValue(quote)
-//    }
-//
-//    static func getAuthor(completion: @escaping (String?) -> ()) {
-//        let ref = Database.database().reference().child("Author")
-//        ref.observeSingleEvent(of: .value, with: { (snapshot) in
-//            if let quote = snapshot.value as? String {
-//                completion(quote)
-//            } else {
-//                completion(nil)
-//            }
-//
-//        }, withCancel: {error in
-//            completion(nil)
-//        })
-//    }
     
     static func addGoal(goal: Goal) -> String? {
         let ref = Database.database().reference().child("Goals").childByAutoId()
