@@ -270,7 +270,7 @@ extension HomeViewController: TextInputVCDelegate {
             vc.delegate = self
             vc.showModal(vc: self)
             quotes.append(Quote(id: "", quote: text, author: text))
-            FirebaseAPI.addQuote(quote: Quote(id: "", quote: text, author: ""))
+            FirebaseAPI.addQuote(quote: Quote(id: "", quote: text, author: text))
         case .goal:
             break
        case .task:
