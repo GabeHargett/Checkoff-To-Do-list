@@ -43,6 +43,15 @@ class FirebaseAPI {
         let ref = Database.database().reference().child("Quote").child(quote.id).child("author")
         ref.setValue(quote.author)
     }
+//    static func setAuthor(quote: Quote) {
+//        let ref = Database.database().reference().child("Author")
+//        ref.setValue(quote.author)
+//    }
+//    static func setQuote(quote: Quote) {
+//        let ref = Database.database().reference().child("Quote")
+//        ref.setValue(quote.author)
+//    }
+
     
     static func setQuote(quote: Quote) {
         let ref = Database.database().reference().child("Quote").child(quote.id).child("quote")

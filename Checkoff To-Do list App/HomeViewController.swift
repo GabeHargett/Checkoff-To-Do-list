@@ -33,6 +33,7 @@ class HomeViewController: UIViewController  {
         configureBackground()
         downloadImage()
         setUpDidTaps()
+        getQuoteInfo()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -79,24 +80,36 @@ class HomeViewController: UIViewController  {
 //                        let quote = quote.quote
 //                        self.baseView.quoteLabel.text =  "\"" + quote + "\""
 //                        self.baseView.quoteButton.isHidden = true
-//                        return
+//                        return true
 //                   })
 //                }
 //                if let author = result {
 //                    let _ = author.filter({author in
 //                        let author = author.author
 //                        self.baseView.quoteSignature.text = "- " + author
-//                        return
+//                        return true
 //                   })
 //                }
 //            }
 //        }
 //    }
+//        private func getQuoteInfo() {
+//            FirebaseAPI.getQuoteInfo() {result in
+//                if let quotes = result {
+//                    self.quotes = quotes.quote
+//                    DispatchQueue.main.async {
+//                        self.baseView.quoteLabel.text =  "\"" + quote + "\""
+//                        self.baseView.quoteButton.isHidden = true
+//                    }
+//                }
+//            }
+//        }
     
-//    private func getAuthor() {
-//        FirebaseAPI.getAuthor() {result in
+//    private func getQuoteInfo() {
+//        FirebaseAPI.getQuoteInfo() {result in
 //            DispatchQueue.main.async {
 //                if let author =  result {
+//                   let author = quotes.author
 //                    self.baseView.quoteSignature.text = "- " + author
 //                }
 //            }
@@ -270,20 +283,20 @@ class HomeViewController: UIViewController  {
 extension HomeViewController: TextInputVCDelegate {
     func didSubmitText(text: String, textType: TextInputVC.TextType, date: Date?) {
         
-//        if let editedQuoteAndAuthor = editedQuoteAndAuthor {
-//            quotes[editedQuoteAndAuthor].quote = text
-//            quotes[editedQuoteAndAuthor].author = text
-//            FirebaseAPI.setQuote(quote: quotes[editedQuoteAndAuthor])
-//            FirebaseAPI.setAuthor(quote: quotes[editedQuoteAndAuthor])
-//            self.editedQuoteAndAuthor = nil
+//        if let quoteAndAuthor = quoteAndAuthor {
+//            quotes[quoteAndAuthor].quote = text
+//            quotes[quoteAndAuthor].author = text
+//            FirebaseAPI.setQuote(quote: quotes[quoteAndAuthor])
+//            FirebaseAPI.setAuthor(quote: quotes[quoteAndAuthor])
+//            self.quoteAndAuthor = nil
 //            return
 //        }
 
         switch textType {
             
         case .quote:
-            baseView.quoteLabel.text =  "\"" + text + "\""
-            baseView.quoteButton.isHidden = true
+//            baseView.quoteLabel.text =  "\"" + text + "\""
+//            baseView.quoteButton.isHidden = true
             let vc = TextInputVC(textType: .author)
             vc.delegate = self
             vc.showModal(vc: self)
@@ -294,7 +307,8 @@ extension HomeViewController: TextInputVCDelegate {
        case .task:
             break
         case .author:
-            baseView.quoteSignature.text = "- " + text
+//            baseView.quoteSignature.text = "- " + text
+//            quotes.append(Quote(id: "", quote: text, author: text))
             quotes.append(Quote(id: "", quote: text, author: text))
             FirebaseAPI.setAuthor(quote: Quote(id: "", quote: text, author: text))
         }
