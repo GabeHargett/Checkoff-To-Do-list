@@ -265,23 +265,15 @@ class HomeViewController: UIViewController  {
 
 extension HomeViewController: TextInputVCDelegate {
     func didSubmitText(text: String, textType: TextInputVC.TextType, date: Date?) {
-
-        if let editQuotes = editQuotes {
-            quotes[editQuotes].quote = text
-            FirebaseAPI.editQuote(quote: quotes[editQuotes])
-            self.editQuotes = nil
-            if let editAuthors = editAuthors {
-                authors[editAuthors].author = text
-                FirebaseAPI.editAuthor(author: authors[editAuthors])
-                self.editAuthors = nil
-            }
-            return
-        }
         
 
         switch textType {
             
         case .quote:
+            if baseView.quoteLabel.text != nil {
+                
+            }
+            else {
             baseView.quoteLabel.text =  "\"" + text + "\""
             baseView.quoteButton.isHidden = true
             let vc = TextInputVC(textType: .author)
@@ -289,7 +281,7 @@ extension HomeViewController: TextInputVCDelegate {
             vc.showModal(vc: self)
             quotes.append(Quote(id: "", quote: text))
             FirebaseAPI.addQuote(quote: Quote(id: "", quote: text))
-            
+            };()
         case .goal:
             break
        case .task:
