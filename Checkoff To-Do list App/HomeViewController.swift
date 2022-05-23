@@ -271,26 +271,38 @@ extension HomeViewController: TextInputVCDelegate {
             
         case .quote:
             if baseView.quoteLabel.text != nil {
-                
+                baseView.quoteLabel.text =  "\"" + text + "\""
+                baseView.quoteButton.isHidden = true
+                let vc = TextInputVC(textType: .author)
+                vc.delegate = self
+                vc.showModal(vc: self)
+                quotes.append(Quote(id: "", quote: text))
+                FirebaseAPI.editQuote(quote: Quote(id: "", quote: text))
             }
             else {
-            baseView.quoteLabel.text =  "\"" + text + "\""
-            baseView.quoteButton.isHidden = true
-            let vc = TextInputVC(textType: .author)
-            vc.delegate = self
-            vc.showModal(vc: self)
-            quotes.append(Quote(id: "", quote: text))
-            FirebaseAPI.addQuote(quote: Quote(id: "", quote: text))
+                baseView.quoteLabel.text =  "\"" + text + "\""
+                baseView.quoteButton.isHidden = true
+                let vc = TextInputVC(textType: .author)
+                vc.delegate = self
+                vc.showModal(vc: self)
+                quotes.append(Quote(id: "", quote: text))
+                FirebaseAPI.addQuote(quote: Quote(id: "", quote: text))
             };()
         case .goal:
             break
-       case .task:
+        case .task:
             break
         case .author:
+            if baseView.quoteSignature.text != nil {
+                baseView.quoteSignature.text = "- " + text
+                authors.append(Author(id: "", author: text))
+                FirebaseAPI.editAuthor(author: Author(id: "", author: text))
+            }
+            else {
             baseView.quoteSignature.text = "- " + text
             authors.append(Author(id: "", author: text))
             FirebaseAPI.addAuthor(author: Author(id: "", author: text))
-
+            }
         }
     }
 }
