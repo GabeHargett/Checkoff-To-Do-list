@@ -8,14 +8,13 @@ import Firebase
 import UIKit
 
 struct Quote {
-    let id: String
-    var quote:String
-
+    var text: String
+    var author: String
 }
-struct Author {
-    let id: String
-    var author:String
-}
+//struct Author {
+//    let id: String
+//    var author:String
+//}
 
 class HomeViewController: UIViewController  {
     
@@ -25,10 +24,9 @@ class HomeViewController: UIViewController  {
     
     let baseView = HomeView()
     public let date = Date()
-    private var quotes = [Quote]()
-    private var authors = [Author]()
-    var editQuotes: Int?
-    var editAuthors: Int?
+    private var temporaryQuote: Quote?
+//    var editQuotes: Int?
+//    var editAuthors: Int?
     
     override func viewDidLoad(){
         super.viewDidLoad()
@@ -40,7 +38,6 @@ class HomeViewController: UIViewController  {
         downloadImage()
         setUpDidTaps()
         getQuote()
-        getAuthor()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -83,30 +80,31 @@ class HomeViewController: UIViewController  {
         FirebaseAPI.getQuote() {result in
             DispatchQueue.main.async {
                 if let quote = result {
-                    let _ = quote.filter({quote in
-                        let quote = quote.quote
-                        self.baseView.quoteLabel.text =  "\"" + quote + "\""
-                        self.baseView.quoteButton.isHidden = true
-                        return true
-                   })
+                    self.updateQuoteButton(quote: quote)
                 }
             }
         }
     }
     
-    private func getAuthor() {
-        FirebaseAPI.getAuthor() {result in
-            DispatchQueue.main.async {
-                if let author = result {
-                    let _ = author.filter({author in
-                        let author = author.author
-                        self.baseView.quoteSignature.text = "- " + author
-                        return true
-                   })
-                }
-            }
-        }
+    private func updateQuoteButton(quote: Quote) {
+        self.baseView.quoteLabel.text =  "\"" + quote.text + "\""
+        self.baseView.quoteButton.isHidden = true
+        self.baseView.quoteSignature.text = "- " + quote.author
     }
+    
+//    private func getAuthor() {
+//        FirebaseAPI.getAuthor() {result in
+//            DispatchQueue.main.async {
+//                if let author = result {
+//                    let _ = author.filter({author in
+//                        let author = author.author
+//                        self.baseView.quoteSignature.text = "- " + author
+//                        return true
+//                   })
+//                }
+//            }
+//        }
+//    }
 
     private func configureBackground() {
         view.backgroundColor = .white
@@ -270,38 +268,19 @@ extension HomeViewController: TextInputVCDelegate {
         switch textType {
             
         case .quote:
-            if baseView.quoteLabel.text != nil {
-                baseView.quoteLabel.text =  "\"" + text + "\""
-                baseView.quoteButton.isHidden = true
-                let vc = TextInputVC(textType: .author)
-                vc.delegate = self
-                vc.showModal(vc: self)
-                quotes.append(Quote(id: "", quote: text))
-                FirebaseAPI.editQuote(quote: Quote(id: "", quote: text))
-            }
-            else {
-                baseView.quoteLabel.text =  "\"" + text + "\""
-                baseView.quoteButton.isHidden = true
-                let vc = TextInputVC(textType: .author)
-                vc.delegate = self
-                vc.showModal(vc: self)
-                quotes.append(Quote(id: "", quote: text))
-                FirebaseAPI.addQuote(quote: Quote(id: "", quote: text))
-            };()
+            self.temporaryQuote = Quote(text: text, author: "")
+            let vc = TextInputVC(textType: .author)
+            vc.delegate = self
+            vc.showModal(vc: self)
         case .goal:
             break
         case .task:
             break
         case .author:
-            if baseView.quoteSignature.text != nil {
-                baseView.quoteSignature.text = "- " + text
-                authors.append(Author(id: "", author: text))
-                FirebaseAPI.editAuthor(author: Author(id: "", author: text))
-            }
-            else {
-            baseView.quoteSignature.text = "- " + text
-            authors.append(Author(id: "", author: text))
-            FirebaseAPI.addAuthor(author: Author(id: "", author: text))
+            if var temporaryQuote = temporaryQuote {
+                temporaryQuote.author = text
+                updateQuoteButton(quote: temporaryQuote)
+                FirebaseAPI.addQuote(quotePoop: temporaryQuote)
             }
         }
     }
