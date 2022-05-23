@@ -10,6 +10,10 @@ import UIKit
 struct Quote {
     let id: String
     var quote:String
+
+}
+struct Author {
+    let id: String
     var author:String
 }
 
@@ -22,7 +26,9 @@ class HomeViewController: UIViewController  {
     let baseView = HomeView()
     public let date = Date()
     private var quotes = [Quote]()
-    var quoteAndAuthor: Int?
+    private var authors = [Author]()
+    var editQuotes: Int?
+    var editAuthors: Int?
     
     override func viewDidLoad(){
         super.viewDidLoad()
@@ -33,7 +39,8 @@ class HomeViewController: UIViewController  {
         configureBackground()
         downloadImage()
         setUpDidTaps()
-        getQuoteInfo()
+        getQuote()
+        getAuthor()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -72,8 +79,8 @@ class HomeViewController: UIViewController  {
         }
     }
     
-    private func getQuoteInfo() {
-        FirebaseAPI.getQuoteInfo() {result in
+    private func getQuote() {
+        FirebaseAPI.getQuote() {result in
             DispatchQueue.main.async {
                 if let quote = result {
                     let _ = quote.filter({quote in
@@ -83,6 +90,13 @@ class HomeViewController: UIViewController  {
                         return true
                    })
                 }
+            }
+        }
+    }
+    
+    private func getAuthor() {
+        FirebaseAPI.getAuthor() {result in
+            DispatchQueue.main.async {
                 if let author = result {
                     let _ = author.filter({author in
                         let author = author.author
@@ -251,15 +265,19 @@ class HomeViewController: UIViewController  {
 
 extension HomeViewController: TextInputVCDelegate {
     func didSubmitText(text: String, textType: TextInputVC.TextType, date: Date?) {
+
+        if let editQuotes = editQuotes {
+            quotes[editQuotes].quote = text
+            FirebaseAPI.editQuote(quote: quotes[editQuotes])
+            self.editQuotes = nil
+            if let editAuthors = editAuthors {
+                authors[editAuthors].author = text
+                FirebaseAPI.editAuthor(author: authors[editAuthors])
+                self.editAuthors = nil
+            }
+            return
+        }
         
-//        if let quoteAndAuthor = quoteAndAuthor {
-//            quotes[quoteAndAuthor].quote = text
-//            quotes[quoteAndAuthor].author = text
-//            FirebaseAPI.setQuote(quote: quotes[quoteAndAuthor])
-//            FirebaseAPI.setAuthor(quote: quotes[quoteAndAuthor])
-//            self.quoteAndAuthor = nil
-//            return
-//        }
 
         switch textType {
             
@@ -269,16 +287,17 @@ extension HomeViewController: TextInputVCDelegate {
             let vc = TextInputVC(textType: .author)
             vc.delegate = self
             vc.showModal(vc: self)
-            quotes.append(Quote(id: "", quote: text, author: text))
-            FirebaseAPI.addQuote(quote: Quote(id: "", quote: text, author: text))
+            quotes.append(Quote(id: "", quote: text))
+            FirebaseAPI.addQuote(quote: Quote(id: "", quote: text))
+            
         case .goal:
             break
        case .task:
             break
         case .author:
             baseView.quoteSignature.text = "- " + text
-            quotes.append(Quote(id: "", quote: text, author: text))
-            FirebaseAPI.addQuote(quote: Quote(id: "", quote: text, author: text))
+            authors.append(Author(id: "", author: text))
+            FirebaseAPI.addAuthor(author: Author(id: "", author: text))
 
         }
     }

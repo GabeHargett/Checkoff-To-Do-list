@@ -18,33 +18,54 @@ class FirebaseAPI {
     
     static func addQuote(quote: Quote) -> String? {
         let ref = Database.database().reference().child("Quote").childByAutoId()
-        ref.setValue(["quote": quote.quote, "author": quote.author])
+        ref.setValue(["quote": quote.quote])
         return ref.key
     }
-    static func setAuthor(quote: Quote) {
-        let ref = Database.database().reference().child("Quote").child(quote.id).child("author")
-        ref.setValue(quote.author)
-    }
 
-    static func setQuote(quote: Quote) {
+    static func editQuote(quote: Quote) {
         let ref = Database.database().reference().child("Quote").child(quote.id).child("quote")
         ref.setValue(quote.quote)
     }
  
-    static func getQuoteInfo(completion: @escaping ([Quote]?) -> ()) {
+    static func getQuote(completion: @escaping ([Quote]?) -> ()) {
         let ref = Database.database().reference().child("Quote")
         ref.observeSingleEvent(of: .value, with: { (snapshot) in
             var quotes = [Quote]()
             for child in snapshot.children.allObjects as! [DataSnapshot] {
                 if let value = child.value as? [String: Any] {
-                    if let quote = value["quote"] as? String,
-                       let author = value["author"] as? String {
-                        quotes.append(Quote(id:child.key, quote: quote, author: author))
+                    if let quote = value["quote"] as? String {
+                        quotes.append(Quote(id:child.key, quote: quote))
                     }
                 }
             }
             completion(quotes)
 
+        }, withCancel: {error in
+            completion(nil)
+        })
+    }
+    static func addAuthor(author: Author) -> String? {
+        let ref = Database.database().reference().child("Author").childByAutoId()
+        ref.setValue(["author": author.author])
+        return ref.key
+    }
+    static func editAuthor(author: Author) {
+        let ref = Database.database().reference().child("Author").child(author.id).child("author")
+        ref.setValue(author.author)
+    }
+ 
+    static func getAuthor(completion: @escaping ([Author]?) -> ()) {
+        let ref = Database.database().reference().child("Author")
+        ref.observeSingleEvent(of: .value, with: { (snapshot) in
+            var authors = [Author]()
+            for child in snapshot.children.allObjects as! [DataSnapshot] {
+                if let value = child.value as? [String: Any] {
+                       if let author = value["author"] as? String {
+                        authors.append(Author(id:child.key, author: author))
+                    }
+                }
+            }
+            completion(authors)
         }, withCancel: {error in
             completion(nil)
         })
