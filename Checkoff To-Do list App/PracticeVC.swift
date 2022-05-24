@@ -7,83 +7,43 @@
 
 import UIKit
 
-class PracticeVC: UIViewController {
-    
-    private let boxWithLabel = BoxWithLabel()
-    private let boxWithTwoLabels = BoxWithTwoLabels()
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-//        let weekAndYear = DateAnalyzer.getWeekAndYearFromDate(date: Date())
-//        print(weekAndYear)
-//        let sunday = Calendar.current.date(from: DateComponents(calendar: .current, timeZone: .current, era: nil, year: nil, month: nil, day: nil, hour: 12, minute: 0, second: 0, nanosecond: 0, weekday: 1, weekdayOrdinal: nil, quarter: nil, weekOfMonth: nil, weekOfYear: weekAndYear!.week, yearForWeekOfYear: weekAndYear!.year))
-//        let saturday = Calendar.current.date(from: DateComponents(calendar: .current, timeZone: .current, era: nil, year: nil, month: nil, day: nil, hour: 12, minute: 0, second: 0, nanosecond: 0, weekday: 7, weekdayOrdinal: nil, quarter: nil, weekOfMonth: nil, weekOfYear: weekAndYear!.week, yearForWeekOfYear: weekAndYear!.year))
-//        print(sunday?.timeIntervalSince1970)
-//        
-        setupBoxes()
+class Practice {
+    static func startPractice() {
+        let answer = twoSum(nums: [2,7,11,15], target: 9)
+        print("The answer of two sum qeustion is \(answer)")
+        // Should print [0,1]
     }
     
-    private func setupBoxes() {
-        let stack = UIStackView()
-        stack.axis = .vertical
-        stack.distribution = .fillEqually
-        view.addAutoLayoutSubview(stack)
-        stack.fillSuperview()
-        stack.addArrangedSubviews([boxWithLabel, boxWithTwoLabels])
-        boxWithLabel.changeText(text: "tanners cool")
-        boxWithTwoLabels.setStackViewSpacing(spacing: 30)
+//    Given an array of integers nums and an integer target, return indices of the two numbers such that they add up to target.
+//
+//    You may assume that each input would have exactly one solution, and you may not use the same element twice.
+//
+//    You can return the answer in any order.
+    
+//    Example 1:
+//
+//    Input: nums = [2,7,11,15], target = 9
+//    Output: [0,1]
+//    Explanation: Because nums[0] + nums[1] == 9, we return [0, 1].
+//    Example 2:
+//
+//    Input: nums = [3,2,4], target = 6
+//    Output: [1,2]
+//    Example 3:
+//
+//    Input: nums = [3,3], target = 6
+//    Output: [0,1]
+//
+//
+//    Constraints:
+//
+//    2 <= nums.length <= 104
+//    -109 <= nums[i] <= 109
+//    -109 <= target <= 109
+//    Only one valid answer exists.
+    
+    static private func twoSum(nums: [Int], target: Int) -> [Int] {
+        return []
     }
-    
-}
-
-class BoxWithLabel: UIView {
-    
-    private let label = UILabel()
-    
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        
-        backgroundColor = .white
-        
-        addAutoLayoutSubview(label)
-        label.centerInSuperview()
-        label.text = "I'm a label"
-    }
-    func changeText(text: String) {
-        label.text = text
-    }
-    
-    required init?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
-    }
-    
-}
-
-class BoxWithTwoLabels: UIView {
-    
-    private let stack = UIStackView()
-    private let leftLabel = UILabel()
-    private let rightLabel = UILabel()
-    
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        
-        backgroundColor = .white
-        
-        addAutoLayoutSubview(stack)
-        stack.centerInSuperview()
-        leftLabel.text = "I'm a left label"
-        rightLabel.text = "I'm a right label"
-        stack.addArrangedSubviews([leftLabel, rightLabel])
-    }
-    func setStackViewSpacing(spacing: CGFloat) {
-        stack.spacing = spacing
-    }
-    
-    required init?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
-    }
-    
 }
 
