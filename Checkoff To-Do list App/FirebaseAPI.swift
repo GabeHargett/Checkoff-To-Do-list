@@ -8,7 +8,26 @@
 import Firebase
 import UIKit
 
+struct FullName {
+    var firstName: String
+    var lastName: String
+    
+    func firstAndLastInitial() -> String {
+        var string = ""
+        string.append(firstName + " ")
+        if let lastFirst = lastName.first {
+            string.append(lastFirst)
+            string.append(".")
+        }
+        return string
+    }
+}
 
+struct User {
+    var id: String
+    var fullName: FullName
+    var dateJoined: Double
+}
 
 
 class FirebaseAPI {
@@ -63,6 +82,25 @@ class FirebaseAPI {
 //            completion(nil)
 //        })
 //    }
+    static func addUser(user: User) {
+        let ref = Database.database().reference().child("Users").child(user.id)
+        ref.setValue(["fullName": ["firstName": user.fullName.firstName, "lastName": user.fullName.lastName], "dateJoined": user.dateJoined])
+    }
+    
+    static func getFullName(uid: String, completion: @escaping (FullName?) -> ()) {
+        let ref = Database.database().reference().child("Users").child(uid).child("fullName")
+        ref.observeSingleEvent(of: .value, with: { (snapshot) in
+            
+            if let fullNameDict = snapshot.value as? [String: Any], let firstName = fullNameDict["firstName"] as? String, let lastName = fullNameDict["lastName"] as? String {
+                completion(FullName(firstName: firstName, lastName: lastName))
+            } else {
+                completion(nil)
+            }
+
+        }, withCancel: {error in
+            completion(nil)
+        })
+    }
     
     static func addGoal(goal: Goal) -> String? {
         let ref = Database.database().reference().child("Goals").childByAutoId()

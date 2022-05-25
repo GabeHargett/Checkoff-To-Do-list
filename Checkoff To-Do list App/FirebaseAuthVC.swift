@@ -72,6 +72,11 @@ class FirebaseAuthVC: UIViewController {
                     print("Account creation failed")
                     return
                 }
+                guard let result = result else {
+                    return
+                }
+                let newUser = User(id: result.user.uid, fullName: FullName(firstName: "cool", lastName: "man"), dateJoined: Date().timeIntervalSince1970)
+                FirebaseAPI.addUser(user: newUser)
                 print("You have signed in")
             })
         }))

@@ -88,6 +88,9 @@ class GoalsVC: UIViewController {
 
 extension GoalsVC: TextInputVCDelegate {
     func didSubmitText(text: String, textType: TextInputVC.TextType, date: Date?) {
+        guard let uid = Auth.auth().currentUser?.uid else {
+            return
+        }
         let dateStamp = date?.timeIntervalSince1970 ?? Date().timeIntervalSince1970
         let weekAndYear = DateAnalyzer.getWeekAndYearFromDate(date: Date.init(timeIntervalSince1970: dateStamp))
         if let editedGoalIndex = editedGoalIndex {
@@ -98,12 +101,12 @@ extension GoalsVC: TextInputVCDelegate {
             let id = FirebaseAPI.addGoal(goal: Goal(id: "",
                                                     goal: text,
                                                     dateStamp: dateStamp,
-                                                    author: "Gabe"))
+                                                    author: uid))
             if self.weekAndYear == weekAndYear {
                 goals.append(Goal(id: id!,
                               goal: text,
                               dateStamp: dateStamp,
-                              author: "Gabe"))
+                              author: uid))
             }
         }
         tableView.reloadData()
@@ -129,7 +132,14 @@ extension GoalsVC: UITableViewDataSource, UITableViewDelegate {
                                                  for: indexPath) as! GoalTableViewCell
         cell.delegate = self
         cell.goalIndex = indexPath.item
-        cell.textLabel?.text = goals[indexPath.item].goal
+        cell.textLabel?.numberOfLines = 0
+        FirebaseAPI.getFullName(uid: goals[indexPath.item].author) {result in
+            if let fullName = result {
+                cell.textLabel?.text = self.goals[indexPath.item].goal + "\n\n" + fullName.firstName
+            }
+        }
+        cell.textLabel?.text = goals[indexPath.item].goal + "\n\n" + goals[indexPath.item].author
+        cell.contentView.height(constant: 100)
         return cell
     }
     
@@ -144,5 +154,6 @@ extension GoalsVC: UITableViewDataSource, UITableViewDelegate {
 
         }
     }
+
 }
 
