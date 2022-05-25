@@ -12,9 +12,11 @@ import UIKit
 
 
 class FirebaseAPI {
+
+
+
     
     let storage = Storage.storage().reference()
-
     
     static func addQuote(quotePoop: Quote) {
         let ref = Database.database().reference().child("Quote")

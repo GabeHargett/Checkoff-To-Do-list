@@ -11,10 +11,6 @@ struct Quote {
     var text: String
     var author: String
 }
-//struct Author {
-//    let id: String
-//    var author:String
-//}
 
 class HomeViewController: UIViewController  {
     
@@ -25,8 +21,8 @@ class HomeViewController: UIViewController  {
     let baseView = HomeView()
     public let date = Date()
     private var temporaryQuote: Quote?
-//    var editQuotes: Int?
-//    var editAuthors: Int?
+    var handle: AuthStateDidChangeListenerHandle?
+    var user: User?
     
     override func viewDidLoad(){
         super.viewDidLoad()
@@ -92,20 +88,6 @@ class HomeViewController: UIViewController  {
         self.baseView.quoteSignature.text = "- " + quote.author
     }
     
-//    private func getAuthor() {
-//        FirebaseAPI.getAuthor() {result in
-//            DispatchQueue.main.async {
-//                if let author = result {
-//                    let _ = author.filter({author in
-//                        let author = author.author
-//                        self.baseView.quoteSignature.text = "- " + author
-//                        return true
-//                   })
-//                }
-//            }
-//        }
-//    }
-
     private func configureBackground() {
         view.backgroundColor = .white
         navigationItem.rightBarButtonItem = UIBarButtonItem(

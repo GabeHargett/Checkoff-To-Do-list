@@ -9,9 +9,11 @@ import UIKit
 
 class Practice {
     static func startPractice() {
-        let answer = twoSum(nums: [2,7,11,15], target: 9)
+        let answer = twoSum(nums: [2,7,11,15], target: 17)
+        
         print("The answer of two sum qeustion is \(answer)")
         // Should print [0,1]
+        
     }
     
 //    Given an array of integers nums and an integer target, return indices of the two numbers such that they add up to target.
@@ -43,7 +45,22 @@ class Practice {
 //    Only one valid answer exists.
     
     static private func twoSum(nums: [Int], target: Int) -> [Int] {
-        return []
+        var answer = [Int]()
+        var numberInArray: Int?
+        for (index, num) in nums.enumerated() {
+            if let temporaryNumber = numberInArray {
+                if (num + temporaryNumber) == target {
+                    answer.append(index)
+                }
+                else{
+                    numberInArray = num
+                }
+            }
+            else {
+                numberInArray = num
+            }
+        }
+        return answer
     }
 }
 
