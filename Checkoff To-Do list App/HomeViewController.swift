@@ -34,6 +34,7 @@ class HomeViewController: UIViewController  {
         downloadImage()
         setUpDidTaps()
         getQuote()
+        Practice.startPractice()
     }
     
     override func viewDidAppear(_ animated: Bool) {

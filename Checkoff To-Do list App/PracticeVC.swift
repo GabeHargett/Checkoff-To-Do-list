@@ -45,22 +45,16 @@ class Practice {
 //    Only one valid answer exists.
     
     static private func twoSum(nums: [Int], target: Int) -> [Int] {
-        var answer = [Int]()
-        var numberInArray: Int?
-        for (index, num) in nums.enumerated() {
-            if let temporaryNumber = numberInArray {
-                if (num + temporaryNumber) == target {
-                    answer.append(index)
+        for index1 in 0..<nums.count-1 {
+            let leftNumber = index1
+            for index2 in 0..<nums.count{
+            let rightNumber = index2
+                if nums[leftNumber] + nums[rightNumber] == target {
+                    return [leftNumber, rightNumber]
                 }
-                else{
-                    numberInArray = num
-                }
-            }
-            else {
-                numberInArray = num
             }
         }
-        return answer
+        return []
     }
 }
 
