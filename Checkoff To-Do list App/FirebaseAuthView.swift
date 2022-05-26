@@ -22,12 +22,14 @@ class FirebaseAuthView: UIView {
     let label = UILabel()
     let emailField = UITextField()
     let passField = UITextField()
+    var firstNameTF = UITextField()
+    var lastNameTF = UITextField()
     let button = UIButton()
 
     private func setupUserInputs() {
         backgroundColor = .white
         label.textAlignment = .center
-        label.text = "Log In"
+        label.text = "Log In/Create Account"
         label.font = .systemFont(ofSize: 24, weight: .semibold)
         label.cornerRadius(radius: 8)
 
@@ -51,6 +53,24 @@ class FirebaseAuthView: UIView {
         passField.leftViewMode = .always
         passField.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 5, height: 0))
         
+        firstNameTF.placeholder = "First Name"
+        firstNameTF.layer.borderWidth = 1
+        firstNameTF.cornerRadius(radius: 8)
+        firstNameTF.isSecureTextEntry = true
+        firstNameTF.layer.borderColor = UIColor.black.cgColor
+        firstNameTF.backgroundColor = .white
+        firstNameTF.leftViewMode = .always
+        firstNameTF.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 5, height: 0))
+        
+        lastNameTF.placeholder = "Password"
+        lastNameTF.layer.borderWidth = 1
+        lastNameTF.cornerRadius(radius: 8)
+        lastNameTF.isSecureTextEntry = true
+        lastNameTF.layer.borderColor = UIColor.black.cgColor
+        lastNameTF.backgroundColor = .white
+        lastNameTF.leftViewMode = .always
+        lastNameTF.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 5, height: 0))
+
         button.backgroundColor = .systemGray4
         button.setTitleColor(.black, for: .normal)
         button.setTitle("Continue", for: .normal)
@@ -61,6 +81,8 @@ class FirebaseAuthView: UIView {
         addAutoLayoutSubview(button)
         addAutoLayoutSubview(passField)
         addAutoLayoutSubview(emailField)
+        addAutoLayoutSubview(firstNameTF)
+        addAutoLayoutSubview(lastNameTF)
         addAutoLayoutSubview(label)
                 
         NSLayoutConstraint.activate([
@@ -78,9 +100,19 @@ class FirebaseAuthView: UIView {
             passField.centerYAnchor.constraint(equalTo: centerYAnchor,constant: -40),
             passField.widthAnchor.constraint(equalToConstant: 400),
             passField.heightAnchor.constraint(equalToConstant: 30),
+            
+            firstNameTF.centerXAnchor.constraint(equalTo: centerXAnchor),
+            firstNameTF.centerYAnchor.constraint(equalTo: centerYAnchor),
+            firstNameTF.widthAnchor.constraint(equalToConstant: 400),
+            firstNameTF.heightAnchor.constraint(equalToConstant: 30),
+
+            lastNameTF.centerXAnchor.constraint(equalTo: centerXAnchor),
+            lastNameTF.centerYAnchor.constraint(equalTo: centerYAnchor,constant: +40),
+            lastNameTF.widthAnchor.constraint(equalToConstant: 400),
+            lastNameTF.heightAnchor.constraint(equalToConstant: 30),
 
             button.centerXAnchor.constraint(equalTo: centerXAnchor),
-            button.centerYAnchor.constraint(equalTo: centerYAnchor),
+            button.centerYAnchor.constraint(equalTo: centerYAnchor, constant: +80),
             button.widthAnchor.constraint(equalToConstant: 400),
             button.heightAnchor.constraint(equalToConstant: 30),
             ])

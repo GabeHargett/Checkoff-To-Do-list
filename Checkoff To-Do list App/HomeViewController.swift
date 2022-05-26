@@ -21,8 +21,6 @@ class HomeViewController: UIViewController  {
     let baseView = HomeView()
     public let date = Date()
     private var temporaryQuote: Quote?
-    var handle: AuthStateDidChangeListenerHandle?
-    var user: User?
     
     override func viewDidLoad(){
         super.viewDidLoad()
@@ -263,7 +261,7 @@ extension HomeViewController: TextInputVCDelegate {
             if var temporaryQuote = temporaryQuote {
                 temporaryQuote.author = text
                 updateQuoteButton(quote: temporaryQuote)
-                FirebaseAPI.addQuote(quotePoop: temporaryQuote)
+                FirebaseAPI.addQuote(quote: temporaryQuote)
             }
         }
     }

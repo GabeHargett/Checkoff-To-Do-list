@@ -31,15 +31,12 @@ struct User {
 
 
 class FirebaseAPI {
-
-
-
     
     let storage = Storage.storage().reference()
     
-    static func addQuote(quotePoop: Quote) {
+    static func addQuote(quote: Quote) {
         let ref = Database.database().reference().child("Quote")
-        ref.setValue(["quote": quotePoop.text, "author": quotePoop.author])
+        ref.setValue(["quote": quote.text, "author": quote.author])
     }
  
     static func getQuote(completion: @escaping (Quote?) -> ()) {

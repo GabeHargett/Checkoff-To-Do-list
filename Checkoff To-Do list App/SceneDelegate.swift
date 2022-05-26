@@ -30,8 +30,17 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             window.rootViewController = nav
             self.window = window
             window.makeKeyAndVisible()
-
         }
+        //        else {
+        //
+        //            let vc = FirebaseAuthVC()
+        //            let nav = UINavigationController(rootViewController: vc)
+        //            window.rootViewController = nav
+        //            self.window = window
+        //            window.makeKeyAndVisible()
+        //
+        //        }
+
 //        nav.navigationBar.prefersLargeTitles = true
      }
 
