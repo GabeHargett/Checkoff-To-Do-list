@@ -38,26 +38,26 @@ class FirebaseAuthVC: UIViewController {
               let firstName = baseView.firstNameTF.text, !firstName.isEmpty,
               let lastName = baseView.lastNameTF.text, !lastName.isEmpty
         else {
-                  print("Missing data")
-                  return
-              }
+            print("Missing data")
+            return
+        }
         FirebaseAuth.Auth.auth().signIn(withEmail: email, password: password, completion: { [weak self] result, error in
-            guard let strongSelf = self else{                
+            guard let strongSelf = self else{
                 return
             }
             guard error == nil else{
                 let fullName = FullName(firstName: firstName, lastName: lastName)
                 strongSelf.showCreateAccount(email: email, password: password, fullname: fullName)
-
+                
                 return
             }
             print("You have signed in")
             
             DispatchQueue.main.async {
-                    let vc = HomeViewController()
-                    strongSelf.navigationController?.pushViewController(vc, animated: true)
-                    strongSelf.navigationItem.leftBarButtonItem = nil
-
+                let vc = HomeViewController()
+                strongSelf.navigationController?.pushViewController(vc, animated: true)
+                strongSelf.navigationItem.leftBarButtonItem = nil
+                
             }
         })
     }
@@ -70,14 +70,7 @@ class FirebaseAuthVC: UIViewController {
                                       handler: {_ in
             
             FirebaseAuth.Auth.auth().createUser(withEmail: email, password: password, completion: { [weak self] result, error in
-                guard let firstName = self.baseView.firstNameTF.text,
-                      let lastName = baseView.lastNameTF.text,
-                else {
-                          print("Error")
-                          return
-                      }
-
-                guard let _ = self else{
+                guard let strongSelf = self else{
                     
                     return
                 }
@@ -88,11 +81,13 @@ class FirebaseAuthVC: UIViewController {
                 guard let result = result else {
                     return
                 }
-//                let firstName = baseView.firstNameTF.text,
-//                let lastName = baseView.lastNameTF.text,
-                let fullName = FullName(firstName: firstName, lastName: lastName)
                 let newUser = User(id: result.user.uid, fullName: fullname, dateJoined: Date().timeIntervalSince1970)
                 FirebaseAPI.addUser(user: newUser)
+                DispatchQueue.main.async {
+                    let vc = HomeViewController()
+                    strongSelf.navigationController?.pushViewController(vc, animated: true)
+                    strongSelf.navigationItem.leftBarButtonItem = nil
+                }
                 print("You have signed in")
             })
         }))
