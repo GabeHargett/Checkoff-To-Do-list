@@ -9,7 +9,7 @@ import UIKit
 
 class Practice {
     static func startPractice() {
-        let answer = twoSum(nums: [2,7,11,15], target: 17)
+        let answer = twoSum(nums: [4,3,3], target: 6)
         
         print("The answer of two sum qeustion is \(answer)")
         // Should print [0,1]
@@ -47,7 +47,7 @@ class Practice {
     static private func twoSum(nums: [Int], target: Int) -> [Int] {
         for index1 in 0..<nums.count-1 {
             let leftNumber = index1
-            for index2 in 0..<nums.count{
+            for index2 in index1+1..<nums.count-1{
             let rightNumber = index2
                 if nums[leftNumber] + nums[rightNumber] == target {
                     return [leftNumber, rightNumber]
