@@ -14,24 +14,38 @@ class FirebaseAuthView: UIView {
         super.init(frame: frame)
 
     setupUserInputs()
+    segmentedControl.addTarget(self, action: #selector(segmentedControlLogIn), for: .valueChanged)
+
     }
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
+    let segmentedControl = UISegmentedControl(items: ["Log In", "Register"])
     let label = UILabel()
     let emailField = UITextField()
     let passField = UITextField()
     var firstNameTF = UITextField()
     var lastNameTF = UITextField()
     let button = UIButton()
-
+    
+    
+    
+    @objc private func segmentedControlLogIn() {
+        if segmentedControl.selectedSegmentIndex == 0 {
+            firstNameTF.isHidden = true
+            lastNameTF.isHidden = true
+        }
+        else {
+            firstNameTF.isHidden = false
+            lastNameTF.isHidden = false
+        }
+    }
     private func setupUserInputs() {
+        segmentedControl.selectedSegmentIndex = 0
         backgroundColor = .white
-        label.textAlignment = .center
-        label.text = "Log In/Create Account"
-        label.font = .systemFont(ofSize: 24, weight: .semibold)
-        label.cornerRadius(radius: 8)
+        firstNameTF.isHidden = true
+        lastNameTF.isHidden = true
 
         
         emailField.placeholder = "Email Address"
@@ -56,16 +70,14 @@ class FirebaseAuthView: UIView {
         firstNameTF.placeholder = "First Name"
         firstNameTF.layer.borderWidth = 1
         firstNameTF.cornerRadius(radius: 8)
-        firstNameTF.isSecureTextEntry = true
         firstNameTF.layer.borderColor = UIColor.black.cgColor
         firstNameTF.backgroundColor = .white
         firstNameTF.leftViewMode = .always
         firstNameTF.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 5, height: 0))
         
-        lastNameTF.placeholder = "Password"
+        lastNameTF.placeholder = "Last Name"
         lastNameTF.layer.borderWidth = 1
         lastNameTF.cornerRadius(radius: 8)
-        lastNameTF.isSecureTextEntry = true
         lastNameTF.layer.borderColor = UIColor.black.cgColor
         lastNameTF.backgroundColor = .white
         lastNameTF.leftViewMode = .always
@@ -77,19 +89,20 @@ class FirebaseAuthView: UIView {
         button.isUserInteractionEnabled = true
         button.cornerRadius(radius: 8)
 
-
+        addAutoLayoutSubview(segmentedControl)
         addAutoLayoutSubview(button)
         addAutoLayoutSubview(passField)
         addAutoLayoutSubview(emailField)
         addAutoLayoutSubview(firstNameTF)
         addAutoLayoutSubview(lastNameTF)
-        addAutoLayoutSubview(label)
+//        addAutoLayoutSubview(label)
                 
         NSLayoutConstraint.activate([
-            label.centerXAnchor.constraint(equalTo: centerXAnchor),
-            label.centerYAnchor.constraint(equalTo: centerYAnchor,constant: -120),
-            label.widthAnchor.constraint(equalToConstant: 400),
-            label.heightAnchor.constraint(equalToConstant: 30),
+            
+            segmentedControl.centerXAnchor.constraint(equalTo: centerXAnchor),
+            segmentedControl.centerYAnchor.constraint(equalTo: centerYAnchor,constant: -120),
+            segmentedControl.widthAnchor.constraint(equalToConstant: 400),
+            segmentedControl.heightAnchor.constraint(equalToConstant: 30),
             
             emailField.centerXAnchor.constraint(equalTo: centerXAnchor),
             emailField.centerYAnchor.constraint(equalTo: centerYAnchor,constant: -80),

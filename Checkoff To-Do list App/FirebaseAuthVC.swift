@@ -33,6 +33,33 @@ class FirebaseAuthVC: UIViewController {
         }
     }
     @objc private func didTapButton() {
+        if baseView.segmentedControl.selectedSegmentIndex == 0 {
+            signIn()
+        }
+        else{
+            register()
+        }
+    }
+    private func signIn() {
+        guard let email = baseView.emailField.text, !email.isEmpty,
+              let password = baseView.passField.text, !password.isEmpty
+        else {
+            print("Missing data")
+            return
+        }
+        FirebaseAuth.Auth.auth().signIn(withEmail: email, password: password, completion: { [weak self] result, error in
+            guard let strongSelf = self else{
+                return
+            }
+            DispatchQueue.main.async {
+                let vc = HomeViewController()
+                strongSelf.navigationController?.pushViewController(vc, animated: true)
+                strongSelf.navigationItem.leftBarButtonItem = nil
+                
+            }
+        })
+    }
+    private func register() {
         guard let email = baseView.emailField.text, !email.isEmpty,
               let password = baseView.passField.text, !password.isEmpty,
               let firstName = baseView.firstNameTF.text, !firstName.isEmpty,

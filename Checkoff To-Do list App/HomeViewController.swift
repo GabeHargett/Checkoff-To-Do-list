@@ -62,8 +62,17 @@ class HomeViewController: UIViewController  {
     }
     
     private func downloadImage() {
+        if let data = UserDefaults.standard.data(forKey: "homeImage") {
+            let image = UIImage.init(data: data)
+            self.baseView.couplePhoto.image = image
+            self.baseView.couplePhoto.isHidden = false
+            self.baseView.imageAddButton.isHidden = true
+        }
         FirebaseAPI.downloadImage() {
             image in self.baseView.couplePhoto.image = image
+            if let data = image?.jpegData(compressionQuality: 0.7) {
+                UserDefaults.standard.set(data, forKey: "homeImage")
+            }
             UIView.animate(withDuration: 0.5, animations: {
                 self.baseView.couplePhoto.isHidden = false
                 self.baseView.imageAddButton.isHidden = true
