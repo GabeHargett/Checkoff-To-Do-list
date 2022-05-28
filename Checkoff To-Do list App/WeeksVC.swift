@@ -143,9 +143,7 @@ extension WeeksVC: UITableViewDataSource, UITableViewDelegate {
         let cell = tableView.dequeueReusableCell(withIdentifier: CustomTableViewCell.identifier,
                                                  for: indexPath) as! CustomTableViewCell
         cell.delegate = self
-        cell.taskIndex = indexPath.item
-        cell.textLabel?.text = tasks[indexPath.item].title                
-        cell.checkbox1.isComplete(isChecked: tasks[indexPath.item].isComplete)
+        cell.configureCell(task: tasks[indexPath.item])
         return cell
     }
     

@@ -59,7 +59,18 @@ class CustomTableViewCell: UITableViewCell {
         let gesture1 = UITapGestureRecognizer(target: self, action: #selector(didTapTableViewPencil))
         myImageView.addGestureRecognizer(gesture1)
     }
-    
+    func configureCell(task: Task) {
+        self.textLabel?.numberOfLines = 0
+        FirebaseAPI.getFullName(uid: task.author) {result in
+            if let fullName = result {
+                self.textLabel?.text = task.title + "\n\n" + fullName.firstName
+            }
+        }
+        self.textLabel?.text = task.title
+        self.checkbox1.isComplete(isChecked: task.isComplete)
+        contentView.height(constant: 100)
+        return
+    }
     @objc func didTapCheckBox() {
         checkbox1.toggle()
         if let taskIndex = taskIndex {
@@ -125,7 +136,17 @@ class GoalTableViewCell: UITableViewCell {
         let gesture1 = UITapGestureRecognizer(target: self, action: #selector(didTapTableViewPencil))
         myImageView.addGestureRecognizer(gesture1)
     }
-    
+    func configureCell(goal: Goal) {
+        self.textLabel?.numberOfLines = 0
+        FirebaseAPI.getFullName(uid: goal.author) {result in
+            if let fullName = result {
+                self.textLabel?.text = goal.goal + "\n\n" + fullName.firstName
+            }
+        }
+        self.textLabel?.text = goal.goal
+        contentView.height(constant: 100)
+        return
+    }
     
     @objc func didTapTableViewPencil() {
         if let goalIndex = goalIndex {

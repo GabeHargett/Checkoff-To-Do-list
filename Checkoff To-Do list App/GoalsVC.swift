@@ -131,15 +131,7 @@ extension GoalsVC: UITableViewDataSource, UITableViewDelegate {
         let cell = tableView.dequeueReusableCell(withIdentifier: GoalTableViewCell.identifier,
                                                  for: indexPath) as! GoalTableViewCell
         cell.delegate = self
-        cell.goalIndex = indexPath.item
-        cell.textLabel?.numberOfLines = 0
-        FirebaseAPI.getFullName(uid: goals[indexPath.item].author) {result in
-            if let fullName = result {
-                cell.textLabel?.text = self.goals[indexPath.item].goal + "\n\n" + fullName.firstName
-            }
-        }
-        cell.textLabel?.text = goals[indexPath.item].goal + "\n\n" + goals[indexPath.item].author
-        cell.contentView.height(constant: 100)
+        cell.configureCell(goal: goals[indexPath.item])
         return cell
     }
     
