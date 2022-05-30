@@ -195,7 +195,7 @@ class HomeViewController: UIViewController  {
     }
 
     @objc private func didTapOtherWeek() {
-        let vc = DatePickerVC()
+        let vc = DatePickerVC(goalType: .task)
         vc.delegate = self
         navigationController?.pushViewController(vc, animated: true)
     }
@@ -219,7 +219,7 @@ class HomeViewController: UIViewController  {
     }
 
     @objc private func didTapOtherGoalWeek() {
-        let vc = DatePickerVC()
+        let vc = DatePickerVC(goalType: .goal)
         vc.delegate = self
         navigationController?.pushViewController(vc, animated: true)
     }

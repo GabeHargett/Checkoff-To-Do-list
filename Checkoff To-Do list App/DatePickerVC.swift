@@ -13,9 +13,27 @@ protocol DatePickerVCDelegate: AnyObject {
 }
 
 class DatePickerVC: UIViewController {
+    
+    enum GoalType {
+        case goal
+        case task
+    }
+    
+    private let goalType: GoalType
+
     private let datePicker = UIDatePicker()
     private let submitButton = UIButton()
     weak var delegate: DatePickerVCDelegate?
+    
+    init(goalType: GoalType) {
+        self.goalType = goalType
+        super.init(nibName: nil, bundle: nil)
+        }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
 
     
     override func viewDidLoad() {
@@ -67,7 +85,14 @@ class DatePickerVC: UIViewController {
 
     
     @objc private func didSubmit() {
-        self.delegate?.didSubmitDate(date: self.datePicker.date)
+        
+        switch goalType {
+        case .goal:
+            self.delegate?.didSubmitGoalDate(date: self.datePicker.date)
+
+        case .task:
+            self.delegate?.didSubmitDate(date: self.datePicker.date)
+        }
     }
     
     @objc func updateDate() {

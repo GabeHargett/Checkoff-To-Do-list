@@ -138,6 +138,8 @@ class TextInputVC: UIViewController {
         if let text = textField.text {
             self.dismiss(animated: true) {
                 self.delegate?.didSubmitText(text: text, textType: self.textType, date: self.datePicker.date)
+                
+                
             }
         }
     }
