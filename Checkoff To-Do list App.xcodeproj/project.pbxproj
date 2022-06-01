@@ -34,6 +34,7 @@
 		77A0C040283818D8000AC40E /* SettingsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77A0C03F283818D8000AC40E /* SettingsVC.swift */; };
 		77AD87C12810EF4000998DCC /* CustomCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77AD87C02810EF4000998DCC /* CustomCollectionView.swift */; };
 		77AD87C42810FE9000998DCC /* CustomTableViewCells.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77AD87C32810FE9000998DCC /* CustomTableViewCells.swift */; };
+		77B573382847E8F7009EBDCF /* MonoColorSchemes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77B573372847E8F7009EBDCF /* MonoColorSchemes.swift */; };
 		77BE974628198CED0030F39D /* PracticeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77BE974528198CED0030F39D /* PracticeVC.swift */; };
 /* End PBXBuildFile section */
 
@@ -62,6 +63,7 @@
 		77A0C03F283818D8000AC40E /* SettingsVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsVC.swift; sourceTree = "<group>"; };
 		77AD87C02810EF4000998DCC /* CustomCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomCollectionView.swift; sourceTree = "<group>"; };
 		77AD87C32810FE9000998DCC /* CustomTableViewCells.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTableViewCells.swift; sourceTree = "<group>"; };
+		77B573372847E8F7009EBDCF /* MonoColorSchemes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonoColorSchemes.swift; sourceTree = "<group>"; };
 		77BE974528198CED0030F39D /* PracticeVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PracticeVC.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -115,15 +117,16 @@
 				77A0C03F283818D8000AC40E /* SettingsVC.swift */,
 				778728C427F42DB20060B496 /* CustomButton.swift */,
 				778728C827F42E590060B496 /* CheckBox.swift */,
-				77AD87C02810EF4000998DCC /* CustomCollectionView.swift */,
 				778728D427FB934F0060B496 /* ScrollableStackView.swift */,
 				778728E827FF96170060B496 /* FirebaseAPI.swift */,
 				776B810A282B7410004BD812 /* Extensions.swift */,
+				77B573372847E8F7009EBDCF /* MonoColorSchemes.swift */,
 				77BE974528198CED0030F39D /* PracticeVC.swift */,
 				778728BC27F42C560060B496 /* Info.plist */,
 				778728E627FF95750060B496 /* GoogleService-Info.plist */,
 				778728B927F42C560060B496 /* LaunchScreen.storyboard */,
 				778728B727F42C560060B496 /* Assets.xcassets */,
+				77AD87C02810EF4000998DCC /* CustomCollectionView.swift */,
 			);
 			path = "Checkoff To-Do list App";
 			sourceTree = "<group>";
@@ -226,6 +229,7 @@
 				778728C327F42D690060B496 /* TextInputVC.swift in Sources */,
 				776B810B282B7410004BD812 /* Extensions.swift in Sources */,
 				77AD87C42810FE9000998DCC /* CustomTableViewCells.swift in Sources */,
+				77B573382847E8F7009EBDCF /* MonoColorSchemes.swift in Sources */,
 				778728B127F42C540060B496 /* SceneDelegate.swift in Sources */,
 				778728D527FB934F0060B496 /* ScrollableStackView.swift in Sources */,
 				778728C527F42DB20060B496 /* CustomButton.swift in Sources */,

@@ -200,6 +200,8 @@ class GoalCell: UITableViewCell {
         self.checkbox.isComplete(isChecked: goal.isComplete)
         return
     }
+
+
     @objc func didTapCheckBox() {
         checkbox.toggle()
         if let goal = goal {
