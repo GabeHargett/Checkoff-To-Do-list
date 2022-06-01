@@ -105,7 +105,12 @@ extension WeeksVC: TextInputVCDelegate {
             tasks[editedTaskIndex].title = text
             FirebaseAPI.editTask(task:tasks[editedTaskIndex])
         } else {
-            if let uid = FirebaseAPI.currentUserUID(), let id = FirebaseAPI.addTask(task: Task(id: "", title: text, isComplete: false, dateStamp: dateStamp, author: uid)), self.weekAndYear == weekAndYear {
+            if let uid = FirebaseAPI.currentUserUID(), let id = FirebaseAPI.addTask(task: Task(id: "",
+                                                                                               title: text,
+                                                                                               isComplete: false,
+                                                                                               dateStamp: dateStamp,
+                                                                                               author: uid)),
+                self.weekAndYear == weekAndYear {
                 tasks.append(Task(id: id, title: text, isComplete: false, dateStamp: dateStamp, author: uid))
             }
         }

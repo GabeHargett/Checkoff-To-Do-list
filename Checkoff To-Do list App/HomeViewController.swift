@@ -54,12 +54,33 @@ class HomeViewController: UIViewController  {
                             completedTask += 1
                         }
                     }
-                    self.baseView.finishedTaskLabel.text = "\(completedTask) Finished Task"
-                    self.baseView.openTaskLabel.text = "\(currentWeekTask.count - completedTask) Open Task"
+                    self.baseView.finishedTaskLabel.text = "\(completedTask) Finished Tasks"
+                    self.baseView.openTaskLabel.text = "\(currentWeekTask.count - completedTask) Open Tasks"
                 }
             }
         }
     }
+//    private func getGoalCount() {
+//        FirebaseAPI.getGoals() {result in
+//            if let allGoals = result {
+//                let currentWeekGoal = allGoals.filter({goal in
+//                    let goalDate = Date(timeIntervalSince1970: goal.dateStamp)
+//                    let goalWeekAndYear = DateAnalyzer.getWeekAndYearFromDate(date: goalDate)
+//                    return DateAnalyzer.getWeekAndYearFromDate(date: Date()) == goalWeekAndYear
+//                })
+//                DispatchQueue.main.async {
+//                    var completedGoals = 0
+//                    for task in currentWeekGoal {
+//                        if goal.isComplete {
+//                            completedGoals += 1
+//                        }
+//                    }
+//                    self.baseView.finishedGoalLabel.text = "\(completedGoal) Finished Goals"
+//                    self.baseView.openGoalLabel.text = "\(currentWeekGoal.count - completedGoal) Open Goals"
+//                }
+//            }
+//        }
+//    }
     
     private func downloadImage() {
         if let data = UserDefaults.standard.data(forKey: "homeImage") {

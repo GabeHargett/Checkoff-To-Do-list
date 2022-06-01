@@ -26,6 +26,9 @@ class HomeView: UIView {
     let openTaskLabel = UILabel()
     let finishedTaskLabel = UILabel()
     
+    let openGoalLabel = UILabel()
+    let finishedGoalLabel = UILabel()
+    
     let nextWeekGoalLabel = UILabel()
     let previousWeekGoalLabel = UILabel()
     let otherWeeksGoalLabel = UILabel()
@@ -54,6 +57,7 @@ class HomeView: UIView {
     private let nextPreviousOtherStack = UIStackView()
     private let currentTaskLabel = UnderlinedLabel()
     private let labelStack = UIStackView()
+    private let goalLabelStack = UIStackView()
     private let quoteStack = UIStackView()
     private let quoteOfTheWeek = UnderlinedLabel()
     private let imageStack = UIStackView()
@@ -72,6 +76,8 @@ class HomeView: UIView {
         }
                 
         labelStack.axis = .vertical
+        goalLabelStack.axis = .vertical
+
         
         scrollStack.stackView.spacing = 12
         scrollStack.stackView.layoutMargins = UIEdgeInsets(top: 0, left: 24, bottom: 0, right: 24)
@@ -155,11 +161,7 @@ class HomeView: UIView {
         
         currentTaskLabel.text = "Current Week Tasks"
         currentTaskLabel.font = UIFont.systemFont(ofSize: 21)
-        
-        openTaskLabel.text = "3 open task"
-        
-        finishedTaskLabel.text = "4 finished task"
-        
+                
         quoteStack.addBorders(color: .black, thickness: 1)
         quoteStack.layoutMargins = UIEdgeInsets(top: 0, left: 16, bottom: 10, right: 16)
         quoteStack.axis = .vertical
@@ -300,9 +302,17 @@ class HomeView: UIView {
             nextPreviousOtherGoalStack
         ])
         
+        
         goalsStack2.addArrangedSubviews([
             goalImageView,
-            goalsLabel
+            goalLabelStack
+        ])
+        
+        goalLabelStack.addArrangedSubviews([
+            goalsLabel,
+            openGoalLabel,
+            finishedGoalLabel
+        
         ])
         
         nextPreviousOtherGoalStack.addArrangedSubviews([

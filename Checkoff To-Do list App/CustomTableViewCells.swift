@@ -114,43 +114,29 @@ extension TaskCell: TextInputVCDelegate {
 }
 
 protocol GoalTableViewCellDelegate: AnyObject {
-    func didTapPencil(goalIndex: Int)
+    func didTapPencil(goal: Goal)
+    func didCheckBox(goal: Goal)
+
+    
 }
 
 
-class GoalTableViewCell: UITableViewCell {
+class GoalCell: UITableViewCell {
     
-    static let identifier = "GoalTableViewCell"
+    static let identifier = "GoalCell"
     
-    weak var delegate: GoalTableViewCellDelegate?
-    var goalIndex: Int?
-    
-    public let myImageView: UIImageView = {
-        let imageView = UIImageView(image: UIImage(systemName: "pencil"))
-        imageView.tintColor = .black
-        imageView.isUserInteractionEnabled = true
-        
-        return imageView
-    }()
-    public let myImageView2: UIImageView = {
-        let imageView = UIImageView(image: UIImage(systemName: "pencil"))
-        imageView.tintColor = .black
-        imageView.isUserInteractionEnabled = true
-        
-        return imageView
-    }()
+    weak var delegate: GoalCellDelegate?
+    var goal: Goal?
+    private let pencilImageView = UIImageView(image: UIImage(systemName: "pencil"))
+    private let titleLabel = UILabel()
+    private let checkbox = CircularCheckbox()
+    private let authorAndDateLabel = UILabel()
+
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         contentView.backgroundColor = .systemGray4
         
-        addAutoLayoutSubview(myImageView)
-        NSLayoutConstraint.activate([
-            myImageView.rightAnchor.constraint(equalTo: rightAnchor,constant: -40),
-            myImageView.centerYAnchor.constraint(equalTo: centerYAnchor),
-            myImageView.widthAnchor.constraint(equalToConstant: 25),
-            myImageView.heightAnchor.constraint(equalToConstant: 25),
-        ])
         
         let gesture1 = UITapGestureRecognizer(target: self, action: #selector(didTapTableViewPencil))
         myImageView.addGestureRecognizer(gesture1)
