@@ -88,9 +88,6 @@ class GoalsVC: UIViewController {
 
 extension GoalsVC: TextInputVCDelegate {
     func didSubmitText(text: String, textType: TextInputVC.TextType, date: Date?) {
-        guard let uid = Auth.auth().currentUser?.uid else {
-            return
-        }
         let dateStamp = date?.timeIntervalSince1970 ?? Date().timeIntervalSince1970
         let weekAndYear = DateAnalyzer.getWeekAndYearFromDate(date: Date.init(timeIntervalSince1970: dateStamp))
         if let editedGoalIndex = editedGoalIndex {
@@ -110,7 +107,7 @@ extension GoalsVC: TextInputVCDelegate {
                                   title: text,
                                   dateStamp: dateStamp,
                                   isComplete: false,
-                                  author: "uid"))
+                                  author: uid))
             }
         }
         baseView.tableView.reloadData()
@@ -177,10 +174,19 @@ extension GoalsVC: UITableViewDataSource, UITableViewDelegate {
                 goal = goals.filter({$0.isComplete})[indexPath.item]
             }
             if let goalIndex = goals.firstIndex(where: {$0.id == goal.id}) {
-                let removeGoal = self.goals.remove(at: indexPath.item)
+                let removeGoal = self.goals.remove(at: goalIndex)
                 self.baseView.tableView.deleteRows(at: [indexPath], with: .automatic)
                 FirebaseAPI.removeGoal(goal: removeGoal)
             }
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        switch sections[section] {
+        case .incomplete:
+            return "Incomplete goals"
+        case .completed:
+            return "Completed goals"
         }
     }
 }

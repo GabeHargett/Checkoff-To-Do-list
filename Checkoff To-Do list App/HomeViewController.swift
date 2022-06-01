@@ -77,7 +77,7 @@ class HomeViewController: UIViewController  {
                         }
                     }
                     self.baseView.finishedGoalLabel.text = "\(completedGoals) Finished Goals"
-                    self.baseView.openGoalLabel.text = "\(currentWeekGoal.count - completedGoals) Open Goals"
+                    self.baseView.openGoalLabel.text = "\(currentWeekGoal.count - completedGoals) Started Goals"
                 }
             }
         }
