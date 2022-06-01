@@ -113,7 +113,7 @@ extension TaskCell: TextInputVCDelegate {
     }
 }
 
-protocol GoalTableViewCellDelegate: AnyObject {
+protocol GoalCellDelegate: AnyObject {
     func didTapPencil(goal: Goal)
     func didCheckBox(goal: Goal)
 
@@ -135,36 +135,86 @@ class GoalCell: UITableViewCell {
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        contentView.backgroundColor = .systemGray4
+        contentView.backgroundColor = .white
         
         
-        let gesture1 = UITapGestureRecognizer(target: self, action: #selector(didTapTableViewPencil))
-        myImageView.addGestureRecognizer(gesture1)
+        setupSubviews()
     }
-    func configureCell(goal: Goal) {
-        self.textLabel?.numberOfLines = 0
-        FirebaseAPI.getFullName(uid: goal.author) {result in
-            if let fullName = result {
-                self.textLabel?.text = goal.goal + "\n\n" + fullName.firstName
-            }
-        }
-        self.textLabel?.text = goal.goal
-        contentView.height(constant: 100)
-        return
-    }
-    
-    @objc func didTapTableViewPencil() {
-        if let goalIndex = goalIndex {
-            delegate?.didTapPencil(goalIndex: goalIndex)
-        }
-    }
-    
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
+    private func setupSubviews() {
+        
+        pencilImageView.tintColor = .black
+        pencilImageView.isUserInteractionEnabled = true
+        
+        titleLabel.quickConfigure(textAlignment: .left, font: .systemFont(ofSize: 17), textColor: .black, numberOfLines: 0)
+        authorAndDateLabel.quickConfigure(textAlignment: .right, font: .systemFont(ofSize: 15, weight: .light), textColor: .white, numberOfLines: 1)
+        authorAndDateLabel.text = "author"
+        
+        let stackView = UIStackView()
+        stackView.axis = .vertical
+        stackView.isLayoutMarginsRelativeArrangement = true
+        stackView.layoutMargins = UIEdgeInsets(top: 8, left: 16, bottom: 8, right: 16)
+        stackView.spacing = 4
+        
+        addAutoLayoutSubview(stackView)
+        stackView.fillSuperview()
+        
+        pencilImageView.height(constant: 32)
+        pencilImageView.width(constant: 32)
+        
+        let titleStack = UIStackView()
+        titleStack.alignment = .top
+        titleStack.addArrangedSubviews([titleLabel, UIView(), pencilImageView, checkbox])
+        titleStack.setCustomSpacing(8, after: titleLabel)
+        titleStack.setCustomSpacing(8, after: pencilImageView)
+        checkbox.height(constant: 32)
+        checkbox.width(constant: 32)
+        
+        stackView.addArrangedSubviews([titleStack, authorAndDateLabel])
+        
+        let gesture = UITapGestureRecognizer(target: self, action: #selector(didTapCheckBox))
+        checkbox.addGestureRecognizer(gesture)
+        
+        let gesture1 = UITapGestureRecognizer(target: self, action: #selector(didTapTableViewPencil))
+        pencilImageView.addGestureRecognizer(gesture1)
+    }
+    override func prepareForReuse() {
+        self.authorAndDateLabel.text = "author"
+        self.authorAndDateLabel.textColor = .white
+    }
+    func configureCell(goal: Goal) {
+        self.goal = goal
+        self.titleLabel.text = goal.title
+        FirebaseAPI.getFullName(uid: goal.author) {result in
+            if let fullName = result {
+                DispatchQueue.main.async {
+                    self.authorAndDateLabel.textColor = .black
+                    let goalDate = Date.init(timeIntervalSince1970: goal.dateStamp)
+                    self.authorAndDateLabel.text = "Submitted by \(fullName.firstAndLastInitial()), due \(goalDate.dateString())"
+                }
+            }
+        }
+        self.checkbox.isComplete(isChecked: goal.isComplete)
+        return
+    }
+    @objc func didTapCheckBox() {
+        checkbox.toggle()
+        if let goal = goal {
+            delegate?.didCheckBox(goal: goal)
+        }
+    }
+    
+    @objc func didTapTableViewPencil() {
+        if let goal = goal {
+            delegate?.didTapPencil(goal: goal)
+        }
+    }
 }
-extension GoalTableViewCell: TextInputVCDelegate {
+
+extension GoalCell: TextInputVCDelegate {
     func didSubmitText(text: String, textType: TextInputVC.TextType, date: Date?) {
     }
 }

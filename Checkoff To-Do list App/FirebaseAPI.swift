@@ -80,13 +80,17 @@ class FirebaseAPI {
     
     static func addGoal(goal: Goal) -> String? {
         let ref = Database.database().reference().child("Goals").childByAutoId()
-        ref.setValue(["goal": goal.goal, "dateStamp": goal.dateStamp, "author": goal.author])
+        ref.setValue(["title": goal.title, "dateStamp": goal.dateStamp, "isComplete": goal.isComplete, "author": goal.author])
         return ref.key
+    }
+    static func completeGoal(goal: Goal) {
+        let ref = Database.database().reference().child("Goals").child(goal.id).child("isComplete")
+        ref.setValue(goal.isComplete)
     }
 
     static func editGoal(goal: Goal) {
-        let ref = Database.database().reference().child("Goals").child(goal.id).child("goal")
-        ref.setValue(goal.goal)
+        let ref = Database.database().reference().child("Goals").child(goal.id).child("title")
+        ref.setValue(goal.title)
     }
     static func removeGoal(goal: Goal) {
         let ref = Database.database().reference().child("Goals").child(goal.id)
@@ -100,10 +104,11 @@ class FirebaseAPI {
             var goals = [Goal]()
             for child in snapshot.children.allObjects as! [DataSnapshot] {
                 if let value = child.value as? [String: Any] {
-                    if let goal = value["goal"] as? String,
+                    if let title = value["title"] as? String,
                        let dateStamp = value["dateStamp"] as? Double,
+                       let isComplete = value["isComplete"] as? Bool,
                        let author = value["author"] as? String {
-                        goals.append(Goal(id:child.key, goal: goal, dateStamp: dateStamp, author: author))
+                        goals.append(Goal(id:child.key, title: title, dateStamp: dateStamp, isComplete: isComplete, author: author))
                     }
                 }
             }
