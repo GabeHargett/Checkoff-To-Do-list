@@ -8,46 +8,56 @@
 import UIKit
 
 final class CircularCheckbox: UIView {
-//    private var tasks = [Task]()
-    private var isChecked = false
-//    private var isChecked = false
+    
+    private var isChecked = false {
+        didSet {
+            if isChecked {
+                imageView.image = checkedImage
+                addBorders(color: UIColor.black.withAlphaComponent(1), thickness: 2)
+            } else {
+                imageView.image = nil
+                addBorders(color: UIColor.black.withAlphaComponent(0.4), thickness: 2)
+            }
+        }
+    }
+    
+    private let checkedImage = UIImage(systemName: "checkmark")
+    private let imageView = UIImageView()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
         
-        layer.borderWidth = 0.5
-        layer.borderColor = UIColor.label.cgColor
-        layer.cornerRadius = frame.size.width / 2.0
-        backgroundColor = .systemBackground
+        layoutMargins = UIEdgeInsets(top: 4, left: 4, bottom: 4, right: 4)
+        
+        addBorders(color: UIColor.black.withAlphaComponent(0.4), thickness: 2)
+        backgroundColor = .white
+        cornerRadius(radius: 4)
+        
+        addAutoLayoutSubview(imageView)
+        imageView.fillSuperviewMargins()
+        imageView.tintColor = .black
         
     }
-    //changes
+    
     required init?(coder: NSCoder) {
         fatalError()
     }
+    
+    //    override func layoutSubviews() {
+    //        layer.cornerRadius = frame.size.width / 2.0
+    //    }
+    
     func isComplete(isChecked: Bool) {
         self.isChecked = isChecked
-        if isChecked == true {
-            backgroundColor = .systemBlue
-        }
-        else {
-            backgroundColor = .systemBackground
-        }
-}
-        func toggle() {
-            self.isChecked = !isChecked
-    
-            if self.isChecked {
-                backgroundColor = .systemBlue
-            }
-            else {
-                backgroundColor = .systemBackground
-            }
-        }
     }
-
-
-
     
+    func toggle() {
+        self.isChecked = !isChecked
+    }
+}
 
-    
+
+
+
+
+
