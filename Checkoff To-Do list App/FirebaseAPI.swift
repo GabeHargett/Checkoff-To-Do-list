@@ -79,6 +79,11 @@ class FirebaseAPI {
 //            completion(nil)
 //        })
 //    }
+    
+    static func currentUserUID() -> String? {
+        return Auth.auth().currentUser?.uid
+    }
+    
     static func addUser(user: User) {
         let ref = Database.database().reference().child("Users").child(user.id)
         ref.setValue(["fullName": ["firstName": user.fullName.firstName, "lastName": user.fullName.lastName], "dateJoined": user.dateJoined])

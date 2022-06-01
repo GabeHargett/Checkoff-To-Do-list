@@ -7,89 +7,108 @@
 
 import UIKit
 
-protocol CustomTableViewCellDelegate: AnyObject {
-    func didCheckBox(taskIndex: Int)
-    func didTapPencil(taskIndex: Int)
+protocol TaskCellDelegate: AnyObject {
+    func didCheckBox(task: Task)
+    func didTapPencil(task: Task)
 }
 
-
-
-class CustomTableViewCell: UITableViewCell {
-
+class TaskCell: UITableViewCell {
     
-
+    static let identifier = "TaskCell"
     
-    static let identifier = "CustomTableViewCell"
-    public var checkbox1 = CircularCheckbox(frame: CGRect(x: 150, y: 150, width: 25, height: 25))
+    private let pencilImageView = UIImageView(image: UIImage(systemName: "pencil"))
+    private let titleLabel = UILabel()
+    private let checkbox = CircularCheckbox()
+    private let authorAndDateLabel = UILabel()
     
-    weak var delegate: CustomTableViewCellDelegate?
-    var taskIndex: Int?
+    weak var delegate: TaskCellDelegate?
+    private var task: Task?
     
-    public let myImageView: UIImageView = {
-        let imageView = UIImageView(image: UIImage(systemName: "pencil"))
-        imageView.tintColor = .black
-        imageView.isUserInteractionEnabled = true
-
-        return imageView
-    }()
-
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        contentView.backgroundColor = .systemGray4
+        contentView.backgroundColor = .white
         
-        addAutoLayoutSubview(checkbox1)
-        NSLayoutConstraint.activate([
-            checkbox1.rightAnchor.constraint(equalTo: rightAnchor,constant: -10),
-            checkbox1.centerYAnchor.constraint(equalTo: centerYAnchor),
-            checkbox1.widthAnchor.constraint(equalToConstant: 25),
-            checkbox1.heightAnchor.constraint(equalToConstant: 25),
-        ])
-        
-        addAutoLayoutSubview(myImageView)
-        NSLayoutConstraint.activate([
-            myImageView.rightAnchor.constraint(equalTo: rightAnchor,constant: -40),
-            myImageView.centerYAnchor.constraint(equalTo: centerYAnchor),
-            myImageView.widthAnchor.constraint(equalToConstant: 25),
-            myImageView.heightAnchor.constraint(equalToConstant: 25),
-        ])
-        
-        let gesture = UITapGestureRecognizer(target: self, action: #selector(didTapCheckBox))
-        checkbox1.addGestureRecognizer(gesture)
-        
-        let gesture1 = UITapGestureRecognizer(target: self, action: #selector(didTapTableViewPencil))
-        myImageView.addGestureRecognizer(gesture1)
-    }
-    func configureCell(task: Task) {
-        self.textLabel?.numberOfLines = 0
-        FirebaseAPI.getFullName(uid: task.author) {result in
-            if let fullName = result {
-                self.textLabel?.text = task.title + "\n\n" + fullName.firstName
-            }
-        }
-        self.textLabel?.text = task.title
-        self.checkbox1.isComplete(isChecked: task.isComplete)
-        contentView.height(constant: 100)
-        return
-    }
-    @objc func didTapCheckBox() {
-        checkbox1.toggle()
-        if let taskIndex = taskIndex {
-            delegate?.didCheckBox(taskIndex: taskIndex)
-        }
-    }
-    
-    @objc func didTapTableViewPencil() {
-        if let taskIndex = taskIndex {
-            delegate?.didTapPencil(taskIndex: taskIndex)
-        }
+        setupSubviews()
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
+    private func setupSubviews() {
+        
+        pencilImageView.tintColor = .black
+        pencilImageView.isUserInteractionEnabled = true
+        
+        titleLabel.quickConfigure(textAlignment: .left, font: .systemFont(ofSize: 17), textColor: .black, numberOfLines: 0)
+        authorAndDateLabel.quickConfigure(textAlignment: .right, font: .systemFont(ofSize: 15, weight: .light), textColor: .white, numberOfLines: 1)
+        authorAndDateLabel.text = "author"
+        
+        let stackView = UIStackView()
+        stackView.axis = .vertical
+        stackView.isLayoutMarginsRelativeArrangement = true
+        stackView.layoutMargins = UIEdgeInsets(top: 8, left: 16, bottom: 8, right: 16)
+        stackView.spacing = 4
+        
+        addAutoLayoutSubview(stackView)
+        stackView.fillSuperview()
+        
+        pencilImageView.height(constant: 32)
+        pencilImageView.width(constant: 32)
+        
+        let titleStack = UIStackView()
+        titleStack.alignment = .top
+        titleStack.addArrangedSubviews([titleLabel, UIView(), pencilImageView, checkbox])
+        titleStack.setCustomSpacing(8, after: titleLabel)
+        titleStack.setCustomSpacing(8, after: pencilImageView)
+        checkbox.height(constant: 32)
+        checkbox.width(constant: 32)
+        
+        stackView.addArrangedSubviews([titleStack, authorAndDateLabel])
+        
+        let gesture = UITapGestureRecognizer(target: self, action: #selector(didTapCheckBox))
+        checkbox.addGestureRecognizer(gesture)
+        
+        let gesture1 = UITapGestureRecognizer(target: self, action: #selector(didTapTableViewPencil))
+        pencilImageView.addGestureRecognizer(gesture1)
+    }
+    
+    override func prepareForReuse() {
+        self.authorAndDateLabel.text = "author"
+        self.authorAndDateLabel.textColor = .white
+    }
+    
+    func configureCell(task: Task) {
+        self.task = task
+        self.titleLabel.text = task.title
+        FirebaseAPI.getFullName(uid: task.author) {result in
+            if let fullName = result {
+                DispatchQueue.main.async {
+                    self.authorAndDateLabel.textColor = .black
+                    let taskDate = Date.init(timeIntervalSince1970: task.dateStamp)
+                    self.authorAndDateLabel.text = "Submitted by \(fullName.firstAndLastInitial()), due \(taskDate.dateString())"
+                }
+            }
+        }
+        self.checkbox.isComplete(isChecked: task.isComplete)
+        return
+    }
+    
+    @objc func didTapCheckBox() {
+        checkbox.toggle()
+        if let task = task {
+            delegate?.didCheckBox(task: task)
+        }
+    }
+    
+    @objc func didTapTableViewPencil() {
+        if let task = task {
+            delegate?.didTapPencil(task: task)
+        }
+    }
+    
 }
-extension CustomTableViewCell: TextInputVCDelegate {
+extension TaskCell: TextInputVCDelegate {
     func didSubmitText(text: String, textType: TextInputVC.TextType, date: Date?) {
     }
 }
@@ -100,7 +119,7 @@ protocol GoalTableViewCellDelegate: AnyObject {
 
 
 class GoalTableViewCell: UITableViewCell {
-
+    
     static let identifier = "GoalTableViewCell"
     
     weak var delegate: GoalTableViewCellDelegate?
@@ -110,17 +129,17 @@ class GoalTableViewCell: UITableViewCell {
         let imageView = UIImageView(image: UIImage(systemName: "pencil"))
         imageView.tintColor = .black
         imageView.isUserInteractionEnabled = true
-
+        
         return imageView
     }()
     public let myImageView2: UIImageView = {
         let imageView = UIImageView(image: UIImage(systemName: "pencil"))
         imageView.tintColor = .black
         imageView.isUserInteractionEnabled = true
-
+        
         return imageView
     }()
-
+    
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         contentView.backgroundColor = .systemGray4
@@ -132,7 +151,7 @@ class GoalTableViewCell: UITableViewCell {
             myImageView.widthAnchor.constraint(equalToConstant: 25),
             myImageView.heightAnchor.constraint(equalToConstant: 25),
         ])
-                
+        
         let gesture1 = UITapGestureRecognizer(target: self, action: #selector(didTapTableViewPencil))
         myImageView.addGestureRecognizer(gesture1)
     }
@@ -153,7 +172,7 @@ class GoalTableViewCell: UITableViewCell {
             delegate?.didTapPencil(goalIndex: goalIndex)
         }
     }
-        
+    
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
