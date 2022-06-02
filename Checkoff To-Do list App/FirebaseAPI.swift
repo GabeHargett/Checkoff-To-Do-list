@@ -29,6 +29,35 @@ struct User {
     var dateJoined: Double
 }
 
+struct Quote {
+    var text: String
+    var author: String
+}
+
+struct Task {
+    let id: String
+    var title: String
+    var isComplete: Bool
+    let dateStamp: Double
+    let author: String
+}
+
+struct Goal {
+    let id: String
+    var title: String
+    let dateStamp: Double
+    var isComplete: Bool
+    let author: String
+}
+
+struct Group {
+    let id: String
+    var name: String
+    let user: User
+    var goal: Goal
+    var task: Task
+    var quote: Quote
+}
 
 class FirebaseAPI {
     

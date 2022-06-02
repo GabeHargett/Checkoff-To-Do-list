@@ -7,10 +7,7 @@
 import Firebase
 import UIKit
 
-struct Quote {
-    var text: String
-    var author: String
-}
+
 
 class HomeViewController: UIViewController  {
     

@@ -14,13 +14,6 @@ struct WeekAndYear: Equatable {
     var year: Int
 }
 
-struct Task {    
-    let id: String
-    var title: String
-    var isComplete: Bool
-    let dateStamp: Double
-    let author: String
-}
 
 class WeeksVC: UIViewController {
     

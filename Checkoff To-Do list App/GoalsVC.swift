@@ -9,13 +9,7 @@ import UIKit
 import Firebase
 
 
-struct Goal {
-    let id: String
-    var title: String
-    let dateStamp: Double
-    var isComplete: Bool
-    let author: String
-}
+
 
 class GoalsVC: UIViewController {
     
