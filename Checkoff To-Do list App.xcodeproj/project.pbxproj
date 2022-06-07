@@ -35,6 +35,7 @@
 		77AD87C12810EF4000998DCC /* CustomCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77AD87C02810EF4000998DCC /* CustomCollectionView.swift */; };
 		77AD87C42810FE9000998DCC /* CustomTableViewCells.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77AD87C32810FE9000998DCC /* CustomTableViewCells.swift */; };
 		77B573382847E8F7009EBDCF /* MonoColorSchemes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77B573372847E8F7009EBDCF /* MonoColorSchemes.swift */; };
+		77B5733A28494014009EBDCF /* GroupCreationVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77B5733928494014009EBDCF /* GroupCreationVC.swift */; };
 		77BE974628198CED0030F39D /* PracticeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77BE974528198CED0030F39D /* PracticeVC.swift */; };
 /* End PBXBuildFile section */
 
@@ -64,6 +65,7 @@
 		77AD87C02810EF4000998DCC /* CustomCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomCollectionView.swift; sourceTree = "<group>"; };
 		77AD87C32810FE9000998DCC /* CustomTableViewCells.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTableViewCells.swift; sourceTree = "<group>"; };
 		77B573372847E8F7009EBDCF /* MonoColorSchemes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonoColorSchemes.swift; sourceTree = "<group>"; };
+		77B5733928494014009EBDCF /* GroupCreationVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupCreationVC.swift; sourceTree = "<group>"; };
 		77BE974528198CED0030F39D /* PracticeVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PracticeVC.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -106,6 +108,7 @@
 				778728B027F42C540060B496 /* SceneDelegate.swift */,
 				776B810E28334698004BD812 /* FirebaseAuthView.swift */,
 				776B8110283349CB004BD812 /* FirebaseAuthVC.swift */,
+				77B5733928494014009EBDCF /* GroupCreationVC.swift */,
 				776B810C282DB91C004BD812 /* HomeView.swift */,
 				778728D227F4382D0060B496 /* HomeViewController.swift */,
 				778728CB27F42F3D0060B496 /* WeeksVC.swift */,
@@ -215,6 +218,7 @@
 				778728CC27F42F3D0060B496 /* WeeksVC.swift in Sources */,
 				778728E927FF96170060B496 /* FirebaseAPI.swift in Sources */,
 				77BE974628198CED0030F39D /* PracticeVC.swift in Sources */,
+				77B5733A28494014009EBDCF /* GroupCreationVC.swift in Sources */,
 				778728AF27F42C540060B496 /* AppDelegate.swift in Sources */,
 				776B8107282AB08A004BD812 /* GoalsVC.swift in Sources */,
 				776B8111283349CB004BD812 /* FirebaseAuthVC.swift in Sources */,

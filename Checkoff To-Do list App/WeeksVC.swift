@@ -29,12 +29,12 @@ class WeeksVC: UIViewController {
     }
     
     private var weekAndYear: WeekAndYear
-    
+    private let groupID: String
     private let sections: [Section] = [.incomplete, .completed]
     
     init(weekAndYear: WeekAndYear) {
-        
         self.weekAndYear = weekAndYear
+        self.groupID = GroupManager.shared.getCurrentGroupID() ?? ""
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -68,7 +68,7 @@ class WeeksVC: UIViewController {
     }
     
     private func loadTasks() {
-        FirebaseAPI.getTasks() {result in
+        FirebaseAPI.getTasks(groupID: groupID) {result in
             if let allTasks = result {
                 self.tasks = allTasks.filter({task in
                     let taskDate = Date(timeIntervalSince1970: task.dateStamp)
@@ -96,14 +96,16 @@ extension WeeksVC: TextInputVCDelegate {
         if let editedTaskIndex = editedTaskIndex {
             self.editedTaskIndex = nil
             tasks[editedTaskIndex].title = text
-            FirebaseAPI.editTask(task:tasks[editedTaskIndex])
+            FirebaseAPI.editTask(task:tasks[editedTaskIndex], groupID: groupID)
         } else {
-            if let uid = FirebaseAPI.currentUserUID(), let id = FirebaseAPI.addTask(task: Task(id: "",
-                                                                                               title: text,
-                                                                                               isComplete: false,
-                                                                                               dateStamp: dateStamp,
-                                                                                               author: uid)),
-                self.weekAndYear == weekAndYear {
+            if let uid = FirebaseAPI.currentUserUID(),
+               let id = FirebaseAPI.addTask(task: Task(id: "",
+                                                       title: text,
+                                                       isComplete: false,
+                                                       dateStamp: dateStamp,
+                                                       author: uid),
+                                            groupID: groupID),
+               self.weekAndYear == weekAndYear {
                 tasks.append(Task(id: id, title: text, isComplete: false, dateStamp: dateStamp, author: uid))
             }
         }
@@ -124,7 +126,7 @@ extension WeeksVC: TaskCellDelegate {
     func didCheckBox(task: Task) {
         if let taskIndex = tasks.firstIndex(where: {$0.id == task.id}) {
             tasks[taskIndex].isComplete.toggle()
-            FirebaseAPI.completeTask(task: tasks[taskIndex])
+            FirebaseAPI.completeTask(task: tasks[taskIndex], groupID: groupID)
             baseView.tableView.reloadData()
         }
     }
@@ -175,7 +177,7 @@ extension WeeksVC: UITableViewDataSource, UITableViewDelegate {
             if let taskIndex = tasks.firstIndex(where: {$0.id == task.id}) {
                 let removeTask = self.tasks.remove(at: taskIndex)
                 self.baseView.tableView.deleteRows(at: [indexPath], with: .automatic)
-                FirebaseAPI.removeTask(task: removeTask)
+                FirebaseAPI.removeTask(task: removeTask, groupID: groupID)
             }
         }
     }

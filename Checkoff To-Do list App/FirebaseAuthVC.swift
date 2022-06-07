@@ -81,7 +81,7 @@ class FirebaseAuthVC: UIViewController {
             print("You have signed in")
             
             DispatchQueue.main.async {
-                let vc = HomeViewController()
+                let vc = GroupCreationVC()
                 strongSelf.navigationController?.pushViewController(vc, animated: true)
                 strongSelf.navigationItem.leftBarButtonItem = nil
                 
@@ -111,7 +111,7 @@ class FirebaseAuthVC: UIViewController {
                 let newUser = User(id: result.user.uid, fullName: fullname, dateJoined: Date().timeIntervalSince1970)
                 FirebaseAPI.addUser(user: newUser)
                 DispatchQueue.main.async {
-                    let vc = HomeViewController()
+                    let vc = GroupCreationVC()
                     strongSelf.navigationController?.pushViewController(vc, animated: true)
                     strongSelf.navigationItem.leftBarButtonItem = nil
                 }

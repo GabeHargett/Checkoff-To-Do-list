@@ -23,11 +23,14 @@ class GoalsVC: UIViewController {
     override func loadView() {
         view = baseView
     }
+    
     private var weekAndYear: WeekAndYear
+    private let groupID: String
     private let sections: [Section] = [.incomplete, .completed]
     
     init(weekAndYear: WeekAndYear) {
-    self.weekAndYear = weekAndYear
+        self.weekAndYear = weekAndYear
+        self.groupID = GroupManager.shared.getCurrentGroupID() ?? ""
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -43,6 +46,7 @@ class GoalsVC: UIViewController {
         setupNavBar()
         loadGoals()
     }
+    
     private func setupNavBar() {
         let sunday = Calendar.current.date(from: DateComponents(calendar: .current, timeZone: .current, era: nil, year: nil, month: nil, day: nil, hour: 12, minute: 0, second: 0, nanosecond: 0, weekday: 1, weekdayOrdinal: nil, quarter: nil, weekOfMonth: nil, weekOfYear: weekAndYear.week, yearForWeekOfYear: weekAndYear.year))
         let saturday = Calendar.current.date(from: DateComponents(calendar: .current, timeZone: .current, era: nil, year: nil, month: nil, day: nil, hour: 12, minute: 0, second: 0, nanosecond: 0, weekday: 7, weekdayOrdinal: nil, quarter: nil, weekOfMonth: nil, weekOfYear: weekAndYear.week, yearForWeekOfYear: weekAndYear.year))
@@ -59,7 +63,7 @@ class GoalsVC: UIViewController {
         )
     }
     private func loadGoals() {
-        FirebaseAPI.getGoals() {result in
+        FirebaseAPI.getGoals(groupID: groupID) {result in
             if let allGoals = result {
                 self.goals = allGoals.filter({goal in
                     let goalDate = Date(timeIntervalSince1970: goal.dateStamp)
@@ -87,7 +91,7 @@ extension GoalsVC: TextInputVCDelegate {
         if let editedGoalIndex = editedGoalIndex {
             self.editedGoalIndex = nil
             goals[editedGoalIndex].title = text
-            FirebaseAPI.editGoal(goal:goals[editedGoalIndex])
+            FirebaseAPI.editGoal(goal:goals[editedGoalIndex], groupID: groupID)
         }
         else {
             if let uid = FirebaseAPI.currentUserUID(),
@@ -95,7 +99,8 @@ extension GoalsVC: TextInputVCDelegate {
                                                        title: text,
                                                        dateStamp: dateStamp,
                                                        isComplete: false,
-                                                       author: uid)),
+                                                       author: uid),
+                                            groupID: groupID),
                self.weekAndYear == weekAndYear {
                 goals.append(Goal(id: id,
                                   title: text,
@@ -121,7 +126,7 @@ extension GoalsVC: GoalCellDelegate {
     func didCheckBox(goal: Goal) {
         if let goalIndex = goals.firstIndex(where: {$0.id == goal.id}) {
             goals[goalIndex].isComplete.toggle()
-            FirebaseAPI.completeGoal(goal: goals[goalIndex])
+            FirebaseAPI.completeGoal(goal: goals[goalIndex], groupID: groupID)
             baseView.tableView.reloadData()
         }
     }
@@ -170,7 +175,7 @@ extension GoalsVC: UITableViewDataSource, UITableViewDelegate {
             if let goalIndex = goals.firstIndex(where: {$0.id == goal.id}) {
                 let removeGoal = self.goals.remove(at: goalIndex)
                 self.baseView.tableView.deleteRows(at: [indexPath], with: .automatic)
-                FirebaseAPI.removeGoal(goal: removeGoal)
+                FirebaseAPI.removeGoal(goal: removeGoal, groupID: groupID)
             }
         }
     }

@@ -7,7 +7,13 @@
 import Firebase
 import UIKit
 
-
+class GroupManager {
+    static var shared = GroupManager()
+    
+    func getCurrentGroupID() -> String? {
+        return UserDefaults.standard.string(forKey: "CurrentGroupID")
+    }
+}
 
 class HomeViewController: UIViewController  {
     
@@ -18,6 +24,14 @@ class HomeViewController: UIViewController  {
     let baseView = HomeView()
     public let date = Date()
     private var temporaryQuote: Quote?
+    private let groupID: String
+    
+    init() {
+        self.groupID = GroupManager.shared.getCurrentGroupID() ?? ""
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder aDecoder: NSCoder) { fatalError() }
     
     override func viewDidLoad(){
         super.viewDidLoad()
@@ -38,7 +52,7 @@ class HomeViewController: UIViewController  {
     }
     
     private func getTaskCount() {
-        FirebaseAPI.getTasks() {result in
+        FirebaseAPI.getTasks(groupID: groupID) {result in
             if let allTasks = result {
                 let currentWeekTask = allTasks.filter({task in
                     let taskDate = Date(timeIntervalSince1970: task.dateStamp)
@@ -59,7 +73,7 @@ class HomeViewController: UIViewController  {
         }
     }
     private func getGoalCount() {
-        FirebaseAPI.getGoals() {result in
+        FirebaseAPI.getGoals(groupID: groupID) {result in
             if let allGoals = result {
                 let currentWeekGoal = allGoals.filter({goal in
                     let goalDate = Date(timeIntervalSince1970: goal.dateStamp)
@@ -100,7 +114,7 @@ class HomeViewController: UIViewController  {
     }
     
     private func getQuote() {
-        FirebaseAPI.getQuote() {result in
+        FirebaseAPI.getQuote(groupID: groupID) {result in
             DispatchQueue.main.async {
                 if let quote = result {
                     self.updateQuoteButton(quote: quote)
@@ -289,7 +303,7 @@ extension HomeViewController: TextInputVCDelegate {
             if var temporaryQuote = temporaryQuote {
                 temporaryQuote.author = text
                 updateQuoteButton(quote: temporaryQuote)
-                FirebaseAPI.addQuote(quote: temporaryQuote)
+                FirebaseAPI.addQuote(quote: temporaryQuote, groupID: groupID)
             }
         }
     }

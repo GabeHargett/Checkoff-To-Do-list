@@ -24,6 +24,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             self.window = window
             window.makeKeyAndVisible()
         }
+        //bug = User creates a login and exits app
         else {
             let vc = FirebaseAuthVC()
             let nav = UINavigationController(rootViewController: vc)
@@ -31,18 +32,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             self.window = window
             window.makeKeyAndVisible()
         }
-        //        else {
-        //
-        //            let vc = FirebaseAuthVC()
-        //            let nav = UINavigationController(rootViewController: vc)
-        //            window.rootViewController = nav
-        //            self.window = window
-        //            window.makeKeyAndVisible()
-        //
-        //        }
-
-//        nav.navigationBar.prefersLargeTitles = true
-     }
+}
 
     func sceneDidDisconnect(_ scene: UIScene) {
         // Called as the scene is being released by the system.
