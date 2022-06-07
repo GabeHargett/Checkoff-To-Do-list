@@ -37,7 +37,6 @@ class SettingsVC: UIViewController {
                                                    left: 0,
                                                    bottom: 10,
                                                    right: 10)
-        
         view.addAutoLayoutSubview(signOutButton)
         
         NSLayoutConstraint.activate([
