@@ -25,7 +25,7 @@ class SettingsVC: UIViewController {
         view.backgroundColor = .white
         signOutButton.setImage(image:UIImage(systemName: "hand.wave"),color: .black)
         signOutButton.setTitle(title: "Log Out")
-        signOutButton.setImageWidth(size: 60)
+        signOutButton.setImageWidth(size: 30)
         signOutButton.setImageHeight(size: 30)
         signOutButton.quickConfigure(
             font: .systemFont(ofSize: 17),
@@ -34,7 +34,7 @@ class SettingsVC: UIViewController {
             cornerRadius: 15)
         
         signOutButton.layoutMargins = UIEdgeInsets(top: 10,
-                                                   left: 10,
+                                                   left: 0,
                                                    bottom: 10,
                                                    right: 10)
         
