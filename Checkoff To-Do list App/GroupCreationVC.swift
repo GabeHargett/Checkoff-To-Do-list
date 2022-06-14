@@ -21,6 +21,7 @@ class GroupCreationVC: UIViewController {
         
         baseView.button.addTarget(self, action: #selector(didTapButton), for: .touchUpInside)
     }
+
     private func setGroupTitle(){
         guard let group = baseView.createGroupField.text, !group.isEmpty
         else {
@@ -36,6 +37,11 @@ class GroupCreationVC: UIViewController {
             print("Missing data")
             return
         }
+        FirebaseAPI.readGroupToken(token: "123456", completion: {
+            result in
+            FirebaseAPI.joinGroup(groupID: result ?? "")
+            GroupManager.shared.setCurrentGroupID(groupID: result ?? "")
+        })
     }
     
     @objc private func didTapButton() {

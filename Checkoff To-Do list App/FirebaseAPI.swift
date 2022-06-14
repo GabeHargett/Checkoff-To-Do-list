@@ -55,27 +55,7 @@ class FirebaseAPI {
     
     let storage = Storage.storage().reference()
     
-    static func addQuote(quote: Quote, groupID: String) {
-        let groupRef = FirebaseAPI.getGroupRef(groupID: groupID)
-        let ref = groupRef.child("Quote")
-        ref.setValue(["quote": quote.text, "author": quote.author])
-    }
- 
-    static func getQuote(groupID: String, completion: @escaping (Quote?) -> ()) {
-        let groupRef = FirebaseAPI.getGroupRef(groupID: groupID)
-        let ref = groupRef.child("Quote")
-        ref.observeSingleEvent(of: .value, with: { (snapshot) in
-            
-            if let quoteDict = snapshot.value as? [String: Any], let quote = quoteDict["quote"] as? String, let author = quoteDict["author"] as? String {
-                completion(Quote(text: quote, author: author))
-            } else {
-                completion(nil)
-            }
 
-        }, withCancel: {error in
-            completion(nil)
-        })
-    }
     
     static func currentUserUID() -> String? {
         return Auth.auth().currentUser?.uid
@@ -151,6 +131,22 @@ class FirebaseAPI {
         return Database.database().reference().child("Groups").child(groupID)
     }
     
+    static func setGroupToken(groupID: String, token: String) {
+        let ref = Database.database().reference().child("GroupTokens")
+        ref.setValue([token: groupID])
+    }
+    
+    static func readGroupToken(token: String, completion: @escaping (String?) -> ()) {
+        let ref = Database.database().reference().child("GroupTokens").child(token)
+        ref.observeSingleEvent(of: .value, with: { (snapshot) in
+            completion(snapshot.value as? String)
+
+        }, withCancel: {error in
+            completion(nil)
+        })
+
+    }
+    
     static func getGroupUserID(groupID: String) -> DatabaseReference? {
         if let uid = FirebaseAPI.currentUserUID() {
             return Database.database().reference().child("UserGroups").child(uid).child(groupID)
@@ -169,6 +165,38 @@ class FirebaseAPI {
             ref.setValue(["groups": [groupID]])
             UserDefaults.standard.set(groupID, forKey: "CurrentGroupID")
         }
+    }
+    static func joinGroup(groupID: String) {
+        guard let uid = FirebaseAPI.currentUserUID() else {
+            return
+        }
+        
+        let ref = Database.database().reference().child("UserGroups").child(uid)
+        ref.setValue(["groups": [groupID]])
+    }
+
+    
+    
+    static func addQuote(quote: Quote, groupID: String) {
+        let groupRef = FirebaseAPI.getGroupRef(groupID: groupID)
+        let ref = groupRef.child("Quote")
+        ref.setValue(["quote": quote.text, "author": quote.author])
+    }
+ 
+    static func getQuote(groupID: String, completion: @escaping (Quote?) -> ()) {
+        let groupRef = FirebaseAPI.getGroupRef(groupID: groupID)
+        let ref = groupRef.child("Quote")
+        ref.observeSingleEvent(of: .value, with: { (snapshot) in
+            
+            if let quoteDict = snapshot.value as? [String: Any], let quote = quoteDict["quote"] as? String, let author = quoteDict["author"] as? String {
+                completion(Quote(text: quote, author: author))
+            } else {
+                completion(nil)
+            }
+
+        }, withCancel: {error in
+            completion(nil)
+        })
     }
     
     

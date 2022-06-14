@@ -126,7 +126,6 @@ class HomeView: UIView {
         goalImageView.contentMode = .scaleAspectFit
         goalImageView.tintColor = .black
 
-        
         nextWeekLabel.text = " Next Week "
         nextWeekLabel.addBorders(color: .black, thickness: 1)
         nextWeekLabel.height(constant: 40)

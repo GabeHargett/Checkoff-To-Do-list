@@ -13,6 +13,9 @@ class GroupManager {
     func getCurrentGroupID() -> String? {
         return UserDefaults.standard.string(forKey: "CurrentGroupID")
     }
+    func setCurrentGroupID(groupID: String) {
+        UserDefaults.standard.set(groupID, forKey: "CurrentGroupID")
+    }
 }
 
 class HomeViewController: UIViewController  {

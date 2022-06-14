@@ -259,12 +259,4 @@ override var text: String? {
 //        let vc = TemporaryVC()
 //        navigationController?.pushViewController(vc, animated: true)
 //    }
- 
-//class TemporaryVC: UIViewController {
-//
-//    override func viewDidLoad() {
-//        super.viewDidLoad()
-//
-//        view.backgroundColor = .systemGreen
-//    }
-//}
+

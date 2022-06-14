@@ -215,3 +215,4 @@ class GoalsView: UIView {
         tableView.fillSuperview()
     }
 }
+
