@@ -37,7 +37,7 @@ class GroupCreationVC: UIViewController {
             print("Missing data")
             return
         }
-        FirebaseAPI.readGroupToken(token: "123456", completion: {
+        FirebaseAPI.readGroupToken(token: joinGroup, completion: {
             result in
             FirebaseAPI.joinGroup(groupID: result ?? "")
             GroupManager.shared.setCurrentGroupID(groupID: result ?? "")

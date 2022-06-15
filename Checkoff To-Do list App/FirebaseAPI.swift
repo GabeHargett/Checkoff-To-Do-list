@@ -55,8 +55,6 @@ class FirebaseAPI {
     
     let storage = Storage.storage().reference()
     
-
-    
     static func currentUserUID() -> String? {
         return Auth.auth().currentUser?.uid
     }
@@ -144,7 +142,6 @@ class FirebaseAPI {
         }, withCancel: {error in
             completion(nil)
         })
-
     }
     
     static func getGroupUserID(groupID: String) -> DatabaseReference? {
