@@ -99,7 +99,7 @@ class GroupView: UIView {
         createGroupField.cornerRadius(radius: 8)
 
         
-        joinGroupField.placeholder = "Join with Group Name"
+        joinGroupField.placeholder = "Enter Group Token"
         joinGroupField.layer.borderWidth = 1
         joinGroupField.cornerRadius(radius: 8)
         joinGroupField.isSecureTextEntry = true

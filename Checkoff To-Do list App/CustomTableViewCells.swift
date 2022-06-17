@@ -12,6 +12,7 @@ protocol TaskCellDelegate: AnyObject {
     func didTapPencil(task: Task)
 }
 
+
 class TaskCell: UITableViewCell {
     
     static let identifier = "TaskCell"

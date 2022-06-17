@@ -8,194 +8,122 @@
 import UIKit
 import Firebase
 
-struct ColorOptions {
-    let colorView = UIView()
-    let checkBox = CircularCheckbox()
-}
-
-struct UserSpecificButtons {
-    let logOutButton = UIButton()
-    let tokenGenerator = UIButton()
-}
-
 class SettingsVC: UIViewController {
     
+    
     enum Section: Int {
-        case setColorScheme = 0
-        case userTools = 1
+        case setColorScheme
+        case userTools
     }
-
+    
+    enum buttonType: Int {
+        case token
+        case logOut
+    }
+    
+    
     override func loadView() {
         view = baseView
     }
-    
     
     let baseView = SettingsView()
     private let sections: [Section] = [.setColorScheme, .userTools]
     
     let signOutButton = CustomButton(type: .imageAndLabel)
     let tokenButton = CustomButton(type: .imageAndLabel)
-    let alert2 = UIAlertController(title: "Create Account",
+    let alert2 = UIAlertController(title: "Share this Token",
                                    message: "",
                                    preferredStyle: .alert)
-
-
-
-    var colorViews = [ColorOptions]()
-    var tools = [UserSpecificButtons]()
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
         title = "Settings"
         baseView.tableView.dataSource = self
-        logOutButton()
-        logOutButtonSetUp()
-        tokenButtonDidTap()
-        tokenButtonSetUp()
+        
     }
-
+    
     private func getRandomToken() -> String {
         let randomNumber = Int.random(in: 100000...999999)
         return String(randomNumber)
     }
     
-    @objc public func generateToken() {
-        let alert = UIAlertController(title: "Create Group Token",
-                                      message: "Would you like to create a group token?",
-                                      preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "Continue",
-                                      style: .default,
-                                      handler: {_ in
-            let token = self.getRandomToken()
-            let groupID = GroupManager.shared.getCurrentGroupID() ?? ""
-            FirebaseAPI.setGroupToken(groupID: groupID, token: token)
-            self.alert2.message = token
-            self.present(self.alert2, animated: true) { [weak self] in
-                guard let self = self else { return }
-
-                let dismissGesture = UITapGestureRecognizer(target: self, action: #selector(self.shouldDismiss))
-
-                self.alert2.view.window?.isUserInteractionEnabled = true
-                self.alert2.view.window?.addGestureRecognizer(dismissGesture)
-            }
-        }))
-        alert.addAction(UIAlertAction(title: "Cancel",
-                                      style: .cancel,
-                                      handler: {_ in
-            
-        }))
-        present(alert, animated: true)
-
-    }
+    
     @objc private func shouldDismiss() {
         alert2.dismiss(animated: true)
     }
-    private func logOutButton() {
-        signOutButton.isUserInteractionEnabled = true
-        let tapGesture180 = UITapGestureRecognizer(target: self, action: #selector(logOutTapped))
-        signOutButton.addGestureRecognizer(tapGesture180)
+    
+}
+extension SettingsVC: SettingsColorCellDelegate {
+    func didCheckBox() {
+        print("checked")
     }
+}
 
+extension SettingsVC: SettingsButtonCellDelegate {
     
-    private func logOutButtonSetUp() {
-    
-        signOutButton.setImage(image:UIImage(systemName: "hand.wave"),color: .black)
-        signOutButton.setTitle(title: "Log Out")
-        signOutButton.setImageWidth(size: 30)
-        signOutButton.setImageHeight(size: 30)
-        signOutButton.quickConfigure(
-            font: .systemFont(ofSize: 17),
-            titleColor: .black,
-            backgroundColor: .systemGray4,
-            cornerRadius: 15)
-    
-        signOutButton.layoutMargins = UIEdgeInsets(top: 10,
-                                                   left: 0,
-                                                   bottom: 10,
-                                                   right: 10)
-        view.addAutoLayoutSubview(signOutButton)
-    
-        NSLayoutConstraint.activate([
-            signOutButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            signOutButton.centerYAnchor.constraint(equalTo: view.centerYAnchor)
-        ])
-    }
-    private func tokenButtonDidTap() {
-        tokenButton.isUserInteractionEnabled = true
-        let tapGesture180 = UITapGestureRecognizer(target: self, action: #selector(generateToken))
-        tokenButton.addGestureRecognizer(tapGesture180)
-    }
-
-    
-    private func tokenButtonSetUp() {
-    
-        tokenButton.setImage(image:UIImage(systemName: "hand.wave"),color: .black)
-        tokenButton.setTitle(title: "Token")
-        tokenButton.setImageWidth(size: 30)
-        tokenButton.setImageHeight(size: 30)
-        tokenButton.quickConfigure(
-            font: .systemFont(ofSize: 17),
-            titleColor: .black,
-            backgroundColor: .systemGray4,
-            cornerRadius: 15)
-    
-        tokenButton.layoutMargins = UIEdgeInsets(top: 10,
-                                                   left: 0,
-                                                   bottom: 10,
-                                                   right: 10)
-        view.addAutoLayoutSubview(tokenButton)
-    
-        NSLayoutConstraint.activate([
-            tokenButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            tokenButton.centerYAnchor.constraint(equalTo: view.centerYAnchor,constant: -40),
-        ])
-    }
-
-    
-    @objc private func logOutTapped() {
+    internal func logOutTapped() {
         do{
             try FirebaseAuth.Auth.auth().signOut()
             DispatchQueue.main.async {
                 let vc = FirebaseAuthVC()
                 self.navigationController?.pushViewController(vc, animated: true)
+            }
         }
-    }
         catch{
-           print("An error occurred")
+            print("An error occurred")
         }
     }
     
+    func createToken() {
+        let token = self.getRandomToken()
+        let groupID = GroupManager.shared.getCurrentGroupID() ?? ""
+        FirebaseAPI.setGroupToken(groupID: groupID, token: token)
+        self.alert2.message = token
+        self.present(self.alert2, animated: true) { [weak self] in
+            guard let self = self else { return }
+            
+            let dismissGesture = UITapGestureRecognizer(target: self, action: #selector(self.shouldDismiss))
+            
+            self.alert2.view.window?.isUserInteractionEnabled = true
+            self.alert2.view.window?.addGestureRecognizer(dismissGesture)
+        }
+    }
 }
 
-extension SettingsVC: UITableViewDataSource, UITableViewDelegate {
-    
+extension SettingsVC: UITableViewDataSource, UITableViewDelegate{
     
     func numberOfSections(in tableView: UITableView) -> Int {
         return sections.count
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-//        switch sections[section] {
-//        case .setColorScheme:
-//            return colorViews.count
-//        case .userTools:
-//            return tools.count
-//        }
-        return 1
+        switch sections[section] {
+        case .setColorScheme:
+            return 7
+        case .userTools:
+            return 2
+        }
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: SettingsCell.identifier, for: indexPath) as! SettingsCell
-
-//        switch sections[indexPath.section] {
-//        case .setColorScheme:
-////            task = tasks.filter({!$0.isComplete})[indexPath.item]
-//        case .userTools:
-////            task = tasks.filter({$0.isComplete})[indexPath.item]
-//        }
-        return cell
+        
+        switch sections[indexPath.section] {
+        case .setColorScheme:
+            let cell = tableView.dequeueReusableCell(withIdentifier: SettingsColorCell.identifier, for: indexPath) as! SettingsColorCell
+            if let colorScheme = ColorScheme.init(rawValue: indexPath.item) {
+                cell.configure(colorScheme: colorScheme)
+            }
+            cell.delegate = self
+            return cell
+        case .userTools:
+            let cell = tableView.dequeueReusableCell(withIdentifier: SettingsButtonCell.identifier, for: indexPath) as! SettingsButtonCell
+            cell.configure(buttonType: buttonType.init(rawValue: indexPath.item) ?? .logOut)
+            cell.delegate = self
+            return cell
+        }
     }
-
+    
     
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         switch sections[section] {
@@ -204,8 +132,9 @@ extension SettingsVC: UITableViewDataSource, UITableViewDelegate {
         case .userTools:
             return "User Tools"
         }
-        }
     }
+}
+
 class SettingsView: UIView {
     
     let tableView = UITableView()
@@ -218,14 +147,16 @@ class SettingsView: UIView {
         configureSubviews()
         configureLayout()
     }
-
+    
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
-
-
+    
+    
     private func configureSubviews() {
-        tableView.register(SettingsCell.self, forCellReuseIdentifier: SettingsCell.identifier)
+        tableView.register(SettingsColorCell.self, forCellReuseIdentifier: SettingsColorCell.identifier)
+        tableView.register(SettingsButtonCell.self, forCellReuseIdentifier: SettingsButtonCell.identifier)
+        
     }
     
     private func configureLayout() {
@@ -233,18 +164,20 @@ class SettingsView: UIView {
         tableView.fillSuperview()
     }
 }
+protocol SettingsColorCellDelegate: AnyObject {
+    func didCheckBox()
+}
 
-
-class SettingsCell: UITableViewCell {
+class SettingsColorCell: UITableViewCell {
     
-    static let identifier = "SettingsCell"
+    static let identifier = "SettingsColorCell"
     
     private let checkbox = CircularCheckbox()
-    private let mainColorViews = UIView()
     private let gradient1 = Gradient()
-
+    let mainColorView = UIView()
     
-    weak var delegate: SettingsCell?
+    
+    weak var delegate: SettingsColorCellDelegate?
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -252,36 +185,75 @@ class SettingsCell: UITableViewCell {
         
         setupSubviews()
         setUpGradient()
-
+        
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
+    func configure(colorScheme: ColorScheme) {
+        gradient1.startColor = getStartColor(colorScheme: colorScheme)
+        gradient1.endColor = getEndColor(colorScheme: colorScheme)
+    }
+    
+    private func getStartColor(colorScheme: ColorScheme) -> UIColor {
+        switch colorScheme {
+        case .green:
+            return UIColor(hex: "#358873")
+        case .blue:
+            return UIColor(hex: "#1666ba")
+        case .purple:
+            return UIColor(hex: "#6f3f74")
+        case .red:
+            return UIColor(hex: "#d90809")
+        case .silver:
+            return UIColor(hex: "#4c4c4c")
+        case .pink:
+            return UIColor(hex: "#f45ca2")
+        case .brown:
+            return UIColor(hex: "#5f4f3e")
+        }
+    }
+    private func getEndColor(colorScheme: ColorScheme) -> UIColor {
+        switch colorScheme {
+        case .green:
+            return UIColor(hex: "#DFEAE2")
+        case .blue:
+            return UIColor(hex: "#deecfb")
+        case .purple:
+            return UIColor(hex: "#eddde8")
+        case .red:
+            return UIColor(hex: "#fce0df")
+        case .silver:
+            return UIColor(hex: "#cccccc")
+        case .pink:
+            return UIColor(hex: "#ffe2f0")
+        case .brown:
+            return UIColor(hex: "#e3dad1")
+        }
+    }
+    
     private func setUpGradient() {
         gradient1.horizontalMode = true
-        gradient1.startColor = .mainColor1
-        gradient1.endColor = .mainColor6
         gradient1.startLocation = 0.4
         gradient1.endLocation = 1.1
         gradient1.cornerRadius(radius: 8)
-        mainColorViews.addAutoLayoutSubview(gradient1)
+        mainColorView.addAutoLayoutSubview(gradient1)
         gradient1.fillSuperview()
         gradient1.isUserInteractionEnabled = false
-
     }
     
     private func setupSubviews() {
         
-        mainColorViews.addBorders(color: .black, thickness: 1)
-        mainColorViews.layer.cornerRadius = 8
-
+        mainColorView.addBorders(color: .black, thickness: 1)
+        mainColorView.layer.cornerRadius = 8
+        
         let stackView = UIStackView()
         stackView.layoutMargins = UIEdgeInsets(top: 8, left: 16, bottom: 8, right: 16)
         stackView.isLayoutMarginsRelativeArrangement = true
-        stackView.addArrangedSubviews([mainColorViews,checkbox])
-        stackView.setCustomSpacing(8, after: mainColorViews)
+        stackView.addArrangedSubviews([mainColorView,checkbox])
+        stackView.setCustomSpacing(8, after: mainColorView)
         checkbox.height(constant: 32)
         checkbox.width(constant: 32)
         addAutoLayoutSubview(stackView)
@@ -291,11 +263,84 @@ class SettingsCell: UITableViewCell {
         let gesture = UITapGestureRecognizer(target: self, action: #selector(didTapCheckBox))
         checkbox.addGestureRecognizer(gesture)
     }
-
-
-@objc func didTapCheckBox() {
-    checkbox.toggle()
+    
+    
+    
+    @objc func didTapCheckBox() {
+        checkbox.toggle()
+        delegate?.didCheckBox()
+    }
 }
+
+
+
+protocol SettingsButtonCellDelegate: AnyObject {
+    func logOutTapped()
+    func createToken()
+}
+
+class SettingsButtonCell: UITableViewCell {
+    
+    
+    
+    static let identifier = "SettingsButtonCell"
+    
+    let button = CustomButton(type: .image)
+    let label  = UILabel()
+    
+    weak var delegate: SettingsButtonCellDelegate?
+    
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
+        
+        contentView.backgroundColor = .white
+        setUpSubviews()
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    func configure(buttonType: SettingsVC.buttonType) {
+        switch buttonType {
+            
+        case .token:
+            label.text = "Create Group Token"
+            button.setImage(image:UIImage(systemName: "barcode"),color:.black)
+            button.addTarget(self, action: #selector(didTapBarCode), for: .touchUpInside)
+            
+        case .logOut:
+            label.text = "Log Out"
+            button.setImage(image:UIImage(systemName: "hand.wave"),color:.black)
+            button.addTarget(self, action: #selector(didTapLogOut), for: .touchUpInside)
+            
+        }
+    }
+    
+    @objc func didTapBarCode() {
+        delegate?.createToken()
+    }
+    
+    @objc func didTapLogOut() {
+        delegate?.logOutTapped()
+    }
+    
+    private func setUpSubviews() {
+        label.quickConfigure(textAlignment: .center, font: .systemFont(ofSize: 17), textColor: .black, numberOfLines: 0)
+        button.setImageWidth(size: 25)
+        button.setImageHeight(size: 25)
+        button.layoutMargins = UIEdgeInsets(top: 5, left: 5, bottom: 5, right:5)
+        button.quickConfigure(font: .systemFont(ofSize: 15), titleColor: .black, backgroundColor: .systemGray4, cornerRadius: 8)
+        
+        
+        let stackView = UIStackView()
+        stackView.layoutMargins = UIEdgeInsets(top: 8, left: 16, bottom: 8, right: 16)
+        stackView.isLayoutMarginsRelativeArrangement = true
+        stackView.addArrangedSubviews([label,button])
+        addAutoLayoutSubview(stackView)
+        stackView.fillSuperview()
+        
+    }
 }
 
 

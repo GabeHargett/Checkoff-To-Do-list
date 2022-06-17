@@ -33,7 +33,6 @@ class HomeView: UIView {
     let previousWeekGoalLabel = UILabel()
     let otherWeeksGoalLabel = UILabel()
     
-    let goalsAddButton = CustomButton(type: .imageAndLabel)
     let goalsStack2 = UIStackView()
 
     let imageButton = CustomButton(type: .image)
@@ -52,7 +51,7 @@ class HomeView: UIView {
     private let currentWeekTaskLabel = UILabel()
     
     private let scrollStack = ScrollableStackView()
-    private let currecntWeekPreviousOtherStack = UIStackView()
+    private let weekStack = UIStackView()
     private let nextPreviousOtherGoalStack = UIStackView()
     private let nextPreviousOtherStack = UIStackView()
     private let currentTaskLabel = UnderlinedLabel()
@@ -86,12 +85,12 @@ class HomeView: UIView {
         addAutoLayoutSubview(scrollStack)
         scrollStack.fillSuperview()
         
-        currecntWeekPreviousOtherStack.addBorders(color: .black, thickness: 1)
-        currecntWeekPreviousOtherStack.layoutMargins = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
-        currecntWeekPreviousOtherStack.axis = .vertical
-        currecntWeekPreviousOtherStack.spacing = 12
-        currecntWeekPreviousOtherStack.isLayoutMarginsRelativeArrangement = true
-        currecntWeekPreviousOtherStack.cornerRadius(radius: 8)
+        weekStack.addBorders(color: .black, thickness: 1)
+        weekStack.layoutMargins = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+        weekStack.axis = .vertical
+        weekStack.spacing = 12
+        weekStack.isLayoutMarginsRelativeArrangement = true
+        weekStack.cornerRadius(radius: 8)
 
         
         currentWeekStack.axis = .horizontal
@@ -109,20 +108,20 @@ class HomeView: UIView {
         nextPreviousOtherStack.cornerRadius(radius: 8)
 
         nextPreviousOtherGoalStack.axis = .horizontal
-        nextPreviousOtherGoalStack.layoutMargins = UIEdgeInsets(top: 0, left: 0, bottom: 10, right: 0)
+        nextPreviousOtherGoalStack.layoutMargins = UIEdgeInsets(top: 0, left: 16, bottom: 10, right: 16)
         nextPreviousOtherGoalStack.isLayoutMarginsRelativeArrangement = true
         nextPreviousOtherGoalStack.alignment = .center
         nextPreviousOtherGoalStack.spacing = 12
         nextPreviousOtherGoalStack.cornerRadius(radius: 8)
 
         
-        imageView.height(constant: 64)
-        imageView.width(constant: 64)
+        imageView.height(constant: 55)
+        imageView.width(constant: 55)
         imageView.contentMode = .scaleAspectFit
         imageView.tintColor = .black
         
-        goalImageView.height(constant: 64)
-        goalImageView.width(constant: 64)
+        goalImageView.height(constant: 55)
+        goalImageView.width(constant: 55)
         goalImageView.contentMode = .scaleAspectFit
         goalImageView.tintColor = .black
 
@@ -183,8 +182,7 @@ class HomeView: UIView {
         quoteButton.setImageHeight(size: 26)
         quoteButton.quickConfigure(
                     font: .systemFont(ofSize: 15), titleColor: .black, backgroundColor: .systemGray4, cornerRadius: 8)
-        quoteButton.layoutMargins = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
-        quoteButton.isUserInteractionEnabled = true
+        quoteButton.layoutMargins = UIEdgeInsets(top: 5, left: 5, bottom: 5, right: 5)
 
         quoteLabel.textAlignment = .center
         quoteLabel.numberOfLines = 0
@@ -208,16 +206,15 @@ class HomeView: UIView {
         imageButton.setImage(image:UIImage(systemName: "photo"),color:.systemGray)
         imageButton.setImageWidth(size: 25)
         imageButton.setImageHeight(size: 25)
-        imageButton.layoutMargins = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
+        imageButton.layoutMargins = UIEdgeInsets(top: 5, left: 5, bottom: 5, right: 5)
         imageButton.quickConfigure(font: .systemFont(ofSize: 15), titleColor: .black, backgroundColor: .systemGray4, cornerRadius: 8)
-        imageButton.isUserInteractionEnabled = true
+
 
         pencilQuoteButton.setImage(image:UIImage(systemName: "pencil"),color:.systemGray)
         pencilQuoteButton.setImageWidth(size: 25)
         pencilQuoteButton.setImageHeight(size: 25)
-        pencilQuoteButton.layoutMargins = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
+        pencilQuoteButton.layoutMargins = UIEdgeInsets(top: 5, left: 5, bottom: 5, right: 5)
         pencilQuoteButton.quickConfigure(font: .systemFont(ofSize: 15), titleColor: .black, backgroundColor: .systemGray4, cornerRadius: 8)
-        pencilQuoteButton.isUserInteractionEnabled = true
 
         
         imageAddOnStack.text = "Couple Picture of the Week"
@@ -230,9 +227,8 @@ class HomeView: UIView {
         imageAddButton.setImageHeight(size: 26)
         imageAddButton.quickConfigure(
                     font: .systemFont(ofSize: 15), titleColor: .black, backgroundColor: .systemGray4, cornerRadius: 8)
-        imageAddButton.layoutMargins = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
-        imageAddButton.isUserInteractionEnabled = true
-        
+        imageAddButton.layoutMargins = UIEdgeInsets(top: 5, left: 5, bottom: 5, right: 5)
+
         couplePhoto.isHidden = true
         couplePhoto.cornerRadius(radius: 8)
         couplePhoto.addBorders(color: .black, thickness: 1)
@@ -246,24 +242,24 @@ class HomeView: UIView {
         goalsStack2.cornerRadius(radius: 8)
         
         goalsStack1.addBorders(color: .black, thickness: 1)
-        goalsStack1.layoutMargins = UIEdgeInsets(top: 0, left: 16, bottom: 0, right: 16)
+        goalsStack1.layoutMargins = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
         goalsStack1.axis = .vertical
         goalsStack1.spacing = 12
         goalsStack1.isLayoutMarginsRelativeArrangement = true
         goalsStack1.cornerRadius(radius: 8)
 
         goalsLabel.text = "Couple Goals of the Week"
-        goalsLabel.textAlignment = .center
+        goalsLabel.textAlignment = .left
         goalsLabel.font = UIFont.systemFont(ofSize: 21)
                 
         scrollStack.stackView.addArrangedSubviews([
-            currecntWeekPreviousOtherStack,
+            weekStack,
             imageStack,
             goalsStack1,
             quoteStack
         ])
         
-        currecntWeekPreviousOtherStack.addArrangedSubviews([
+        weekStack.addArrangedSubviews([
             currentWeekStack,
             nextPreviousOtherStack,
         ])
