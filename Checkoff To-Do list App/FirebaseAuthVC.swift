@@ -23,7 +23,8 @@ class FirebaseAuthVC: UIViewController {
         
         navigationItem.hidesBackButton = true
 
-        baseView.button.addTarget(self, action: #selector(didTapButton), for: .touchUpInside)
+        baseView.button1.addTarget(self, action: #selector(didTapButton), for: .touchUpInside)
+        baseView.button2.addTarget(self, action: #selector(didTapButton), for: .touchUpInside)
             }
 
     override func viewDidAppear(_ animated: Bool) {

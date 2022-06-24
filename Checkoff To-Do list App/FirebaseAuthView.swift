@@ -27,7 +27,9 @@ class FirebaseAuthView: UIView {
     let passField = UITextField()
     var firstNameTF = UITextField()
     var lastNameTF = UITextField()
-    let button = UIButton()
+    let button1 = UIButton()
+    let button2 = UIButton()
+
     
     
     
@@ -35,10 +37,14 @@ class FirebaseAuthView: UIView {
         if segmentedControl.selectedSegmentIndex == 0 {
             firstNameTF.isHidden = true
             lastNameTF.isHidden = true
+            button2.isHidden = true
+            button1.isHidden = false
         }
         else {
             firstNameTF.isHidden = false
             lastNameTF.isHidden = false
+            button2.isHidden = false
+            button1.isHidden = true
         }
     }
     private func setupUserInputs() {
@@ -46,6 +52,7 @@ class FirebaseAuthView: UIView {
         backgroundColor = .white
         firstNameTF.isHidden = true
         lastNameTF.isHidden = true
+        button2.isHidden = true
 
         
         emailField.placeholder = "Email Address"
@@ -83,14 +90,22 @@ class FirebaseAuthView: UIView {
         lastNameTF.leftViewMode = .always
         lastNameTF.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 5, height: 0))
 
-        button.backgroundColor = .systemGray4
-        button.setTitleColor(.black, for: .normal)
-        button.setTitle("Continue", for: .normal)
-        button.isUserInteractionEnabled = true
-        button.cornerRadius(radius: 8)
+        button1.backgroundColor = .systemGray4
+        button1.setTitleColor(.black, for: .normal)
+        button1.setTitle("Continue", for: .normal)
+        button1.isUserInteractionEnabled = true
+        button1.cornerRadius(radius: 8)
+        
+        button2.backgroundColor = .systemGray4
+        button2.setTitleColor(.black, for: .normal)
+        button2.setTitle("Continue", for: .normal)
+        button2.isUserInteractionEnabled = true
+        button2.cornerRadius(radius: 8)
+
 
         addAutoLayoutSubview(segmentedControl)
-        addAutoLayoutSubview(button)
+        addAutoLayoutSubview(button1)
+        addAutoLayoutSubview(button2)
         addAutoLayoutSubview(passField)
         addAutoLayoutSubview(emailField)
         addAutoLayoutSubview(firstNameTF)
@@ -118,16 +133,21 @@ class FirebaseAuthView: UIView {
             firstNameTF.centerYAnchor.constraint(equalTo: centerYAnchor),
             firstNameTF.widthAnchor.constraint(equalToConstant: 400),
             firstNameTF.heightAnchor.constraint(equalToConstant: 30),
+            
+            button1.centerXAnchor.constraint(equalTo: centerXAnchor),
+            button1.centerYAnchor.constraint(equalTo: centerYAnchor),
+            button1.widthAnchor.constraint(equalToConstant: 400),
+            button1.heightAnchor.constraint(equalToConstant: 30),
 
             lastNameTF.centerXAnchor.constraint(equalTo: centerXAnchor),
             lastNameTF.centerYAnchor.constraint(equalTo: centerYAnchor,constant: +40),
             lastNameTF.widthAnchor.constraint(equalToConstant: 400),
             lastNameTF.heightAnchor.constraint(equalToConstant: 30),
 
-            button.centerXAnchor.constraint(equalTo: centerXAnchor),
-            button.centerYAnchor.constraint(equalTo: centerYAnchor, constant: +80),
-            button.widthAnchor.constraint(equalToConstant: 400),
-            button.heightAnchor.constraint(equalToConstant: 30),
+            button2.centerXAnchor.constraint(equalTo: centerXAnchor),
+            button2.centerYAnchor.constraint(equalTo: centerYAnchor, constant: +80),
+            button2.widthAnchor.constraint(equalToConstant: 400),
+            button2.heightAnchor.constraint(equalToConstant: 30),
             ])
 
 

@@ -209,6 +209,7 @@ class DateAnalyzer {
         }
         return WeekAndYear(week: weekOfYear, year: year)
     }
+
 }
 
 class WeeksView: UIView {

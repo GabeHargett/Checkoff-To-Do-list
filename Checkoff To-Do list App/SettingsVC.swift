@@ -337,6 +337,7 @@ class SettingsButtonCell: UITableViewCell {
         stackView.layoutMargins = UIEdgeInsets(top: 8, left: 16, bottom: 8, right: 16)
         stackView.isLayoutMarginsRelativeArrangement = true
         stackView.addArrangedSubviews([label,button])
+        stackView.addBorders(color: .black, thickness: 1)
         addAutoLayoutSubview(stackView)
         stackView.fillSuperview()
         
