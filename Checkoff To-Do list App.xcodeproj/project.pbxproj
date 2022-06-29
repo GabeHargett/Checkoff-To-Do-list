@@ -33,6 +33,7 @@
 		778728E927FF96170060B496 /* FirebaseAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 778728E827FF96170060B496 /* FirebaseAPI.swift */; };
 		77A0C040283818D8000AC40E /* SettingsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77A0C03F283818D8000AC40E /* SettingsVC.swift */; };
 		77A52DD02851A3AE00CE75ED /* GradientView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77A52DCF2851A3AE00CE75ED /* GradientView.swift */; };
+		77A52DD2286AADA800CE75ED /* ToastHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77A52DD1286AADA800CE75ED /* ToastHelper.swift */; };
 		77AD87C12810EF4000998DCC /* CustomCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77AD87C02810EF4000998DCC /* CustomCollectionView.swift */; };
 		77AD87C42810FE9000998DCC /* CustomTableViewCells.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77AD87C32810FE9000998DCC /* CustomTableViewCells.swift */; };
 		77B573382847E8F7009EBDCF /* MonoColorSchemes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77B573372847E8F7009EBDCF /* MonoColorSchemes.swift */; };
@@ -64,6 +65,7 @@
 		778728E827FF96170060B496 /* FirebaseAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseAPI.swift; sourceTree = "<group>"; };
 		77A0C03F283818D8000AC40E /* SettingsVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsVC.swift; sourceTree = "<group>"; };
 		77A52DCF2851A3AE00CE75ED /* GradientView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradientView.swift; sourceTree = "<group>"; };
+		77A52DD1286AADA800CE75ED /* ToastHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToastHelper.swift; sourceTree = "<group>"; };
 		77AD87C02810EF4000998DCC /* CustomCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomCollectionView.swift; sourceTree = "<group>"; };
 		77AD87C32810FE9000998DCC /* CustomTableViewCells.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTableViewCells.swift; sourceTree = "<group>"; };
 		77B573372847E8F7009EBDCF /* MonoColorSchemes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonoColorSchemes.swift; sourceTree = "<group>"; };
@@ -133,6 +135,7 @@
 				778728B927F42C560060B496 /* LaunchScreen.storyboard */,
 				778728B727F42C560060B496 /* Assets.xcassets */,
 				77AD87C02810EF4000998DCC /* CustomCollectionView.swift */,
+				77A52DD1286AADA800CE75ED /* ToastHelper.swift */,
 			);
 			path = "Checkoff To-Do list App";
 			sourceTree = "<group>";
@@ -225,6 +228,7 @@
 				77B5733A28494014009EBDCF /* GroupCreationVC.swift in Sources */,
 				778728AF27F42C540060B496 /* AppDelegate.swift in Sources */,
 				776B8107282AB08A004BD812 /* GoalsVC.swift in Sources */,
+				77A52DD2286AADA800CE75ED /* ToastHelper.swift in Sources */,
 				776B8111283349CB004BD812 /* FirebaseAuthVC.swift in Sources */,
 				776B810D282DB91D004BD812 /* HomeView.swift in Sources */,
 				776B81052822E1F7004BD812 /* DatePickerVC.swift in Sources */,

@@ -237,20 +237,20 @@ class HomeViewController: UIViewController  {
     }
     
     @objc private func didTapPreviousGoalWeek() {
-        guard var weekAndYear = DateAnalyzer.getWeekAndYearFromDate(date: Date()) else{
+        guard var weekAndYear = DateAnalyzer.getWeekAndYearFromDate(date: Date()), var monthAndYear = DateAnalyzer.getMonthAndYearFromDate(date: Date()) else{
             return
         }
         weekAndYear.week -= 1
-        let vc = GoalsVC(weekAndYear: weekAndYear)
+        let vc = GoalsVC(weekAndYear: weekAndYear, monthAndYear: monthAndYear)
         navigationController?.pushViewController(vc, animated: true)
     }
     
     @objc private func didTapNextGoalWeek() {
-        guard var weekAndYear = DateAnalyzer.getWeekAndYearFromDate(date: Date()) else{
+        guard var weekAndYear = DateAnalyzer.getWeekAndYearFromDate(date: Date()), var monthAndYear = DateAnalyzer.getMonthAndYearFromDate(date: Date()) else{
             return
         }
         weekAndYear.week += 1
-        let vc = GoalsVC(weekAndYear: weekAndYear)
+        let vc = GoalsVC(weekAndYear: weekAndYear, monthAndYear: monthAndYear)
         navigationController?.pushViewController(vc, animated: true)
     }
 
@@ -261,10 +261,11 @@ class HomeViewController: UIViewController  {
     }
     
     @objc private func didTapGoalsStack() {
-        guard let weekAndYear = DateAnalyzer.getWeekAndYearFromDate(date: Date()) else{
+        guard var weekAndYear = DateAnalyzer.getWeekAndYearFromDate(date: Date()), var monthAndYear = DateAnalyzer.getMonthAndYearFromDate(date: Date()) else{
             return
         }
-        let vc = GoalsVC(weekAndYear: weekAndYear)
+        
+        let vc = GoalsVC(weekAndYear: weekAndYear, monthAndYear: monthAndYear)
         navigationController?.pushViewController(vc, animated: true)
     }
     
@@ -348,10 +349,11 @@ extension HomeViewController: DatePickerVCDelegate {
     
     func didSubmitGoalDate(date: Date?) {
         let dateStamp = date?.timeIntervalSince1970 ?? Date().timeIntervalSince1970
-        guard let weekAndYear = DateAnalyzer.getWeekAndYearFromDate(date: Date.init(timeIntervalSince1970: dateStamp)) else {
+        guard var weekAndYear = DateAnalyzer.getWeekAndYearFromDate(date: Date()), var monthAndYear = DateAnalyzer.getMonthAndYearFromDate(date: Date()) else{
             return
         }
-        let vc = GoalsVC(weekAndYear: weekAndYear)
+        
+        let vc = GoalsVC(weekAndYear: weekAndYear, monthAndYear: monthAndYear)
         navigationController?.pushViewController(vc, animated: true)
         
     }

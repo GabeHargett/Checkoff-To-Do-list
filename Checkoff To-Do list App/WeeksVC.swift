@@ -14,6 +14,36 @@ struct WeekAndYear: Equatable {
     var year: Int
 }
 
+class DateAnalyzer {
+    static func getWeekAndYearFromDate(date: Date) -> WeekAndYear? {
+        let allComponents = Calendar.current.dateComponents([.year, .weekOfYear], from: date)
+        guard let weekOfYear = allComponents.weekOfYear,
+              let year = allComponents.year else {
+            return nil
+        }
+        return WeekAndYear(week: weekOfYear, year: year)
+    }
+    
+    static func getMonthAndYearFromDate(date: Date) -> MonthAndYear? {
+        let allComponents = Calendar.current.dateComponents([.year, .month], from: date)
+        guard let monthOfYear = allComponents.month,
+              let year = allComponents.year else {
+            return nil
+        }
+        return MonthAndYear(dateMonth: monthOfYear, year: year)
+    }
+
+
+}
+
+extension Date {
+    func dateString() -> String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "MMM dd YY"
+        return dateFormatter.string(from: self)
+    }
+}
+
 
 class WeeksVC: UIViewController {
     
@@ -190,26 +220,6 @@ extension WeeksVC: UITableViewDataSource, UITableViewDelegate {
             return "Completed tasks"
         }
     }
-}
-
-extension Date {
-    func dateString() -> String {
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "MMM dd YY"
-        return dateFormatter.string(from: self)
-    }
-}
-
-class DateAnalyzer {
-    static func getWeekAndYearFromDate(date: Date) -> WeekAndYear? {
-        let allComponents = Calendar.current.dateComponents([.year, .weekOfYear], from: date)
-        guard let weekOfYear = allComponents.weekOfYear,
-              let year = allComponents.year else {
-            return nil
-        }
-        return WeekAndYear(week: weekOfYear, year: year)
-    }
-
 }
 
 class WeeksView: UIView {

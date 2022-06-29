@@ -48,7 +48,9 @@ class SettingsVC: UIViewController {
         return String(randomNumber)
     }
     
-    
+    private func showToast() {
+        ToastHelper.showToast(
+    }
     @objc private func shouldDismiss() {
         alert2.dismiss(animated: true)
     }
