@@ -16,6 +16,10 @@ class GroupManager {
     func setCurrentGroupID(groupID: String) {
         UserDefaults.standard.set(groupID, forKey: "CurrentGroupID")
     }
+    
+    func clearGroupID() {
+        UserDefaults.standard.set(nil, forKey: "CurrentGroupID")
+    }
 }
 
 class HomeViewController: UIViewController  {
@@ -29,8 +33,8 @@ class HomeViewController: UIViewController  {
     private var temporaryQuote: Quote?
     private let groupID: String
     
-    init() {
-        self.groupID = GroupManager.shared.getCurrentGroupID() ?? ""
+    init(groupID: String) {
+        self.groupID = groupID
         super.init(nibName: nil, bundle: nil)
     }
     

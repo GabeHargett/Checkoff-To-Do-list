@@ -163,6 +163,18 @@ class FirebaseAPI {
             UserDefaults.standard.set(groupID, forKey: "CurrentGroupID")
         }
     }
+    static func getUserGroups(completion: @escaping ([String]?) -> ()) {
+        guard let uid = FirebaseAPI.currentUserUID() else {
+            return
+        }
+        let ref = Database.database().reference().child("UserGroups").child(uid).child("groups")
+        ref.observeSingleEvent(of: .value, with: { (snapshot) in
+            completion(snapshot.value as? [String])
+
+        }, withCancel: {error in
+            completion(nil)
+        })
+    }
     static func joinGroup(groupID: String) {
         guard let uid = FirebaseAPI.currentUserUID() else {
             return

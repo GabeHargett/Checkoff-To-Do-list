@@ -49,7 +49,7 @@ class SettingsVC: UIViewController {
     }
     
     private func showToast() {
-        ToastHelper.showToast(
+        //ToastHelper.showToast(
     }
     @objc private func shouldDismiss() {
         alert2.dismiss(animated: true)
@@ -67,6 +67,7 @@ extension SettingsVC: SettingsButtonCellDelegate {
     internal func logOutTapped() {
         do{
             try FirebaseAuth.Auth.auth().signOut()
+            GroupManager.shared.clearGroupID()
             DispatchQueue.main.async {
                 let vc = FirebaseAuthVC()
                 self.navigationController?.pushViewController(vc, animated: true)

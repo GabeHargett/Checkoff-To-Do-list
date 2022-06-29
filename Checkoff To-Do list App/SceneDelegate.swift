@@ -18,11 +18,30 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         let window = UIWindow(windowScene: windowScene)
         if FirebaseAuth.Auth.auth().currentUser != nil {
-            let vc = HomeViewController()
-            let nav = UINavigationController(rootViewController: vc)
-            window.rootViewController = nav
-            self.window = window
-            window.makeKeyAndVisible()
+            if let groupID = GroupManager.shared.getCurrentGroupID() {
+                let vc = HomeViewController(groupID: groupID)
+                let nav = UINavigationController(rootViewController: vc)
+                window.rootViewController = nav
+                self.window = window
+                window.makeKeyAndVisible()
+            } else {
+                FirebaseAPI.getUserGroups {groups in
+                    if let groupID = groups?.first {
+                        GroupManager.shared.setCurrentGroupID(groupID: groupID)
+                        let vc = HomeViewController(groupID: groupID)
+                        let nav = UINavigationController(rootViewController: vc)
+                        window.rootViewController = nav
+                        self.window = window
+                        window.makeKeyAndVisible()
+                    } else {
+                        let vc = GroupCreationVC()
+                        let nav = UINavigationController(rootViewController: vc)
+                        window.rootViewController = nav
+                        self.window = window
+                        window.makeKeyAndVisible()
+                    }
+                }
+            }
         }
         //bug = User creates a login and exits app
         else {

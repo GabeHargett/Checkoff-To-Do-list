@@ -53,9 +53,18 @@ class FirebaseAuthVC: UIViewController {
                 return
             }
             DispatchQueue.main.async {
-                let vc = HomeViewController()
-                strongSelf.navigationController?.pushViewController(vc, animated: true)
-                strongSelf.navigationItem.leftBarButtonItem = nil
+                FirebaseAPI.getUserGroups {groups in
+                    if let groupID = groups?.first {
+                        GroupManager.shared.setCurrentGroupID(groupID: groupID)
+                        let vc = HomeViewController(groupID: groupID)
+                        strongSelf.navigationController?.pushViewController(vc, animated: true)
+                        strongSelf.navigationItem.leftBarButtonItem = nil
+                    } else {
+                        let vc = GroupCreationVC()
+                        strongSelf.navigationController?.pushViewController(vc, animated: true)
+                        strongSelf.navigationItem.leftBarButtonItem = nil
+                    }
+                }
                 
             }
         })
