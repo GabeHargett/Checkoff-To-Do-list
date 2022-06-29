@@ -30,7 +30,7 @@ class GroupCreationVC: UIViewController {
         }
         FirebaseAPI.addGroup(title: group)
         DispatchQueue.main.async {
-            let vc = HomeViewController()
+            let vc = HomeViewController(groupID: "")
             self.navigationController?.pushViewController(vc, animated: true)
         }
 
@@ -47,7 +47,7 @@ class GroupCreationVC: UIViewController {
             FirebaseAPI.joinGroup(groupID: result ?? "")
             GroupManager.shared.setCurrentGroupID(groupID: result ?? "")
             DispatchQueue.main.async {
-                let vc = HomeViewController()
+                let vc = HomeViewController(groupID: "")
                 self.navigationController?.pushViewController(vc, animated: true)
             }
         })
