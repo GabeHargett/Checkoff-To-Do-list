@@ -38,10 +38,10 @@ class TaskCell: UITableViewCell {
     
     private func setupSubviews() {
         
-        pencilImageView.tintColor = .black
+        pencilImageView.tintColor = .mainColor1
         pencilImageView.isUserInteractionEnabled = true
         
-        titleLabel.quickConfigure(textAlignment: .left, font: .systemFont(ofSize: 17), textColor: .black, numberOfLines: 0)
+        titleLabel.quickConfigure(textAlignment: .left, font: .systemFont(ofSize: 17), textColor: .mainColor1, numberOfLines: 0)
         authorAndDateLabel.quickConfigure(textAlignment: .right, font: .systemFont(ofSize: 15, weight: .light), textColor: .white, numberOfLines: 1)
         authorAndDateLabel.text = "author"
         
@@ -85,7 +85,7 @@ class TaskCell: UITableViewCell {
         FirebaseAPI.getFullName(uid: task.author) {result in
             if let fullName = result {
                 DispatchQueue.main.async {
-                    self.authorAndDateLabel.textColor = .black
+                    self.authorAndDateLabel.textColor = .mainColor3
                     let taskDate = Date.init(timeIntervalSince1970: task.dateStamp)
                     self.authorAndDateLabel.text = "Submitted by \(fullName.firstAndLastInitial()), due \(taskDate.dateString())"
                 }
@@ -150,7 +150,7 @@ class GoalCell: UITableViewCell {
         pencilImageView.tintColor = .black
         pencilImageView.isUserInteractionEnabled = true
         
-        titleLabel.quickConfigure(textAlignment: .left, font: .systemFont(ofSize: 17), textColor: .black, numberOfLines: 0)
+        titleLabel.quickConfigure(textAlignment: .left, font: .systemFont(ofSize: 17), textColor: .mainColor1, numberOfLines: 0)
         authorAndDateLabel.quickConfigure(textAlignment: .right, font: .systemFont(ofSize: 15, weight: .light), textColor: .white, numberOfLines: 1)
         authorAndDateLabel.text = "author"
         
@@ -192,7 +192,7 @@ class GoalCell: UITableViewCell {
         FirebaseAPI.getFullName(uid: goal.author) {result in
             if let fullName = result {
                 DispatchQueue.main.async {
-                    self.authorAndDateLabel.textColor = .black
+                    self.authorAndDateLabel.textColor = .mainColor3
                     let goalDate = Date.init(timeIntervalSince1970: goal.dateStamp)
                     self.authorAndDateLabel.text = "Submitted by \(fullName.firstAndLastInitial()), due \(goalDate.dateString())"
                 }
@@ -201,7 +201,6 @@ class GoalCell: UITableViewCell {
         self.checkbox.isComplete(isChecked: goal.isComplete)
         return
     }
-
 
     @objc func didTapCheckBox() {
         checkbox.toggle()

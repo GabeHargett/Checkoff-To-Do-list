@@ -13,6 +13,7 @@ class HomeView: UIView {
         super.init(frame: frame)
                 
         setupStackView()
+        setColors()
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -67,7 +68,24 @@ class HomeView: UIView {
     private let imageStackWithPencil = UIStackView ()
 
 
-
+    func setColors() {
+        imageButton.quickConfigure(font: .systemFont(ofSize: 15), titleColor: .black, backgroundColor: .mainColor4, cornerRadius: 8)
+        pencilQuoteButton.quickConfigure(font: .systemFont(ofSize: 15), titleColor: .black, backgroundColor: .mainColor4, cornerRadius: 8)
+        imageAddButton.quickConfigure(
+            font: .systemFont(ofSize: 15), titleColor: .black, backgroundColor: .mainColor4, cornerRadius: 8)
+        quoteButton.quickConfigure(
+            font: .systemFont(ofSize: 15), titleColor: .black, backgroundColor: .mainColor1, cornerRadius: 8)
+        for color in [previousWeekLabel, previousWeekGoalLabel, nextWeekLabel, nextWeekGoalLabel, otherWeeksLabel, otherWeeksGoalLabel, openGoalLabel, openTaskLabel, finishedGoalLabel, finishedTaskLabel, quoteSignature, quoteLabel] {
+            color.textColor = .mainColor1
+        }
+        for backgroundColor in [weekStack, imageStack, goalsStack1, quoteStack] {
+            backgroundColor.backgroundColor = .mainColor6
+        }
+        for backgroundColor in [quoteButton, previousWeekLabel, previousWeekGoalLabel, nextWeekLabel, nextWeekGoalLabel, otherWeeksLabel, otherWeeksGoalLabel] {
+            backgroundColor.backgroundColor = .mainColor4
+        }
+    }
+    
     private func setupStackView() {
         for view in [currentWeekStack, previousWeekLabel, nextWeekLabel, otherWeeksLabel, goalsStack2, previousWeekGoalLabel, nextWeekGoalLabel,
                      otherWeeksGoalLabel, quoteButton, pencilQuoteButton, imageAddButton, imageButton] {
@@ -126,32 +144,32 @@ class HomeView: UIView {
         goalImageView.tintColor = .black
 
         nextWeekLabel.text = " Next Week "
-        nextWeekLabel.addBorders(color: .black, thickness: 1)
+//        nextWeekLabel.addBorders(color: .black, thickness: 1)
         nextWeekLabel.height(constant: 40)
-        nextWeekLabel.layer.cornerRadius = 8
-        
+        nextWeekLabel.cornerRadius(radius: 8)
+
         previousWeekLabel.text = " Previous Week "
-        previousWeekLabel.addBorders(color: .black, thickness: 1)
+//        previousWeekLabel.addBorders(color: .black, thickness: 1)
         previousWeekLabel.height(constant: 40)
         previousWeekLabel.cornerRadius(radius: 8)
         
         otherWeeksLabel.text = " Other Weeks "
-        otherWeeksLabel.addBorders(color: .black, thickness: 1)
+//        otherWeeksLabel.addBorders(color: .black, thickness: 1)
         otherWeeksLabel.height(constant: 40)
         otherWeeksLabel.cornerRadius(radius: 8)
         
         nextWeekGoalLabel.text = " Next Week "
-        nextWeekGoalLabel.addBorders(color: .black, thickness: 1)
+//        nextWeekGoalLabel.addBorders(color: .black, thickness: 1)
         nextWeekGoalLabel.height(constant: 40)
-        nextWeekGoalLabel.layer.cornerRadius = 8
-        
+        nextWeekGoalLabel.cornerRadius(radius: 8)
+
         previousWeekGoalLabel.text = " Previous Week "
-        previousWeekGoalLabel.addBorders(color: .black, thickness: 1)
+//        previousWeekGoalLabel.addBorders(color: .black, thickness: 1)
         previousWeekGoalLabel.height(constant: 40)
         previousWeekGoalLabel.cornerRadius(radius: 8)
                 
         otherWeeksGoalLabel.text = " Other Weeks "
-        otherWeeksGoalLabel.addBorders(color: .black, thickness: 1)
+//        otherWeeksGoalLabel.addBorders(color: .black, thickness: 1)
         otherWeeksGoalLabel.height(constant: 40)
         otherWeeksGoalLabel.cornerRadius(radius: 8)
 
@@ -177,12 +195,13 @@ class HomeView: UIView {
         quoteOfTheWeek.font = UIFont.systemFont(ofSize: 21)
         
         quoteButton.setImage(image:UIImage(systemName: "quote.bubble"),color:.systemGray)
-        quoteButton.setTitle(title: "Tap Here to Insert A Quote")
+        quoteButton.setTitle(title: "Tap Here to Insert Quote")
         quoteButton.setImageWidth(size: 26)
         quoteButton.setImageHeight(size: 26)
-        quoteButton.quickConfigure(
-                    font: .systemFont(ofSize: 15), titleColor: .black, backgroundColor: .systemGray4, cornerRadius: 8)
         quoteButton.layoutMargins = UIEdgeInsets(top: 5, left: 5, bottom: 5, right: 5)
+        quoteButton.quickConfigure(
+            font: .systemFont(ofSize: 15), titleColor: .black, backgroundColor: .black, cornerRadius: 8)
+
 
         quoteLabel.textAlignment = .center
         quoteLabel.numberOfLines = 0
@@ -207,7 +226,6 @@ class HomeView: UIView {
         imageButton.setImageWidth(size: 25)
         imageButton.setImageHeight(size: 25)
         imageButton.layoutMargins = UIEdgeInsets(top: 5, left: 5, bottom: 5, right: 5)
-        imageButton.quickConfigure(font: .systemFont(ofSize: 15), titleColor: .black, backgroundColor: .systemGray4, cornerRadius: 8)
 
 
         pencilQuoteButton.setImage(image:UIImage(systemName: "pencil"),color:.systemGray)
@@ -225,8 +243,6 @@ class HomeView: UIView {
         imageAddButton.setTitle(title: "Tap Here To Insert Your Picture")
         imageAddButton.setImageWidth(size: 26)
         imageAddButton.setImageHeight(size: 26)
-        imageAddButton.quickConfigure(
-                    font: .systemFont(ofSize: 15), titleColor: .black, backgroundColor: .systemGray4, cornerRadius: 8)
         imageAddButton.layoutMargins = UIEdgeInsets(top: 5, left: 5, bottom: 5, right: 5)
 
         couplePhoto.isHidden = true

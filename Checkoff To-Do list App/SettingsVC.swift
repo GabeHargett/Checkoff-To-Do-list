@@ -8,6 +8,10 @@
 import UIKit
 import Firebase
 
+protocol SettingsVCDelegate: AnyObject {
+    func updateColor()
+}
+
 class SettingsVC: UIViewController {
     
     
@@ -16,7 +20,7 @@ class SettingsVC: UIViewController {
         case userTools
     }
     
-    enum buttonType: Int {
+    enum ButtonType: Int {
         case token
         case logOut
     }
@@ -31,16 +35,18 @@ class SettingsVC: UIViewController {
     
     let signOutButton = CustomButton(type: .imageAndLabel)
     let tokenButton = CustomButton(type: .imageAndLabel)
-    let alert2 = UIAlertController(title: "Share this Token",
-                                   message: "",
-                                   preferredStyle: .alert)
-    
+    let customAlert = ModalJesus(title: "Group Token", description: "Share this token with your group member")
+    let toast = ToastHelper(title: "Group token copied", buttonTitle: nil, buttonAction: nil)
+    let toast2 = ToastHelper(title: "Color Updated", buttonTitle: nil, buttonAction: nil)
+    weak var delegate: SettingsVCDelegate?
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
         title = "Settings"
         baseView.tableView.dataSource = self
-        
+        baseView.tableView.delegate = self
+        setUpAlert()
     }
     
     private func getRandomToken() -> String {
@@ -49,15 +55,27 @@ class SettingsVC: UIViewController {
     }
     
     private func showToast() {
-        //ToastHelper.showToast(
+        toast.showToast(view: baseView, duration: 1, bottomInset: 20)
     }
-    @objc private func shouldDismiss() {
-        alert2.dismiss(animated: true)
+    private func showToast2() {
+        toast2.showToast(view: baseView, duration: 1, bottomInset: 20)
     }
     
+    private func setUpAlert() {
+        let token = self.getRandomToken()
+        let groupID = GroupManager.shared.getCurrentGroupID() ?? ""
+        FirebaseAPI.setGroupToken(groupID: groupID, token: token)
+        UIPasteboard.general.string = token
+        if let readString = UIPasteboard.general.string {
+            customAlert.addAction(ModalJesusAction(title: "\(readString) (Tap to copy)", style: true, action: {self.showToast()}))
+            customAlert.addAction(ModalJesusAction(title: "Cancel", style: false))
+        }
+
+    }
 }
 extension SettingsVC: SettingsColorCellDelegate {
     func didCheckBox() {
+
         print("checked")
     }
 }
@@ -79,18 +97,7 @@ extension SettingsVC: SettingsButtonCellDelegate {
     }
     
     func createToken() {
-        let token = self.getRandomToken()
-        let groupID = GroupManager.shared.getCurrentGroupID() ?? ""
-        FirebaseAPI.setGroupToken(groupID: groupID, token: token)
-        self.alert2.message = token
-        self.present(self.alert2, animated: true) { [weak self] in
-            guard let self = self else { return }
-            
-            let dismissGesture = UITapGestureRecognizer(target: self, action: #selector(self.shouldDismiss))
-            
-            self.alert2.view.window?.isUserInteractionEnabled = true
-            self.alert2.view.window?.addGestureRecognizer(dismissGesture)
-        }
+        self.present(self.customAlert, animated: true)
     }
 }
 
@@ -103,7 +110,7 @@ extension SettingsVC: UITableViewDataSource, UITableViewDelegate{
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         switch sections[section] {
         case .setColorScheme:
-            return 7
+            return 8
         case .userTools:
             return 2
         }
@@ -121,7 +128,7 @@ extension SettingsVC: UITableViewDataSource, UITableViewDelegate{
             return cell
         case .userTools:
             let cell = tableView.dequeueReusableCell(withIdentifier: SettingsButtonCell.identifier, for: indexPath) as! SettingsButtonCell
-            cell.configure(buttonType: buttonType.init(rawValue: indexPath.item) ?? .logOut)
+            cell.configure(buttonType: ButtonType.init(rawValue: indexPath.item) ?? .logOut)
             cell.delegate = self
             return cell
         }
@@ -136,6 +143,30 @@ extension SettingsVC: UITableViewDataSource, UITableViewDelegate{
             return "User Tools"
         }
     }
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        switch sections[indexPath.section] {
+        case .setColorScheme:
+            if let colorScheme = ColorScheme(rawValue: indexPath.item) {
+                UserDefaults.standard.set(indexPath.item, forKey: "ColorScheme")
+                delegate?.updateColor()
+                showToast2()
+//                baseView.checkbox.toggle()
+            }
+
+            return
+            
+        case .userTools:
+            switch ButtonType(rawValue: indexPath.item) {
+            case .token:
+                createToken()
+            case .logOut:
+                logOutTapped()
+            default:
+                break
+            }
+            return
+        }
+     }
 }
 
 class SettingsView: UIView {
@@ -216,6 +247,9 @@ class SettingsColorCell: UITableViewCell {
             return UIColor(hex: "#f45ca2")
         case .brown:
             return UIColor(hex: "#5f4f3e")
+        case .black:
+            return UIColor.black
+
         }
     }
     private func getEndColor(colorScheme: ColorScheme) -> UIColor {
@@ -234,6 +268,9 @@ class SettingsColorCell: UITableViewCell {
             return UIColor(hex: "#ffe2f0")
         case .brown:
             return UIColor(hex: "#e3dad1")
+        case .black:
+            return UIColor.white
+
         }
     }
     
@@ -304,7 +341,7 @@ class SettingsButtonCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func configure(buttonType: SettingsVC.buttonType) {
+    func configure(buttonType: SettingsVC.ButtonType) {
         switch buttonType {
             
         case .token:

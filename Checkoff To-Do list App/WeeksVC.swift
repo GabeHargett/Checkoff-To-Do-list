@@ -62,9 +62,9 @@ class WeeksVC: UIViewController {
     private let groupID: String
     private let sections: [Section] = [.incomplete, .completed]
     
-    init(weekAndYear: WeekAndYear) {
+    init(groupID: String, weekAndYear: WeekAndYear) {
         self.weekAndYear = weekAndYear
-        self.groupID = GroupManager.shared.getCurrentGroupID() ?? ""
+        self.groupID = groupID
         super.init(nibName: nil, bundle: nil)
     }
     

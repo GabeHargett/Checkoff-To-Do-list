@@ -34,10 +34,10 @@ class GoalsVC: UIViewController {
     private let groupID: String
     private let sections: [Section] = [.incomplete, .completed]
     
-    init(weekAndYear: WeekAndYear, monthAndYear: MonthAndYear) {
+    init(groupID: String, weekAndYear: WeekAndYear, monthAndYear: MonthAndYear) {
         self.weekAndYear = weekAndYear
         self.monthAndYear = monthAndYear
-        self.groupID = GroupManager.shared.getCurrentGroupID() ?? ""
+        self.groupID = groupID
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -57,13 +57,9 @@ class GoalsVC: UIViewController {
     private func setupNavBar() {
         let sunday = Calendar.current.date(from: DateComponents(calendar: .current, timeZone: .current, era: nil, year: nil, month: nil, day: nil, hour: 12, minute: 0, second: 0, nanosecond: 0, weekday: 1, weekdayOrdinal: nil, quarter: nil, weekOfMonth: nil, weekOfYear: weekAndYear.week, yearForWeekOfYear: weekAndYear.year))
         let saturday = Calendar.current.date(from: DateComponents(calendar: .current, timeZone: .current, era: nil, year: nil, month: nil, day: nil, hour: 12, minute: 0, second: 0, nanosecond: 0, weekday: 7, weekdayOrdinal: nil, quarter: nil, weekOfMonth: nil, weekOfYear: weekAndYear.week, yearForWeekOfYear: weekAndYear.year))
-        
-        let firstDayOfMonth = Calendar.current.date(from: DateComponents(calendar: .current, timeZone: .current, era: nil, year: nil, month: nil, day: nil, hour: 12, minute: 0, second: 0, nanosecond: 0, weekday: nil, weekdayOrdinal: nil, quarter: nil, weekOfMonth: monthAndYear.dateMonth, weekOfYear: nil, yearForWeekOfYear: monthAndYear.year))
-
-        let lastDayOfMonth = Calendar.current.date(from: DateComponents(calendar: .current, timeZone: .current, era: nil, year: nil, month: nil, day: nil, hour: 12, minute: 0, second: 0, nanosecond: 0, weekday: nil, weekdayOrdinal: nil, quarter: nil, weekOfMonth: monthAndYear.dateMonth, weekOfYear: nil, yearForWeekOfYear: monthAndYear.year))
 
         
-        let weeks = "\(firstDayOfMonth!.dateString()) - \(lastDayOfMonth!.dateString())"
+        let weeks = "\(sunday!.dateString()) - \(saturday!.dateString())"
         
         title = "Goals: \(weeks)"
         

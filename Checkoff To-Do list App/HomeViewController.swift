@@ -22,7 +22,9 @@ class GroupManager {
     }
 }
 
-class HomeViewController: UIViewController  {
+class HomeViewController: UIViewController, SettingsVCDelegate  {
+
+    
     
     override func loadView() {
         view = baseView
@@ -79,6 +81,12 @@ class HomeViewController: UIViewController  {
             }
         }
     }
+    
+    func updateColor() {
+        baseView.setColors()
+        configureBackground()
+    }
+    
     private func getGoalCount() {
         FirebaseAPI.getGoals(groupID: groupID) {result in
             if let allGoals = result {
@@ -108,8 +116,12 @@ class HomeViewController: UIViewController  {
             self.baseView.couplePhoto.isHidden = false
             self.baseView.imageAddButton.isHidden = true
         }
-        FirebaseAPI.downloadImage() {
-            image in self.baseView.couplePhoto.image = image
+        FirebaseAPI.downloadImage(groupID: groupID) {
+            image in
+            if image == nil {
+               return
+            }
+            self.baseView.couplePhoto.image = image
             if let data = image?.jpegData(compressionQuality: 0.7) {
                 UserDefaults.standard.set(data, forKey: "homeImage")
             }
@@ -145,10 +157,13 @@ class HomeViewController: UIViewController  {
             action: #selector(didTapSettings)
         )
         navigationController?.navigationBar.tintColor = .label
+        navigationController?.navigationBar.tintColor = .mainColor1
+        navigationController?.navigationBar.standardAppearance.titleTextAttributes = [.foregroundColor: UIColor.mainColor1]
 }
     
     @objc private func didTapSettings() {
         let vc = SettingsVC()
+        vc.delegate = self
         navigationController?.pushViewController(vc, animated: true)
     }
         
@@ -212,7 +227,7 @@ class HomeViewController: UIViewController  {
         guard let weekAndYear = DateAnalyzer.getWeekAndYearFromDate(date: Date()) else{
             return
         }
-        let vc = WeeksVC(weekAndYear: weekAndYear)
+        let vc = WeeksVC(groupID: groupID, weekAndYear: weekAndYear)
         navigationController?.pushViewController(vc, animated: true)
     }
     
@@ -221,7 +236,7 @@ class HomeViewController: UIViewController  {
             return
         }
         weekAndYear.week -= 1
-        let vc = WeeksVC(weekAndYear: weekAndYear)
+        let vc = WeeksVC(groupID: groupID, weekAndYear: weekAndYear)
         navigationController?.pushViewController(vc, animated: true)        
     }
 
@@ -230,7 +245,7 @@ class HomeViewController: UIViewController  {
             return
         }
         weekAndYear.week += 1
-        let vc = WeeksVC(weekAndYear: weekAndYear)
+        let vc = WeeksVC(groupID: groupID, weekAndYear: weekAndYear)
         navigationController?.pushViewController(vc, animated: true)
     }
 
@@ -245,7 +260,7 @@ class HomeViewController: UIViewController  {
             return
         }
         weekAndYear.week -= 1
-        let vc = GoalsVC(weekAndYear: weekAndYear, monthAndYear: monthAndYear)
+        let vc = GoalsVC(groupID: groupID, weekAndYear: weekAndYear, monthAndYear: monthAndYear)
         navigationController?.pushViewController(vc, animated: true)
     }
     
@@ -254,7 +269,7 @@ class HomeViewController: UIViewController  {
             return
         }
         weekAndYear.week += 1
-        let vc = GoalsVC(weekAndYear: weekAndYear, monthAndYear: monthAndYear)
+        let vc = GoalsVC(groupID: groupID, weekAndYear: weekAndYear, monthAndYear: monthAndYear)
         navigationController?.pushViewController(vc, animated: true)
     }
 
@@ -269,7 +284,7 @@ class HomeViewController: UIViewController  {
             return
         }
         
-        let vc = GoalsVC(weekAndYear: weekAndYear, monthAndYear: monthAndYear)
+        let vc = GoalsVC(groupID: groupID, weekAndYear: weekAndYear, monthAndYear: monthAndYear)
         navigationController?.pushViewController(vc, animated: true)
     }
     
@@ -324,7 +339,7 @@ extension HomeViewController: UIImagePickerControllerDelegate, UINavigationContr
 
         if let image = info[UIImagePickerController.InfoKey(rawValue: "UIImagePickerControllerOriginalImage" )]as? UIImage {
             baseView.couplePhoto.image = image
-            FirebaseAPI.uploadImage(image: image) {
+            FirebaseAPI.uploadImage(groupID: groupID, image: image) {
                 print("image Uploaded")
             }
             UIView.animate(withDuration: 0.5, animations: {
@@ -347,7 +362,7 @@ extension HomeViewController: DatePickerVCDelegate {
         guard let weekAndYear = DateAnalyzer.getWeekAndYearFromDate(date: Date.init(timeIntervalSince1970: dateStamp)) else {
             return
         }
-        let vc = WeeksVC(weekAndYear: weekAndYear)
+        let vc = WeeksVC(groupID: groupID, weekAndYear: weekAndYear)
         navigationController?.pushViewController(vc, animated: true)
     }
     
@@ -357,7 +372,7 @@ extension HomeViewController: DatePickerVCDelegate {
             return
         }
         
-        let vc = GoalsVC(weekAndYear: weekAndYear, monthAndYear: monthAndYear)
+        let vc = GoalsVC(groupID: groupID, weekAndYear: weekAndYear, monthAndYear: monthAndYear)
         navigationController?.pushViewController(vc, animated: true)
         
     }

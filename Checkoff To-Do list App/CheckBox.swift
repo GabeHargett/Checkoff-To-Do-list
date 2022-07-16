@@ -13,10 +13,10 @@ final class CircularCheckbox: UIView {
         didSet {
             if isChecked {
                 imageView.image = checkedImage
-                addBorders(color: UIColor.black.withAlphaComponent(1), thickness: 2)
+                addBorders(color: UIColor.mainColor1.withAlphaComponent(1), thickness: 2)
             } else {
                 imageView.image = nil
-                addBorders(color: UIColor.black.withAlphaComponent(0.4), thickness: 2)
+                addBorders(color: UIColor.mainColor1.withAlphaComponent(0.4), thickness: 2)
             }
         }
     }
@@ -29,13 +29,13 @@ final class CircularCheckbox: UIView {
         
         layoutMargins = UIEdgeInsets(top: 4, left: 4, bottom: 4, right: 4)
         
-        addBorders(color: UIColor.black.withAlphaComponent(0.4), thickness: 2)
+        addBorders(color: UIColor.mainColor1.withAlphaComponent(0.4), thickness: 2)
         backgroundColor = .white
         cornerRadius(radius: 4)
         
         addAutoLayoutSubview(imageView)
         imageView.fillSuperviewMargins()
-        imageView.tintColor = .black
+        imageView.tintColor = .mainColor1
         
     }
     

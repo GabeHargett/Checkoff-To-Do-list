@@ -175,6 +175,7 @@ class FirebaseAPI {
             completion(nil)
         })
     }
+    
     static func joinGroup(groupID: String) {
         guard let uid = FirebaseAPI.currentUserUID() else {
             return
@@ -252,8 +253,8 @@ class FirebaseAPI {
             completion(nil)
         })
     }
-    static func downloadImage(completion: @escaping (UIImage?) -> ()) {
-            let ref = Storage.storage().reference().child("images/couplePhoto")
+    static func downloadImage(groupID: String, completion: @escaping (UIImage?) -> ()) {
+            let ref = Storage.storage().reference().child("images/\(groupID)/couplePhoto")
             ref.getData(maxSize: 1024 * 1024 * 2) { data, error in
                 if let error = error {
                     print(error)
@@ -265,11 +266,11 @@ class FirebaseAPI {
                 }
             }
         }
-    static func uploadImage(image: UIImage, completion: @escaping () -> ()) {
+    static func uploadImage(groupID: String, image: UIImage, completion: @escaping () -> ()) {
         guard let imageData = image.jpegData(compressionQuality: 0.2) else {
             return
         }
-        let imageURL = "images/couplePhoto"
+        let imageURL = "images/\(groupID)/couplePhoto"
         let storageRef = Storage.storage().reference().child(imageURL)
         let newMetadata = StorageMetadata()
         storageRef.putData(imageData, metadata: newMetadata) { (metadata, error) in
