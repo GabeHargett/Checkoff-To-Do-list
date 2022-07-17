@@ -53,6 +53,7 @@ class SettingsVC: UIViewController {
         let randomNumber = Int.random(in: 100000...999999)
         return String(randomNumber)
     }
+
     
     private func showToast() {
         toast.showToast(view: baseView, duration: 1, bottomInset: 20)
@@ -150,6 +151,10 @@ extension SettingsVC: UITableViewDataSource, UITableViewDelegate{
                 UserDefaults.standard.set(indexPath.item, forKey: "ColorScheme")
                 delegate?.updateColor()
                 showToast2()
+                if let cell = tableView.cellForRow(at: indexPath) as? SettingsColorCell {
+                    cell.checkbox.toggle()
+                    UserDefaults.standard.set(indexPath.item, forKey: "Checkbox")
+                }
             }
 
             return
@@ -337,7 +342,7 @@ class SettingsButtonCell: UITableViewCell {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+
     func configure(buttonType: SettingsVC.ButtonType) {
         switch buttonType {
             
@@ -362,12 +367,12 @@ class SettingsButtonCell: UITableViewCell {
         delegate?.logOutTapped()
     }
     
-    private func setUpSubviews() {
-        label.quickConfigure(textAlignment: .center, font: .systemFont(ofSize: 17), textColor: .mainColor1, numberOfLines: 0)
+    func setUpSubviews() {
+        label.quickConfigure(textAlignment: .center, font: .systemFont(ofSize: 17), textColor: .black, numberOfLines: 0)
         button.setImageWidth(size: 25)
         button.setImageHeight(size: 25)
         button.layoutMargins = UIEdgeInsets(top: 5, left: 5, bottom: 5, right:5)
-        button.quickConfigure(font: .systemFont(ofSize: 15), titleColor: .black, backgroundColor: .mainColor6, cornerRadius: 8)
+        button.quickConfigure(font: .systemFont(ofSize: 15), titleColor: .black, backgroundColor: .systemGray4, cornerRadius: 8)
         
         
         let stackView = UIStackView()

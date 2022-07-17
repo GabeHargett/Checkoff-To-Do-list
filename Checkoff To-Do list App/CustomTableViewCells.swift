@@ -38,7 +38,7 @@ class TaskCell: UITableViewCell {
     
     private func setupSubviews() {
         
-        pencilImageView.tintColor = .mainColor1
+        pencilImageView.tintColor = .black
         pencilImageView.isUserInteractionEnabled = true
         
         titleLabel.quickConfigure(textAlignment: .left, font: .systemFont(ofSize: 17), textColor: .mainColor1, numberOfLines: 0)
@@ -147,7 +147,7 @@ class GoalCell: UITableViewCell {
     
     private func setupSubviews() {
         
-        pencilImageView.tintColor = .mainColor1
+        pencilImageView.tintColor = .black
         pencilImageView.isUserInteractionEnabled = true
         
         titleLabel.quickConfigure(textAlignment: .left, font: .systemFont(ofSize: 17), textColor: .mainColor1, numberOfLines: 0)
