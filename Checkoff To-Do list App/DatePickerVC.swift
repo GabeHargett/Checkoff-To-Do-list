@@ -51,7 +51,7 @@ class DatePickerVC: UIViewController {
            datePicker.locale = .current
            datePicker.datePickerMode = .date
            datePicker.preferredDatePickerStyle = .inline
-           datePicker.tintColor = .gray
+           datePicker.tintColor = .mainColor3
            datePicker.contentMode = .scaleAspectFill
            view.addAutoLayoutSubview(submitButton)
 
@@ -61,11 +61,11 @@ class DatePickerVC: UIViewController {
            submitButton.height(constant: 40)
            submitButton.titleLabel?.font = .systemFont(ofSize: 23.0, weight: .regular)
            submitButton.setTitleColor(.white, for: .normal)
-           submitButton.backgroundColor = .gray
+           submitButton.backgroundColor = .mainColor3
            submitButton.cornerRadius(radius: 8)
            
            
-           view.backgroundColor = .systemGray4
+           view.backgroundColor = .mainColor6
 
            NSLayoutConstraint.activate([
             datePicker.centerXAnchor.constraint(equalTo: view.centerXAnchor),

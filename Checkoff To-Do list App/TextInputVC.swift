@@ -33,7 +33,6 @@ class TextInputVC: UIViewController {
     private let datePicker = UIDatePicker()
     private let dateInput = UnderlinedTextField()
     private let submitButton = UIButton()
-
         
     weak var delegate: TextInputVCDelegate?
 
@@ -91,20 +90,26 @@ class TextInputVC: UIViewController {
         baseView.stack.addArrangedSubview(dateInput)
 
         textField.height(constant: 50)
-        textField.placeholder = "Enter Text"
+//        textField.placeholder = "Enter Text"
+        textField.setPlaceHolder(text: "Enter Text",color: .mainColor4)
+        textField.textColor = .mainColor1
         
         dateInput.height(constant: 50)
         dateInput.placeholder = "Select Date"
         dateInput.inputView = datePicker
+        dateInput.textColor = .mainColor1
         
         datePicker.datePickerMode = .date
         datePicker.timeZone = .current
-        datePicker.backgroundColor = UIColor.systemGray4.withAlphaComponent(0.5)
         datePicker.date = Date()
         datePicker.locale = .current
         datePicker.preferredDatePickerStyle = .wheels
-        datePicker.tintColor = .gray
         datePicker.addTarget(self, action: #selector(updateDateTextField), for: .valueChanged)
+        for view in datePicker.subviews {
+            view.setValue(UIColor.mainColor1, forKeyPath: "textColor")
+            view.backgroundColor = UIColor.mainColor6
+        }
+
         
         updateDateTextField()
         
@@ -126,7 +131,7 @@ class TextInputVC: UIViewController {
         
         submitButton.setTitle("Submit", for: .normal)
         submitButton.height(constant: 50)
-        submitButton.setTitleColor(.black, for: .normal)
+        submitButton.setTitleColor(.mainColor1, for: .normal)
         
         submitButton.addTarget(self, action: #selector(didSubmit), for: .touchUpInside)
     }
@@ -161,14 +166,24 @@ extension TextInputVC: BareBonesBottomModalViewDelegate {
         self.dismiss(animated: true, completion: nil)
     }
 }
+extension UITextField{
+
+func setPlaceHolder(text : String, color : UIColor = .mainColor1 ){
+    
+    self.attributedPlaceholder = NSAttributedString(
+       string: "\(text)",
+       attributes: [NSAttributedString.Key.foregroundColor: color]
+   )
+}
+}
 
 class UnderlinedTextField: UITextField {
     override func didMoveToSuperview() {
         font = UIFont.systemFont(ofSize: 20, weight: .medium)
-        tintColor = .black
+        tintColor = .mainColor1
         
         let underlineView = UIView()
-        underlineView.backgroundColor = .black
+        underlineView.backgroundColor = .mainColor1
         
         addAutoLayoutSubview(underlineView)
         underlineView.height(constant: 2)

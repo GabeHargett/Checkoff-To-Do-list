@@ -55,7 +55,7 @@ class BareBonesBottomModalView: UIView {
         modalView.isUserInteractionEnabled = true
         
         let handle = UIView()
-        handle.backgroundColor = UIColor.lightGray
+        handle.backgroundColor = UIColor.mainColor3
         modalView.addAutoLayoutSubview(handle)
         handle.height(constant: 6)
         handle.width(constant: 50)
@@ -69,7 +69,7 @@ class BareBonesBottomModalView: UIView {
     private func configureSubviews() {
         backgroundMask.backgroundColor = UIColor.black.withAlphaComponent(0.3)
         
-        modalView.backgroundColor = .white
+        modalView.backgroundColor = .mainColor6
         modalView.clipsToBounds = true
         modalView.layer.cornerRadius = 32
         modalView.layer.maskedCorners = [.layerMaxXMinYCorner, .layerMinXMinYCorner]

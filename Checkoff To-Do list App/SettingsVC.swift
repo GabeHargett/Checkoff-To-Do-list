@@ -150,7 +150,6 @@ extension SettingsVC: UITableViewDataSource, UITableViewDelegate{
                 UserDefaults.standard.set(indexPath.item, forKey: "ColorScheme")
                 delegate?.updateColor()
                 showToast2()
-//                baseView.checkbox.toggle()
             }
 
             return
@@ -206,7 +205,7 @@ class SettingsColorCell: UITableViewCell {
     
     static let identifier = "SettingsColorCell"
     
-    private let checkbox = CircularCheckbox()
+    let checkbox = CircularCheckbox()
     private let gradient1 = Gradient()
     let mainColorView = UIView()
     
@@ -304,8 +303,6 @@ class SettingsColorCell: UITableViewCell {
         checkbox.addGestureRecognizer(gesture)
     }
     
-    
-    
     @objc func didTapCheckBox() {
         checkbox.toggle()
         delegate?.didCheckBox()
@@ -366,18 +363,18 @@ class SettingsButtonCell: UITableViewCell {
     }
     
     private func setUpSubviews() {
-        label.quickConfigure(textAlignment: .center, font: .systemFont(ofSize: 17), textColor: .black, numberOfLines: 0)
+        label.quickConfigure(textAlignment: .center, font: .systemFont(ofSize: 17), textColor: .mainColor1, numberOfLines: 0)
         button.setImageWidth(size: 25)
         button.setImageHeight(size: 25)
         button.layoutMargins = UIEdgeInsets(top: 5, left: 5, bottom: 5, right:5)
-        button.quickConfigure(font: .systemFont(ofSize: 15), titleColor: .black, backgroundColor: .systemGray4, cornerRadius: 8)
+        button.quickConfigure(font: .systemFont(ofSize: 15), titleColor: .black, backgroundColor: .mainColor6, cornerRadius: 8)
         
         
         let stackView = UIStackView()
         stackView.layoutMargins = UIEdgeInsets(top: 8, left: 16, bottom: 8, right: 16)
         stackView.isLayoutMarginsRelativeArrangement = true
         stackView.addArrangedSubviews([label,button])
-        stackView.addBorders(color: .black, thickness: 1)
+//        stackView.addBorders(color: .black, thickness: 1)
         addAutoLayoutSubview(stackView)
         stackView.fillSuperview()
         
