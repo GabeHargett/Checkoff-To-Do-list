@@ -155,10 +155,10 @@ extension SettingsVC: UITableViewDataSource, UITableViewDelegate{
         case .setColorScheme:
             if let colorScheme = ColorScheme(rawValue: indexPath.item) {
                 UserDefaults.standard.set(indexPath.item, forKey: "ColorScheme")
-                selectRow()
                 delegate?.updateColor()
                 showToast2()
                 tableView.reloadData()
+                selectRow()
             }
 
             return
