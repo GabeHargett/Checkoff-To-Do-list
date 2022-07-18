@@ -29,7 +29,7 @@ class ToastHelper {
             button.titleLabel?.font = .systemFont(ofSize: 17, weight: .medium)
             button.layoutMargins = UIEdgeInsets(top: 2, left: 3, bottom: 2, right: 3)
 //            button.contentEdgeInsets = UIEdgeInsets(horizontal: 6, vertical: 4)
-            button.backgroundColor = .black
+            button.backgroundColor = .mainColor1
             button.cornerRadius(radius: 4)
         }
         

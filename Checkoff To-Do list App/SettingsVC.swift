@@ -36,8 +36,6 @@ class SettingsVC: UIViewController {
     let signOutButton = CustomButton(type: .imageAndLabel)
     let tokenButton = CustomButton(type: .imageAndLabel)
     let customAlert = ModalJesus(title: "Group Token", description: "Share this token with your group member")
-    let toast = ToastHelper(title: "Group token copied", buttonTitle: nil, buttonAction: nil)
-    let toast2 = ToastHelper(title: "Color Updated", buttonTitle: nil, buttonAction: nil)
     weak var delegate: SettingsVCDelegate?
 
     
@@ -49,16 +47,31 @@ class SettingsVC: UIViewController {
         setUpAlert()
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        selectRow()
+    }
+    
     private func getRandomToken() -> String {
         let randomNumber = Int.random(in: 100000...999999)
         return String(randomNumber)
     }
+    
+    private func selectRow() {
+        let currentSelectedRow = UserDefaults.standard.integer(forKey: "ColorScheme")
+        for index in 0...7 {
+            if let cell = baseView.tableView.cellForRow(at: IndexPath(row: index, section: Section.setColorScheme.rawValue)) as? SettingsColorCell {
+                cell.checkbox.isComplete(isChecked: index == currentSelectedRow)
+            }
+        }
+    }
 
     
     private func showToast() {
+        let toast = ToastHelper(title: "Group token copied", buttonTitle: nil, buttonAction: nil)
         toast.showToast(view: baseView, duration: 1, bottomInset: 20)
     }
     private func showToast2() {
+        let toast2 = ToastHelper(title: "Color Updated", buttonTitle: nil, buttonAction: nil)
         toast2.showToast(view: baseView, duration: 1, bottomInset: 20)
     }
     
@@ -72,12 +85,6 @@ class SettingsVC: UIViewController {
             customAlert.addAction(ModalJesusAction(title: "Cancel", style: false))
         }
 
-    }
-}
-extension SettingsVC: SettingsColorCellDelegate {
-    func didCheckBox() {
-
-        print("checked")
     }
 }
 
@@ -125,7 +132,6 @@ extension SettingsVC: UITableViewDataSource, UITableViewDelegate{
             if let colorScheme = ColorScheme.init(rawValue: indexPath.item) {
                 cell.configure(colorScheme: colorScheme)
             }
-            cell.delegate = self
             return cell
         case .userTools:
             let cell = tableView.dequeueReusableCell(withIdentifier: SettingsButtonCell.identifier, for: indexPath) as! SettingsButtonCell
@@ -149,12 +155,10 @@ extension SettingsVC: UITableViewDataSource, UITableViewDelegate{
         case .setColorScheme:
             if let colorScheme = ColorScheme(rawValue: indexPath.item) {
                 UserDefaults.standard.set(indexPath.item, forKey: "ColorScheme")
+                selectRow()
                 delegate?.updateColor()
                 showToast2()
-                if let cell = tableView.cellForRow(at: indexPath) as? SettingsColorCell {
-                    cell.checkbox.toggle()
-                    UserDefaults.standard.set(indexPath.item, forKey: "Checkbox")
-                }
+                tableView.reloadData()
             }
 
             return
@@ -202,9 +206,6 @@ class SettingsView: UIView {
         tableView.fillSuperview()
     }
 }
-protocol SettingsColorCellDelegate: AnyObject {
-    func didCheckBox()
-}
 
 class SettingsColorCell: UITableViewCell {
     
@@ -213,9 +214,6 @@ class SettingsColorCell: UITableViewCell {
     let checkbox = CircularCheckbox()
     private let gradient1 = Gradient()
     let mainColorView = UIView()
-    
-    
-    weak var delegate: SettingsColorCellDelegate?
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -302,15 +300,6 @@ class SettingsColorCell: UITableViewCell {
         checkbox.width(constant: 32)
         addAutoLayoutSubview(stackView)
         stackView.fillSuperview()
-        
-        
-        let gesture = UITapGestureRecognizer(target: self, action: #selector(didTapCheckBox))
-        checkbox.addGestureRecognizer(gesture)
-    }
-    
-    @objc func didTapCheckBox() {
-        checkbox.toggle()
-        delegate?.didCheckBox()
     }
 }
 
@@ -344,6 +333,7 @@ class SettingsButtonCell: UITableViewCell {
     }
 
     func configure(buttonType: SettingsVC.ButtonType) {
+        label.textColor = .mainColor1
         switch buttonType {
             
         case .token:
@@ -368,7 +358,7 @@ class SettingsButtonCell: UITableViewCell {
     }
     
     func setUpSubviews() {
-        label.quickConfigure(textAlignment: .center, font: .systemFont(ofSize: 17), textColor: .black, numberOfLines: 0)
+        label.quickConfigure(textAlignment: .center, font: .systemFont(ofSize: 17), textColor: .mainColor1, numberOfLines: 0)
         button.setImageWidth(size: 25)
         button.setImageHeight(size: 25)
         button.layoutMargins = UIEdgeInsets(top: 5, left: 5, bottom: 5, right:5)
