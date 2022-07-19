@@ -151,7 +151,7 @@ class FirebaseAPI {
         return nil
     }
     
-    static func addGroup(title: String) {
+    static func addGroup(title: String, completion: @escaping (String?) -> ()) {
         guard let uid = FirebaseAPI.currentUserUID() else {
             return
         }
@@ -161,6 +161,7 @@ class FirebaseAPI {
             let ref = Database.database().reference().child("UserGroups").child(uid)
             ref.setValue(["groups": [groupID]])
             UserDefaults.standard.set(groupID, forKey: "CurrentGroupID")
+            completion(groupID)
         }
     }
     static func getUserGroups(completion: @escaping ([String]?) -> ()) {

@@ -28,10 +28,14 @@ class GroupCreationVC: UIViewController {
             print("Missing data")
             return
         }
-        FirebaseAPI.addGroup(title: group)
-        DispatchQueue.main.async {
-            let vc = HomeViewController(groupID: "")
-            self.navigationController?.pushViewController(vc, animated: true)
+        FirebaseAPI.addGroup(title: group) {result in
+            if let groupID = result {
+                GroupManager.shared.setCurrentGroupID(groupID: groupID)
+                DispatchQueue.main.async {
+                    let vc = HomeViewController(groupID: groupID)
+                    self.navigationController?.pushViewController(vc, animated: true)
+                }
+            }
         }
 
     }
