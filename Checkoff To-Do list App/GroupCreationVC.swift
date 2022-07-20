@@ -86,7 +86,7 @@ class GroupView: UIView {
     let joinGroupField = UITextField()
     let button = UIButton()
     let stackView = UIStackView()
-    
+    let stackView2 = UIStackView()
     
     
     @objc private func segmentedControlGroup() {
@@ -140,12 +140,13 @@ class GroupView: UIView {
             stackView.isLayoutMarginsRelativeArrangement = true
             stackView.alignment = .fill
             stackView.spacing = 12
-            stackView.cornerRadius(radius: 8)
-            let view = UIView()
-            stackView.addArrangedSubviews([segmentedControl, createGroupField, joinGroupField, button, view])
-            addAutoLayoutSubview(stackView)
-            stackView.fillSuperview()
-            
+            stackView.addArrangedSubviews([segmentedControl, createGroupField, joinGroupField, button])
+            stackView2.axis = .horizontal
+            stackView2.alignment = .center
+            stackView2.addArrangedSubviews([stackView])
+            addAutoLayoutSubview(stackView2)
+            stackView2.fillSuperview()
+
     }
 }
 

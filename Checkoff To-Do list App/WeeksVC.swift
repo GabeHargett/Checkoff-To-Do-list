@@ -120,7 +120,7 @@ class WeeksVC: UIViewController {
 }
 
 extension WeeksVC: TextInputVCDelegate {
-    func didSubmitText(text: String, text2: String, textType: TextInputVC.TextType, date: Date?) {
+    func didSubmitText(text: String, text2: String?, textType: TextInputVC.TextType, date: Date?) {
         let dateStamp = date?.timeIntervalSince1970 ?? Date().timeIntervalSince1970
         let weekAndYear = DateAnalyzer.getWeekAndYearFromDate(date: Date.init(timeIntervalSince1970: dateStamp))
         if let editedTaskIndex = editedTaskIndex {

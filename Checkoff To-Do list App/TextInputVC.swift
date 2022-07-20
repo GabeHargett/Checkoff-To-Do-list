@@ -9,7 +9,7 @@ import UIKit
 
 
 protocol TextInputVCDelegate: AnyObject {
-    func didSubmitText(text: String, text2: String, textType: TextInputVC.TextType, date: Date?)
+    func didSubmitText(text: String, text2: String?, textType: TextInputVC.TextType, date: Date?)
 }
 
 class TextInputVC: UIViewController {
@@ -143,9 +143,9 @@ class TextInputVC: UIViewController {
     
     @objc private func didSubmit() {
         
-        if let text = textField.text {
+        if let text = textField.text, let text2 = textField2.text {
             self.dismiss(animated: true) {
-                self.delegate?.didSubmitText(text: text, text2: text, textType: self.textType, date: self.datePicker.date)
+                self.delegate?.didSubmitText(text: text, text2: text2, textType: self.textType, date: self.datePicker.date)
                 
                 
             }
