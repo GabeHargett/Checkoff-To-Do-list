@@ -19,6 +19,7 @@ class GroupCreationVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        
         baseView.button.addTarget(self, action: #selector(didTapButton), for: .touchUpInside)
     }
 
@@ -70,9 +71,10 @@ class GroupView: UIView {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-
-    setupUserInputs()
-    segmentedControl.addTarget(self, action: #selector(segmentedControlGroup), for: .valueChanged)
+        
+        setupUserInputs()
+        segmentedControl.addTarget(self, action: #selector(segmentedControlGroup), for: .valueChanged)
+        setUpStackView()
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -83,6 +85,7 @@ class GroupView: UIView {
     let createGroupField = UITextField()
     let joinGroupField = UITextField()
     let button = UIButton()
+    let stackView = UIStackView()
     
     
     
@@ -98,16 +101,18 @@ class GroupView: UIView {
     }
     private func setupUserInputs() {
         segmentedControl.selectedSegmentIndex = 0
+        segmentedControl.height(constant: 40)
         backgroundColor = .white
         joinGroupField.isHidden = true
 
         
-        createGroupField.placeholder = "Create Group Name"
+        createGroupField.placeholder = "Group Name"
         createGroupField.layer.borderWidth = 1
         createGroupField.autocapitalizationType = .none
         createGroupField.layer.borderColor = UIColor.black.cgColor
         createGroupField.backgroundColor = .white
         createGroupField.leftViewMode = .always
+        createGroupField.height(constant: 40)
         createGroupField.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 5, height: 0))
         createGroupField.cornerRadius(radius: 8)
 
@@ -119,43 +124,28 @@ class GroupView: UIView {
         joinGroupField.layer.borderColor = UIColor.black.cgColor
         joinGroupField.backgroundColor = .white
         joinGroupField.leftViewMode = .always
+        joinGroupField.height(constant: 40)
         joinGroupField.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 5, height: 0))
 
         button.backgroundColor = .systemGray4
         button.setTitleColor(.black, for: .normal)
         button.setTitle("Continue", for: .normal)
         button.isUserInteractionEnabled = true
+        button.height(constant: 40)
         button.cornerRadius(radius: 8)
-
-        addAutoLayoutSubview(segmentedControl)
-        addAutoLayoutSubview(button)
-        addAutoLayoutSubview(joinGroupField)
-        addAutoLayoutSubview(createGroupField)
-                
-        NSLayoutConstraint.activate([
+    }
+        private func setUpStackView(){
+            stackView.axis = .vertical
+            stackView.layoutMargins = UIEdgeInsets(top: 0, left: 24, bottom: 0, right: 24)
+            stackView.isLayoutMarginsRelativeArrangement = true
+            stackView.alignment = .fill
+            stackView.spacing = 12
+            stackView.cornerRadius(radius: 8)
+            let view = UIView()
+            stackView.addArrangedSubviews([segmentedControl, createGroupField, joinGroupField, button, view])
+            addAutoLayoutSubview(stackView)
+            stackView.fillSuperview()
             
-            segmentedControl.centerXAnchor.constraint(equalTo: centerXAnchor),
-            segmentedControl.centerYAnchor.constraint(equalTo: centerYAnchor,constant: -40),
-            segmentedControl.widthAnchor.constraint(equalToConstant: 400),
-            segmentedControl.heightAnchor.constraint(equalToConstant: 30),
-            
-            createGroupField.centerXAnchor.constraint(equalTo: centerXAnchor),
-            createGroupField.centerYAnchor.constraint(equalTo: centerYAnchor),
-            createGroupField.widthAnchor.constraint(equalToConstant: 400),
-            createGroupField.heightAnchor.constraint(equalToConstant: 30),
-
-            joinGroupField.centerXAnchor.constraint(equalTo: centerXAnchor),
-            joinGroupField.centerYAnchor.constraint(equalTo: centerYAnchor),
-            joinGroupField.widthAnchor.constraint(equalToConstant: 400),
-            joinGroupField.heightAnchor.constraint(equalToConstant: 30),
-            
-            button.centerXAnchor.constraint(equalTo: centerXAnchor),
-            button.centerYAnchor.constraint(equalTo: centerYAnchor, constant: +40),
-            button.widthAnchor.constraint(equalToConstant: 400),
-            button.heightAnchor.constraint(equalToConstant: 30),
-            ])
-
-
     }
 }
 

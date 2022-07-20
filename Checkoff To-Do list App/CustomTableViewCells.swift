@@ -110,7 +110,7 @@ class TaskCell: UITableViewCell {
     
 }
 extension TaskCell: TextInputVCDelegate {
-    func didSubmitText(text: String, textType: TextInputVC.TextType, date: Date?) {
+    func didSubmitText(text: String, text2: String, textType: TextInputVC.TextType, date: Date?) {
     }
 }
 
@@ -217,6 +217,6 @@ class GoalCell: UITableViewCell {
 }
 
 extension GoalCell: TextInputVCDelegate {
-    func didSubmitText(text: String, textType: TextInputVC.TextType, date: Date?) {
+    func didSubmitText(text: String, text2: String, textType: TextInputVC.TextType, date: Date?) {
     }
 }

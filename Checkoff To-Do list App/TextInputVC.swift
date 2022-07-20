@@ -9,7 +9,7 @@ import UIKit
 
 
 protocol TextInputVCDelegate: AnyObject {
-    func didSubmitText(text: String, textType: TextInputVC.TextType, date: Date?)
+    func didSubmitText(text: String, text2: String, textType: TextInputVC.TextType, date: Date?)
 }
 
 class TextInputVC: UIViewController {
@@ -18,7 +18,6 @@ class TextInputVC: UIViewController {
         case quote
         case goal
         case task
-        case author
     }
     
     private let textType: TextType
@@ -30,6 +29,7 @@ class TextInputVC: UIViewController {
     }
     
     private let textField = UnderlinedTextField()
+    private let textField2 = UnderlinedTextField()
     private let datePicker = UIDatePicker()
     private let dateInput = UnderlinedTextField()
     private let submitButton = UIButton()
@@ -88,12 +88,16 @@ class TextInputVC: UIViewController {
     private func setupSubviews() {
         baseView.stack.addArrangedSubview(textField)
         baseView.stack.addArrangedSubview(dateInput)
+        baseView.stack.addArrangedSubview(textField2)
 
         textField.height(constant: 50)
-//        textField.placeholder = "Enter Text"
         textField.setPlaceHolder(text: "Enter Text",color: .mainColor4)
         textField.textColor = .mainColor1
         
+        textField2.height(constant: 50)
+        textField2.setPlaceHolder(text: "Enter Text",color: .mainColor4)
+        textField2.textColor = .mainColor1
+
         dateInput.height(constant: 50)
         dateInput.placeholder = "Select Date"
         dateInput.inputView = datePicker
@@ -116,14 +120,14 @@ class TextInputVC: UIViewController {
         switch textType {
         case .quote:
             textField.placeholder = "Enter Quote"
+            textField2.placeholder = "Enter Author"
             dateInput.isHidden = true
         case .goal:
             textField.placeholder = "Enter Goal"
-        case .author:
-            textField.placeholder = "Enter Author"
-            dateInput.isHidden = true
+            textField2.isHidden = true
         default:
             textField.placeholder = "Enter Task"
+            textField2.isHidden = true
         }
 
         
@@ -141,7 +145,7 @@ class TextInputVC: UIViewController {
         
         if let text = textField.text {
             self.dismiss(animated: true) {
-                self.delegate?.didSubmitText(text: text, textType: self.textType, date: self.datePicker.date)
+                self.delegate?.didSubmitText(text: text, text2: text, textType: self.textType, date: self.datePicker.date)
                 
                 
             }

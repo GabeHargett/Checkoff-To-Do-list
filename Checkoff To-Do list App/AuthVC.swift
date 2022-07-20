@@ -23,8 +23,7 @@ class FirebaseAuthVC: UIViewController {
         
         navigationItem.hidesBackButton = true
 
-        baseView.button1.addTarget(self, action: #selector(didTapButton), for: .touchUpInside)
-        baseView.button2.addTarget(self, action: #selector(didTapButton), for: .touchUpInside)
+        baseView.button.addTarget(self, action: #selector(didTapButton), for: .touchUpInside)
             }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -99,13 +98,13 @@ class FirebaseAuthVC: UIViewController {
         })
     }
     func showCreateAccount(email: String, password: String, fullname: FullName) {
-        let alert = UIAlertController(title: "Create Account",
-                                      message: "Would you like to create an account",
-                                      preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "Continue",
-                                      style: .default,
-                                      handler: {_ in
-            
+//        let alert = UIAlertController(title: "Create Account",
+//                                      message: "Would you like to create an account",
+//                                      preferredStyle: .alert)
+//        alert.addAction(UIAlertAction(title: "Continue",
+//                                      style: .default,
+//                                      handler: {_ in
+//
             FirebaseAuth.Auth.auth().createUser(withEmail: email, password: password, completion: { [weak self] result, error in
                 guard let strongSelf = self else{
                     
@@ -125,16 +124,16 @@ class FirebaseAuthVC: UIViewController {
                     strongSelf.navigationController?.pushViewController(vc, animated: true)
                     strongSelf.navigationItem.leftBarButtonItem = nil
                 }
-                print("You have signed in")
+//                print("You have signed in")
             })
-        }))
-        alert.addAction(UIAlertAction(title: "Cancel",
-                                      style: .cancel,
-                                      handler: {_ in
-            
-        }))
-
-        present(alert, animated: true)
+//        }))
+//        alert.addAction(UIAlertAction(title: "Cancel",
+//                                      style: .cancel,
+//                                      handler: {_ in
+//
+//        }))
+//
+//        present(alert, animated: true)
     }
 }
 

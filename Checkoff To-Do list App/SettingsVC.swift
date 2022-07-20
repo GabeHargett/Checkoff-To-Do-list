@@ -334,6 +334,7 @@ class SettingsButtonCell: UITableViewCell {
 
     func configure(buttonType: SettingsVC.ButtonType) {
         label.textColor = .mainColor1
+        button.backgroundColor = .mainColor6
         switch buttonType {
             
         case .token:

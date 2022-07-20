@@ -290,6 +290,7 @@ class HomeViewController: UIViewController, SettingsVCDelegate  {
     
     @objc private func addPhoto() {
         let vc = UIImagePickerController()
+        
         vc.delegate = self
         present(vc, animated: true, completion: nil)
     }
@@ -308,26 +309,23 @@ class HomeViewController: UIViewController, SettingsVCDelegate  {
 }
 
 extension HomeViewController: TextInputVCDelegate {
-    func didSubmitText(text: String, textType: TextInputVC.TextType, date: Date?) {
+    func didSubmitText(text: String, text2: String, textType: TextInputVC.TextType, date: Date?) {
         
 
         switch textType {
             
         case .quote:
-            self.temporaryQuote = Quote(text: text, author: "")
-            let vc = TextInputVC(textType: .author)
-            vc.delegate = self
-            vc.showModal(vc: self)
+            self.temporaryQuote = Quote(text: text, author: text2)
+            if var temporaryQuote = temporaryQuote {
+                temporaryQuote.author = text2
+                updateQuoteButton(quote: temporaryQuote)
+                FirebaseAPI.addQuote(quote: temporaryQuote, groupID: groupID)
+            }
         case .goal:
             break
         case .task:
             break
-        case .author:
-            if var temporaryQuote = temporaryQuote {
-                temporaryQuote.author = text
-                updateQuoteButton(quote: temporaryQuote)
-                FirebaseAPI.addQuote(quote: temporaryQuote, groupID: groupID)
-            }
+//        case .author:
         }
     }
 }
