@@ -143,6 +143,7 @@ class GroupView: UIView {
             stackView.alignment = .fill
             stackView.spacing = 12
             stackView.addArrangedSubviews([segmentedControl, createGroupField, joinGroupField, button])
+            
             stackView2.axis = .horizontal
             stackView2.alignment = .center
             stackView2.addArrangedSubviews([stackView])

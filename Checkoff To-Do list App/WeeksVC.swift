@@ -80,6 +80,7 @@ class WeeksVC: UIViewController {
     
     private var tasks = [Task]()
     private var editedTaskIndex: Int?
+    let textInput = TextInputVC(textType: .task)
     
     required init?(coder aDecoder: NSCoder) { fatalError() }
     
@@ -89,7 +90,6 @@ class WeeksVC: UIViewController {
         baseView.tableView.dataSource = self
         setupNavbar()
         loadTasks()
-        //navigationController?.setToolbarHidden(false, animated: false)
     }
     
     private func setupNavbar() {
@@ -133,9 +133,11 @@ extension WeeksVC: TextInputVCDelegate {
     func didSubmitText(text: String, text2: String?, textType: TextInputVC.TextType, date: Date?) {
         let dateStamp = date?.timeIntervalSince1970 ?? Date().timeIntervalSince1970
         let weekAndYear = DateAnalyzer.getWeekAndYearFromDate(date: Date.init(timeIntervalSince1970: dateStamp))
+
         if let editedTaskIndex = editedTaskIndex {
             self.editedTaskIndex = nil
             tasks[editedTaskIndex].title = text
+//            textInput.textField.placeholder = text
             FirebaseAPI.editTask(task:tasks[editedTaskIndex], groupID: groupID)
         } else {
             if let uid = FirebaseAPI.currentUserUID(),
@@ -158,6 +160,9 @@ extension WeeksVC: TaskCellDelegate {
         if let taskIndex = tasks.firstIndex(where: {$0.id == task.id}) {
             
             editedTaskIndex = taskIndex
+//            textInput.textField.placeholder = task[editedTaskIndex].title
+//            textInput.textField.placeholder = task.title
+
             let vc = TextInputVC(textType: .task)
             vc.delegate = self
             vc.showModal(vc: self)

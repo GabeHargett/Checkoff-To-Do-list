@@ -50,6 +50,7 @@ class HomeView: UIView {
     private let goalImageView = UIImageView(image: UIImage(systemName: "list.bullet.rectangle"))
     private let hiarchyStack = UIStackView()
     private let currentWeekTaskLabel = UILabel()
+    private let view = UIView()
     
     private let scrollStack = ScrollableStackView()
     private let weekStack = UIStackView()
@@ -118,14 +119,16 @@ class HomeView: UIView {
         currentWeekStack.spacing = 12
         currentWeekStack.cornerRadius(radius: 8)
         
-        nextPreviousOtherStack.stackView.layoutMargins = UIEdgeInsets(top: 0, left: 16, bottom: 10, right: 16)
+        nextPreviousOtherStack.stackView.layoutMargins = UIEdgeInsets(top: 0, left: 12, bottom: 10, right: 12)
         nextPreviousOtherStack.stackView.isLayoutMarginsRelativeArrangement = true
+        nextPreviousOtherStack.stackView.alignment = .center
         nextPreviousOtherStack.stackView.spacing = 12
         nextPreviousOtherStack.stackView.cornerRadius(radius: 8)
 
-        nextPreviousOtherGoalStack.stackView.layoutMargins = UIEdgeInsets(top: 0, left: 16, bottom: 10, right: 16)
+        nextPreviousOtherGoalStack.stackView.layoutMargins = UIEdgeInsets(top: 0, left: 12, bottom: 10, right: 12)
         nextPreviousOtherGoalStack.stackView.isLayoutMarginsRelativeArrangement = true
         nextPreviousOtherGoalStack.stackView.spacing = 12
+        nextPreviousOtherGoalStack.stackView.alignment = .center
         nextPreviousOtherGoalStack.stackView.cornerRadius(radius: 8)
 
         
