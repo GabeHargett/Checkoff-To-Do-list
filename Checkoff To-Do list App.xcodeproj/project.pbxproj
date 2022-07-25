@@ -393,7 +393,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Checkoff To-Do list App/Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = "Checkoff To-Do list App";
-				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "Please allow access to photos to display on personal homescreen.";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "Checkoff To-Do list App would like access to your photos to display one on your personal homescreen.";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
@@ -422,7 +422,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Checkoff To-Do list App/Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = "Checkoff To-Do list App";
-				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "Please allow access to photos to display on personal homescreen.";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "Checkoff To-Do list App would like access to your photos to display one on your personal homescreen.";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";

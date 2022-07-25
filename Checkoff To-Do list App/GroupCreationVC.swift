@@ -126,6 +126,8 @@ class GroupView: UIView {
         joinGroupField.leftViewMode = .always
         joinGroupField.height(constant: 40)
         joinGroupField.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 5, height: 0))
+        joinGroupField.keyboardType = UIKeyboardType.numberPad
+
 
         button.backgroundColor = .systemGray4
         button.setTitleColor(.black, for: .normal)

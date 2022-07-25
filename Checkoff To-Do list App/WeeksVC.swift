@@ -43,6 +43,16 @@ extension Date {
         return dateFormatter.string(from: self)
     }
 }
+class NameCache {
+    static let shared = NameCache()
+    var nameDictionary: [String: FullName] = [:]
+    func insertName(uid: String, name: FullName) {
+        nameDictionary[uid] = name
+    }
+    func getName(uid: String) -> FullName? {
+        return nameDictionary[uid]
+    }
+}
 
 
 class WeeksVC: UIViewController {
@@ -146,6 +156,7 @@ extension WeeksVC: TextInputVCDelegate {
 extension WeeksVC: TaskCellDelegate {
     func didTapPencil(task: Task) {
         if let taskIndex = tasks.firstIndex(where: {$0.id == task.id}) {
+            
             editedTaskIndex = taskIndex
             let vc = TextInputVC(textType: .task)
             vc.delegate = self

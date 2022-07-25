@@ -6,6 +6,7 @@
 //
 import Firebase
 import UIKit
+import Photos
 
 class GroupManager {
     static var shared = GroupManager()
@@ -168,11 +169,30 @@ class HomeViewController: UIViewController, SettingsVCDelegate  {
     }
         
     func didTapImageAddButton(){
-        let vc = UIImagePickerController()
-        vc.sourceType = .photoLibrary
-        vc.delegate = self
-        vc.allowsEditing = true
-        present(vc, animated: true)
+        PHPhotoLibrary.requestAuthorization(for: .readWrite, handler: { status in
+            switch status {
+                
+            case .notDetermined:
+                break
+            case .restricted:
+                break
+            case .denied:
+                break
+            case .authorized:
+                let vc = UIImagePickerController()
+                vc.sourceType = .photoLibrary
+                vc.delegate = self
+                vc.allowsEditing = true
+                self.present(vc, animated: true)
+
+            case .limited:
+                break
+            @unknown default:
+                break
+            }
+        })
+        //make sure they have access
+        
     }
         
     func getComponetsOfDates() {

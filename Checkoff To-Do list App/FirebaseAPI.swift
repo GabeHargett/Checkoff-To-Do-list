@@ -65,11 +65,17 @@ class FirebaseAPI {
     }
     
     static func getFullName(uid: String, completion: @escaping (FullName?) -> ()) {
+        if let nameCache = NameCache.shared.getName(uid: uid) {
+            completion(nameCache)
+            return
+        }
         let ref = Database.database().reference().child("Users").child(uid).child("fullName")
         ref.observeSingleEvent(of: .value, with: { (snapshot) in
             
             if let fullNameDict = snapshot.value as? [String: Any], let firstName = fullNameDict["firstName"] as? String, let lastName = fullNameDict["lastName"] as? String {
-                completion(FullName(firstName: firstName, lastName: lastName))
+                let fullName = FullName(firstName: firstName, lastName: lastName)
+                completion(fullName)
+                NameCache.shared.insertName(uid: uid, name: fullName)
             } else {
                 completion(nil)
             }
