@@ -58,6 +58,8 @@ class HomeView: UIView {
     private let nextPreviousOtherStack = HorizontalScrollableStackView()
     private let currentTaskLabel = UnderlinedLabel()
     private let labelStack = UIStackView()
+    private let testStack = UIStackView()
+
     private let goalLabelStack = UIStackView()
     private let quoteStack = UIStackView()
     private let quoteOfTheWeek = UnderlinedLabel()
@@ -118,6 +120,11 @@ class HomeView: UIView {
         currentWeekStack.alignment = .center
         currentWeekStack.spacing = 12
         currentWeekStack.cornerRadius(radius: 8)
+        
+//        testStack.axis = .vertical
+//        testStack.spacing = 0
+//        testStack.alignment = .center
+
         
         nextPreviousOtherStack.stackView.layoutMargins = UIEdgeInsets(top: 0, left: 12, bottom: 10, right: 12)
         nextPreviousOtherStack.stackView.isLayoutMarginsRelativeArrangement = true
@@ -290,7 +297,9 @@ class HomeView: UIView {
             currentWeekStack,
             nextPreviousOtherStack,
         ])
-        
+//        testStack.addArrangedSubviews([
+//            nextPreviousOtherStack
+//        ])
         currentWeekStack.addArrangedSubviews([
             imageView,
             labelStack

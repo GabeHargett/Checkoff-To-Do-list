@@ -126,6 +126,7 @@ extension GoalsVC: GoalCellDelegate {
         if let goalIndex = goals.firstIndex(where: {$0.id == goal.id}) {
             editedGoalIndex = goalIndex
             let vc = TextInputVC(textType: .goal)
+            vc.textField.text = goal.title
             vc.delegate = self
             vc.showModal(vc: self)
         }

@@ -28,7 +28,7 @@ class TextInputVC: UIViewController {
         baseView.delegate = self
     }
     
-    let textField = UnderlinedTextField()
+    var textField = UnderlinedTextField()
     private let textField2 = UnderlinedTextField()
     private let datePicker = UIDatePicker()
     private let dateInput = UnderlinedTextField()
