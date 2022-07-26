@@ -45,17 +45,19 @@ class HomeView: UIView {
     
     let quoteLabel = UILabel()
     let quoteSignature = UILabel()
-
+    
+    private let holder = UIView()
+    private let holder2 = UIView()
+    private let view = UIView()
     private let imageView = UIImageView(image: UIImage(systemName: "list.bullet.rectangle"))
     private let goalImageView = UIImageView(image: UIImage(systemName: "list.bullet.rectangle"))
     private let hiarchyStack = UIStackView()
     private let currentWeekTaskLabel = UILabel()
-    private let view = UIView()
     
     private let scrollStack = ScrollableStackView()
     private let weekStack = UIStackView()
-    private let nextPreviousOtherGoalStack = HorizontalScrollableStackView()
-    private let nextPreviousOtherStack = HorizontalScrollableStackView()
+    private let nextPreviousOtherGoalStack = UIStackView()
+    private let nextPreviousOtherStack = UIStackView()
     private let currentTaskLabel = UnderlinedLabel()
     private let labelStack = UIStackView()
     private let testStack = UIStackView()
@@ -121,22 +123,17 @@ class HomeView: UIView {
         currentWeekStack.spacing = 12
         currentWeekStack.cornerRadius(radius: 8)
         
-//        testStack.axis = .vertical
-//        testStack.spacing = 0
-//        testStack.alignment = .center
+        nextPreviousOtherStack.layoutMargins = UIEdgeInsets(top: 0, left: 12, bottom: 10, right: 12)
+        nextPreviousOtherStack.isLayoutMarginsRelativeArrangement = true
+        nextPreviousOtherStack.alignment = .center
+        nextPreviousOtherStack.spacing = 12
+        nextPreviousOtherStack.cornerRadius(radius: 8)
 
-        
-        nextPreviousOtherStack.stackView.layoutMargins = UIEdgeInsets(top: 0, left: 12, bottom: 10, right: 12)
-        nextPreviousOtherStack.stackView.isLayoutMarginsRelativeArrangement = true
-        nextPreviousOtherStack.stackView.alignment = .center
-        nextPreviousOtherStack.stackView.spacing = 12
-        nextPreviousOtherStack.stackView.cornerRadius(radius: 8)
-
-        nextPreviousOtherGoalStack.stackView.layoutMargins = UIEdgeInsets(top: 0, left: 12, bottom: 10, right: 12)
-        nextPreviousOtherGoalStack.stackView.isLayoutMarginsRelativeArrangement = true
-        nextPreviousOtherGoalStack.stackView.spacing = 12
-        nextPreviousOtherGoalStack.stackView.alignment = .center
-        nextPreviousOtherGoalStack.stackView.cornerRadius(radius: 8)
+        nextPreviousOtherGoalStack.layoutMargins = UIEdgeInsets(top: 0, left: 12, bottom: 10, right: 12)
+        nextPreviousOtherGoalStack.isLayoutMarginsRelativeArrangement = true
+        nextPreviousOtherGoalStack.spacing = 12
+        nextPreviousOtherGoalStack.alignment = .center
+        nextPreviousOtherGoalStack.cornerRadius(radius: 8)
 
         
         imageView.height(constant: 55)
@@ -149,38 +146,44 @@ class HomeView: UIView {
         goalImageView.contentMode = .scaleAspectFit
         goalImageView.tintColor = .black
 
-        nextWeekLabel.text = " Next Week "
-//        nextWeekLabel.addBorders(color: .black, thickness: 1)
+        nextWeekLabel.text = " Next "
+        nextWeekLabel.textAlignment = .center
         nextWeekLabel.height(constant: 40)
+        nextWeekLabel.width(constant: 80)
         nextWeekLabel.cornerRadius(radius: 8)
         
 
-        previousWeekLabel.text = " Previous Week "
-//        previousWeekLabel.addBorders(color: .black, thickness: 1)
+        previousWeekLabel.text = " Previous "
+        previousWeekLabel.textAlignment = .center
         previousWeekLabel.height(constant: 40)
+        previousWeekLabel.width(constant: 80)
         previousWeekLabel.cornerRadius(radius: 8)
 
         
-        otherWeeksLabel.text = " Other Weeks "
-//        otherWeeksLabel.addBorders(color: .black, thickness: 1)
+        otherWeeksLabel.text = " Other "
+        otherWeeksLabel.textAlignment = .center
         otherWeeksLabel.height(constant: 40)
+        otherWeeksLabel.width(constant: 80)
         otherWeeksLabel.cornerRadius(radius: 8)
         
 
-        nextWeekGoalLabel.text = " Next Week "
-//        nextWeekGoalLabel.addBorders(color: .black, thickness: 1)
+        nextWeekGoalLabel.text = " Next "
+        nextWeekGoalLabel.width(constant: 80)
+        nextWeekGoalLabel.textAlignment = .center
         nextWeekGoalLabel.height(constant: 40)
         nextWeekGoalLabel.cornerRadius(radius: 8)
 
 
 
-        previousWeekGoalLabel.text = " Previous Week "
-//        previousWeekGoalLabel.addBorders(color: .black, thickness: 1)
+        previousWeekGoalLabel.text = " Previous "
+        previousWeekGoalLabel.width(constant: 80)
+        previousWeekGoalLabel.textAlignment = .center
         previousWeekGoalLabel.height(constant: 40)
         previousWeekGoalLabel.cornerRadius(radius: 8)
                 
-        otherWeeksGoalLabel.text = " Other Weeks "
-//        otherWeeksGoalLabel.addBorders(color: .black, thickness: 1)
+        otherWeeksGoalLabel.text = " Other "
+        otherWeeksGoalLabel.textAlignment = .center
+        otherWeeksGoalLabel.width(constant: 80)
         otherWeeksGoalLabel.height(constant: 40)
         otherWeeksGoalLabel.cornerRadius(radius: 8)
 
@@ -295,17 +298,19 @@ class HomeView: UIView {
         
         weekStack.addArrangedSubviews([
             currentWeekStack,
-            nextPreviousOtherStack,
+            holder,
         ])
-//        testStack.addArrangedSubviews([
-//            nextPreviousOtherStack
-//        ])
+        
         currentWeekStack.addArrangedSubviews([
             imageView,
             labelStack
         ])
         
-        nextPreviousOtherStack.stackView.addArrangedSubviews([
+        holder.addAutoLayoutSubview(nextPreviousOtherStack)
+        nextPreviousOtherStack.centerInSuperview()
+        nextPreviousOtherStack.heightAnchor.constraint(equalTo: holder.heightAnchor).isActive = true
+        
+        nextPreviousOtherStack.addArrangedSubviews([
             previousWeekLabel,
             nextWeekLabel,
             otherWeeksLabel,
@@ -330,7 +335,7 @@ class HomeView: UIView {
         
         goalsStack1.addArrangedSubviews([
             goalsStack2,
-            nextPreviousOtherGoalStack
+            holder2
         ])
         
         
@@ -345,8 +350,12 @@ class HomeView: UIView {
             finishedGoalLabel
         
         ])
+        holder2.addAutoLayoutSubview(nextPreviousOtherGoalStack)
+        nextPreviousOtherGoalStack.centerInSuperview()
+        nextPreviousOtherGoalStack.heightAnchor.constraint(equalTo: holder2.heightAnchor).isActive = true
+
         
-        nextPreviousOtherGoalStack.stackView.addArrangedSubviews([
+        nextPreviousOtherGoalStack.addArrangedSubviews([
             previousWeekGoalLabel,
             nextWeekGoalLabel,
             otherWeeksGoalLabel,
