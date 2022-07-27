@@ -115,7 +115,6 @@ class HomeViewController: UIViewController, SettingsVCDelegate  {
             let image = UIImage.init(data: data)
             self.baseView.couplePhoto.image = image
             self.baseView.couplePhoto.isHidden = false
-//            self.baseView.imageAddButton.isHidden = true
         }
         FirebaseAPI.downloadImage(groupID: groupID) {
             image in
@@ -128,7 +127,6 @@ class HomeViewController: UIViewController, SettingsVCDelegate  {
             }
             UIView.animate(withDuration: 0.5, animations: {
                 self.baseView.couplePhoto.isHidden = false
-//                self.baseView.imageAddButton.isHidden = true
             })
         }
     }
@@ -144,9 +142,9 @@ class HomeViewController: UIViewController, SettingsVCDelegate  {
     }
     
     private func updateQuoteButton(quote: Quote) {
-        self.baseView.quoteLabel.text =  "\"" + quote.text + "\""
+        self.baseView.quoteLabel2.text =  "\"" + quote.text + "\""
         self.baseView.quoteButton.isHidden = true
-        self.baseView.quoteSignature.text = "- " + quote.author
+        self.baseView.authorLabel.text = "- " + quote.author
     }
     
     private func configureBackground() {
@@ -231,17 +229,11 @@ class HomeViewController: UIViewController, SettingsVCDelegate  {
         let tapGesture8 = UITapGestureRecognizer(target: self, action: #selector(didTapOtherGoalWeek))
         baseView.otherWeeksGoalLabel.addGestureRecognizer(tapGesture8)
         
-//        let tapGesture9 = UITapGestureRecognizer(target: self, action: #selector(addQuote))
-//        baseView.quoteButton.addGestureRecognizer(tapGesture9)
-        
         let tapGesture9 = UITapGestureRecognizer(target: self, action: #selector(addQuote))
-        baseView.pencilQuoteButton.addGestureRecognizer(tapGesture9)
-                
-        let tapGesture10 = UITapGestureRecognizer(target: self, action: #selector(didTapImageAddButton))
-        baseView.imageButton.addGestureRecognizer(tapGesture10)
+        baseView.addQuote.addGestureRecognizer(tapGesture9)
         
-        let tapGesture11 = UITapGestureRecognizer(target: self, action: #selector(didTapImageAddButton))
-        baseView.editPhotoButton.addGestureRecognizer(tapGesture11)
+        let tapGesture10 = UITapGestureRecognizer(target: self, action: #selector(didTapImageAddButton))
+        baseView.editPhotoButton.addGestureRecognizer(tapGesture10)
 
     }
     

@@ -46,6 +46,8 @@ class HomeView: UIView {
     let quoteButton = CustomButton(type: .imageAndLabel)
     
     let quoteLabel = UILabel()
+    let quoteLabel2 = UILabel()
+    let authorLabel = UILabel()
     let quoteSignature = UILabel()
     
     let camera = UIImageView(image: UIImage(systemName: "camera.fill"))
@@ -91,6 +93,8 @@ class HomeView: UIView {
             font: .systemFont(ofSize: 15), titleColor: .black, backgroundColor: .mainColor4, cornerRadius: 8)
         quoteButton.quickConfigure(
             font: .systemFont(ofSize: 15), titleColor: .black, backgroundColor: .mainColor1, cornerRadius: 8)
+        authorLabel.quickConfigure(textAlignment: .right, font: .boldSystemFont(ofSize: 12), textColor: .mainColor6)
+        quoteLabel2.textColor = .mainColor6
         
         camera.tintColor = .mainColor6
         editPhotoButton.addBorders(color: .mainColor6, thickness: 1)
@@ -113,7 +117,7 @@ class HomeView: UIView {
     }
     
     private func setupView() {
-        for view in [addQuote, editPhotoButton, currentWeekStack, previousWeekLabel, nextWeekLabel, otherWeeksLabel, goalsStack2, previousWeekGoalLabel, nextWeekGoalLabel,
+        for view in [couplePhoto, addQuote, editPhotoButton, currentWeekStack, previousWeekLabel, nextWeekLabel, otherWeeksLabel, goalsStack2, previousWeekGoalLabel, nextWeekGoalLabel,
                      otherWeeksGoalLabel, quoteButton, pencilQuoteButton, imageAddButton, imageButton] {
             view.isUserInteractionEnabled = true
         }
@@ -141,21 +145,31 @@ class HomeView: UIView {
         addQuote.cornerRadius(radius: 5)
         addQuote.addArrangedSubviews([quoteImage, labelquote])
         labelquote.text = "+"
-
+        quoteLabel2.textAlignment = .left
+        quoteLabel2.font = .boldSystemFont(ofSize: 12)
+        quoteLabel2.numberOfLines = 2
 
         photoView.addAutoLayoutSubview(couplePhoto)
+        couplePhoto.addAutoLayoutSubview(authorLabel)
+        couplePhoto.addAutoLayoutSubview(quoteLabel2)
         addAutoLayoutSubview(photoView)
         addAutoLayoutSubview(scrollStack)
         
         NSLayoutConstraint.activate([
             editPhotoButton.leftAnchor.constraint(equalTo: photoView.leftAnchor, constant: 12),
             editPhotoButton.topAnchor.constraint(equalTo: photoView.topAnchor,constant: 12),
-            addQuote.centerXAnchor.constraint(equalTo: photoView.centerXAnchor),
-            addQuote.bottomAnchor.constraint(equalTo: photoView.bottomAnchor,constant: -12),
+            addQuote.leftAnchor.constraint(equalTo: photoView.leftAnchor, constant: 12),
+            addQuote.bottomAnchor.constraint(equalTo: photoView.bottomAnchor,constant: -16),
             couplePhoto.bottomAnchor.constraint(equalTo: photoView.bottomAnchor),
             couplePhoto.topAnchor.constraint(equalTo: photoView.topAnchor),
             couplePhoto.rightAnchor.constraint(equalTo: photoView.rightAnchor),
-            couplePhoto.leftAnchor.constraint(equalTo: photoView.leftAnchor)
+            couplePhoto.leftAnchor.constraint(equalTo: photoView.leftAnchor),
+            quoteLabel2.topAnchor.constraint(equalTo: couplePhoto.topAnchor, constant: 250),
+            quoteLabel2.leftAnchor.constraint(equalTo: couplePhoto.leftAnchor, constant: 55),
+            quoteLabel2.rightAnchor.constraint(equalTo: couplePhoto.rightAnchor, constant: -3),
+            quoteLabel2.bottomAnchor.constraint(equalTo: couplePhoto.bottomAnchor,constant: -8),
+            authorLabel.rightAnchor.constraint(equalTo: couplePhoto.rightAnchor,constant: -36),
+            authorLabel.bottomAnchor.constraint(equalTo: couplePhoto.bottomAnchor)
             ])
         
         labelStack.axis = .vertical
@@ -331,6 +345,8 @@ class HomeView: UIView {
 //        couplePhoto.cornerRadius(radius: 8)
 //        couplePhoto.addBorders(color: .black, thickness: 1)
         couplePhoto.height(constant: 300)
+        couplePhoto.contentMode = .scaleAspectFill
+        couplePhoto.layer.masksToBounds = true
         
         goalsStack2.axis = .horizontal
         goalsStack2.layoutMargins = UIEdgeInsets(top: 10, left: 16, bottom: 0, right: 16)
