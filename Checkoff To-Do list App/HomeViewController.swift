@@ -115,7 +115,7 @@ class HomeViewController: UIViewController, SettingsVCDelegate  {
             let image = UIImage.init(data: data)
             self.baseView.couplePhoto.image = image
             self.baseView.couplePhoto.isHidden = false
-            self.baseView.imageAddButton.isHidden = true
+//            self.baseView.imageAddButton.isHidden = true
         }
         FirebaseAPI.downloadImage(groupID: groupID) {
             image in
@@ -128,7 +128,7 @@ class HomeViewController: UIViewController, SettingsVCDelegate  {
             }
             UIView.animate(withDuration: 0.5, animations: {
                 self.baseView.couplePhoto.isHidden = false
-                self.baseView.imageAddButton.isHidden = true
+//                self.baseView.imageAddButton.isHidden = true
             })
         }
     }
@@ -168,7 +168,7 @@ class HomeViewController: UIViewController, SettingsVCDelegate  {
         navigationController?.pushViewController(vc, animated: true)
     }
         
-    func didTapImageAddButton(){
+    @objc private func didTapImageAddButton() {
         PHPhotoLibrary.requestAuthorization(for: .readWrite, handler: { status in
             switch status {
                 
@@ -179,12 +179,14 @@ class HomeViewController: UIViewController, SettingsVCDelegate  {
             case .denied:
                 break
             case .authorized:
+                DispatchQueue.main.async {
+                
                 let vc = UIImagePickerController()
                 vc.sourceType = .photoLibrary
                 vc.delegate = self
                 vc.allowsEditing = true
                 self.present(vc, animated: true)
-
+                }
             case .limited:
                 break
             @unknown default:
@@ -204,44 +206,44 @@ class HomeViewController: UIViewController, SettingsVCDelegate  {
     }
 
     func setUpDidTaps() {
-            
-            let tapGesture1 = UITapGestureRecognizer(target: self, action: #selector(didTapCurrentWeek))
-            baseView.currentWeekStack.addGestureRecognizer(tapGesture1)
-            
-            let tapGesture2 = UITapGestureRecognizer(target: self, action: #selector(didTapPreviousWeek))
-            baseView.previousWeekLabel.addGestureRecognizer(tapGesture2)
-            
-            let tapGesture3 = UITapGestureRecognizer(target: self, action: #selector(didTapNextWeek))
-            baseView.nextWeekLabel.addGestureRecognizer(tapGesture3)
-                    
-            let tapGesture4 = UITapGestureRecognizer(target: self, action: #selector(didTapOtherWeek))
-            baseView.otherWeeksLabel.addGestureRecognizer(tapGesture4)
-            
-            let tapGesture5 = UITapGestureRecognizer(target: self, action: #selector(didTapGoalsStack))
-            baseView.goalsStack2.addGestureRecognizer(tapGesture5)
-            
-            let tapGesture6 = UITapGestureRecognizer(target: self, action: #selector(didTapPreviousGoalWeek))
-            baseView.previousWeekGoalLabel.addGestureRecognizer(tapGesture6)
+        
+        let tapGesture1 = UITapGestureRecognizer(target: self, action: #selector(didTapCurrentWeek))
+        baseView.currentWeekStack.addGestureRecognizer(tapGesture1)
+        
+        let tapGesture2 = UITapGestureRecognizer(target: self, action: #selector(didTapPreviousWeek))
+        baseView.previousWeekLabel.addGestureRecognizer(tapGesture2)
+        
+        let tapGesture3 = UITapGestureRecognizer(target: self, action: #selector(didTapNextWeek))
+        baseView.nextWeekLabel.addGestureRecognizer(tapGesture3)
+        
+        let tapGesture4 = UITapGestureRecognizer(target: self, action: #selector(didTapOtherWeek))
+        baseView.otherWeeksLabel.addGestureRecognizer(tapGesture4)
+        
+        let tapGesture5 = UITapGestureRecognizer(target: self, action: #selector(didTapGoalsStack))
+        baseView.goalsStack2.addGestureRecognizer(tapGesture5)
+        
+        let tapGesture6 = UITapGestureRecognizer(target: self, action: #selector(didTapPreviousGoalWeek))
+        baseView.previousWeekGoalLabel.addGestureRecognizer(tapGesture6)
+        
+        let tapGesture7 = UITapGestureRecognizer(target: self, action: #selector(didTapNextGoalWeek))
+        baseView.nextWeekGoalLabel.addGestureRecognizer(tapGesture7)
+        
+        let tapGesture8 = UITapGestureRecognizer(target: self, action: #selector(didTapOtherGoalWeek))
+        baseView.otherWeeksGoalLabel.addGestureRecognizer(tapGesture8)
+        
+//        let tapGesture9 = UITapGestureRecognizer(target: self, action: #selector(addQuote))
+//        baseView.quoteButton.addGestureRecognizer(tapGesture9)
+        
+        let tapGesture9 = UITapGestureRecognizer(target: self, action: #selector(addQuote))
+        baseView.pencilQuoteButton.addGestureRecognizer(tapGesture9)
+                
+        let tapGesture10 = UITapGestureRecognizer(target: self, action: #selector(didTapImageAddButton))
+        baseView.imageButton.addGestureRecognizer(tapGesture10)
+        
+        let tapGesture11 = UITapGestureRecognizer(target: self, action: #selector(didTapImageAddButton))
+        baseView.editPhotoButton.addGestureRecognizer(tapGesture11)
 
-            let tapGesture7 = UITapGestureRecognizer(target: self, action: #selector(didTapNextGoalWeek))
-            baseView.nextWeekGoalLabel.addGestureRecognizer(tapGesture7)
-                    
-            let tapGesture8 = UITapGestureRecognizer(target: self, action: #selector(didTapOtherGoalWeek))
-            baseView.otherWeeksGoalLabel.addGestureRecognizer(tapGesture8)
-
-            let tapGesture9 = UITapGestureRecognizer(target: self, action: #selector(addQuote))
-            baseView.quoteButton.addGestureRecognizer(tapGesture9)
-            
-            let tapGesture10 = UITapGestureRecognizer(target: self, action: #selector(addQuote))
-            baseView.pencilQuoteButton.addGestureRecognizer(tapGesture10)
-            
-            let tapGesture11 = UITapGestureRecognizer(target: self, action: #selector(addPhoto))
-            baseView.imageAddButton.addGestureRecognizer(tapGesture11)
-            
-            let tapGesture12 = UITapGestureRecognizer(target: self, action: #selector(addPhoto))
-            baseView.imageButton.addGestureRecognizer(tapGesture12)
-
-}
+    }
     
     @objc private func didTapCurrentWeek() {
         guard let weekAndYear = DateAnalyzer.getWeekAndYearFromDate(date: Date()) else{
@@ -307,13 +309,6 @@ class HomeViewController: UIViewController, SettingsVCDelegate  {
         let vc = GoalsVC(groupID: groupID, weekAndYear: weekAndYear, monthAndYear: monthAndYear)
         navigationController?.pushViewController(vc, animated: true)
     }
-    
-    @objc private func addPhoto() {
-        let vc = UIImagePickerController()
-        
-        vc.delegate = self
-        present(vc, animated: true, completion: nil)
-    }
         
     @objc private func addGoals() {
             let vc = TextInputVC(textType: .goal)
@@ -364,7 +359,7 @@ extension HomeViewController: UIImagePickerControllerDelegate, UINavigationContr
             }
             UIView.animate(withDuration: 0.5, animations: {
                 self.baseView.couplePhoto.isHidden = false
-                self.baseView.imageAddButton.isHidden = true
+//                self.baseView.imageAddButton.isHidden = true
             })
         }
         picker.dismiss(animated: true, completion: nil)

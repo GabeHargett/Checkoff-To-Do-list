@@ -335,7 +335,7 @@ class SettingsButtonCell: UITableViewCell {
 
     func configure(buttonType: SettingsVC.ButtonType) {
         label.textColor = .mainColor1
-        button.backgroundColor = .mainColor6
+        button.backgroundColor = .mainColor5
         switch buttonType {
             
         case .token:
@@ -361,9 +361,9 @@ class SettingsButtonCell: UITableViewCell {
     
     func setUpSubviews() {
         label.quickConfigure(textAlignment: .center, font: .systemFont(ofSize: 17), textColor: .mainColor1, numberOfLines: 0)
-        button.setImageWidth(size: 25)
-        button.setImageHeight(size: 25)
-        button.layoutMargins = UIEdgeInsets(top: 5, left: 5, bottom: 5, right:5)
+        button.setImageWidth(size: 24)
+        button.setImageHeight(size: 24)
+        button.layoutMargins = UIEdgeInsets(top: 3, left: 3, bottom: 3, right:3)
         button.quickConfigure(font: .systemFont(ofSize: 15), titleColor: .black, backgroundColor: .systemGray4, cornerRadius: 8)
         
         
