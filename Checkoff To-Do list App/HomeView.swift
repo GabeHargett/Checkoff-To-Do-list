@@ -46,9 +46,9 @@ class HomeView: UIView {
     let quoteButton = CustomButton(type: .imageAndLabel)
     
     let quoteLabel = UILabel()
-    let quoteLabel2 = UILabel()
     let authorLabel = UILabel()
     let quoteSignature = UILabel()
+//    let emojiLabel = UILabel()
     
     let camera = UIImageView(image: UIImage(systemName: "camera.fill"))
     let editPhotoButton = UIStackView()
@@ -56,8 +56,9 @@ class HomeView: UIView {
     let quoteImage = UIImageView(image: UIImage(systemName: "message.fill"))
     let addQuote = UIStackView()
     let labelquote = UILabel()
-
-
+    let profileView = UIView()
+    let emojiView = UIView()
+//    let emotionStack = UIStackView()
     
     private let holder = UIView()
     private let holder2 = UIView()
@@ -82,8 +83,6 @@ class HomeView: UIView {
     private let imageLabel = UnderlinedLabel()
     private let goalsStack1 = UIStackView()
     private let goalsLabel = UnderlinedLabel()
-    private let quoteStackWithPencil = UIStackView()
-    private let imageStackWithPencil = UIStackView ()
 
 
     func setColors() {
@@ -94,7 +93,9 @@ class HomeView: UIView {
         quoteButton.quickConfigure(
             font: .systemFont(ofSize: 15), titleColor: .black, backgroundColor: .mainColor1, cornerRadius: 8)
         authorLabel.quickConfigure(textAlignment: .right, font: .boldSystemFont(ofSize: 12), textColor: .mainColor6)
-        quoteLabel2.textColor = .mainColor6
+        quoteLabel.textColor = .mainColor6
+        profileView.addBorders(color: .mainColor6, thickness: 5)
+        emojiView.addBorders(color: .mainColor6, thickness: 3)
         
         camera.tintColor = .mainColor6
         editPhotoButton.addBorders(color: .mainColor6, thickness: 1)
@@ -105,7 +106,7 @@ class HomeView: UIView {
         labelquote.quickConfigure(textAlignment: .center, font: .systemFont(ofSize:12), textColor: .mainColor6)
 
         
-        for color in [previousWeekLabel, previousWeekGoalLabel, nextWeekLabel, nextWeekGoalLabel, otherWeeksLabel, otherWeeksGoalLabel, openGoalLabel, openTaskLabel, finishedGoalLabel, finishedTaskLabel, quoteSignature, quoteLabel] {
+        for color in [previousWeekLabel, previousWeekGoalLabel, nextWeekLabel, nextWeekGoalLabel, otherWeeksLabel, otherWeeksGoalLabel, openGoalLabel, openTaskLabel, finishedGoalLabel, finishedTaskLabel, quoteSignature] {
             color.textColor = .mainColor1
         }
         for backgroundColor in [weekStack, imageStack, goalsStack1, quoteStack] {
@@ -129,6 +130,15 @@ class HomeView: UIView {
             couplePhoto.addAutoLayoutSubview(addQuote)
             couplePhoto.addAutoLayoutSubview(editPhotoButton)
         }
+        profileView.height(constant: 75)
+        profileView.width(constant: 75)
+        profileView.cornerRadius(radius: 37.5)
+        profileView.backgroundColor = .black
+        
+        emojiView.height(constant: 26)
+        emojiView.width(constant: 26)
+        emojiView.cornerRadius(radius: 13)
+        emojiView.backgroundColor = .black
         
         editPhotoButton.axis = .horizontal
         editPhotoButton.alignment = .center
@@ -145,13 +155,15 @@ class HomeView: UIView {
         addQuote.cornerRadius(radius: 5)
         addQuote.addArrangedSubviews([quoteImage, labelquote])
         labelquote.text = "+"
-        quoteLabel2.textAlignment = .left
-        quoteLabel2.font = .boldSystemFont(ofSize: 12)
-        quoteLabel2.numberOfLines = 2
+        quoteLabel.textAlignment = .left
+        quoteLabel.font = .boldSystemFont(ofSize: 12)
+        quoteLabel.numberOfLines = 2
 
         photoView.addAutoLayoutSubview(couplePhoto)
         couplePhoto.addAutoLayoutSubview(authorLabel)
-        couplePhoto.addAutoLayoutSubview(quoteLabel2)
+        couplePhoto.addAutoLayoutSubview(quoteLabel)
+        couplePhoto.addAutoLayoutSubview(profileView)
+        couplePhoto.addAutoLayoutSubview(emojiView)
         addAutoLayoutSubview(photoView)
         addAutoLayoutSubview(scrollStack)
         
@@ -164,12 +176,17 @@ class HomeView: UIView {
             couplePhoto.topAnchor.constraint(equalTo: photoView.topAnchor),
             couplePhoto.rightAnchor.constraint(equalTo: photoView.rightAnchor),
             couplePhoto.leftAnchor.constraint(equalTo: photoView.leftAnchor),
-            quoteLabel2.topAnchor.constraint(equalTo: couplePhoto.topAnchor, constant: 250),
-            quoteLabel2.leftAnchor.constraint(equalTo: couplePhoto.leftAnchor, constant: 55),
-            quoteLabel2.rightAnchor.constraint(equalTo: couplePhoto.rightAnchor, constant: -3),
-            quoteLabel2.bottomAnchor.constraint(equalTo: couplePhoto.bottomAnchor,constant: -8),
-            authorLabel.rightAnchor.constraint(equalTo: couplePhoto.rightAnchor,constant: -36),
-            authorLabel.bottomAnchor.constraint(equalTo: couplePhoto.bottomAnchor)
+            quoteLabel.topAnchor.constraint(equalTo: couplePhoto.topAnchor, constant: 250),
+            quoteLabel.leftAnchor.constraint(equalTo: couplePhoto.leftAnchor, constant: 55),
+            quoteLabel.rightAnchor.constraint(equalTo: couplePhoto.rightAnchor, constant: -3),
+            quoteLabel.bottomAnchor.constraint(equalTo: couplePhoto.bottomAnchor,constant: -8),
+            authorLabel.rightAnchor.constraint(equalTo: couplePhoto.rightAnchor,constant: -55),
+            authorLabel.bottomAnchor.constraint(equalTo: couplePhoto.bottomAnchor),
+            profileView.topAnchor.constraint(equalTo: couplePhoto.topAnchor, constant: 12),
+            profileView.rightAnchor.constraint(equalTo: couplePhoto.rightAnchor,constant: -12),
+            emojiView.rightAnchor.constraint(equalTo: couplePhoto.rightAnchor,constant: -10),
+            emojiView.topAnchor.constraint(equalTo: couplePhoto.topAnchor,constant: 10)
+            
             ])
         
         labelStack.axis = .vertical
@@ -267,83 +284,8 @@ class HomeView: UIView {
         
         currentTaskLabel.text = "Current Week Tasks"
         currentTaskLabel.font = UIFont.systemFont(ofSize: 21)
-                
-//        quoteStack.addBorders(color: .black, thickness: 1)
-        quoteStack.layoutMargins = UIEdgeInsets(top: 0, left: 16, bottom: 10, right: 16)
-        quoteStack.axis = .vertical
-        quoteStack.spacing = 12
-        quoteStack.isLayoutMarginsRelativeArrangement = true
-//        quoteStack.cornerRadius(radius: 8)
         
-        
-        quoteStackWithPencil.axis = .horizontal
-        quoteStackWithPencil.layoutMargins = UIEdgeInsets(top: 10, left: 10, bottom: 0, right: 16)
-        quoteStackWithPencil.isLayoutMarginsRelativeArrangement = true
-        quoteStackWithPencil.spacing = 20
-
-                
-        quoteOfTheWeek.text = "Quote of the week"
-        quoteOfTheWeek.textAlignment = .left
-        quoteOfTheWeek.font = UIFont.systemFont(ofSize: 21)
-        
-        quoteButton.setImage(image:UIImage(systemName: "quote.bubble"),color:.systemGray)
-        quoteButton.setTitle(title: "Tap Here to Insert Quote")
-        quoteButton.setImageWidth(size: 26)
-        quoteButton.setImageHeight(size: 26)
-        quoteButton.layoutMargins = UIEdgeInsets(top: 5, left: 5, bottom: 5, right: 5)
-        quoteButton.quickConfigure(
-            font: .systemFont(ofSize: 15), titleColor: .black, backgroundColor: .black, cornerRadius: 8)
-
-
-        quoteLabel.textAlignment = .center
-        quoteLabel.numberOfLines = 0
-        quoteLabel.font = UIFont.systemFont(ofSize: 20)
-
-        quoteSignature.textAlignment = .right
-        quoteSignature.font = UIFont.systemFont(ofSize: 15)
-        
-        
-//        imageStack.addBorders(color: .black, thickness: 1)
-        imageStack.layoutMargins = UIEdgeInsets(top: 0, left: 16, bottom: 10, right: 16)
-        imageStack.axis = .vertical
-        imageStack.spacing = 12
-        imageStack.isLayoutMarginsRelativeArrangement = true
-//        imageStack.cornerRadius(radius: 8)
-        
-        imageStackWithPencil.axis = .horizontal
-        imageStackWithPencil.layoutMargins = UIEdgeInsets(top: 10, left: 10, bottom: 0, right: 16)
-        imageStackWithPencil.isLayoutMarginsRelativeArrangement = true
-        imageStackWithPencil.alignment = .leading
-        imageStackWithPencil.spacing = 20
-
-
-        imageButton.setImage(image:UIImage(systemName: "photo"),color:.systemGray)
-        imageButton.setImageWidth(size: 25)
-        imageButton.setImageHeight(size: 25)
-        imageButton.layoutMargins = UIEdgeInsets(top: 5, left: 5, bottom: 5, right: 5)
-
-
-        pencilQuoteButton.setImage(image:UIImage(systemName: "pencil"),color:.systemGray)
-        pencilQuoteButton.setImageWidth(size: 25)
-        pencilQuoteButton.setImageHeight(size: 25)
-        pencilQuoteButton.layoutMargins = UIEdgeInsets(top: 5, left: 5, bottom: 5, right: 5)
-        pencilQuoteButton.quickConfigure(font: .systemFont(ofSize: 15), titleColor: .black, backgroundColor: .systemGray4, cornerRadius: 8)
-
-        
-        imageLabel.text = "Couple Picture of the Week"
-        imageLabel.textAlignment = .left
-        imageLabel.font = UIFont.systemFont(ofSize: 21)
-        imageLabel.numberOfLines = 0
-
-        imageAddButton.setImage(image:UIImage(systemName: "camera"),color:.mainColor5)
-        imageAddButton.setTitle(title: "Edit")
-        imageAddButton.setImageWidth(size: 24)
-        imageAddButton.setImageHeight(size: 24)
-        imageAddButton.layoutMargins = UIEdgeInsets(top: 3, left: 3, bottom: 3, right: 3)
-
         couplePhoto.isHidden = true
-//        couplePhoto.cornerRadius(radius: 8)
-//        couplePhoto.addBorders(color: .black, thickness: 1)
         couplePhoto.height(constant: 300)
         couplePhoto.contentMode = .scaleAspectFill
         couplePhoto.layer.masksToBounds = true
@@ -401,16 +343,6 @@ class HomeView: UIView {
             finishedTaskLabel
         ])
         
-        imageStack.addArrangedSubviews([
-            imageStackWithPencil,
-//            couplePhoto
-        ])
-                
-        imageStackWithPencil.addArrangedSubviews([
-            imageButton,
-            imageLabel
-        ])
-        
         goalsStack1.addArrangedSubviews([
             goalsStack2,
             holder2
@@ -439,17 +371,5 @@ class HomeView: UIView {
             otherWeeksGoalLabel,
         ])
 
-        
-        quoteStack.addArrangedSubviews([
-            quoteStackWithPencil,
-            quoteButton,
-            quoteLabel,
-            quoteSignature
-        ])
-        
-        quoteStackWithPencil.addArrangedSubviews([
-            pencilQuoteButton,
-            quoteOfTheWeek
-        ])
 }
 }

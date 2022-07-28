@@ -142,7 +142,7 @@ class HomeViewController: UIViewController, SettingsVCDelegate  {
     }
     
     private func updateQuoteButton(quote: Quote) {
-        self.baseView.quoteLabel2.text =  "\"" + quote.text + "\""
+        self.baseView.quoteLabel.text =  "\"" + quote.text + "\""
         self.baseView.quoteButton.isHidden = true
         self.baseView.authorLabel.text = "- " + quote.author
     }
