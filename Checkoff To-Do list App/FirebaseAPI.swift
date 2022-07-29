@@ -288,4 +288,32 @@ class FirebaseAPI {
             }
         }
     }
+    static func downloadProfileImage(uid: String, completion: @escaping (UIImage?) -> ()) {
+            let ref = Storage.storage().reference().child("images/\(uid)/profilePhoto")
+            ref.getData(maxSize: 1024 * 1024 * 2) { data, error in
+                if let error = error {
+                    print(error)
+                    completion(nil)
+                } else {
+                    if let data = data, let image = UIImage(data: data) {
+                        completion(image)
+                    }
+                }
+            }
+        }
+    static func uploadProfileImage(uid: String, image: UIImage, completion: @escaping () -> ()) {
+        guard let imageData = image.jpegData(compressionQuality: 0.2) else {
+            return
+        }
+        let imageURL = "images/\(uid)/profilePhoto"
+        let storageRef = Storage.storage().reference().child(imageURL)
+        let newMetadata = StorageMetadata()
+        storageRef.putData(imageData, metadata: newMetadata) { (metadata, error) in
+            guard metadata != nil else {
+                completion()
+                // Uh-oh, an error occurred!
+                return
+            }
+        }
+    }
 }

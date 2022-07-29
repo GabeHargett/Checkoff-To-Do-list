@@ -41,6 +41,7 @@ class HomeView: UIView {
     let imageAddButton = CustomButton(type: .imageAndLabel)
 
     let couplePhoto = UIImageView()
+    let profilePhoto = UIImageView()
     
     let pencilQuoteButton = CustomButton(type: .image)
     let quoteButton = CustomButton(type: .imageAndLabel)
@@ -118,7 +119,7 @@ class HomeView: UIView {
     }
     
     private func setupView() {
-        for view in [couplePhoto, addQuote, editPhotoButton, currentWeekStack, previousWeekLabel, nextWeekLabel, otherWeeksLabel, goalsStack2, previousWeekGoalLabel, nextWeekGoalLabel,
+        for view in [profileView, profilePhoto, couplePhoto, addQuote, editPhotoButton, currentWeekStack, previousWeekLabel, nextWeekLabel, otherWeeksLabel, goalsStack2, previousWeekGoalLabel, nextWeekGoalLabel,
                      otherWeeksGoalLabel, quoteButton, pencilQuoteButton, imageAddButton, imageButton] {
             view.isUserInteractionEnabled = true
         }
@@ -134,6 +135,12 @@ class HomeView: UIView {
         profileView.width(constant: 75)
         profileView.cornerRadius(radius: 37.5)
         profileView.backgroundColor = .black
+        
+        profilePhoto.height(constant: 75)
+        profilePhoto.width(constant: 75)
+        profilePhoto.cornerRadius(radius: 37.5)
+        profilePhoto.contentMode = .scaleAspectFill
+        profilePhoto.layer.masksToBounds = true
         
         emojiView.height(constant: 26)
         emojiView.width(constant: 26)
@@ -163,6 +170,7 @@ class HomeView: UIView {
         couplePhoto.addAutoLayoutSubview(authorLabel)
         couplePhoto.addAutoLayoutSubview(quoteLabel)
         couplePhoto.addAutoLayoutSubview(profileView)
+        profileView.addAutoLayoutSubview(profilePhoto)
         couplePhoto.addAutoLayoutSubview(emojiView)
         addAutoLayoutSubview(photoView)
         addAutoLayoutSubview(scrollStack)
@@ -184,6 +192,10 @@ class HomeView: UIView {
             authorLabel.bottomAnchor.constraint(equalTo: couplePhoto.bottomAnchor),
             profileView.topAnchor.constraint(equalTo: couplePhoto.topAnchor, constant: 12),
             profileView.rightAnchor.constraint(equalTo: couplePhoto.rightAnchor,constant: -12),
+            profilePhoto.bottomAnchor.constraint(equalTo: profileView.bottomAnchor),
+            profilePhoto.topAnchor.constraint(equalTo: profileView.topAnchor),
+            profilePhoto.rightAnchor.constraint(equalTo: profileView.rightAnchor),
+            profilePhoto.leftAnchor.constraint(equalTo: profileView.leftAnchor),
             emojiView.rightAnchor.constraint(equalTo: couplePhoto.rightAnchor,constant: -10),
             emojiView.topAnchor.constraint(equalTo: couplePhoto.topAnchor,constant: 10)
             

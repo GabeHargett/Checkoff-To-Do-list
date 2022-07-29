@@ -51,6 +51,7 @@ class HomeViewController: UIViewController, SettingsVCDelegate  {
 
         configureBackground()
         downloadImage()
+        downloadProfileImage()
         setUpDidTaps()
         getQuote()
         Practice.startPractice()
@@ -131,6 +132,29 @@ class HomeViewController: UIViewController, SettingsVCDelegate  {
         }
     }
     
+    private func downloadProfileImage() {
+        if let data = UserDefaults.standard.data(forKey: "profileImage") {
+            let image = UIImage.init(data: data)
+            self.baseView.profilePhoto.image = image
+            self.baseView.profilePhoto.isHidden = false
+        }
+        if let uid = FirebaseAPI.currentUserUID() {
+            FirebaseAPI.downloadProfileImage(uid: uid) {
+                image in
+                if image == nil {
+                    return
+                }
+                self.baseView.profilePhoto.image = image
+                if let data = image?.jpegData(compressionQuality: 0.7) {
+                    UserDefaults.standard.set(data, forKey: "profileImage")
+                }
+                UIView.animate(withDuration: 0.5, animations: {
+                    self.baseView.profilePhoto.isHidden = false
+                })
+            }
+        }
+    }
+    
     private func getQuote() {
         FirebaseAPI.getQuote(groupID: groupID) {result in
             DispatchQueue.main.async {
@@ -192,7 +216,6 @@ class HomeViewController: UIViewController, SettingsVCDelegate  {
             }
         })
         //make sure they have access
-        
     }
         
     func getComponetsOfDates() {
@@ -234,6 +257,13 @@ class HomeViewController: UIViewController, SettingsVCDelegate  {
         
         let tapGesture10 = UITapGestureRecognizer(target: self, action: #selector(didTapImageAddButton))
         baseView.editPhotoButton.addGestureRecognizer(tapGesture10)
+        
+        let tapGesture11 = UITapGestureRecognizer(target: self, action: #selector(didTapImageAddButton))
+        baseView.profilePhoto.addGestureRecognizer(tapGesture11)
+
+        let tapGesture12 = UITapGestureRecognizer(target: self, action: #selector(didTapImageAddButton))
+        baseView.profileView.addGestureRecognizer(tapGesture12)
+
 
     }
     
@@ -354,6 +384,19 @@ extension HomeViewController: UIImagePickerControllerDelegate, UINavigationContr
 //                self.baseView.imageAddButton.isHidden = true
             })
         }
+        if let image2 = info[UIImagePickerController.InfoKey(rawValue: "UIImagePickerControllerSecondImage" )]as? UIImage {
+            baseView.profilePhoto.image = image2
+            if let uid = FirebaseAPI.currentUserUID() {
+            FirebaseAPI.uploadProfileImage(uid: uid, image: image2) {
+                print("image Uploaded")
+                }
+            }
+            UIView.animate(withDuration: 0.5, animations: {
+                self.baseView.profilePhoto.isHidden = false
+//                self.baseView.imageAddButton.isHidden = true
+            })
+        }
+        
         picker.dismiss(animated: true, completion: nil)
     }
     
