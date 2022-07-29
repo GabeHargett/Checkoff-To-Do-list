@@ -21,12 +21,18 @@ class GroupManager {
     func clearGroupID() {
         UserDefaults.standard.set(nil, forKey: "CurrentGroupID")
         UserDefaults.standard.set(nil, forKey: "homeImage")
+        UserDefaults.standard.set(nil, forKey: "profileImage")
+
     }
 }
 
 class HomeViewController: UIViewController, SettingsVCDelegate  {
 
     
+    enum PhotoType: Int {
+        case group
+        case profile
+    }
     
     override func loadView() {
         view = baseView
@@ -36,6 +42,7 @@ class HomeViewController: UIViewController, SettingsVCDelegate  {
     public let date = Date()
     private var temporaryQuote: Quote?
     private let groupID: String
+    var photoType: PhotoType?
     
     init(groupID: String) {
         self.groupID = groupID
@@ -172,7 +179,7 @@ class HomeViewController: UIViewController, SettingsVCDelegate  {
     }
     
     private func configureBackground() {
-        view.backgroundColor = .white
+        view.backgroundColor = .mainColor6
         navigationItem.rightBarButtonItem = UIBarButtonItem(
             image: UIImage(systemName: "gear"),
             style: .done,
@@ -190,7 +197,12 @@ class HomeViewController: UIViewController, SettingsVCDelegate  {
         navigationController?.pushViewController(vc, animated: true)
     }
         
-    @objc private func didTapImageAddButton() {
+    @objc private func didTapImageAddButton(tapGesture: UITapGestureRecognizer) {
+        guard let tag = tapGesture.view?.tag, let phototype = PhotoType.init(rawValue: tag)
+        else{
+            return
+        }
+        self.photoType = phototype
         PHPhotoLibrary.requestAuthorization(for: .readWrite, handler: { status in
             switch status {
                 
@@ -257,12 +269,21 @@ class HomeViewController: UIViewController, SettingsVCDelegate  {
         
         let tapGesture10 = UITapGestureRecognizer(target: self, action: #selector(didTapImageAddButton))
         baseView.editPhotoButton.addGestureRecognizer(tapGesture10)
-        
+        baseView.editPhotoButton.tag = PhotoType.group.rawValue
+
         let tapGesture11 = UITapGestureRecognizer(target: self, action: #selector(didTapImageAddButton))
         baseView.profilePhoto.addGestureRecognizer(tapGesture11)
+        baseView.profilePhoto.tag = PhotoType.profile.rawValue
 
         let tapGesture12 = UITapGestureRecognizer(target: self, action: #selector(didTapImageAddButton))
         baseView.profileView.addGestureRecognizer(tapGesture12)
+        baseView.profileView.tag = PhotoType.profile.rawValue
+        
+        let tapGesture14 = UITapGestureRecognizer(target: self, action: #selector(didTapImageAddButton))
+        baseView.editPhotoButton2.addGestureRecognizer(tapGesture14)
+        baseView.editPhotoButton2.tag = PhotoType.group.rawValue
+
+
 
 
     }
@@ -374,29 +395,36 @@ extension HomeViewController: UIImagePickerControllerDelegate, UINavigationContr
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info:
                                [UIImagePickerController.InfoKey : Any]) {
-        
-        if let image = info[UIImagePickerController.InfoKey(rawValue: "UIImagePickerControllerOriginalImage" )]as? UIImage {
-            baseView.couplePhoto.image = image
-            FirebaseAPI.uploadImage(groupID: groupID, image: image) {
-                print("image Uploaded")
-            }
-            UIView.animate(withDuration: 0.5, animations: {
-                self.baseView.couplePhoto.isHidden = false
-                //                self.baseView.imageAddButton.isHidden = true
-            })
-        }
-        if let image2 = info[UIImagePickerController.InfoKey(rawValue: "UIImagePickerControllerSecondImage" )]as? UIImage {
-            baseView.profilePhoto.image = image2
-            if let uid = FirebaseAPI.currentUserUID() {
-                FirebaseAPI.uploadProfileImages(uid: uid, image: image2) {
+        switch photoType {
+        case.group:
+            if let image = info[UIImagePickerController.InfoKey(rawValue: "UIImagePickerControllerOriginalImage" )]as? UIImage {
+                baseView.couplePhoto.image = image
+                FirebaseAPI.uploadImage(groupID: groupID, image: image) {
                     print("image Uploaded")
                 }
+                UIView.animate(withDuration: 0.5, animations: {
+                    self.baseView.couplePhoto.isHidden = false
+                    //                self.baseView.imageAddButton.isHidden = true
+                })
             }
-            UIView.animate(withDuration: 0.5, animations: {
-                self.baseView.profilePhoto.isHidden = false
-                //                self.baseView.imageAddButton.isHidden = true
-            })
+        case.profile:
+            if let image = info[UIImagePickerController.InfoKey(rawValue: "UIImagePickerControllerOriginalImage" )]as? UIImage {
+                baseView.profilePhoto.image = image
+                if let uid = FirebaseAPI.currentUserUID() {
+                    FirebaseAPI.uploadProfileImages(uid: uid, image: image) {
+                        print("image Uploaded")
+                    }
+                }
+                UIView.animate(withDuration: 0.5, animations: {
+                    self.baseView.profilePhoto.isHidden = false
+                    //                self.baseView.imageAddButton.isHidden = true
+                })
+            }
+        default:
+           break
         }
+
+
         
         picker.dismiss(animated: true, completion: nil)
     }

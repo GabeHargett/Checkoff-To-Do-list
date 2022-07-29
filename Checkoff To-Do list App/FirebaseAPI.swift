@@ -65,6 +65,10 @@ class FirebaseAPI {
         let ref = Database.database().reference().child("Users").child(user.id)
         ref.setValue(["fullName": ["firstName": user.fullName.firstName, "lastName": user.fullName.lastName], "dateJoined": user.dateJoined])
     }
+    static func addUserToGroup(user: User, groupID: String) {
+        let ref = Database.database().reference().child("Groups").child(groupID).child(user.id)
+        ref.setValue(user.id)
+    }
     
     static func getFullName(uid: String, completion: @escaping (FullName?) -> ()) {
         if let nameCache = NameCache.shared.getName(uid: uid) {
@@ -290,6 +294,21 @@ class FirebaseAPI {
             }
         }
     }
+    static func downloadGroupProfileImages(user: User, groupID: String, completion: @escaping (UIImage?) -> ()) {
+            let groupUser = Database.database().reference().child("Groups").child(groupID).child(user.id)
+            let groupImageRef = Database.database().reference().child("Users").child(groupUser).child("imageRef")
+            let ref = Storage.storage().reference().child("images/\(groupImageRef)/profilePhoto")
+            ref.getData(maxSize: 1024 * 1024 * 2) { data, error in
+                if let error = error {
+                    print(error)
+                    completion(nil)
+                } else {
+                    if let data = data, let image = UIImage(data: data) {
+                        completion(image)
+                    }
+                }
+            }
+        }
     static func downloadProfileImages(uid: String, completion: @escaping (UIImage?) -> ()) {
             let ref = Storage.storage().reference().child("images/\(uid)/profilePhoto")
             ref.getData(maxSize: 1024 * 1024 * 2) { data, error in
@@ -316,6 +335,8 @@ class FirebaseAPI {
                 // Uh-oh, an error occurred!
                 return
             }
+            let ref = Database.database().reference().child("Users").child(uid).child("imageRef")
+            ref.setValue(imageURL)
         }
     }
 }

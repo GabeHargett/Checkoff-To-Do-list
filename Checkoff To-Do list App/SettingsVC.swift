@@ -86,6 +86,7 @@ class SettingsVC: UIViewController {
         FirebaseAPI.setGroupToken(groupID: groupID, token: token)
         customAlert.addAction(ModalJesusAction(title: "\(token) (Tap to copy)", style: true, action: {self.showToast()}))
         customAlert.addAction(ModalJesusAction(title: "Cancel", style: false))
+        //discovered bug that changes token in firebase everytime settings VC is opened.
     }
 }
 
@@ -106,6 +107,7 @@ extension SettingsVC: SettingsButtonCellDelegate {
     }
     
     func createToken() {
+//        setUpAlert()
         self.present(self.customAlert, animated: true)
     }
 }

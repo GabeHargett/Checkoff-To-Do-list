@@ -42,6 +42,7 @@ class GroupCreationVC: UIViewController {
     }
     
     private func joinGroup() {
+        //error saying must be an empty string, but reloading the app again puts user in the group. unless the token is wrong, then everything breaks.
         guard let joinGroup = baseView.joinGroupField.text, !joinGroup.isEmpty
         else {
             print("Missing data")
@@ -51,6 +52,7 @@ class GroupCreationVC: UIViewController {
             result in
             FirebaseAPI.joinGroup(groupID: result ?? "")
             GroupManager.shared.setCurrentGroupID(groupID: result ?? "")
+            Firebase.addUserToGroup
             DispatchQueue.main.async {
                 let vc = HomeViewController(groupID: "")
                 self.navigationController?.pushViewController(vc, animated: true)
@@ -83,7 +85,7 @@ class GroupView: UIView {
     let segmentedControl = UISegmentedControl(items: ["Create Group", "Join Group"])
     let label = UILabel()
     let createGroupField = UITextField()
-    let joinGroupField = LimitedLengthField()
+    let joinGroupField = UITextField()
     let button = UIButton()
     let stackView = UIStackView()
     let stackView2 = UIStackView()

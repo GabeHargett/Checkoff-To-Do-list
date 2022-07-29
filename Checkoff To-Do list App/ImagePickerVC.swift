@@ -9,10 +9,7 @@
 //
 //class ImagePickerVC: UIImagePickerController {
 //    
-//    enum PhotoType {
-//        case profile
-//        case group
-//    }
+
 //    
 //    private let photoType: PhotoType
 //    private let baseView = HomeView()

@@ -40,7 +40,7 @@ class HomeView: UIView {
     let imageButton = CustomButton(type: .image)
     let imageAddButton = CustomButton(type: .imageAndLabel)
 
-    let couplePhoto = UIImageView()
+    var couplePhoto = UIImageView()
     let profilePhoto = UIImageView()
     
     let pencilQuoteButton = CustomButton(type: .image)
@@ -53,6 +53,7 @@ class HomeView: UIView {
     
     let camera = UIImageView(image: UIImage(systemName: "camera.fill"))
     let editPhotoButton = UIStackView()
+    let editPhotoButton2 = UIStackView()
     let editLabel = UILabel()
     let quoteImage = UIImageView(image: UIImage(systemName: "message.fill"))
     let addQuote = UIStackView()
@@ -60,8 +61,8 @@ class HomeView: UIView {
     let profileView = UIView()
     let emojiView = UIView()
     let profileImage = UIImageView(image: UIImage(systemName: "person.fill"))
-
     let textfield = EmojiTextField()
+    let profileStack = UIStackView()
 //    let emotionStack = UIStackView()
     
     private let holder = UIView()
@@ -105,13 +106,14 @@ class HomeView: UIView {
         camera.tintColor = .mainColor6
         editPhotoButton.addBorders(color: .mainColor6, thickness: 1)
         editLabel.quickConfigure(textAlignment: .center, font: .systemFont(ofSize:12), textColor: .mainColor6)
-        
+        editPhotoButton2.addBorders(color: .mainColor6, thickness: 1)
+
         quoteImage.tintColor = .mainColor6
         addQuote.addBorders(color: .mainColor6, thickness: 1)
         labelquote.quickConfigure(textAlignment: .center, font: .systemFont(ofSize:12), textColor: .mainColor6)
 
         
-        for color in [previousWeekLabel, previousWeekGoalLabel, nextWeekLabel, nextWeekGoalLabel, otherWeeksLabel, otherWeeksGoalLabel, openGoalLabel, openTaskLabel, finishedGoalLabel, finishedTaskLabel, quoteSignature] {
+        for color in [previousWeekLabel, previousWeekGoalLabel, nextWeekLabel, nextWeekGoalLabel, otherWeeksLabel, otherWeeksGoalLabel, openGoalLabel, openTaskLabel, finishedGoalLabel, finishedTaskLabel] {
             color.textColor = .mainColor1
         }
         for backgroundColor in [weekStack, imageStack, goalsStack1, quoteStack] {
@@ -127,29 +129,28 @@ class HomeView: UIView {
                      otherWeeksGoalLabel, quoteButton, pencilQuoteButton, imageAddButton, imageButton] {
             view.isUserInteractionEnabled = true
         }
-        if couplePhoto.isHidden == true {
-            photoView.addAutoLayoutSubview(editPhotoButton)
-            photoView.addAutoLayoutSubview(addQuote)
-        }
-        else {
-            couplePhoto.addAutoLayoutSubview(addQuote)
-            couplePhoto.addAutoLayoutSubview(editPhotoButton)
-        }
+
+            couplePhoto.addAutoLayoutSubview(editPhotoButton2)
         
+            photoView.addAutoLayoutSubview(editPhotoButton)
+            couplePhoto.addAutoLayoutSubview(addQuote)
+
+        profileStack.alignment = .top
+        profileStack.axis = .horizontal
+        profileStack.layoutMargins = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+        profileStack.spacing = -20
+        profileStack.isLayoutMarginsRelativeArrangement = true
+        profileStack.addArrangedSubviews([profileView, emojiView])
+
         profileView.height(constant: 75)
         profileView.width(constant: 75)
         profileView.cornerRadius(radius: 37.5)
         profileView.backgroundColor = .black
         
-        profileImage.height(constant: 75)
-        profileImage.width(constant: 75)
-        profileImage.cornerRadius(radius: 37.5)
+        
         profileImage.contentMode = .scaleAspectFill
         profileImage.layer.masksToBounds = true
         
-        profilePhoto.height(constant: 75)
-        profilePhoto.width(constant: 75)
-        profilePhoto.cornerRadius(radius: 37.5)
         profilePhoto.contentMode = .scaleAspectFill
         profilePhoto.layer.masksToBounds = true
         
@@ -177,19 +178,28 @@ class HomeView: UIView {
         quoteLabel.font = .boldSystemFont(ofSize: 12)
         quoteLabel.numberOfLines = 2
 
+        editPhotoButton2.axis = .horizontal
+        editPhotoButton2.alignment = .center
+        editPhotoButton2.layoutMargins = UIEdgeInsets(top: 3, left: 3, bottom: 3, right: 3)
+        editPhotoButton2.isLayoutMarginsRelativeArrangement = true
+        editPhotoButton2.cornerRadius(radius: 5)
+        editPhotoButton2.addArrangedSubviews([camera, editLabel])
+
         photoView.addAutoLayoutSubview(couplePhoto)
         couplePhoto.addAutoLayoutSubview(authorLabel)
         couplePhoto.addAutoLayoutSubview(quoteLabel)
-        couplePhoto.addAutoLayoutSubview(profileView)
+        couplePhoto.addAutoLayoutSubview(profileStack)
         profileView.addAutoLayoutSubview(profileImage)
         profileView.addAutoLayoutSubview(profilePhoto)
-        couplePhoto.addAutoLayoutSubview(emojiView)
+//        emojiView.addAutoLayoutSubview(profileView)
         addAutoLayoutSubview(photoView)
         addAutoLayoutSubview(scrollStack)
         
         NSLayoutConstraint.activate([
             editPhotoButton.leftAnchor.constraint(equalTo: photoView.leftAnchor, constant: 12),
             editPhotoButton.topAnchor.constraint(equalTo: photoView.topAnchor,constant: 12),
+            editPhotoButton2.leftAnchor.constraint(equalTo: photoView.leftAnchor, constant: 12),
+            editPhotoButton2.topAnchor.constraint(equalTo: photoView.topAnchor,constant: 12),
             addQuote.leftAnchor.constraint(equalTo: photoView.leftAnchor, constant: 12),
             addQuote.bottomAnchor.constraint(equalTo: photoView.bottomAnchor,constant: -16),
             couplePhoto.bottomAnchor.constraint(equalTo: photoView.bottomAnchor),
@@ -202,8 +212,8 @@ class HomeView: UIView {
             quoteLabel.bottomAnchor.constraint(equalTo: couplePhoto.bottomAnchor,constant: -8),
             authorLabel.rightAnchor.constraint(equalTo: couplePhoto.rightAnchor,constant: -55),
             authorLabel.bottomAnchor.constraint(equalTo: couplePhoto.bottomAnchor),
-            profileView.topAnchor.constraint(equalTo: couplePhoto.topAnchor, constant: 12),
-            profileView.rightAnchor.constraint(equalTo: couplePhoto.rightAnchor,constant: -12),
+            profileStack.topAnchor.constraint(equalTo: couplePhoto.topAnchor, constant: 12),
+            profileStack.rightAnchor.constraint(equalTo: couplePhoto.rightAnchor,constant: -12),
             profileImage.bottomAnchor.constraint(equalTo: profileView.bottomAnchor),
             profileImage.topAnchor.constraint(equalTo: profileView.topAnchor),
             profileImage.rightAnchor.constraint(equalTo: profileView.rightAnchor),
@@ -212,8 +222,8 @@ class HomeView: UIView {
             profilePhoto.topAnchor.constraint(equalTo: profileView.topAnchor),
             profilePhoto.rightAnchor.constraint(equalTo: profileView.rightAnchor),
             profilePhoto.leftAnchor.constraint(equalTo: profileView.leftAnchor),
-            emojiView.rightAnchor.constraint(equalTo: couplePhoto.rightAnchor,constant: -10),
-            emojiView.topAnchor.constraint(equalTo: couplePhoto.topAnchor,constant: 10)
+//            emojiView.rightAnchor.constraint(equalTo: couplePhoto.rightAnchor,constant: -10),
+//            emojiView.topAnchor.constraint(equalTo: couplePhoto.topAnchor,constant: 10)
             
             ])
         
