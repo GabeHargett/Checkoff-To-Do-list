@@ -181,23 +181,7 @@ func setPlaceHolder(text : String, color : UIColor = .mainColor1 ){
 }
 }
 
-class UnderlinedTextField: UITextField {
-    override func didMoveToSuperview() {
-        font = UIFont.systemFont(ofSize: 20, weight: .medium)
-        tintColor = .mainColor1
-        
-        let underlineView = UIView()
-        underlineView.backgroundColor = .mainColor1
-        
-        addAutoLayoutSubview(underlineView)
-        underlineView.height(constant: 2)
-        NSLayoutConstraint.activate([
-            underlineView.bottomAnchor.constraint(equalTo: bottomAnchor),
-            underlineView.centerXAnchor.constraint(equalTo: centerXAnchor),
-            underlineView.widthAnchor.constraint(equalTo: widthAnchor),
-        ])
-    }
-}
+
         
 
 

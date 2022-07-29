@@ -20,6 +20,7 @@ class GroupManager {
     
     func clearGroupID() {
         UserDefaults.standard.set(nil, forKey: "CurrentGroupID")
+        UserDefaults.standard.set(nil, forKey: "homeImage")
     }
 }
 
@@ -48,7 +49,8 @@ class HomeViewController: UIViewController, SettingsVCDelegate  {
                 
         title = "Home"
         navigationItem.hidesBackButton = true
-
+        
+        self.hideKeyboardWhenTappedAround()
         configureBackground()
         downloadImage()
         downloadProfileImage()
@@ -136,10 +138,9 @@ class HomeViewController: UIViewController, SettingsVCDelegate  {
         if let data = UserDefaults.standard.data(forKey: "profileImage") {
             let image = UIImage.init(data: data)
             self.baseView.profilePhoto.image = image
-            self.baseView.profilePhoto.isHidden = false
         }
         if let uid = FirebaseAPI.currentUserUID() {
-            FirebaseAPI.downloadProfileImage(uid: uid) {
+            FirebaseAPI.downloadProfileImages(uid: uid) {
                 image in
                 if image == nil {
                     return
@@ -149,7 +150,6 @@ class HomeViewController: UIViewController, SettingsVCDelegate  {
                     UserDefaults.standard.set(data, forKey: "profileImage")
                 }
                 UIView.animate(withDuration: 0.5, animations: {
-                    self.baseView.profilePhoto.isHidden = false
                 })
             }
         }
@@ -371,9 +371,10 @@ extension HomeViewController: TextInputVCDelegate {
 
 
 extension HomeViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info:
-    [UIImagePickerController.InfoKey : Any]) {
-
+                               [UIImagePickerController.InfoKey : Any]) {
+        
         if let image = info[UIImagePickerController.InfoKey(rawValue: "UIImagePickerControllerOriginalImage" )]as? UIImage {
             baseView.couplePhoto.image = image
             FirebaseAPI.uploadImage(groupID: groupID, image: image) {
@@ -381,19 +382,19 @@ extension HomeViewController: UIImagePickerControllerDelegate, UINavigationContr
             }
             UIView.animate(withDuration: 0.5, animations: {
                 self.baseView.couplePhoto.isHidden = false
-//                self.baseView.imageAddButton.isHidden = true
+                //                self.baseView.imageAddButton.isHidden = true
             })
         }
         if let image2 = info[UIImagePickerController.InfoKey(rawValue: "UIImagePickerControllerSecondImage" )]as? UIImage {
             baseView.profilePhoto.image = image2
             if let uid = FirebaseAPI.currentUserUID() {
-            FirebaseAPI.uploadProfileImage(uid: uid, image: image2) {
-                print("image Uploaded")
+                FirebaseAPI.uploadProfileImages(uid: uid, image: image2) {
+                    print("image Uploaded")
                 }
             }
             UIView.animate(withDuration: 0.5, animations: {
                 self.baseView.profilePhoto.isHidden = false
-//                self.baseView.imageAddButton.isHidden = true
+                //                self.baseView.imageAddButton.isHidden = true
             })
         }
         

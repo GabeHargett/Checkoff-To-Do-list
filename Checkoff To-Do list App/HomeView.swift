@@ -59,6 +59,9 @@ class HomeView: UIView {
     let labelquote = UILabel()
     let profileView = UIView()
     let emojiView = UIView()
+    let profileImage = UIImageView(image: UIImage(systemName: "person.fill"))
+
+    let textfield = EmojiTextField()
 //    let emotionStack = UIStackView()
     
     private let holder = UIView()
@@ -97,6 +100,7 @@ class HomeView: UIView {
         quoteLabel.textColor = .mainColor6
         profileView.addBorders(color: .mainColor6, thickness: 5)
         emojiView.addBorders(color: .mainColor6, thickness: 3)
+        profileImage.tintColor = .mainColor6
         
         camera.tintColor = .mainColor6
         editPhotoButton.addBorders(color: .mainColor6, thickness: 1)
@@ -119,7 +123,7 @@ class HomeView: UIView {
     }
     
     private func setupView() {
-        for view in [profileView, profilePhoto, couplePhoto, addQuote, editPhotoButton, currentWeekStack, previousWeekLabel, nextWeekLabel, otherWeeksLabel, goalsStack2, previousWeekGoalLabel, nextWeekGoalLabel,
+        for view in [profileImage, profileView, profilePhoto, couplePhoto, addQuote, editPhotoButton, currentWeekStack, previousWeekLabel, nextWeekLabel, otherWeeksLabel, goalsStack2, previousWeekGoalLabel, nextWeekGoalLabel,
                      otherWeeksGoalLabel, quoteButton, pencilQuoteButton, imageAddButton, imageButton] {
             view.isUserInteractionEnabled = true
         }
@@ -131,10 +135,17 @@ class HomeView: UIView {
             couplePhoto.addAutoLayoutSubview(addQuote)
             couplePhoto.addAutoLayoutSubview(editPhotoButton)
         }
+        
         profileView.height(constant: 75)
         profileView.width(constant: 75)
         profileView.cornerRadius(radius: 37.5)
         profileView.backgroundColor = .black
+        
+        profileImage.height(constant: 75)
+        profileImage.width(constant: 75)
+        profileImage.cornerRadius(radius: 37.5)
+        profileImage.contentMode = .scaleAspectFill
+        profileImage.layer.masksToBounds = true
         
         profilePhoto.height(constant: 75)
         profilePhoto.width(constant: 75)
@@ -170,6 +181,7 @@ class HomeView: UIView {
         couplePhoto.addAutoLayoutSubview(authorLabel)
         couplePhoto.addAutoLayoutSubview(quoteLabel)
         couplePhoto.addAutoLayoutSubview(profileView)
+        profileView.addAutoLayoutSubview(profileImage)
         profileView.addAutoLayoutSubview(profilePhoto)
         couplePhoto.addAutoLayoutSubview(emojiView)
         addAutoLayoutSubview(photoView)
@@ -192,6 +204,10 @@ class HomeView: UIView {
             authorLabel.bottomAnchor.constraint(equalTo: couplePhoto.bottomAnchor),
             profileView.topAnchor.constraint(equalTo: couplePhoto.topAnchor, constant: 12),
             profileView.rightAnchor.constraint(equalTo: couplePhoto.rightAnchor,constant: -12),
+            profileImage.bottomAnchor.constraint(equalTo: profileView.bottomAnchor),
+            profileImage.topAnchor.constraint(equalTo: profileView.topAnchor),
+            profileImage.rightAnchor.constraint(equalTo: profileView.rightAnchor),
+            profileImage.leftAnchor.constraint(equalTo: profileView.leftAnchor),
             profilePhoto.bottomAnchor.constraint(equalTo: profileView.bottomAnchor),
             profilePhoto.topAnchor.constraint(equalTo: profileView.topAnchor),
             profilePhoto.rightAnchor.constraint(equalTo: profileView.rightAnchor),
@@ -219,7 +235,8 @@ class HomeView: UIView {
         weekStack.spacing = 12
         weekStack.isLayoutMarginsRelativeArrangement = true
 //        weekStack.cornerRadius(radius: 8)
-
+        textfield.placeholder = "Enter One Emoji"
+        textfield.borderStyle = .line
         
         currentWeekStack.axis = .horizontal
         currentWeekStack.layoutMargins = UIEdgeInsets(top: 10, left: 16, bottom: 0, right: 16)
@@ -325,12 +342,12 @@ class HomeView: UIView {
             photoView,
             weekStack,
             goalsStack1,
-            imageStack,
-            quoteStack
         ])
         
         weekStack.addArrangedSubviews([
             currentWeekStack,
+            textfield,
+
             holder,
         ])
         
@@ -385,3 +402,4 @@ class HomeView: UIView {
 
 }
 }
+

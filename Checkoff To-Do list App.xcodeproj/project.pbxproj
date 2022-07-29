@@ -32,6 +32,7 @@
 		778728E727FF95750060B496 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 778728E627FF95750060B496 /* GoogleService-Info.plist */; };
 		778728E927FF96170060B496 /* FirebaseAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 778728E827FF96170060B496 /* FirebaseAPI.swift */; };
 		778E1BA2289366CF006473B6 /* ImagePickerVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 778E1BA1289366CF006473B6 /* ImagePickerVC.swift */; };
+		778E1BA4289392F6006473B6 /* CustomClasses.swift in Sources */ = {isa = PBXBuildFile; fileRef = 778E1BA3289392F6006473B6 /* CustomClasses.swift */; };
 		77956ADF286C034E00A54E81 /* modalJesusAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77956ADE286C034E00A54E81 /* modalJesusAlert.swift */; };
 		77A0C040283818D8000AC40E /* SettingsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77A0C03F283818D8000AC40E /* SettingsVC.swift */; };
 		77A52DD02851A3AE00CE75ED /* GradientView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77A52DCF2851A3AE00CE75ED /* GradientView.swift */; };
@@ -66,6 +67,7 @@
 		778728E627FF95750060B496 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		778728E827FF96170060B496 /* FirebaseAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseAPI.swift; sourceTree = "<group>"; };
 		778E1BA1289366CF006473B6 /* ImagePickerVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePickerVC.swift; sourceTree = "<group>"; };
+		778E1BA3289392F6006473B6 /* CustomClasses.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomClasses.swift; sourceTree = "<group>"; };
 		77956ADE286C034E00A54E81 /* modalJesusAlert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = modalJesusAlert.swift; sourceTree = "<group>"; };
 		77A0C03F283818D8000AC40E /* SettingsVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsVC.swift; sourceTree = "<group>"; };
 		77A52DCF2851A3AE00CE75ED /* GradientView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradientView.swift; sourceTree = "<group>"; };
@@ -123,6 +125,7 @@
 				776B8106282AB08A004BD812 /* GoalsVC.swift */,
 				77AD87C32810FE9000998DCC /* CustomTableViewCells.swift */,
 				778728C227F42D690060B496 /* TextInputVC.swift */,
+				778E1BA3289392F6006473B6 /* CustomClasses.swift */,
 				778728CE27F434090060B496 /* BottomModal.swift */,
 				776B81042822E1F7004BD812 /* DatePickerVC.swift */,
 				778E1BA1289366CF006473B6 /* ImagePickerVC.swift */,
@@ -244,6 +247,7 @@
 				778728CF27F434090060B496 /* BottomModal.swift in Sources */,
 				778728D327F4382D0060B496 /* HomeViewController.swift in Sources */,
 				778728C927F42E590060B496 /* CheckBox.swift in Sources */,
+				778E1BA4289392F6006473B6 /* CustomClasses.swift in Sources */,
 				778728C327F42D690060B496 /* TextInputVC.swift in Sources */,
 				776B810B282B7410004BD812 /* Extensions.swift in Sources */,
 				77AD87C42810FE9000998DCC /* CustomTableViewCells.swift in Sources */,

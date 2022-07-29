@@ -27,6 +27,8 @@ struct User {
     var id: String
     var fullName: FullName
     var dateJoined: Double
+    var imageRef: String?
+    var emoji: String?
 }
 
 struct Quote {
@@ -288,7 +290,7 @@ class FirebaseAPI {
             }
         }
     }
-    static func downloadProfileImage(uid: String, completion: @escaping (UIImage?) -> ()) {
+    static func downloadProfileImages(uid: String, completion: @escaping (UIImage?) -> ()) {
             let ref = Storage.storage().reference().child("images/\(uid)/profilePhoto")
             ref.getData(maxSize: 1024 * 1024 * 2) { data, error in
                 if let error = error {
@@ -301,7 +303,7 @@ class FirebaseAPI {
                 }
             }
         }
-    static func uploadProfileImage(uid: String, image: UIImage, completion: @escaping () -> ()) {
+    static func uploadProfileImages(uid: String, image: UIImage, completion: @escaping () -> ()) {
         guard let imageData = image.jpegData(compressionQuality: 0.2) else {
             return
         }

@@ -83,7 +83,7 @@ class GroupView: UIView {
     let segmentedControl = UISegmentedControl(items: ["Create Group", "Join Group"])
     let label = UILabel()
     let createGroupField = UITextField()
-    let joinGroupField = UITextField()
+    let joinGroupField = LimitedLengthField()
     let button = UIButton()
     let stackView = UIStackView()
     let stackView2 = UIStackView()
@@ -127,6 +127,7 @@ class GroupView: UIView {
         joinGroupField.height(constant: 40)
         joinGroupField.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 5, height: 0))
         joinGroupField.keyboardType = UIKeyboardType.numberPad
+//        joinGroupField.maxLength = 6
 
 
         button.backgroundColor = .systemGray4
