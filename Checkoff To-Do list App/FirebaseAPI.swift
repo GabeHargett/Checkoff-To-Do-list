@@ -191,23 +191,20 @@ class FirebaseAPI {
         })
     }
     
-    static func joinGroup(groupID: String) {
+    static func joinGroup(groupID: String, user: User) {
         guard let uid = FirebaseAPI.currentUserUID() else {
             return
         }
         
         let ref = Database.database().reference().child("UserGroups").child(uid)
         ref.setValue(["groups": [groupID]])
-        
-        //let ref = Database.database().reference().child("Groups").child(groupID).child(user.id)
-        //ref.setValue(user.id)
+        let ref2 = Database.database().reference().child("Groups").child(groupID).child("users")
+        ref2.setValue(["users": [uid]])
         // This is a good start but it'd be better to store an array of Strings that are all the uids belonging to that group
         // so something like child("Groups").child(groupID).child(users)
         // and then ref.setValue([uid])
         // This is going to erase any existing user tho so we will have to first get the list of uids, append the new uid, then set it. I'll send you an example
     }
-
-    
     
     static func addQuote(quote: Quote, groupID: String) {
         let groupRef = FirebaseAPI.getGroupRef(groupID: groupID)
@@ -303,22 +300,27 @@ class FirebaseAPI {
             }
         }
     }
-    static func downloadGroupProfileImages(user: User, groupID: String, completion: @escaping (UIImage?) -> ()) {
-            //let groupUser = Database.database().reference().child("Groups").child(groupID).child(user.id)
-            //let groupImageRef = Database.database().reference().child("Users").child(groupUser).child("imageRef")
+    static func downloadGroupProfileImages(user: User, groupID: String, completion: @escaping ([String]?) -> (), completion2: @escaping (UIImage?) -> ()) {
+        let ref = Database.database().reference().child("Groups").child(groupID).child("users")
+        ref.observeSingleEvent(of: .value, with: { (snapshot) in
+            completion(snapshot.value as? [String])
+
+        }, withCancel: {error in
+            completion(nil)
+        })
         
         // The above won't quite work. reference the spot where you stored the array of uids child("Groups").child(groupID).child(users)
         // ref.observeSingleEvent(of: .value, with: { (snapshot) in
         //the snapshot.value will be an array of String which will be all the users in the group. Check out getUserGroups call above for getting an array of String
         // Once you have all the uids, you will just do a for loop and download multiple images below, this step I can give you more context later
-        let ref = Storage.storage().reference().child("images/\(user.id)/profilePhoto")
-            ref.getData(maxSize: 1024 * 1024 * 2) { data, error in
+        let ref2 = Storage.storage().reference().child("images/\(user.id)/profilePhoto")
+            ref2.getData(maxSize: 1024 * 1024 * 2) { data, error in
                 if let error = error {
                     print(error)
-                    completion(nil)
+                    completion2(nil)
                 } else {
                     if let data = data, let image = UIImage(data: data) {
-                        completion(image)
+                        completion2(image)
                     }
                 }
             }
