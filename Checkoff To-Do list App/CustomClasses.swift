@@ -93,6 +93,9 @@ class EmojiTextField: UITextField {
 
     @objc func editingChanged() {
         text = String(text!.prefix(maxLength))
+        if text?.count == 1 {
+            resignFirstResponder()
+        }
     }
     
     func commonInit() {
