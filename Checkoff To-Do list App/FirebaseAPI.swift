@@ -191,7 +191,7 @@ class FirebaseAPI {
         })
     }
     
-    static func joinGroup(groupID: String, user: User) {
+    static func joinGroup(groupID: String) {
         guard let uid = FirebaseAPI.currentUserUID() else {
             return
         }
@@ -300,28 +300,37 @@ class FirebaseAPI {
             }
         }
     }
-    static func downloadGroupProfileImages(user: User, groupID: String, completion: @escaping ([String]?) -> (), completion2: @escaping (UIImage?) -> ()) {
-        let ref = Database.database().reference().child("Groups").child(groupID).child("users")
-        ref.observeSingleEvent(of: .value, with: { (snapshot) in
-            completion(snapshot.value as? [String])
-
-        }, withCancel: {error in
-            completion(nil)
-        })
+    static func downloadGroupProfileImages(user: User, groupID: String, completion: @escaping (UIImage?) -> ()) {
+        let user.id: [timeInterval] = [
+        ]
+//        let ref = Database.database().reference().child("Groups").child(groupID).child("users")
+//        ref.observeSingleEvent(of: .value, with: { (snapshot) in
+//            completion(snapshot.value as? [String])
+//
+//        }, withCancel: {error in
+//            completion(nil)
+//        })
         
         // The above won't quite work. reference the spot where you stored the array of uids child("Groups").child(groupID).child(users)
         // ref.observeSingleEvent(of: .value, with: { (snapshot) in
         //the snapshot.value will be an array of String which will be all the users in the group. Check out getUserGroups call above for getting an array of String
         // Once you have all the uids, you will just do a for loop and download multiple images below, this step I can give you more context later
-        let ref2 = Storage.storage().reference().child("images/\(user.id)/profilePhoto")
-            ref2.getData(maxSize: 1024 * 1024 * 2) { data, error in
+        let group = DispatchGroup()
+        for image in user.id {
+            group.enter()
+            DispatchQueue.global().asyncAfter(deadline: .now() + image, execute: {
+                group.leave()
+            })
+        let ref = Storage.storage().reference().child("images/\(user.id)/profilePhoto")
+            ref.getData(maxSize: 1024 * 1024 * 2) { data, error in
                 if let error = error {
                     print(error)
-                    completion2(nil)
+                    completion(nil)
                 } else {
                     if let data = data, let image = UIImage(data: data) {
-                        completion2(image)
+                        completion(image)
                     }
+                }
                 }
             }
         }

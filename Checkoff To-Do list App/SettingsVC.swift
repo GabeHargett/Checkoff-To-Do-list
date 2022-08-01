@@ -238,8 +238,8 @@ class SettingsColorCell: UITableViewCell {
     
     private func getStartColor(colorScheme: ColorScheme) -> UIColor {
         switch colorScheme {
-        case .green:
-            return UIColor(hex: "#358873")
+        case .black:
+            return UIColor.black
         case .blue:
             return UIColor(hex: "#1666ba")
         case .purple:
@@ -252,15 +252,16 @@ class SettingsColorCell: UITableViewCell {
             return UIColor(hex: "#f45ca2")
         case .brown:
             return UIColor(hex: "#5f4f3e")
-        case .black:
-            return UIColor.black
+        case .green:
+            return UIColor(hex: "#358873")
+
 
         }
     }
     private func getEndColor(colorScheme: ColorScheme) -> UIColor {
         switch colorScheme {
-        case .green:
-            return UIColor(hex: "#DFEAE2")
+        case .black:
+            return UIColor.white
         case .blue:
             return UIColor(hex: "#deecfb")
         case .purple:
@@ -273,8 +274,9 @@ class SettingsColorCell: UITableViewCell {
             return UIColor(hex: "#ffe2f0")
         case .brown:
             return UIColor(hex: "#e3dad1")
-        case .black:
-            return UIColor.white
+        case .green:
+            return UIColor(hex: "#DFEAE2")
+
 
         }
     }

@@ -61,7 +61,7 @@ class HomeView: UIView {
     let profileView = UIView()
     let emojiView = UIView()
     let profileImage = UIImageView(image: UIImage(systemName: "person.fill"))
-    let textfield = EmojiTextField()
+    let textfield = LimitedLengthField()
     let profileStack = UIStackView()
 //    let emotionStack = UIStackView()
     
@@ -129,11 +129,8 @@ class HomeView: UIView {
                      otherWeeksGoalLabel, quoteButton, pencilQuoteButton, imageAddButton, imageButton] {
             view.isUserInteractionEnabled = true
         }
-
-            couplePhoto.addAutoLayoutSubview(editPhotoButton2)
-        
-            photoView.addAutoLayoutSubview(editPhotoButton)
-            couplePhoto.addAutoLayoutSubview(addQuote)
+        photoView.height(constant: 300)
+        photoView.backgroundColor = .systemGray4
 
         profileStack.alignment = .top
         profileStack.axis = .horizontal
@@ -184,24 +181,26 @@ class HomeView: UIView {
         editPhotoButton2.isLayoutMarginsRelativeArrangement = true
         editPhotoButton2.cornerRadius(radius: 5)
         editPhotoButton2.addArrangedSubviews([camera, editLabel])
-
+        
+        addAutoLayoutSubview(photoView)
+        photoView.addAutoLayoutSubview(editPhotoButton)
+        couplePhoto.addAutoLayoutSubview(editPhotoButton2)
+        couplePhoto.addAutoLayoutSubview(addQuote)
         photoView.addAutoLayoutSubview(couplePhoto)
         couplePhoto.addAutoLayoutSubview(authorLabel)
         couplePhoto.addAutoLayoutSubview(quoteLabel)
         couplePhoto.addAutoLayoutSubview(profileStack)
         profileView.addAutoLayoutSubview(profileImage)
         profileView.addAutoLayoutSubview(profilePhoto)
-//        emojiView.addAutoLayoutSubview(profileView)
-        addAutoLayoutSubview(photoView)
         addAutoLayoutSubview(scrollStack)
         
         NSLayoutConstraint.activate([
             editPhotoButton.leftAnchor.constraint(equalTo: photoView.leftAnchor, constant: 12),
             editPhotoButton.topAnchor.constraint(equalTo: photoView.topAnchor,constant: 12),
-            editPhotoButton2.leftAnchor.constraint(equalTo: photoView.leftAnchor, constant: 12),
-            editPhotoButton2.topAnchor.constraint(equalTo: photoView.topAnchor,constant: 12),
-            addQuote.leftAnchor.constraint(equalTo: photoView.leftAnchor, constant: 12),
-            addQuote.bottomAnchor.constraint(equalTo: photoView.bottomAnchor,constant: -16),
+            editPhotoButton2.leftAnchor.constraint(equalTo: couplePhoto.leftAnchor, constant: 12),
+            editPhotoButton2.topAnchor.constraint(equalTo: couplePhoto.topAnchor,constant: 12),
+            addQuote.leftAnchor.constraint(equalTo: couplePhoto.leftAnchor, constant: 12),
+            addQuote.bottomAnchor.constraint(equalTo: couplePhoto.bottomAnchor,constant: -16),
             couplePhoto.bottomAnchor.constraint(equalTo: photoView.bottomAnchor),
             couplePhoto.topAnchor.constraint(equalTo: photoView.topAnchor),
             couplePhoto.rightAnchor.constraint(equalTo: photoView.rightAnchor),
@@ -236,8 +235,6 @@ class HomeView: UIView {
         scrollStack.stackView.isLayoutMarginsRelativeArrangement = true
         
         scrollStack.fillSuperview()
-        photoView.height(constant: 300)
-        photoView.backgroundColor = .systemGray4
         
 //        weekStack.addBorders(color: .black, thickness: 1)
         weekStack.layoutMargins = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
@@ -357,7 +354,6 @@ class HomeView: UIView {
         weekStack.addArrangedSubviews([
             currentWeekStack,
             textfield,
-
             holder,
         ])
         

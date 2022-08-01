@@ -52,8 +52,6 @@ class GroupCreationVC: UIViewController {
             result in
             FirebaseAPI.joinGroup(groupID: result ?? "")
             GroupManager.shared.setCurrentGroupID(groupID: result ?? "")
-            //Firebase.addUserToGroup
-            //Instead of adding the user to the group here, let's just do it all in the FirebaseAPI.joinGroup function above
             DispatchQueue.main.async {
                 let vc = HomeViewController(groupID: "")
                 self.navigationController?.pushViewController(vc, animated: true)

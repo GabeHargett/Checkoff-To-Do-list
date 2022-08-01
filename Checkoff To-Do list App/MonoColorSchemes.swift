@@ -8,14 +8,14 @@
 import UIKit
 
 enum ColorScheme: Int {
-    case green = 0
+    case black = 0
     case blue = 1
     case purple = 2
     case red = 3
     case silver = 4
     case pink = 5
     case brown = 6
-    case black = 7
+    case green = 7
 }
 extension UIColor {
     
@@ -50,8 +50,8 @@ extension UIColor {
     static var mainColor1: UIColor {
         let colorScheme = ColorScheme(rawValue: UserDefaults.standard.integer(forKey: "ColorScheme")) ?? .blue
         switch colorScheme {
-        case .green:
-            return UIColor(hex: "#358873")
+        case.black:
+            return UIColor.black
         case .blue:
             return UIColor(hex: "#1666ba")
         case .purple:
@@ -64,15 +64,16 @@ extension UIColor {
             return UIColor(hex: "#f45ca2")
         case .brown:
             return UIColor(hex: "#5f4f3e")
-        case.black:
-            return UIColor.black
+        case .green:
+            return UIColor(hex: "#358873")
+
         }
     }
     static var mainColor2: UIColor {
         let colorScheme = ColorScheme(rawValue: UserDefaults.standard.integer(forKey: "ColorScheme")) ?? .blue
         switch colorScheme {
-        case .green:
-            return UIColor(hex: "#4E9C81")
+        case .black:
+            return UIColor.systemGray
         case .blue:
             return UIColor(hex: "#368ce7")
         case .purple:
@@ -85,16 +86,17 @@ extension UIColor {
             return UIColor(hex: "#f27cb2")
         case .brown:
             return UIColor(hex: "#877058")
-        case .black:
-            return UIColor.systemGray
+        case .green:
+            return UIColor(hex: "#4E9C81")
+
 
         }
     }
     static var mainColor3: UIColor {
         let colorScheme = ColorScheme(rawValue: UserDefaults.standard.integer(forKey: "ColorScheme")) ?? .blue
         switch colorScheme {
-        case .green:
-            return UIColor(hex: "#6BAF92")
+        case .black:
+            return UIColor.systemGray3
         case .blue:
             return UIColor(hex: "#7ab3ef")
         case .purple:
@@ -107,16 +109,17 @@ extension UIColor {
             return UIColor(hex: "#fba1ca")
         case .brown:
             return UIColor(hex: "#a58a6e")
-        case .black:
-            return UIColor.systemGray3
+        case .green:
+            return UIColor(hex: "#6BAF92")
+
 
         }
     }
     static var mainColor4: UIColor {
         let colorScheme = ColorScheme(rawValue: UserDefaults.standard.integer(forKey: "ColorScheme")) ?? .blue
         switch colorScheme {
-        case .green:
-            return UIColor(hex: "#8DC3A7")
+        case .black:
+            return UIColor.systemGray4
         case .blue:
             return UIColor(hex: "#bedaf7")
         case .purple:
@@ -129,16 +132,17 @@ extension UIColor {
             return UIColor(hex: "#ffbedc")
         case .brown:
             return UIColor(hex: "#b9a58f")
-        case .black:
-            return UIColor.systemGray4
+        case .green:
+            return UIColor(hex: "#8DC3A7")
+
 
         }
     }
     static var mainColor5: UIColor {
         let colorScheme = ColorScheme(rawValue: UserDefaults.standard.integer(forKey: "ColorScheme")) ?? .blue
         switch colorScheme {
-        case .green:
-            return UIColor(hex: "#B4D6C1")
+        case .black:
+            return UIColor.systemGray5
         case .blue:
             return UIColor(hex: "#deecfb")
         case .purple:
@@ -151,8 +155,8 @@ extension UIColor {
             return UIColor(hex: "#ffe2f0")
         case .brown:
             return UIColor(hex: "#d0c2b3")
-        case .black:
-            return UIColor.systemGray5
+        case .green:
+            return UIColor(hex: "#B4D6C1")
 
         }
         //edit
@@ -164,8 +168,8 @@ extension UIColor {
     static var mainColor6: UIColor {
         let colorScheme = ColorScheme(rawValue: UserDefaults.standard.integer(forKey: "ColorScheme")) ?? .blue
         switch colorScheme {
-        case .green:
-            return UIColor(hex: "#DFEAE2")
+        case .black:
+            return UIColor.white
         case .blue:
             return UIColor(hex: "#deecfb")
         case .purple:
@@ -178,8 +182,9 @@ extension UIColor {
             return UIColor(hex: "#ffe2f0")
         case .brown:
             return UIColor(hex: "#e3dad1")
-        case .black:
-            return UIColor.white
+        case .green:
+            return UIColor(hex: "#DFEAE2")
+
 
         }
     }
