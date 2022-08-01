@@ -26,13 +26,16 @@ class UnderlinedTextField: UITextField {
 }
 
 class LimitedLengthField: UITextField {
-    var maxLength: Int = 6
+    var maxLength: Int = 1
     override func willMove(toSuperview superview: UIView?) {
         addTarget(self, action: #selector(editingChanged), for: .editingChanged)
         editingChanged()
     }
     @objc func editingChanged() {
         text = String(text!.prefix(maxLength))
+        if text?.count == maxLength {
+            resignFirstResponder()
+        }
     }
 }
 
@@ -52,82 +55,106 @@ override var text: String? {
     }
 }
 
-class EmojiTextField: UITextField {
-    
-    var maxLength: Int = 1
-//    var doneAccessory: Bool{
-//        get{
-//            return self.doneAccessory
-//        }
-//        set (hasDone) {
-//            if hasDone{
-//                addDoneButtonOnKeyboard()
-//            }
-//        }
-//    }
-    
-    override var textInputContextIdentifier: String? { "" }
-    override var textInputMode: UITextInputMode? {
-        for mode in UITextInputMode.activeInputModes {
-            if mode.primaryLanguage == "emoji" {
-                return mode
-            }
-        }
-        return nil
-    }
-    
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        commonInit()
-    }
-    
-    required init?(coder: NSCoder) {
-        super.init(coder: coder)
-        commonInit()
-    }
-    
-    override func willMove(toSuperview superview: UIView?) {
-        addTarget(self, action: #selector(editingChanged), for: .editingChanged)
-        editingChanged()
-    }
-
-    @objc func editingChanged() {
-        text = String(text!.prefix(maxLength))
-        if text?.count == 1 {
-            resignFirstResponder()
-        }
-    }
-    
-    func commonInit() {
-        NotificationCenter.default.addObserver(self, selector: #selector(inputModeDidChange), name: UITextInputMode.currentInputModeDidChangeNotification, object: nil)
-    }
-//    func addDoneButtonOnKeyboard()
-//    {
-//        let doneToolbar: UIToolbar = UIToolbar(frame: CGRect.init(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 50))
-//        doneToolbar.barStyle = .default
-//
-//        let flexSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
-//        let done: UIBarButtonItem = UIBarButtonItem(title: "Done", style: .done, target: self, action: #selector(self.doneButtonAction))
-//
-//        let items = [flexSpace, done]
-//        doneToolbar.items = items
-//        doneToolbar.sizeToFit()
-//
-//        self.inputAccessoryView = doneToolbar
-//    }
-//
-//    @objc func doneButtonAction()
-//    {
-//        self.resignFirstResponder()
-//    }
-    
-    @objc func inputModeDidChange(_ notification: Notification) {
-        guard isFirstResponder else {
-            return
+    class CustomButton: UIControl {
+        
+        
+        enum CustomButtonType {
+            case label
+            case image
+            case imageAndLabel
         }
         
-        DispatchQueue.main.async { [weak self] in
-            self?.reloadInputViews()
+        private let type: CustomButtonType
+        private let stackView = UIStackView()
+        private let label = UILabel()
+        private let imageView = UIImageView()
+        
+        override var layoutMargins: UIEdgeInsets {
+            didSet {
+                stackView.layoutMargins = layoutMargins
+            }
         }
+        
+        var spacing: CGFloat = 0 {
+            didSet {
+                stackView.spacing = spacing
+            }
+        }
+        
+        override var isHighlighted: Bool {
+            didSet {
+                alpha = isHighlighted ? 0.3 : 1
+                transform = isHighlighted ? CGAffineTransform(scaleX: 1/1.05, y: 1/1.05) : CGAffineTransform(scaleX: 1, y: 1)
+            }
+        }
+        
+        var color: UIColor = .black {
+            didSet {
+                label.textColor = color
+                imageView.tintColor = color
+            }
+        }
+        
+        init(type: CustomButtonType){
+            self.type = type
+            super.init(frame: .zero)
+            
+            color = .black
+            stackView.layoutMargins = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+            spacing = 200
+            imageView.contentMode = .scaleAspectFit
+        }
+        
+        required init?(coder: NSCoder) {
+            fatalError("init(coder:) has not been implemented")
+        }
+        
+        override func didMoveToSuperview() {
+            addAutoLayoutSubview(stackView)
+            stackView.fillSuperview()
+            stackView.alignment = .center
+            stackView.addArrangedSubviews([imageView, label])
+            stackView.isUserInteractionEnabled = false
+            stackView.isLayoutMarginsRelativeArrangement = true
+            
+            label.textAlignment = .center
+            
+            switch type {
+            case .label:
+                imageView.isHidden = true
+            case .image:
+                label.isHidden = true
+            case .imageAndLabel:
+                break
+            }
+        }
+        
+        func setImage(image: UIImage?, color: UIColor) {
+            imageView.image = image
+            self.color = color
+        }
+        
+        func setImageWidth(size: CGFloat) {
+            imageView.width(constant: size)
+        }
+        
+        func setImageHeight(size: CGFloat) {
+            imageView.height(constant: size)
+        }
+        
+        func setTitle(title: String) {
+            label.text = title
+        }
+        
+        func setTitleAlignment(alignment: NSTextAlignment) {
+            label.textAlignment = alignment
+        }
+        
+        func quickConfigure(font: UIFont, titleColor: UIColor, backgroundColor: UIColor, cornerRadius: CGFloat) {
+            self.label.font = font
+            self.color = titleColor
+            self.backgroundColor = backgroundColor
+            self.cornerRadius(radius: cornerRadius)
+        }
+        
     }
-}
