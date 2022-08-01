@@ -8,15 +8,6 @@
 import UIKit
 import Firebase
 
-
-class Token {
-    static let shared = Token()
-    func getToken() -> String? {
-        let randomNumber = Int.random(in: 100000...999999)
-        return String(randomNumber)
-    }
-}
-
 protocol SettingsVCDelegate: AnyObject {
     func updateColor()
 }
@@ -44,21 +35,23 @@ class SettingsVC: UIViewController {
     
     let signOutButton = CustomButton(type: .imageAndLabel)
     let tokenButton = CustomButton(type: .imageAndLabel)
-    let customAlert = ModalJesus(title: "Group Token", description: "Share this token with your group member")
-    let token = Token.shared.getToken() ?? ""
     weak var delegate: SettingsVCDelegate?
-
+    var currentToken: String?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         title = "Settings"
         baseView.tableView.dataSource = self
         baseView.tableView.delegate = self
-        setUpAlert()
     }
     
     override func viewDidAppear(_ animated: Bool) {
         selectRow()
+    }
+    
+    private func getToken() -> String {
+        let randomNumber = Int.random(in: 100000...999999)
+        return String(randomNumber)
     }
         
     private func selectRow() {
@@ -71,7 +64,7 @@ class SettingsVC: UIViewController {
     }
     
     private func showToast() {
-        UIPasteboard.general.string = token
+        UIPasteboard.general.string = currentToken
         let toast = ToastHelper(title: "Group token copied", buttonTitle: nil, buttonAction: nil)
         toast.showToast(view: baseView, duration: 1, bottomInset: 20)
     }
@@ -79,14 +72,6 @@ class SettingsVC: UIViewController {
     private func showToast2() {
         let toast2 = ToastHelper(title: "Color Updated", buttonTitle: nil, buttonAction: nil)
         toast2.showToast(view: baseView, duration: 1, bottomInset: 20)
-    }
-    
-    private func setUpAlert() {
-        let groupID = GroupManager.shared.getCurrentGroupID() ?? ""
-        FirebaseAPI.setGroupToken(groupID: groupID, token: token)
-        customAlert.addAction(ModalJesusAction(title: "\(token) (Tap to copy)", style: true, action: {self.showToast()}))
-        customAlert.addAction(ModalJesusAction(title: "Cancel", style: false))
-        //discovered bug that changes token in firebase everytime settings VC is opened.
     }
 }
 
@@ -107,8 +92,14 @@ extension SettingsVC: SettingsButtonCellDelegate {
     }
     
     func createToken() {
-//        setUpAlert()
-        self.present(self.customAlert, animated: true)
+        let customAlert = ModalJesus(title: "Group Token", description: "Share this token with your group member")
+        let groupID = GroupManager.shared.getCurrentGroupID() ?? ""
+        let newToken = getToken()
+        currentToken = newToken
+        FirebaseAPI.setGroupToken(groupID: groupID, token: newToken)
+        customAlert.addAction(ModalJesusAction(title: "\(newToken) (Tap to copy)", style: true, action: {self.showToast()}))
+        customAlert.addAction(ModalJesusAction(title: "Cancel", style: false))
+        customAlert.showModal(vc: self)
     }
 }
 

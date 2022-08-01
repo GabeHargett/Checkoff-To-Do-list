@@ -50,11 +50,15 @@ class GroupCreationVC: UIViewController {
         }
         FirebaseAPI.readGroupToken(token: joinGroup, completion: {
             result in
-            FirebaseAPI.joinGroup(groupID: result ?? "")
-            GroupManager.shared.setCurrentGroupID(groupID: result ?? "")
-            DispatchQueue.main.async {
-                let vc = HomeViewController(groupID: "")
-                self.navigationController?.pushViewController(vc, animated: true)
+            if let groupID = result, groupID != "" {
+                FirebaseAPI.joinGroup(groupID: groupID)
+                GroupManager.shared.setCurrentGroupID(groupID: groupID)
+                DispatchQueue.main.async {
+                    let vc = HomeViewController(groupID: groupID)
+                    self.navigationController?.pushViewController(vc, animated: true)
+                }
+            } else {
+                QuickAlert.showQuickAlert(title: "Incorrect group token", vc: self)
             }
         })
     }
@@ -155,3 +159,10 @@ class GroupView: UIView {
     }
 }
 
+class QuickAlert {
+    public class func showQuickAlert(title: String, vc: UIViewController) {
+        let modalJesus = ModalJesus(title: title, description: nil)
+        modalJesus.addAction(ModalJesusAction(title: "Ok", style: true))
+        modalJesus.showModal(vc: vc)
+    }
+}
