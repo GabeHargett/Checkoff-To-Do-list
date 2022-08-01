@@ -64,6 +64,7 @@ class HomeViewController: UIViewController, SettingsVCDelegate  {
         setUpDidTaps()
         getQuote()
         Practice.startPractice()
+        addProfileViewsForUIDs()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -89,6 +90,21 @@ class HomeViewController: UIViewController, SettingsVCDelegate  {
                     self.baseView.finishedTaskLabel.text = "\(completedTask) Finished Tasks"
                     self.baseView.openTaskLabel.text = "\(currentWeekTask.count - completedTask) Open Tasks"
                 }
+            }
+        }
+    }
+    
+    private func addProfileViewsForUIDs() {
+        FirebaseAPI.getUIDsForGroup(groupID: groupID) {result in
+            if let uids = result {
+                for uid in uids {
+                    DispatchQueue.main.async {
+                        let profileView = ProfileView(uid: uid)
+                        self.baseView.profileViewStack.addArrangedSubview(profileView)
+                    }
+                }
+            } else {
+                print("No users fuck")
             }
         }
     }
@@ -142,24 +158,24 @@ class HomeViewController: UIViewController, SettingsVCDelegate  {
     }
     
     private func downloadProfileImage() {
-        if let data = UserDefaults.standard.data(forKey: "profileImage") {
-            let image = UIImage.init(data: data)
-            self.baseView.profilePhoto.image = image
-        }
-        if let uid = FirebaseAPI.currentUserUID() {
-            FirebaseAPI.downloadProfileImages(uid: uid) {
-                image in
-                if image == nil {
-                    return
-                }
-                self.baseView.profilePhoto.image = image
-                if let data = image?.jpegData(compressionQuality: 0.7) {
-                    UserDefaults.standard.set(data, forKey: "profileImage")
-                }
-                UIView.animate(withDuration: 0.5, animations: {
-                })
-            }
-        }
+//        if let data = UserDefaults.standard.data(forKey: "profileImage") {
+//            let image = UIImage.init(data: data)
+//            self.baseView.profilePhoto.image = image
+//        }
+//        if let uid = FirebaseAPI.currentUserUID() {
+//            FirebaseAPI.downloadProfileImages(uid: uid) {
+//                image in
+//                if image == nil {
+//                    return
+//                }
+//                self.baseView.profilePhoto.image = image
+//                if let data = image?.jpegData(compressionQuality: 0.7) {
+//                    UserDefaults.standard.set(data, forKey: "profileImage")
+//                }
+//                UIView.animate(withDuration: 0.5, animations: {
+//                })
+//            }
+//        }
     }
     
     private func getQuote() {
@@ -276,12 +292,12 @@ class HomeViewController: UIViewController, SettingsVCDelegate  {
         baseView.profilePhoto.tag = PhotoType.profile.rawValue
 
         let tapGesture12 = UITapGestureRecognizer(target: self, action: #selector(didTapImageAddButton))
-        baseView.profileView.addGestureRecognizer(tapGesture12)
-        baseView.profileView.tag = PhotoType.profile.rawValue
+        baseView.profileViewStack.addGestureRecognizer(tapGesture12)
+        baseView.profileViewStack.tag = PhotoType.profile.rawValue
         
-        let tapGesture14 = UITapGestureRecognizer(target: self, action: #selector(didTapImageAddButton))
-        baseView.editPhotoButton2.addGestureRecognizer(tapGesture14)
-        baseView.editPhotoButton2.tag = PhotoType.group.rawValue
+//        let tapGesture14 = UITapGestureRecognizer(target: self, action: #selector(didTapImageAddButton))
+//        baseView.editPhotoButton2.addGestureRecognizer(tapGesture14)
+//        baseView.editPhotoButton2.tag = PhotoType.group.rawValue
 
 
 

@@ -53,21 +53,22 @@ class HomeView: UIView {
     
     let camera = UIImageView(image: UIImage(systemName: "camera.fill"))
     let editPhotoButton = UIStackView()
-    let editPhotoButton2 = UIStackView()
+    //let editPhotoButton2 = UIStackView()
     let editLabel = UILabel()
     let quoteImage = UIImageView(image: UIImage(systemName: "message.fill"))
     let addQuote = UIStackView()
     let labelquote = UILabel()
-    let profileView = UIView()
-    let emojiView = UIView()
-    let profileImage = UIImageView(image: UIImage(systemName: "person.fill"))
+    let profileViewStack = UIStackView()
+//    let profileView = UIView()
+//    let emojiView = UIView()
+//    let profileImage = UIImageView(image: UIImage(systemName: "person.fill"))
     let textfield = LimitedLengthField()
-    let profileStack = UIStackView()
+    //let profileStack = UIStackView()
 //    let emotionStack = UIStackView()
     
     private let holder = UIView()
     private let holder2 = UIView()
-    private let photoView = UIView()
+    //private let photoView = UIView()
     private let imageView = UIImageView(image: UIImage(systemName: "list.bullet.rectangle"))
     private let goalImageView = UIImageView(image: UIImage(systemName: "list.bullet.rectangle"))
     private let hiarchyStack = UIStackView()
@@ -99,14 +100,11 @@ class HomeView: UIView {
             font: .systemFont(ofSize: 15), titleColor: .black, backgroundColor: .mainColor1, cornerRadius: 8)
         authorLabel.quickConfigure(textAlignment: .right, font: .boldSystemFont(ofSize: 12), textColor: .mainColor6)
         quoteLabel.textColor = .mainColor6
-        profileView.addBorders(color: .mainColor6, thickness: 5)
-        emojiView.addBorders(color: .mainColor6, thickness: 3)
-        profileImage.tintColor = .mainColor6
         
         camera.tintColor = .mainColor6
         editPhotoButton.addBorders(color: .mainColor6, thickness: 1)
         editLabel.quickConfigure(textAlignment: .center, font: .systemFont(ofSize:12), textColor: .mainColor6)
-        editPhotoButton2.addBorders(color: .mainColor6, thickness: 1)
+        //editPhotoButton2.addBorders(color: .mainColor6, thickness: 1)
 
         quoteImage.tintColor = .mainColor6
         addQuote.addBorders(color: .mainColor6, thickness: 1)
@@ -125,36 +123,11 @@ class HomeView: UIView {
     }
     
     private func setupView() {
-        for view in [profileImage, profileView, profilePhoto, couplePhoto, addQuote, editPhotoButton, currentWeekStack, previousWeekLabel, nextWeekLabel, otherWeeksLabel, goalsStack2, previousWeekGoalLabel, nextWeekGoalLabel,
+        for view in [profilePhoto, couplePhoto, addQuote, editPhotoButton, currentWeekStack, previousWeekLabel, nextWeekLabel, otherWeeksLabel, goalsStack2, previousWeekGoalLabel, nextWeekGoalLabel,
                      otherWeeksGoalLabel, quoteButton, pencilQuoteButton, imageAddButton, imageButton] {
             view.isUserInteractionEnabled = true
         }
-        photoView.height(constant: 300)
-        photoView.backgroundColor = .systemGray4
-
-        profileStack.alignment = .top
-        profileStack.axis = .horizontal
-        profileStack.layoutMargins = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
-        profileStack.spacing = -20
-        profileStack.isLayoutMarginsRelativeArrangement = true
-        profileStack.addArrangedSubviews([profileView, emojiView])
-
-        profileView.height(constant: 75)
-        profileView.width(constant: 75)
-        profileView.cornerRadius(radius: 37.5)
-        profileView.backgroundColor = .black
-        
-        
-        profileImage.contentMode = .scaleAspectFill
-        profileImage.layer.masksToBounds = true
-        
-        profilePhoto.contentMode = .scaleAspectFill
-        profilePhoto.layer.masksToBounds = true
-        
-        emojiView.height(constant: 26)
-        emojiView.width(constant: 26)
-        emojiView.cornerRadius(radius: 13)
-        emojiView.backgroundColor = .black
+        couplePhoto.backgroundColor = .darkGray
         
         editPhotoButton.axis = .horizontal
         editPhotoButton.alignment = .center
@@ -175,52 +148,38 @@ class HomeView: UIView {
         quoteLabel.font = .boldSystemFont(ofSize: 12)
         quoteLabel.numberOfLines = 2
 
-        editPhotoButton2.axis = .horizontal
-        editPhotoButton2.alignment = .center
-        editPhotoButton2.layoutMargins = UIEdgeInsets(top: 3, left: 3, bottom: 3, right: 3)
-        editPhotoButton2.isLayoutMarginsRelativeArrangement = true
-        editPhotoButton2.cornerRadius(radius: 5)
-        editPhotoButton2.addArrangedSubviews([camera, editLabel])
+//        editPhotoButton2.axis = .horizontal
+//        editPhotoButton2.alignment = .center
+//        editPhotoButton2.layoutMargins = UIEdgeInsets(top: 3, left: 3, bottom: 3, right: 3)
+//        editPhotoButton2.isLayoutMarginsRelativeArrangement = true
+//        editPhotoButton2.cornerRadius(radius: 5)
+//        editPhotoButton2.addArrangedSubviews([camera, editLabel])
         
-        addAutoLayoutSubview(photoView)
-        photoView.addAutoLayoutSubview(editPhotoButton)
-        couplePhoto.addAutoLayoutSubview(editPhotoButton2)
+        addAutoLayoutSubview(couplePhoto)
+        couplePhoto.addAutoLayoutSubview(editPhotoButton)
+        //couplePhoto.addAutoLayoutSubview(editPhotoButton2)
         couplePhoto.addAutoLayoutSubview(addQuote)
-        photoView.addAutoLayoutSubview(couplePhoto)
+        //photoView.addAutoLayoutSubview(couplePhoto)
         couplePhoto.addAutoLayoutSubview(authorLabel)
         couplePhoto.addAutoLayoutSubview(quoteLabel)
-        couplePhoto.addAutoLayoutSubview(profileStack)
-        profileView.addAutoLayoutSubview(profileImage)
-        profileView.addAutoLayoutSubview(profilePhoto)
+        couplePhoto.addAutoLayoutSubview(profileViewStack)
         addAutoLayoutSubview(scrollStack)
         
         NSLayoutConstraint.activate([
-            editPhotoButton.leftAnchor.constraint(equalTo: photoView.leftAnchor, constant: 12),
-            editPhotoButton.topAnchor.constraint(equalTo: photoView.topAnchor,constant: 12),
-            editPhotoButton2.leftAnchor.constraint(equalTo: couplePhoto.leftAnchor, constant: 12),
-            editPhotoButton2.topAnchor.constraint(equalTo: couplePhoto.topAnchor,constant: 12),
+            editPhotoButton.leftAnchor.constraint(equalTo: couplePhoto.leftAnchor, constant: 12),
+            editPhotoButton.topAnchor.constraint(equalTo: couplePhoto.topAnchor,constant: 12),
+            //editPhotoButton2.leftAnchor.constraint(equalTo: couplePhoto.leftAnchor, constant: 12),
+            //editPhotoButton2.topAnchor.constraint(equalTo: couplePhoto.topAnchor,constant: 12),
             addQuote.leftAnchor.constraint(equalTo: couplePhoto.leftAnchor, constant: 12),
             addQuote.bottomAnchor.constraint(equalTo: couplePhoto.bottomAnchor,constant: -16),
-            couplePhoto.bottomAnchor.constraint(equalTo: photoView.bottomAnchor),
-            couplePhoto.topAnchor.constraint(equalTo: photoView.topAnchor),
-            couplePhoto.rightAnchor.constraint(equalTo: photoView.rightAnchor),
-            couplePhoto.leftAnchor.constraint(equalTo: photoView.leftAnchor),
             quoteLabel.topAnchor.constraint(equalTo: couplePhoto.topAnchor, constant: 250),
             quoteLabel.leftAnchor.constraint(equalTo: couplePhoto.leftAnchor, constant: 55),
             quoteLabel.rightAnchor.constraint(equalTo: couplePhoto.rightAnchor, constant: -3),
             quoteLabel.bottomAnchor.constraint(equalTo: couplePhoto.bottomAnchor,constant: -8),
             authorLabel.rightAnchor.constraint(equalTo: couplePhoto.rightAnchor,constant: -55),
             authorLabel.bottomAnchor.constraint(equalTo: couplePhoto.bottomAnchor),
-            profileStack.topAnchor.constraint(equalTo: couplePhoto.topAnchor, constant: 12),
-            profileStack.rightAnchor.constraint(equalTo: couplePhoto.rightAnchor,constant: -12),
-            profileImage.bottomAnchor.constraint(equalTo: profileView.bottomAnchor),
-            profileImage.topAnchor.constraint(equalTo: profileView.topAnchor),
-            profileImage.rightAnchor.constraint(equalTo: profileView.rightAnchor),
-            profileImage.leftAnchor.constraint(equalTo: profileView.leftAnchor),
-            profilePhoto.bottomAnchor.constraint(equalTo: profileView.bottomAnchor),
-            profilePhoto.topAnchor.constraint(equalTo: profileView.topAnchor),
-            profilePhoto.rightAnchor.constraint(equalTo: profileView.rightAnchor),
-            profilePhoto.leftAnchor.constraint(equalTo: profileView.leftAnchor),
+            profileViewStack.topAnchor.constraint(equalTo: couplePhoto.topAnchor, constant: 12),
+            profileViewStack.rightAnchor.constraint(equalTo: couplePhoto.rightAnchor,constant: -12),
 //            emojiView.rightAnchor.constraint(equalTo: couplePhoto.rightAnchor,constant: -10),
 //            emojiView.topAnchor.constraint(equalTo: couplePhoto.topAnchor,constant: 10)
             
@@ -321,7 +280,6 @@ class HomeView: UIView {
         currentTaskLabel.text = "Current Week Tasks"
         currentTaskLabel.font = UIFont.systemFont(ofSize: 21)
         
-        couplePhoto.isHidden = true
         couplePhoto.height(constant: 300)
         couplePhoto.contentMode = .scaleAspectFill
         couplePhoto.layer.masksToBounds = true
@@ -346,7 +304,7 @@ class HomeView: UIView {
         goalsLabel.numberOfLines = 0
                 
         scrollStack.stackView.addArrangedSubviews([
-            photoView,
+            couplePhoto,
             weekStack,
             goalsStack1,
         ])
@@ -409,3 +367,64 @@ class HomeView: UIView {
 }
 }
 
+class ProfileView: UIView {
+    
+    let profileStack = UIStackView()
+        let emojiView = UIView()
+        let profileImage = UIImageView(image: UIImage(systemName: "person.fill"))
+    
+    let uid: String
+    
+    init(uid: String) {
+        self.uid = uid
+        super.init(frame: .zero)
+        
+        configureSubviews()
+        configureLayout()
+        loadProfileImage()
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    private func loadProfileImage() {
+        FirebaseAPI.downloadProfileImage(uid: uid) {image in
+            if image != nil {
+                self.profileImage.image = image
+            }
+        }
+    }
+    
+    private func configureSubviews() {
+        profileImage.addBorders(color: .mainColor6, thickness: 5)
+        emojiView.addBorders(color: .mainColor6, thickness: 3)
+        profileImage.tintColor = .mainColor6
+    }
+    
+    private func configureLayout() {
+        profileStack.alignment = .top
+        profileStack.axis = .horizontal
+        profileStack.layoutMargins = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+        profileStack.spacing = -20
+        profileStack.isLayoutMarginsRelativeArrangement = true
+        profileStack.addArrangedSubviews([profileImage, emojiView])
+
+        profileImage.height(constant: 75)
+        profileImage.width(constant: 75)
+        profileImage.cornerRadius(radius: 37.5)
+        profileImage.backgroundColor = .black
+        
+        
+        profileImage.contentMode = .scaleAspectFill
+        profileImage.layer.masksToBounds = true
+        
+        emojiView.height(constant: 26)
+        emojiView.width(constant: 26)
+        emojiView.cornerRadius(radius: 13)
+        emojiView.backgroundColor = .black
+        
+        addAutoLayoutSubview(profileStack)
+        profileStack.fillSuperview()
+    }
+}
