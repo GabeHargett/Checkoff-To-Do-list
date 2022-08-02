@@ -368,14 +368,14 @@ class HomeView: UIView {
 }
 }
 protocol ProfileViewDelegate: AnyObject {
-    func updateProfile()
-    func updateStatus()
+    func updateProfileView(image: UIImage?, emoji: String?)
 }
 
 class ProfileView: UIView {
     
     let profileStack = UIStackView()
     var emojiImage = UIImageView()
+    var emojiString: String?
     weak var delegate: ProfileViewDelegate?
     let profileImage = UIImageView(image: UIImage(systemName: "person.fill"))
     let emojiFace = "\u{1F600}"
@@ -406,21 +406,19 @@ class ProfileView: UIView {
         }
     }
     private func loadEmojiImage() {
-        FirebaseAPI.getEmoji(uid: uid) {string in
-            if string != nil {
-                if let string = string {
-                    let string = string.textToImage()
-                    self.emojiImage.image = string
-                }
+        FirebaseAPI.getEmoji(uid: uid) {emojiString in
+            if emojiString != nil {
+                self.emojiString = emojiString
+                self.emojiImage.image = emojiString?.textToImage()
             }
         }
     }
 
     @objc private func didTapProfileImage() {
-        delegate?.updateProfile()
+        delegate?.updateProfileView(image: profileImage.image, emoji: emojiString)
     }
     @objc private func didTapEmojiImage() {
-        delegate?.updateStatus()
+        delegate?.updateProfileView(image: profileImage.image, emoji: emojiString)
     }
     private func practiceConvertingEmoji() {
         if let newImage = emojiFace.textToImage() {

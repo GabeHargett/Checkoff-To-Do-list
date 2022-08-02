@@ -42,6 +42,7 @@
 		77B573382847E8F7009EBDCF /* MonoColorSchemes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77B573372847E8F7009EBDCF /* MonoColorSchemes.swift */; };
 		77B5733A28494014009EBDCF /* GroupCreationVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77B5733928494014009EBDCF /* GroupCreationVC.swift */; };
 		77BE974628198CED0030F39D /* PracticeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77BE974528198CED0030F39D /* PracticeVC.swift */; };
+		77EF39B32899E1FB0048C2A4 /* EditProfileViewVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77EF39B22899E1FB0048C2A4 /* EditProfileViewVC.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -77,6 +78,7 @@
 		77B573372847E8F7009EBDCF /* MonoColorSchemes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonoColorSchemes.swift; sourceTree = "<group>"; };
 		77B5733928494014009EBDCF /* GroupCreationVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupCreationVC.swift; sourceTree = "<group>"; };
 		77BE974528198CED0030F39D /* PracticeVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PracticeVC.swift; sourceTree = "<group>"; };
+		77EF39B22899E1FB0048C2A4 /* EditProfileViewVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProfileViewVC.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -145,6 +147,7 @@
 				778728E627FF95750060B496 /* GoogleService-Info.plist */,
 				778728B927F42C560060B496 /* LaunchScreen.storyboard */,
 				778728B727F42C560060B496 /* Assets.xcassets */,
+				77EF39B22899E1FB0048C2A4 /* EditProfileViewVC.swift */,
 			);
 			path = "Checkoff To-Do list App";
 			sourceTree = "<group>";
@@ -239,6 +242,7 @@
 				776B8107282AB08A004BD812 /* GoalsVC.swift in Sources */,
 				77A52DD2286AADA800CE75ED /* ToastHelper.swift in Sources */,
 				776B8111283349CB004BD812 /* AuthVC.swift in Sources */,
+				77EF39B32899E1FB0048C2A4 /* EditProfileViewVC.swift in Sources */,
 				776B810D282DB91D004BD812 /* HomeView.swift in Sources */,
 				776B81052822E1F7004BD812 /* DatePickerVC.swift in Sources */,
 				77AD87C12810EF4000998DCC /* CustomCollectionView.swift in Sources */,
