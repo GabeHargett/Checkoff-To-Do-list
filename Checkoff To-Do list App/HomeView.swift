@@ -425,7 +425,6 @@ class ProfileView: UIView {
     private func practiceConvertingEmoji() {
         if let newImage = emojiFace.textToImage() {
             emojiImageTest.image = newImage
-            
         }
     }
     
