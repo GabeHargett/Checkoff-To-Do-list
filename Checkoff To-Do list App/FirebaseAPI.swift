@@ -208,22 +208,19 @@ class FirebaseAPI {
         })
     }
     
-    static func addEmoji(groupID: String, emoji: String) {
+    static func addEmoji(emoji: String) {
         guard let uid = FirebaseAPI.currentUserUID() else {
             return
         }
-        let ref = Database.database().reference().child("Groups").child(groupID).child("users").child(uid)
+        let ref = Database.database().reference().child("Users").child(uid).child("imageRef")
         ref.setValue(["emoji": emoji])
     }
     
-    static func getEmoji(uid: String, groupID: String, completion: @escaping (String?) -> ()) {
-//        guard let uid = FirebaseAPI.currentUserUID() else {
-//            return
-//        }
-        let ref = Database.database().reference().child("Groups").child(groupID).child("users").child(uid)
+    static func getEmoji(uid: String, completion: @escaping (String?) -> ()) {
+        let ref = Database.database().reference().child("Users").child(uid).child("imageRef")
         ref.observeSingleEvent(of: .value, with: { (snapshot) in
             
-            if var emojiDict = snapshot.value as? [String: Any], var emoji = emojiDict["emoji"] as? String {
+            if let emojiDict = snapshot.value as? [String: Any], let emoji = emojiDict["emoji"] as? String {
                 completion(emoji)
             } else {
                 completion(nil)

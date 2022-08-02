@@ -103,6 +103,7 @@ class HomeViewController: UIViewController, SettingsVCDelegate, ProfileViewDeleg
                 for uid in uids {
                     DispatchQueue.main.async {
                         let profileView = ProfileView(uid: uid)
+                        profileView.delegate = self
                         self.baseView.profileViewStack.addArrangedSubview(profileView)
                     }
                 }
@@ -114,13 +115,11 @@ class HomeViewController: UIViewController, SettingsVCDelegate, ProfileViewDeleg
     func updateProfile() {
         
         //profileView's delegate func
-        //profileView.delegate = self "need to set delegete to self without creating a new instance."
         //add didTapImageAddButton logic in here with the UITapGestureRecognizer working right
     }
     
     func updateStatus() {
         //profileView's delegate func
-        //profileView.delegate = self "need to set delegete to self without creating a new instance."
         //add textFieldtoEmoji logic in here but maybe create the textfield inside profileView?
     }
     
