@@ -406,8 +406,7 @@ class ProfileView: UIView {
         }
     }
     private func loadEmojiImage() {
-        let groupID = GroupManager.shared.getCurrentGroupID() ?? ""
-        FirebaseAPI.getEmoji(uid: uid, groupID: groupID) {string in
+        FirebaseAPI.getEmoji(uid: uid) {string in
             if string != nil {
                 if let string = string {
                     let string = string.toImage()

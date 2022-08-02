@@ -127,7 +127,7 @@ class HomeViewController: UIViewController, SettingsVCDelegate, ProfileViewDeleg
         //I can't call this func when the app is ran, need to figure out how to run this func when the user selects the emoji in the textfield. may need to convert the emoji to string before I save it. 
         if let text = baseView.textfield.text {
             if text.count == baseView.textfield.maxLength {
-                FirebaseAPI.addEmoji(groupID: groupID, emoji: text)
+                FirebaseAPI.addEmoji(emoji: text)
             }
         }
     }
