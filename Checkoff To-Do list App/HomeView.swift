@@ -424,7 +424,7 @@ class ProfileView: UIView {
         delegate?.updateStatus()
     }
     private func practiceConvertingEmoji() {
-        if let newImage = emojiFace.toImage() {
+        if let newImage = emojiFace.textToImage() {
             emojiImageTest.image = newImage
             
         }
@@ -444,7 +444,7 @@ class ProfileView: UIView {
     
     private func configureSubviews() {
         profileImage.addBorders(color: .mainColor6, thickness: 5)
-        emojiImage.addBorders(color: .mainColor6, thickness: 3)
+        emojiImageTest.addBorders(color: .mainColor6, thickness: 3)
         profileImage.tintColor = .mainColor6
     }
     
@@ -467,7 +467,7 @@ class ProfileView: UIView {
         emojiImageTest.height(constant: 26)
         emojiImageTest.width(constant: 26)
         emojiImageTest.cornerRadius(radius: 13)
-        emojiImageTest.backgroundColor = .black
+//        emojiImageTest.backgroundColor = .black
         
         addAutoLayoutSubview(profileStack)
         profileStack.fillSuperview()
