@@ -378,7 +378,7 @@ class ProfileView: UIView {
     var emojiImage = UIImageView()
     weak var delegate: ProfileViewDelegate?
     let profileImage = UIImageView(image: UIImage(systemName: "person.fill"))
-    let emojiFace = "U+1F600"
+    let emojiFace = "\u{1F600}"
     var emojiImageTest = UIImageView()
     let uid: String
     
