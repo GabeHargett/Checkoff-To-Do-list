@@ -22,6 +22,8 @@ class EditProfileViewVC: UIViewController {
     private let emojiLabel = UILabel()
     private let initialProfileImage: UIImage?
     private let initialEmoji: String?
+    
+    private let invisibleTextField = EmojiTextField()
 
     init(initialProfileImage: UIImage?, initialEmoji: String?) {
         self.initialProfileImage = initialProfileImage
@@ -93,11 +95,13 @@ class EditProfileViewVC: UIViewController {
         profilePicImageView.contentMode = .scaleAspectFill
         emojiImageView.cornerRadius(radius: 4)
         emojiImageView.backgroundColor = .gray
+        emojiImageView.isUserInteractionEnabled = true
+        emojiImageView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(didTapEmoji)))
         
-        profileLabel.quickConfigure(textAlignment: .left, font: .systemFont(ofSize: 10, weight: .bold), textColor: .mainColor1)
+        profileLabel.quickConfigure(textAlignment: .left, font: .systemFont(ofSize: 10, weight: .bold), textColor: .mainColor3)
         profileLabel.text = "Profile Picture".uppercased()
         
-        emojiLabel.quickConfigure(textAlignment: .left, font: .systemFont(ofSize: 10, weight: .bold), textColor: .mainColor1)
+        emojiLabel.quickConfigure(textAlignment: .left, font: .systemFont(ofSize: 10, weight: .bold), textColor: .mainColor3)
         emojiLabel.text = "Current Status".uppercased()
         
         baseView.stack.addArrangedSubviews([profileLabel, profilePicImageView, emojiLabel, emojiHolder])
@@ -105,6 +109,18 @@ class EditProfileViewVC: UIViewController {
         baseView.stack.setCustomSpacing(8, after: profileLabel)
         baseView.stack.setCustomSpacing(8, after: emojiLabel)
         baseView.stack.layoutMargins = UIEdgeInsets(top: 24, left: 50, bottom: 24, right: 50)
+        
+        baseView.addAutoLayoutSubview(invisibleTextField)
+        invisibleTextField.alpha = 0
+        invisibleTextField.delegate = self
+    }
+    
+    @objc private func didTapEmoji() {
+        invisibleTextField.becomeFirstResponder()
+    }
+    
+    private func handleSelectedEmoji(emojiString: String) {
+        print(emojiString)
     }
     
     func showModal(vc: UIViewController) {
@@ -119,8 +135,50 @@ extension EditProfileViewVC: BareBonesBottomModalViewDelegate {
     }
 }
 
+extension EditProfileViewVC: UITextFieldDelegate {
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        if string.first?.isEmoji == true, string.count == 1 {
+            textField.resignFirstResponder()
+            handleSelectedEmoji(emojiString: string)
+        }
+        return false
+    }
+}
+
 extension CGFloat {
     var half: CGFloat {
         return self / 2
+    }
+}
+
+extension Character {
+    var isEmoji: Bool {
+        guard let scalar = unicodeScalars.first else { return false }
+        return scalar.properties.isEmoji && (scalar.value > 0x238C || unicodeScalars.count > 1)
+    }
+}
+
+class EmojiTextField: UITextField {
+
+    override func awakeFromNib() {
+        super.awakeFromNib()
+    }
+    
+    func setEmoji() {
+        _ = self.textInputMode
+    }
+    
+    override var textInputContextIdentifier: String? {
+           return ""
+    }
+    
+    override var textInputMode: UITextInputMode? {
+        for mode in UITextInputMode.activeInputModes {
+            if mode.primaryLanguage == "emoji" {
+                self.keyboardType = .default // do not remove this
+                return mode
+            }
+        }
+        return nil
     }
 }
