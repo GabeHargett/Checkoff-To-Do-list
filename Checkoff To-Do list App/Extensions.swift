@@ -8,16 +8,8 @@
 import Foundation
 import UIKit
 
-//yourString.toImage() // it will convert String  to UIImage
+//yourString.textToImage() // it will convert String  to UIImage
 
-extension String {
-    func toImage() -> UIImage? {
-        if let data = Data(base64Encoded: self, options: .ignoreUnknownCharacters){
-            return UIImage(data: data)
-        }
-        return nil
-    }
-}
 extension String {
     func textToImage() -> UIImage? {
         let nsString = (self as NSString)

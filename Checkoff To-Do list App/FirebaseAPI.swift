@@ -212,12 +212,12 @@ class FirebaseAPI {
         guard let uid = FirebaseAPI.currentUserUID() else {
             return
         }
-        let ref = Database.database().reference().child("Users").child(uid).child("imageRef")
+        let ref = Database.database().reference().child("Users").child(uid).child("emoji")
         ref.setValue(["emoji": emoji])
     }
     
     static func getEmoji(uid: String, completion: @escaping (String?) -> ()) {
-        let ref = Database.database().reference().child("Users").child(uid).child("imageRef")
+        let ref = Database.database().reference().child("Users").child(uid).child("emoji")
         ref.observeSingleEvent(of: .value, with: { (snapshot) in
             
             if let emojiDict = snapshot.value as? [String: Any], let emoji = emojiDict["emoji"] as? String {

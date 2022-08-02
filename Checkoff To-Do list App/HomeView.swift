@@ -299,7 +299,7 @@ class HomeView: UIView {
         goalsStack1.isLayoutMarginsRelativeArrangement = true
 //        goalsStack1.cornerRadius(radius: 8)
 
-        goalsLabel.text = "Couple Goals of the Week"
+        goalsLabel.text = "Group's Goals of the Week"
         goalsLabel.textAlignment = .left
         goalsLabel.font = UIFont.systemFont(ofSize: 21)
         goalsLabel.numberOfLines = 0
@@ -389,7 +389,7 @@ class ProfileView: UIView {
         configureSubviews()
         configureLayout()
         loadProfileImage()
-//        loadEmojiImage()
+        loadEmojiImage()
         setUpDidTaps()
         practiceConvertingEmoji()
     }
@@ -409,7 +409,7 @@ class ProfileView: UIView {
         FirebaseAPI.getEmoji(uid: uid) {string in
             if string != nil {
                 if let string = string {
-                    let string = string.toImage()
+                    let string = string.textToImage()
                     self.emojiImage.image = string
                 }
             }
@@ -435,7 +435,6 @@ class ProfileView: UIView {
         emojiImage.isUserInteractionEnabled = true
         let gesture = UITapGestureRecognizer(target: self, action: #selector(didTapProfileImage))
         profileImage.addGestureRecognizer(gesture)
-        profileImage.tag = PhotoType.profile.rawValue
         
         let gesture2 = UITapGestureRecognizer(target: self, action: #selector(didTapEmojiImage))
         emojiImage.addGestureRecognizer(gesture2)
@@ -443,7 +442,7 @@ class ProfileView: UIView {
     
     private func configureSubviews() {
         profileImage.addBorders(color: .mainColor6, thickness: 5)
-        emojiImageTest.addBorders(color: .mainColor6, thickness: 3)
+        emojiImage.addBorders(color: .mainColor6, thickness: 3)
         profileImage.tintColor = .mainColor6
     }
     
@@ -453,7 +452,7 @@ class ProfileView: UIView {
         profileStack.layoutMargins = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
         profileStack.spacing = -20
         profileStack.isLayoutMarginsRelativeArrangement = true
-        profileStack.addArrangedSubviews([profileImage, emojiImageTest])
+        profileStack.addArrangedSubviews([profileImage, emojiImage])
         profileImage.height(constant: 75)
         profileImage.width(constant: 75)
         profileImage.cornerRadius(radius: 37.5)
@@ -463,9 +462,9 @@ class ProfileView: UIView {
         profileImage.contentMode = .scaleAspectFill
         profileImage.layer.masksToBounds = true
         
-        emojiImageTest.height(constant: 26)
-        emojiImageTest.width(constant: 26)
-        emojiImageTest.cornerRadius(radius: 13)
+        emojiImage.height(constant: 26)
+        emojiImage.width(constant: 26)
+        emojiImage.cornerRadius(radius: 13)
 //        emojiImageTest.backgroundColor = .black
         
         addAutoLayoutSubview(profileStack)

@@ -113,18 +113,11 @@ class HomeViewController: UIViewController, SettingsVCDelegate, ProfileViewDeleg
         }
     }
     func updateProfile() {
-        
-        //profileView's delegate func
-        //add didTapImageAddButton logic in here with the UITapGestureRecognizer working right
+        self.photoType = .profile
+        showImagePicker()
     }
     
     func updateStatus() {
-        //profileView's delegate func
-        //add textFieldtoEmoji logic in here but maybe create the textfield inside profileView?
-    }
-    
-    private func textFieldToEmoji() {
-        //I can't call this func when the app is ran, need to figure out how to run this func when the user selects the emoji in the textfield. may need to convert the emoji to string before I save it. 
         if let text = baseView.textfield.text {
             if text.count == baseView.textfield.maxLength {
                 FirebaseAPI.addEmoji(emoji: text)
@@ -242,6 +235,9 @@ class HomeViewController: UIViewController, SettingsVCDelegate, ProfileViewDeleg
             return
         }
         self.photoType = phototype
+        showImagePicker()
+    }
+    private func showImagePicker() {
         PHPhotoLibrary.requestAuthorization(for: .readWrite, handler: { status in
             switch status {
                 
@@ -266,8 +262,9 @@ class HomeViewController: UIViewController, SettingsVCDelegate, ProfileViewDeleg
                 break
             }
         })
-        //make sure they have access
     }
+
+        //make sure they have access
         
     func getComponetsOfDates() {
     
