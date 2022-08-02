@@ -89,8 +89,6 @@ class HomeView: UIView {
     private let imageLabel = UnderlinedLabel()
     private let goalsStack1 = UIStackView()
     private let goalsLabel = UnderlinedLabel()
-    let emojiFace = "U+1F600"
-    var emojiImage = UIImageView()
 
 
 
@@ -124,13 +122,7 @@ class HomeView: UIView {
             backgroundColor.backgroundColor = .mainColor4
         }
     }
-    private func practiceConvertingEmoji() {
-        if let newImage = emojiFace.toImage() {
-            emojiImage = newImage
 
-
-        }
-    }
     
     private func setupView() {
         for view in [profilePhoto, couplePhoto, addQuote, editPhotoButton, currentWeekStack, previousWeekLabel, nextWeekLabel, otherWeeksLabel, goalsStack2, previousWeekGoalLabel, nextWeekGoalLabel,
@@ -167,7 +159,6 @@ class HomeView: UIView {
         
         addAutoLayoutSubview(couplePhoto)
         couplePhoto.addAutoLayoutSubview(editPhotoButton)
-        couplePhoto.addAutoLayoutSubview(emojiImage)
         couplePhoto.addAutoLayoutSubview(addQuote)
         //photoView.addAutoLayoutSubview(couplePhoto)
         couplePhoto.addAutoLayoutSubview(authorLabel)
@@ -387,7 +378,8 @@ class ProfileView: UIView {
     var emojiImage = UIImageView()
     weak var delegate: ProfileViewDelegate?
     let profileImage = UIImageView(image: UIImage(systemName: "person.fill"))
-    
+    let emojiFace = "U+1F600"
+    var emojiImageTest = UIImageView()
     let uid: String
     
     init(uid: String) {
@@ -397,8 +389,9 @@ class ProfileView: UIView {
         configureSubviews()
         configureLayout()
         loadProfileImage()
-        loadEmojiImage()
+//        loadEmojiImage()
         setUpDidTaps()
+        practiceConvertingEmoji()
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -430,6 +423,12 @@ class ProfileView: UIView {
     @objc private func didTapEmojiImage() {
         delegate?.updateStatus()
     }
+    private func practiceConvertingEmoji() {
+        if let newImage = emojiFace.toImage() {
+            emojiImageTest.image = newImage
+            
+        }
+    }
     
     private func setUpDidTaps() {
         profileStack.isUserInteractionEnabled = true
@@ -441,8 +440,6 @@ class ProfileView: UIView {
         
         let gesture2 = UITapGestureRecognizer(target: self, action: #selector(didTapEmojiImage))
         emojiImage.addGestureRecognizer(gesture2)
-
-
     }
     
     private func configureSubviews() {
@@ -457,8 +454,7 @@ class ProfileView: UIView {
         profileStack.layoutMargins = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
         profileStack.spacing = -20
         profileStack.isLayoutMarginsRelativeArrangement = true
-        profileStack.addArrangedSubviews([profileImage, emojiImage])
-
+        profileStack.addArrangedSubviews([profileImage, emojiImageTest])
         profileImage.height(constant: 75)
         profileImage.width(constant: 75)
         profileImage.cornerRadius(radius: 37.5)
@@ -468,10 +464,10 @@ class ProfileView: UIView {
         profileImage.contentMode = .scaleAspectFill
         profileImage.layer.masksToBounds = true
         
-        emojiImage.height(constant: 26)
-        emojiImage.width(constant: 26)
-        emojiImage.cornerRadius(radius: 13)
-        emojiImage.backgroundColor = .black
+        emojiImageTest.height(constant: 26)
+        emojiImageTest.width(constant: 26)
+        emojiImageTest.cornerRadius(radius: 13)
+        emojiImageTest.backgroundColor = .black
         
         addAutoLayoutSubview(profileStack)
         profileStack.fillSuperview()
