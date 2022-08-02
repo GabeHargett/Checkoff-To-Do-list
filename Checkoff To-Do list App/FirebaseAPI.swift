@@ -213,22 +213,16 @@ class FirebaseAPI {
             return
         }
         let ref = Database.database().reference().child("Users").child(uid).child("emoji")
-        ref.setValue(["emoji": emoji])
+        ref.setValue(emoji)
     }
     
     static func getEmoji(uid: String, completion: @escaping (String?) -> ()) {
         let ref = Database.database().reference().child("Users").child(uid).child("emoji")
         ref.observeSingleEvent(of: .value, with: { (snapshot) in
-            
-            if let emojiDict = snapshot.value as? [String: Any], let emoji = emojiDict["emoji"] as? String {
-                completion(emoji)
-            } else {
+                completion(snapshot.value as? String)
+            }, withCancel: {error in
                 completion(nil)
-            }
-
-        }, withCancel: {error in
-            completion(nil)
-        })
+            })
     }
     
     static func addQuote(quote: Quote, groupID: String) {
