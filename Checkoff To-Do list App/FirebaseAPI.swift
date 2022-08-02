@@ -66,11 +66,6 @@ class FirebaseAPI {
         ref.setValue(["fullName": ["firstName": user.fullName.firstName, "lastName": user.fullName.lastName], "dateJoined": user.dateJoined])
     }
     
-    //Move this logic into the joinGroup function
-//    static func addUserToGroup(user: User, groupID: String) {
-//        let ref = Database.database().reference().child("Groups").child(groupID).child(user.id)
-//        ref.setValue(user.id)
-//    }
     
     static func getFullName(uid: String, completion: @escaping (FullName?) -> ()) {
         if let nameCache = NameCache.shared.getName(uid: uid) {
@@ -180,6 +175,7 @@ class FirebaseAPI {
             ref2.setValue([uid])
         }
     }
+    
     static func getUserGroups(completion: @escaping ([String]?) -> ()) {
         guard let uid = FirebaseAPI.currentUserUID() else {
             return
@@ -209,6 +205,32 @@ class FirebaseAPI {
 
         }, withCancel: {error in
             
+        })
+    }
+    
+    static func addEmoji(groupID: String, emoji: String) {
+        guard let uid = FirebaseAPI.currentUserUID() else {
+            return
+        }
+        let ref = Database.database().reference().child("Groups").child(groupID).child("users").child(uid)
+        ref.setValue(["emoji": emoji])
+    }
+    
+    static func getEmoji(uid: String, groupID: String, completion: @escaping (String?) -> ()) {
+//        guard let uid = FirebaseAPI.currentUserUID() else {
+//            return
+//        }
+        let ref = Database.database().reference().child("Groups").child(groupID).child("users").child(uid)
+        ref.observeSingleEvent(of: .value, with: { (snapshot) in
+            
+            if var emojiDict = snapshot.value as? [String: Any], var emoji = emojiDict["emoji"] as? String {
+                completion(emoji)
+            } else {
+                completion(nil)
+            }
+
+        }, withCancel: {error in
+            completion(nil)
         })
     }
     

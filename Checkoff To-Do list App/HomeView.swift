@@ -89,6 +89,9 @@ class HomeView: UIView {
     private let imageLabel = UnderlinedLabel()
     private let goalsStack1 = UIStackView()
     private let goalsLabel = UnderlinedLabel()
+    let emojiFace = "U+1F600"
+    var emojiImage = UIImageView()
+
 
 
     func setColors() {
@@ -119,6 +122,13 @@ class HomeView: UIView {
         }
         for backgroundColor in [quoteButton, previousWeekLabel, previousWeekGoalLabel, nextWeekLabel, nextWeekGoalLabel, otherWeeksLabel, otherWeeksGoalLabel] {
             backgroundColor.backgroundColor = .mainColor4
+        }
+    }
+    private func practiceConvertingEmoji() {
+        if let newImage = emojiFace.toImage() {
+            emojiImage = newImage
+
+
         }
     }
     
@@ -157,7 +167,7 @@ class HomeView: UIView {
         
         addAutoLayoutSubview(couplePhoto)
         couplePhoto.addAutoLayoutSubview(editPhotoButton)
-        //couplePhoto.addAutoLayoutSubview(editPhotoButton2)
+        couplePhoto.addAutoLayoutSubview(emojiImage)
         couplePhoto.addAutoLayoutSubview(addQuote)
         //photoView.addAutoLayoutSubview(couplePhoto)
         couplePhoto.addAutoLayoutSubview(authorLabel)
@@ -333,7 +343,7 @@ class HomeView: UIView {
         labelStack.addArrangedSubviews([
             currentTaskLabel,
             openTaskLabel,
-            finishedTaskLabel
+            finishedTaskLabel,
         ])
         
         goalsStack1.addArrangedSubviews([
@@ -366,12 +376,17 @@ class HomeView: UIView {
 
 }
 }
+protocol ProfileViewDelegate: AnyObject {
+    func updateProfile()
+    func updateStatus()
+}
 
 class ProfileView: UIView {
     
     let profileStack = UIStackView()
-        let emojiView = UIView()
-        let profileImage = UIImageView(image: UIImage(systemName: "person.fill"))
+    var emojiImage = UIImageView()
+    weak var delegate: ProfileViewDelegate?
+    let profileImage = UIImageView(image: UIImage(systemName: "person.fill"))
     
     let uid: String
     
@@ -382,6 +397,8 @@ class ProfileView: UIView {
         configureSubviews()
         configureLayout()
         loadProfileImage()
+        loadEmojiImage()
+        setUpDidTaps()
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -395,10 +412,42 @@ class ProfileView: UIView {
             }
         }
     }
+    private func loadEmojiImage() {
+        let groupID = GroupManager.shared.getCurrentGroupID() ?? ""
+        FirebaseAPI.getEmoji(uid: uid, groupID: groupID) {string in
+            if string != nil {
+                if let string = string {
+                    let string = string.toImage()
+                    self.emojiImage.image = string
+                }
+            }
+        }
+    }
+
+    @objc private func didTapProfileImage() {
+        delegate?.updateProfile()
+    }
+    @objc private func didTapEmojiImage() {
+        delegate?.updateStatus()
+    }
+    
+    private func setUpDidTaps() {
+        profileStack.isUserInteractionEnabled = true
+        profileImage.isUserInteractionEnabled = true
+        emojiImage.isUserInteractionEnabled = true
+        let gesture = UITapGestureRecognizer(target: self, action: #selector(didTapProfileImage))
+        profileImage.addGestureRecognizer(gesture)
+        profileImage.tag = PhotoType.profile.rawValue
+        
+        let gesture2 = UITapGestureRecognizer(target: self, action: #selector(didTapEmojiImage))
+        emojiImage.addGestureRecognizer(gesture2)
+
+
+    }
     
     private func configureSubviews() {
         profileImage.addBorders(color: .mainColor6, thickness: 5)
-        emojiView.addBorders(color: .mainColor6, thickness: 3)
+        emojiImage.addBorders(color: .mainColor6, thickness: 3)
         profileImage.tintColor = .mainColor6
     }
     
@@ -408,21 +457,21 @@ class ProfileView: UIView {
         profileStack.layoutMargins = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
         profileStack.spacing = -20
         profileStack.isLayoutMarginsRelativeArrangement = true
-        profileStack.addArrangedSubviews([profileImage, emojiView])
+        profileStack.addArrangedSubviews([profileImage, emojiImage])
 
         profileImage.height(constant: 75)
         profileImage.width(constant: 75)
         profileImage.cornerRadius(radius: 37.5)
         profileImage.backgroundColor = .black
         
-        
+
         profileImage.contentMode = .scaleAspectFill
         profileImage.layer.masksToBounds = true
         
-        emojiView.height(constant: 26)
-        emojiView.width(constant: 26)
-        emojiView.cornerRadius(radius: 13)
-        emojiView.backgroundColor = .black
+        emojiImage.height(constant: 26)
+        emojiImage.width(constant: 26)
+        emojiImage.cornerRadius(radius: 13)
+        emojiImage.backgroundColor = .black
         
         addAutoLayoutSubview(profileStack)
         profileStack.fillSuperview()

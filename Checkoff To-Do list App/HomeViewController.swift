@@ -26,13 +26,14 @@ class GroupManager {
     }
 }
 
-class HomeViewController: UIViewController, SettingsVCDelegate  {
+enum PhotoType: Int {
+    case group
+    case profile
+}
 
+class HomeViewController: UIViewController, SettingsVCDelegate, ProfileViewDelegate  {
     
-    enum PhotoType: Int {
-        case group
-        case profile
-    }
+    
     
     override func loadView() {
         view = baseView
@@ -41,6 +42,7 @@ class HomeViewController: UIViewController, SettingsVCDelegate  {
     let baseView = HomeView()
     public let date = Date()
     private var temporaryQuote: Quote?
+    private var user: User?
     private let groupID: String
     var photoType: PhotoType?
     
@@ -71,6 +73,7 @@ class HomeViewController: UIViewController, SettingsVCDelegate  {
         getTaskCount()
         getGoalCount()
     }
+
     
     private func getTaskCount() {
         FirebaseAPI.getTasks(groupID: groupID) {result in
@@ -105,6 +108,27 @@ class HomeViewController: UIViewController, SettingsVCDelegate  {
                 }
             } else {
                 print("No users fuck")
+            }
+        }
+    }
+    func updateProfile() {
+        
+        //profileView's delegate func
+        //profileView.delegate = self "need to set delegete to self without creating a new instance."
+        //add didTapImageAddButton logic in here with the UITapGestureRecognizer working right
+    }
+    
+    func updateStatus() {
+        //profileView's delegate func
+        //profileView.delegate = self "need to set delegete to self without creating a new instance."
+        //add textFieldtoEmoji logic in here but maybe create the textfield inside profileView?
+    }
+    
+    private func textFieldToEmoji() {
+        //I can't call this func when the app is ran, need to figure out how to run this func when the user selects the emoji in the textfield.
+        if let text = baseView.textfield.text {
+            if text.count == baseView.textfield.maxLength {
+                FirebaseAPI.addEmoji(groupID: groupID, emoji: text)
             }
         }
     }
@@ -425,7 +449,7 @@ extension HomeViewController: UIImagePickerControllerDelegate, UINavigationContr
             }
         case.profile:
             if let image = info[UIImagePickerController.InfoKey(rawValue: "UIImagePickerControllerOriginalImage" )]as? UIImage {
-                baseView.profilePhoto.image = image
+//                baseView.profilePhoto.image = image
                 if let uid = FirebaseAPI.currentUserUID() {
                     FirebaseAPI.uploadProfileImages(uid: uid, image: image) {
                         print("image Uploaded")
