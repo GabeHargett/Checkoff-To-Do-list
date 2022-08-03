@@ -325,33 +325,15 @@ class ProfileView: UIView {
     @objc private func didTapProfileImage() {
         delegate?.updateProfileView(image: profileImage.image, emoji: emojiString)
     }
+    
     @objc private func didTapEmojiImage() {
         delegate?.updateProfileView(image: profileImage.image, emoji: emojiString)
     }
+    
     private func practiceConvertingEmoji() {
         if let newImage = emojiFace.textToImage() {
             emojiImageTest.image = newImage
         }
-    }
-    private func downloadProfileImage() {
-//        if let data = UserDefaults.standard.data(forKey: "profileImage") {
-//            let image = UIImage.init(data: data)
-//            self.baseView.profilePhoto.image = image
-//        }
-//        if let uid = FirebaseAPI.currentUserUID() {
-//            FirebaseAPI.downloadProfileImages(uid: uid) {
-//                image in
-//                if image == nil {
-//                    return
-//                }
-//                self.baseView.profilePhoto.image = image
-//                if let data = image?.jpegData(compressionQuality: 0.7) {
-//                    UserDefaults.standard.set(data, forKey: "profileImage")
-//                }
-//                UIView.animate(withDuration: 0.5, animations: {
-//                })
-//            }
-//        }
     }
     
     private func setUpDidTaps() {

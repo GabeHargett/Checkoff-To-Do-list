@@ -93,6 +93,8 @@ class EditProfileViewVC: UIViewController {
         
         profilePicImageView.cornerRadius(radius: profilePicHeight.half)
         profilePicImageView.contentMode = .scaleAspectFill
+        profilePicImageView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(didTapProfilePic)))
+
         emojiImageView.cornerRadius(radius: 4)
         emojiImageView.backgroundColor = .gray
         emojiImageView.isUserInteractionEnabled = true
@@ -119,6 +121,33 @@ class EditProfileViewVC: UIViewController {
         invisibleTextField.becomeFirstResponder()
     }
     
+    @objc private func didTapProfilePic() {
+        PHPhotoLibrary.requestAuthorization(for: .readWrite, handler: { status in
+            switch status {
+                
+            case .notDetermined:
+                break
+            case .restricted:
+                break
+            case .denied:
+                break
+            case .authorized:
+                DispatchQueue.main.async {
+                    let vc = UIImagePickerController()
+                    vc.sourceType = .photoLibrary
+                    vc.delegate = self
+                    vc.allowsEditing = true
+                    self.present(vc, animated: true)
+                }
+            case .limited:
+                break
+            @unknown default:
+                break
+            }
+        })
+    }
+    
+    
     private func handleSelectedEmoji(emojiString: String) {
         print(emojiString)
         FirebaseAPI.addEmoji(emoji: emojiString)
@@ -127,6 +156,26 @@ class EditProfileViewVC: UIViewController {
     func showModal(vc: UIViewController) {
         vc.present(self, animated: true, completion: nil)
         self.baseView.updateModalConstraints()
+    }
+}
+
+extension EditProfileViewVC: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info:
+                               [UIImagePickerController.InfoKey : Any]) {
+            if let image = info[UIImagePickerController.InfoKey(rawValue: "UIImagePickerControllerOriginalImage" )]as? UIImage {
+                if let uid = FirebaseAPI.currentUserUID() {
+                    FirebaseAPI.uploadProfileImages(uid: uid, image: image) {
+                        print("image Uploaded")
+                    }
+                }
+                UIView.animate(withDuration: 0.5, animations: {
+                })
+            }
+        picker.dismiss(animated: true, completion: nil)
+    }
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        picker.dismiss(animated: true, completion: nil)
     }
 }
 
