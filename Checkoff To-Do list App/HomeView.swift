@@ -36,39 +36,22 @@ class HomeView: UIView {
     let otherWeeksGoalLabel = UILabel()
     
     let goalsStack2 = UIStackView()
-
-    let imageButton = CustomButton(type: .image)
-    let imageAddButton = CustomButton(type: .imageAndLabel)
-
     var couplePhoto = UIImageView()
-    let profilePhoto = UIImageView()
-    
-    let pencilQuoteButton = CustomButton(type: .image)
-    let quoteButton = CustomButton(type: .imageAndLabel)
-    
     let quoteLabel = UILabel()
     let authorLabel = UILabel()
     let quoteSignature = UILabel()
-//    let emojiLabel = UILabel()
     
     let camera = UIImageView(image: UIImage(systemName: "camera.fill"))
     let editPhotoButton = UIStackView()
-    //let editPhotoButton2 = UIStackView()
     let editLabel = UILabel()
     let quoteImage = UIImageView(image: UIImage(systemName: "message.fill"))
     let addQuote = UIStackView()
     let labelquote = UILabel()
     let profileViewStack = UIStackView()
-//    let profileView = UIView()
-//    let emojiView = UIView()
-//    let profileImage = UIImageView(image: UIImage(systemName: "person.fill"))
     let textfield = LimitedLengthField()
-    //let profileStack = UIStackView()
-//    let emotionStack = UIStackView()
-    
+
     private let holder = UIView()
     private let holder2 = UIView()
-    //private let photoView = UIView()
     private let imageView = UIImageView(image: UIImage(systemName: "list.bullet.rectangle"))
     private let goalImageView = UIImageView(image: UIImage(systemName: "list.bullet.rectangle"))
     private let hiarchyStack = UIStackView()
@@ -90,27 +73,16 @@ class HomeView: UIView {
     private let goalsStack1 = UIStackView()
     private let goalsLabel = UnderlinedLabel()
 
-
-
     func setColors() {
-        imageButton.quickConfigure(font: .systemFont(ofSize: 15), titleColor: .black, backgroundColor: .mainColor4, cornerRadius: 8)
-        pencilQuoteButton.quickConfigure(font: .systemFont(ofSize: 15), titleColor: .black, backgroundColor: .mainColor4, cornerRadius: 8)
-        imageAddButton.quickConfigure(
-            font: .systemFont(ofSize: 15), titleColor: .black, backgroundColor: .mainColor4, cornerRadius: 8)
-        quoteButton.quickConfigure(
-            font: .systemFont(ofSize: 15), titleColor: .black, backgroundColor: .mainColor1, cornerRadius: 8)
         authorLabel.quickConfigure(textAlignment: .right, font: .boldSystemFont(ofSize: 12), textColor: .mainColor6)
-        quoteLabel.textColor = .mainColor6
-        
-        camera.tintColor = .mainColor6
         editPhotoButton.addBorders(color: .mainColor6, thickness: 1)
         editLabel.quickConfigure(textAlignment: .center, font: .systemFont(ofSize:12), textColor: .mainColor6)
-        //editPhotoButton2.addBorders(color: .mainColor6, thickness: 1)
-
-        quoteImage.tintColor = .mainColor6
         addQuote.addBorders(color: .mainColor6, thickness: 1)
         labelquote.quickConfigure(textAlignment: .center, font: .systemFont(ofSize:12), textColor: .mainColor6)
-
+        
+        quoteImage.tintColor = .mainColor6
+        quoteLabel.textColor = .mainColor6
+        camera.tintColor = .mainColor6
         
         for color in [previousWeekLabel, previousWeekGoalLabel, nextWeekLabel, nextWeekGoalLabel, otherWeeksLabel, otherWeeksGoalLabel, openGoalLabel, openTaskLabel, finishedGoalLabel, finishedTaskLabel] {
             color.textColor = .mainColor1
@@ -118,19 +90,18 @@ class HomeView: UIView {
         for backgroundColor in [weekStack, imageStack, goalsStack1, quoteStack] {
             backgroundColor.backgroundColor = .mainColor6
         }
-        for backgroundColor in [quoteButton, previousWeekLabel, previousWeekGoalLabel, nextWeekLabel, nextWeekGoalLabel, otherWeeksLabel, otherWeeksGoalLabel] {
+        for backgroundColor in [previousWeekLabel, previousWeekGoalLabel, nextWeekLabel, nextWeekGoalLabel, otherWeeksLabel, otherWeeksGoalLabel] {
             backgroundColor.backgroundColor = .mainColor4
         }
     }
-
     
     private func setupView() {
-        for view in [profilePhoto, couplePhoto, addQuote, editPhotoButton, currentWeekStack, previousWeekLabel, nextWeekLabel, otherWeeksLabel, goalsStack2, previousWeekGoalLabel, nextWeekGoalLabel,
-                     otherWeeksGoalLabel, quoteButton, pencilQuoteButton, imageAddButton, imageButton] {
+        for view in [couplePhoto, addQuote, editPhotoButton, currentWeekStack, previousWeekLabel, nextWeekLabel, otherWeeksLabel, goalsStack2, previousWeekGoalLabel, nextWeekGoalLabel,
+                     otherWeeksGoalLabel] {
             view.isUserInteractionEnabled = true
         }
         couplePhoto.backgroundColor = .darkGray
-        
+
         editPhotoButton.axis = .horizontal
         editPhotoButton.alignment = .center
         editPhotoButton.layoutMargins = UIEdgeInsets(top: 3, left: 3, bottom: 3, right: 3)
@@ -149,18 +120,10 @@ class HomeView: UIView {
         quoteLabel.textAlignment = .left
         quoteLabel.font = .boldSystemFont(ofSize: 12)
         quoteLabel.numberOfLines = 2
-
-//        editPhotoButton2.axis = .horizontal
-//        editPhotoButton2.alignment = .center
-//        editPhotoButton2.layoutMargins = UIEdgeInsets(top: 3, left: 3, bottom: 3, right: 3)
-//        editPhotoButton2.isLayoutMarginsRelativeArrangement = true
-//        editPhotoButton2.cornerRadius(radius: 5)
-//        editPhotoButton2.addArrangedSubviews([camera, editLabel])
         
         addAutoLayoutSubview(couplePhoto)
         couplePhoto.addAutoLayoutSubview(editPhotoButton)
         couplePhoto.addAutoLayoutSubview(addQuote)
-        //photoView.addAutoLayoutSubview(couplePhoto)
         couplePhoto.addAutoLayoutSubview(authorLabel)
         couplePhoto.addAutoLayoutSubview(quoteLabel)
         couplePhoto.addAutoLayoutSubview(profileViewStack)
@@ -169,8 +132,6 @@ class HomeView: UIView {
         NSLayoutConstraint.activate([
             editPhotoButton.leftAnchor.constraint(equalTo: couplePhoto.leftAnchor, constant: 12),
             editPhotoButton.topAnchor.constraint(equalTo: couplePhoto.topAnchor,constant: 12),
-            //editPhotoButton2.leftAnchor.constraint(equalTo: couplePhoto.leftAnchor, constant: 12),
-            //editPhotoButton2.topAnchor.constraint(equalTo: couplePhoto.topAnchor,constant: 12),
             addQuote.leftAnchor.constraint(equalTo: couplePhoto.leftAnchor, constant: 12),
             addQuote.bottomAnchor.constraint(equalTo: couplePhoto.bottomAnchor,constant: -16),
             quoteLabel.topAnchor.constraint(equalTo: couplePhoto.topAnchor, constant: 250),
@@ -180,28 +141,21 @@ class HomeView: UIView {
             authorLabel.rightAnchor.constraint(equalTo: couplePhoto.rightAnchor,constant: -55),
             authorLabel.bottomAnchor.constraint(equalTo: couplePhoto.bottomAnchor),
             profileViewStack.topAnchor.constraint(equalTo: couplePhoto.topAnchor, constant: 12),
-            profileViewStack.rightAnchor.constraint(equalTo: couplePhoto.rightAnchor,constant: -12),
-//            emojiView.rightAnchor.constraint(equalTo: couplePhoto.rightAnchor,constant: -10),
-//            emojiView.topAnchor.constraint(equalTo: couplePhoto.topAnchor,constant: 10)
-            
+            profileViewStack.rightAnchor.constraint(equalTo: couplePhoto.rightAnchor,constant: -12)
             ])
         
         labelStack.axis = .vertical
         goalLabelStack.axis = .vertical
-
         
-//        scrollStack.stackView.spacing = 12
         scrollStack.stackView.layoutMargins = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
         scrollStack.stackView.isLayoutMarginsRelativeArrangement = true
         
         scrollStack.fillSuperview()
         
-//        weekStack.addBorders(color: .black, thickness: 1)
         weekStack.layoutMargins = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
         weekStack.axis = .vertical
         weekStack.spacing = 12
         weekStack.isLayoutMarginsRelativeArrangement = true
-//        weekStack.cornerRadius(radius: 8)
         textfield.placeholder = "Enter One Emoji"
         textfield.borderStyle = .line
         
@@ -223,7 +177,6 @@ class HomeView: UIView {
         nextPreviousOtherGoalStack.spacing = 12
         nextPreviousOtherGoalStack.alignment = .center
         nextPreviousOtherGoalStack.cornerRadius(radius: 8)
-
         
         imageView.height(constant: 55)
         imageView.width(constant: 55)
@@ -241,28 +194,23 @@ class HomeView: UIView {
         nextWeekLabel.width(constant: 80)
         nextWeekLabel.cornerRadius(radius: 8)
         
-
         previousWeekLabel.text = " Previous "
         previousWeekLabel.textAlignment = .center
         previousWeekLabel.height(constant: 40)
         previousWeekLabel.width(constant: 80)
         previousWeekLabel.cornerRadius(radius: 8)
-
         
         otherWeeksLabel.text = " Other "
         otherWeeksLabel.textAlignment = .center
         otherWeeksLabel.height(constant: 40)
         otherWeeksLabel.width(constant: 80)
         otherWeeksLabel.cornerRadius(radius: 8)
-        
 
         nextWeekGoalLabel.text = " Next "
         nextWeekGoalLabel.width(constant: 80)
         nextWeekGoalLabel.textAlignment = .center
         nextWeekGoalLabel.height(constant: 40)
         nextWeekGoalLabel.cornerRadius(radius: 8)
-
-
 
         previousWeekGoalLabel.text = " Previous "
         previousWeekGoalLabel.width(constant: 80)
@@ -275,8 +223,6 @@ class HomeView: UIView {
         otherWeeksGoalLabel.width(constant: 80)
         otherWeeksGoalLabel.height(constant: 40)
         otherWeeksGoalLabel.cornerRadius(radius: 8)
-
-
         
         currentTaskLabel.text = "Current Week Tasks"
         currentTaskLabel.font = UIFont.systemFont(ofSize: 21)
@@ -292,79 +238,40 @@ class HomeView: UIView {
         goalsStack2.spacing = 12
         goalsStack2.cornerRadius(radius: 8)
         
-//        goalsStack1.addBorders(color: .black, thickness: 1)
         goalsStack1.layoutMargins = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
         goalsStack1.axis = .vertical
         goalsStack1.spacing = 12
         goalsStack1.isLayoutMarginsRelativeArrangement = true
-//        goalsStack1.cornerRadius(radius: 8)
 
         goalsLabel.text = "Group's Goals of the Week"
         goalsLabel.textAlignment = .left
         goalsLabel.font = UIFont.systemFont(ofSize: 21)
         goalsLabel.numberOfLines = 0
                 
-        scrollStack.stackView.addArrangedSubviews([
-            couplePhoto,
-            weekStack,
-            goalsStack1,
-        ])
+        scrollStack.stackView.addArrangedSubviews([couplePhoto, weekStack, goalsStack1])
         
-        weekStack.addArrangedSubviews([
-            currentWeekStack,
-            textfield,
-            holder,
-        ])
+        weekStack.addArrangedSubviews([currentWeekStack, textfield,holder])
         
-        currentWeekStack.addArrangedSubviews([
-            imageView,
-            labelStack
-        ])
+        currentWeekStack.addArrangedSubviews([imageView,labelStack])
         
         holder.addAutoLayoutSubview(nextPreviousOtherStack)
         nextPreviousOtherStack.centerInSuperview()
         nextPreviousOtherStack.heightAnchor.constraint(equalTo: holder.heightAnchor).isActive = true
         
-        nextPreviousOtherStack.addArrangedSubviews([
-            previousWeekLabel,
-            nextWeekLabel,
-            otherWeeksLabel,
-        ])
+        nextPreviousOtherStack.addArrangedSubviews([previousWeekLabel, nextWeekLabel, otherWeeksLabel])
         
-        labelStack.addArrangedSubviews([
-            currentTaskLabel,
-            openTaskLabel,
-            finishedTaskLabel,
-        ])
+        labelStack.addArrangedSubviews([currentTaskLabel, openTaskLabel, finishedTaskLabel])
         
-        goalsStack1.addArrangedSubviews([
-            goalsStack2,
-            holder2
-        ])
+        goalsStack1.addArrangedSubviews([ goalsStack2, holder2 ])
         
+        goalsStack2.addArrangedSubviews([ goalImageView, goalLabelStack ])
         
-        goalsStack2.addArrangedSubviews([
-            goalImageView,
-            goalLabelStack
-        ])
-        
-        goalLabelStack.addArrangedSubviews([
-            goalsLabel,
-            openGoalLabel,
-            finishedGoalLabel
-        
-        ])
+        goalLabelStack.addArrangedSubviews([ goalsLabel, openGoalLabel, finishedGoalLabel ])
         holder2.addAutoLayoutSubview(nextPreviousOtherGoalStack)
         nextPreviousOtherGoalStack.centerInSuperview()
         nextPreviousOtherGoalStack.heightAnchor.constraint(equalTo: holder2.heightAnchor).isActive = true
-
         
-        nextPreviousOtherGoalStack.addArrangedSubviews([
-            previousWeekGoalLabel,
-            nextWeekGoalLabel,
-            otherWeeksGoalLabel,
-        ])
-
+        nextPreviousOtherGoalStack.addArrangedSubviews([ previousWeekGoalLabel, nextWeekGoalLabel, otherWeeksGoalLabel,])
 }
 }
 protocol ProfileViewDelegate: AnyObject {
@@ -399,18 +306,32 @@ class ProfileView: UIView {
     }
     
     private func loadProfileImage() {
+        if let data = UserDefaults.standard.data(forKey: "profileImage") {
+            let image = UIImage.init(data: data)
+            self.profileImage.image = image
+        }
+        
         FirebaseAPI.downloadProfileImage(uid: uid) {image in
             if image != nil {
                 self.profileImage.image = image
             }
+            if let data = image?.jpegData(compressionQuality: 0.7) {
+                UserDefaults.standard.set(data, forKey: "profileImage")
+            }
+            UIView.animate(withDuration: 0.5, animations: {
+            })
         }
     }
+    
     private func loadEmojiImage() {
+        
+        //need to figure out how to do cache for string
+        
         FirebaseAPI.getEmoji(uid: uid) {emojiString in
             if emojiString != nil {
                 self.emojiString = emojiString
                 self.emojiImage.image = emojiString?.textToImage()
-            }
+           }
         }
     }
 
@@ -424,6 +345,26 @@ class ProfileView: UIView {
         if let newImage = emojiFace.textToImage() {
             emojiImageTest.image = newImage
         }
+    }
+    private func downloadProfileImage() {
+//        if let data = UserDefaults.standard.data(forKey: "profileImage") {
+//            let image = UIImage.init(data: data)
+//            self.baseView.profilePhoto.image = image
+//        }
+//        if let uid = FirebaseAPI.currentUserUID() {
+//            FirebaseAPI.downloadProfileImages(uid: uid) {
+//                image in
+//                if image == nil {
+//                    return
+//                }
+//                self.baseView.profilePhoto.image = image
+//                if let data = image?.jpegData(compressionQuality: 0.7) {
+//                    UserDefaults.standard.set(data, forKey: "profileImage")
+//                }
+//                UIView.animate(withDuration: 0.5, animations: {
+//                })
+//            }
+//        }
     }
     
     private func setUpDidTaps() {
@@ -450,11 +391,11 @@ class ProfileView: UIView {
         profileStack.spacing = -20
         profileStack.isLayoutMarginsRelativeArrangement = true
         profileStack.addArrangedSubviews([profileImage, emojiImage])
+        
         profileImage.height(constant: 75)
         profileImage.width(constant: 75)
         profileImage.cornerRadius(radius: 37.5)
-        profileImage.backgroundColor = .black
-        
+        profileImage.backgroundColor = .black        
 
         profileImage.contentMode = .scaleAspectFill
         profileImage.layer.masksToBounds = true
@@ -462,7 +403,6 @@ class ProfileView: UIView {
         emojiImage.height(constant: 26)
         emojiImage.width(constant: 26)
         emojiImage.cornerRadius(radius: 13)
-//        emojiImageTest.backgroundColor = .black
         
         addAutoLayoutSubview(profileStack)
         profileStack.fillSuperview()

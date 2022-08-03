@@ -121,6 +121,7 @@ class EditProfileViewVC: UIViewController {
     
     private func handleSelectedEmoji(emojiString: String) {
         print(emojiString)
+        FirebaseAPI.addEmoji(emoji: emojiString)
     }
     
     func showModal(vc: UIViewController) {

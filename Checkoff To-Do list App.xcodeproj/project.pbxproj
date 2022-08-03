@@ -123,6 +123,7 @@
 				77B5733928494014009EBDCF /* GroupCreationVC.swift */,
 				776B810C282DB91C004BD812 /* HomeView.swift */,
 				778728D227F4382D0060B496 /* HomeViewController.swift */,
+				77EF39B22899E1FB0048C2A4 /* EditProfileViewVC.swift */,
 				778728CB27F42F3D0060B496 /* WeeksVC.swift */,
 				776B8106282AB08A004BD812 /* GoalsVC.swift */,
 				77AD87C32810FE9000998DCC /* CustomTableViewCells.swift */,
@@ -147,7 +148,6 @@
 				778728E627FF95750060B496 /* GoogleService-Info.plist */,
 				778728B927F42C560060B496 /* LaunchScreen.storyboard */,
 				778728B727F42C560060B496 /* Assets.xcassets */,
-				77EF39B22899E1FB0048C2A4 /* EditProfileViewVC.swift */,
 			);
 			path = "Checkoff To-Do list App";
 			sourceTree = "<group>";

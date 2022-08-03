@@ -5,10 +5,7 @@
 //  Created by Tanner Rozier on 5/10/22.
 //
 
-import Foundation
 import UIKit
-
-//yourString.textToImage() // it will convert String  to UIImage
 
 extension String {
     func textToImage() -> UIImage? {

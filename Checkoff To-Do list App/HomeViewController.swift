@@ -16,13 +16,11 @@ class GroupManager {
     }
     func setCurrentGroupID(groupID: String) {
         UserDefaults.standard.set(groupID, forKey: "CurrentGroupID")
-    }
-    
+    }    
     func clearGroupID() {
         UserDefaults.standard.set(nil, forKey: "CurrentGroupID")
         UserDefaults.standard.set(nil, forKey: "homeImage")
         UserDefaults.standard.set(nil, forKey: "profileImage")
-
     }
 }
 
@@ -32,8 +30,6 @@ enum PhotoType: Int {
 }
 
 class HomeViewController: UIViewController, SettingsVCDelegate, ProfileViewDelegate  {
-    
-    
     
     override func loadView() {
         view = baseView
@@ -59,13 +55,11 @@ class HomeViewController: UIViewController, SettingsVCDelegate, ProfileViewDeleg
         title = "Home"
         navigationItem.hidesBackButton = true
         
-        self.hideKeyboardWhenTappedAround()
         configureBackground()
         downloadImage()
-        downloadProfileImage()
         setUpDidTaps()
         getQuote()
-        Practice.startPractice()
+//        Practice.startPractice()
         addProfileViewsForUIDs()
     }
     
@@ -115,17 +109,6 @@ class HomeViewController: UIViewController, SettingsVCDelegate, ProfileViewDeleg
     func updateProfileView(image: UIImage?, emoji: String?) {
         let vc = EditProfileViewVC(initialProfileImage: image, initialEmoji: emoji)
         vc.showModal(vc: self)
-        FirebaseAPI.addEmoji(emoji: "🍆")
-//        self.photoType = .profile
-//        showImagePicker()
-    }
-    
-    func updateStatus() {
-//        if let text = baseView.textfield.text {
-//            if text.count == baseView.textfield.maxLength {
-//                FirebaseAPI.addEmoji(emoji: text)
-//            }
-//        }
     }
     
     func updateColor() {
@@ -159,7 +142,6 @@ class HomeViewController: UIViewController, SettingsVCDelegate, ProfileViewDeleg
         if let data = UserDefaults.standard.data(forKey: "homeImage") {
             let image = UIImage.init(data: data)
             self.baseView.couplePhoto.image = image
-            self.baseView.couplePhoto.isHidden = false
         }
         FirebaseAPI.downloadImage(groupID: groupID) {
             image in
@@ -171,30 +153,8 @@ class HomeViewController: UIViewController, SettingsVCDelegate, ProfileViewDeleg
                 UserDefaults.standard.set(data, forKey: "homeImage")
             }
             UIView.animate(withDuration: 0.5, animations: {
-                self.baseView.couplePhoto.isHidden = false
             })
         }
-    }
-    
-    private func downloadProfileImage() {
-//        if let data = UserDefaults.standard.data(forKey: "profileImage") {
-//            let image = UIImage.init(data: data)
-//            self.baseView.profilePhoto.image = image
-//        }
-//        if let uid = FirebaseAPI.currentUserUID() {
-//            FirebaseAPI.downloadProfileImages(uid: uid) {
-//                image in
-//                if image == nil {
-//                    return
-//                }
-//                self.baseView.profilePhoto.image = image
-//                if let data = image?.jpegData(compressionQuality: 0.7) {
-//                    UserDefaults.standard.set(data, forKey: "profileImage")
-//                }
-//                UIView.animate(withDuration: 0.5, animations: {
-//                })
-//            }
-//        }
     }
     
     private func getQuote() {
@@ -209,7 +169,6 @@ class HomeViewController: UIViewController, SettingsVCDelegate, ProfileViewDeleg
     
     private func updateQuoteButton(quote: Quote) {
         self.baseView.quoteLabel.text =  "\"" + quote.text + "\""
-        self.baseView.quoteButton.isHidden = true
         self.baseView.authorLabel.text = "- " + quote.author
     }
     
@@ -266,11 +225,8 @@ class HomeViewController: UIViewController, SettingsVCDelegate, ProfileViewDeleg
             }
         })
     }
-
-        //make sure they have access
         
     func getComponetsOfDates() {
-    
     let components = date.get(.day, .month, .year)
     if let day = components.day, let month = components.month, let year = components.year {
         print("day: \(day), month: \(month), year: \(year)")
@@ -310,17 +266,9 @@ class HomeViewController: UIViewController, SettingsVCDelegate, ProfileViewDeleg
         baseView.editPhotoButton.addGestureRecognizer(tapGesture10)
         baseView.editPhotoButton.tag = PhotoType.group.rawValue
 
-        let tapGesture11 = UITapGestureRecognizer(target: self, action: #selector(didTapImageAddButton))
-        baseView.profilePhoto.addGestureRecognizer(tapGesture11)
-        baseView.profilePhoto.tag = PhotoType.profile.rawValue
-
         let tapGesture12 = UITapGestureRecognizer(target: self, action: #selector(didTapImageAddButton))
         baseView.profileViewStack.addGestureRecognizer(tapGesture12)
         baseView.profileViewStack.tag = PhotoType.profile.rawValue
-        
-//        let tapGesture14 = UITapGestureRecognizer(target: self, action: #selector(didTapImageAddButton))
-//        baseView.editPhotoButton2.addGestureRecognizer(tapGesture14)
-//        baseView.editPhotoButton2.tag = PhotoType.group.rawValue
 
 
 
@@ -408,9 +356,7 @@ class HomeViewController: UIViewController, SettingsVCDelegate, ProfileViewDeleg
 extension HomeViewController: TextInputVCDelegate {
     func didSubmitText(text: String, text2: String?, textType: TextInputVC.TextType, date: Date?) {
         
-
         switch textType {
-            
         case .quote:
             self.temporaryQuote = Quote(text: text, author: "")
             if var temporaryQuote = temporaryQuote {
@@ -424,11 +370,9 @@ extension HomeViewController: TextInputVCDelegate {
             break
         case .task:
             break
-            
         }
     }
 }
-
 
 extension HomeViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
@@ -446,26 +390,19 @@ extension HomeViewController: UIImagePickerControllerDelegate, UINavigationContr
             }
         case.profile:
             if let image = info[UIImagePickerController.InfoKey(rawValue: "UIImagePickerControllerOriginalImage" )]as? UIImage {
-//                baseView.profilePhoto.image = image
                 if let uid = FirebaseAPI.currentUserUID() {
                     FirebaseAPI.uploadProfileImages(uid: uid, image: image) {
                         print("image Uploaded")
                     }
                 }
                 UIView.animate(withDuration: 0.5, animations: {
-                    self.baseView.profilePhoto.isHidden = false
-                    //                self.baseView.imageAddButton.isHidden = true
                 })
             }
         default:
            break
         }
-
-
-        
         picker.dismiss(animated: true, completion: nil)
     }
-    
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
         picker.dismiss(animated: true, completion: nil)
     }
