@@ -136,7 +136,7 @@ class EditProfileViewVC: UIViewController {
 //        let photoCount = PHAsset.fetchAssets(with: nil).count
         let customAlert = ModalJesus(title: "Status: Denied", description: "This app does not currently support Photo selection, please allow access to your photos to continue.")
 //        customAlert.addAction(ModalJesusAction(title: "Select Photos", style: true, action: {self.selectPhotos()}))
-        customAlert.addAction(ModalJesusAction(title: "Settings", style: true, action: {self.goToPrivacySettings()}))
+        customAlert.addAction(ModalJesusAction(title: "Open Settings", style: true, action: {self.goToPrivacySettings()}))
         customAlert.addAction(ModalJesusAction(title: "Cancel", style: false))
         customAlert.showModal(vc: self)
     }
