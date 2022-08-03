@@ -19,8 +19,8 @@ class GroupManager {
     }    
     func clearGroupID() {
         UserDefaults.standard.set(nil, forKey: "CurrentGroupID")
-        UserDefaults.standard.set(nil, forKey: "homeImage")
-        UserDefaults.standard.set(nil, forKey: "profileImage")
+//        UserDefaults.standard.set(nil, forKey: "homeImage")
+//        UserDefaults.standard.set(nil, forKey: "profileImage")
     }
 }
 

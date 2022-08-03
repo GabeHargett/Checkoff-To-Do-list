@@ -306,27 +306,14 @@ class ProfileView: UIView {
     }
     
     private func loadProfileImage() {
-        if let data = UserDefaults.standard.data(forKey: "profileImage") {
-            let image = UIImage.init(data: data)
-            self.profileImage.image = image
-        }
-        
         FirebaseAPI.downloadProfileImage(uid: uid) {image in
             if image != nil {
                 self.profileImage.image = image
             }
-            if let data = image?.jpegData(compressionQuality: 0.7) {
-                UserDefaults.standard.set(data, forKey: "profileImage")
-            }
-            UIView.animate(withDuration: 0.5, animations: {
-            })
         }
     }
     
     private func loadEmojiImage() {
-        
-        //need to figure out how to do cache for string
-        
         FirebaseAPI.getEmoji(uid: uid) {emojiString in
             if emojiString != nil {
                 self.emojiString = emojiString
