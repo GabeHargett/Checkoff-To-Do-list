@@ -190,6 +190,24 @@ class HomeViewController: UIViewController, SettingsVCDelegate, ProfileViewDeleg
         vc.delegate = self
         navigationController?.pushViewController(vc, animated: true)
     }
+    
+    private func deniedUI() {
+        let customAlert = ModalJesus(title: "Status: Denied", description: "Allow access to your photos to continue")
+        customAlert.addAction(ModalJesusAction(title: "Open Settings", style: true, action: {self.goToPrivacySettings()}))
+        customAlert.addAction(ModalJesusAction(title: "Cancel", style: false))
+        customAlert.showModal(vc: self)
+    }
+    
+    private func goToPrivacySettings() {
+        guard let url = URL(string: UIApplication.openSettingsURLString),
+            UIApplication.shared.canOpenURL(url) else {
+                assertionFailure("Not able to open App privacy settings")
+                return
+        }
+
+        UIApplication.shared.open(url, options: [:], completionHandler: nil)
+    }
+
         
     @objc private func didTapImageAddButton(tapGesture: UITapGestureRecognizer) {
         guard let tag = tapGesture.view?.tag, let phototype = PhotoType.init(rawValue: tag)
@@ -208,7 +226,9 @@ class HomeViewController: UIViewController, SettingsVCDelegate, ProfileViewDeleg
             case .restricted:
                 break
             case .denied:
-                break
+                DispatchQueue.main.async {
+                    self.deniedUI()
+                }
             case .authorized:
                 DispatchQueue.main.async {
                 

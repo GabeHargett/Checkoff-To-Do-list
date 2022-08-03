@@ -6,6 +6,8 @@
 //
 
 import UIKit
+import Photos
+import PhotosUI
 
 class EditProfileViewVC: UIViewController {
     private let baseView = BareBonesBottomModalView(frame: .zero, allowsTapToDismiss: true, allowsSwipeToDismiss: true)
@@ -41,6 +43,7 @@ class EditProfileViewVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+//        PHPhotoLibrary.shared().register(self)
         setupSubviews()
     }
     
@@ -93,6 +96,7 @@ class EditProfileViewVC: UIViewController {
         
         profilePicImageView.cornerRadius(radius: profilePicHeight.half)
         profilePicImageView.contentMode = .scaleAspectFill
+        profilePicImageView.isUserInteractionEnabled = true
         profilePicImageView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(didTapProfilePic)))
 
         emojiImageView.cornerRadius(radius: 4)
@@ -121,6 +125,42 @@ class EditProfileViewVC: UIViewController {
         invisibleTextField.becomeFirstResponder()
     }
     
+    private func deniedUI() {
+        let customAlert = ModalJesus(title: "Status: Denied", description: "Please allow access to your photos to continue.")
+        customAlert.addAction(ModalJesusAction(title: "Open Settings", style: true, action: {self.goToPrivacySettings()}))
+        customAlert.addAction(ModalJesusAction(title: "Cancel", style: false))
+        customAlert.showModal(vc: self)
+    }
+    
+    private func limitedUI() {
+//        let photoCount = PHAsset.fetchAssets(with: nil).count
+        let customAlert = ModalJesus(title: "Status: Denied", description: "This app does not currently support Photo selection, please allow access to your photos to continue.")
+//        customAlert.addAction(ModalJesusAction(title: "Select Photos", style: true, action: {self.selectPhotos()}))
+        customAlert.addAction(ModalJesusAction(title: "Settings", style: true, action: {self.goToPrivacySettings()}))
+        customAlert.addAction(ModalJesusAction(title: "Cancel", style: false))
+        customAlert.showModal(vc: self)
+    }
+    
+    private func restrictedUI() {
+        let customAlert = ModalJesus(title: "Status: Restricted", description: "Your status is restricted by means this app cannot change.")
+        customAlert.addAction(ModalJesusAction(title: "Cancel", style: false))
+        customAlert.showModal(vc: self)
+
+    }
+    
+    private func selectPhotos() {
+        PHPhotoLibrary.shared().presentLimitedLibraryPicker(from: self)
+    }
+    
+    private func goToPrivacySettings() {
+        guard let url = URL(string: UIApplication.openSettingsURLString),
+              UIApplication.shared.canOpenURL(url) else {
+                  assertionFailure("Not able to open App privacy settings")
+                  return
+              }
+        UIApplication.shared.open(url, options: [:], completionHandler: nil)
+    }
+    
     @objc private func didTapProfilePic() {
         PHPhotoLibrary.requestAuthorization(for: .readWrite, handler: { status in
             switch status {
@@ -128,9 +168,13 @@ class EditProfileViewVC: UIViewController {
             case .notDetermined:
                 break
             case .restricted:
-                break
+                DispatchQueue.main.async {
+                    self.restrictedUI()
+                }
             case .denied:
-                break
+                DispatchQueue.main.async {
+                    self.deniedUI()
+                }
             case .authorized:
                 DispatchQueue.main.async {
                     let vc = UIImagePickerController()
@@ -140,13 +184,14 @@ class EditProfileViewVC: UIViewController {
                     self.present(vc, animated: true)
                 }
             case .limited:
-                break
+                DispatchQueue.main.async {
+                    self.limitedUI()
+                }
             @unknown default:
                 break
             }
         })
     }
-    
     
     private func handleSelectedEmoji(emojiString: String) {
         print(emojiString)
@@ -159,7 +204,15 @@ class EditProfileViewVC: UIViewController {
     }
 }
 
-extension EditProfileViewVC: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+extension EditProfileViewVC: UIImagePickerControllerDelegate, UINavigationControllerDelegate { //, PHPhotoLibraryChangeObserver {
+//    func photoLibraryDidChange(_ changeInstance: PHChange) {
+//        DispatchQueue.main.async { [unowned self] in
+//            // Obtain authorization status and update UI accordingly
+//            let status = PHPhotoLibrary.authorizationStatus(for: .readWrite)
+//            showUI(for: status)
+//        }
+//    }
+    
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info:
                                [UIImagePickerController.InfoKey : Any]) {
