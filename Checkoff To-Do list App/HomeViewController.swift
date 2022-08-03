@@ -112,17 +112,20 @@ class HomeViewController: UIViewController, SettingsVCDelegate, ProfileViewDeleg
             }
         }
     }
-    func updateProfile() {
-        self.photoType = .profile
-        showImagePicker()
+    func updateProfileView(image: UIImage?, emoji: String?) {
+        let vc = EditProfileViewVC(initialProfileImage: image, initialEmoji: emoji)
+        vc.showModal(vc: self)
+        FirebaseAPI.addEmoji(emoji: "🍆")
+//        self.photoType = .profile
+//        showImagePicker()
     }
     
     func updateStatus() {
-        if let text = baseView.textfield.text {
-            if text.count == baseView.textfield.maxLength {
-                FirebaseAPI.addEmoji(emoji: text)
-            }
-        }
+//        if let text = baseView.textfield.text {
+//            if text.count == baseView.textfield.maxLength {
+//                FirebaseAPI.addEmoji(emoji: text)
+//            }
+//        }
     }
     
     func updateColor() {
