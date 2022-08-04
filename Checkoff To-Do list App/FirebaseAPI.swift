@@ -292,17 +292,20 @@ class FirebaseAPI {
         })
     }
     static func downloadImage(groupID: String, completion: @escaping (UIImage?) -> ()) {
-            let ref = Storage.storage().reference().child("images/\(groupID)/couplePhoto")
-            ref.getData(maxSize: 1024 * 1024 * 2) { data, error in
-                if let error = error {
-                    print(error)
-                    completion(nil)
-                } else {
-                    if let data = data, let image = UIImage(data: data) {
-                        completion(image)
-                    }
-                }
-            }
+        let imagePath = "images/\(groupID)/couplePhoto"
+        ImageAssetHelper.downloadImage(imageURL: imagePath, completion: { result in
+        completion(result) })
+//            let ref = Storage.storage().reference().child("images/\(groupID)/couplePhoto")
+//            ref.getData(maxSize: 1024 * 1024 * 2) { data, error in
+//                if let error = error {
+//                    print(error)
+//                    completion(nil)
+//                } else {
+//                    if let data = data, let image = UIImage(data: data) {
+//                        completion(image)
+//                    }
+//                }
+//            }
         }
     static func uploadImage(groupID: String, image: UIImage, completion: @escaping () -> ()) {
         guard let imageData = image.jpegData(compressionQuality: 0.2) else {
@@ -317,6 +320,7 @@ class FirebaseAPI {
                 // Uh-oh, an error occurred!
                 return
             }
+            completion()
         }
     }
     
@@ -332,19 +336,22 @@ class FirebaseAPI {
     }
     
     static func downloadProfileImage(uid: String, completion: @escaping (UIImage?) -> ()) {
-        let ref = Storage.storage().reference().child("images/\(uid)/profilePhoto")
-        ref.getData(maxSize: 1024 * 1024 * 2) { data, error in
-            if let error = error {
-                print(error)
-                completion(nil)
-            } else {
-                if let data = data, let image = UIImage(data: data) {
-                    completion(image)
-                } else {
-                    completion(nil)
-                }
-            }
-        }
+        let imagePath = "images/\(uid)/profilePhoto"
+        ImageAssetHelper.downloadImage(imageURL: imagePath, completion: { result in
+        completion(result) })
+//        let ref = Storage.storage().reference().child("images/\(uid)/profilePhoto")
+//        ref.getData(maxSize: 1024 * 1024 * 2) { data, error in
+//            if let error = error {
+//                print(error)
+//                completion(nil)
+//            } else {
+//                if let data = data, let image = UIImage(data: data) {
+//                    completion(image)
+//                } else {
+//                    completion(nil)
+//                }
+//            }
+//        }
     }
     
     static func uploadProfileImages(uid: String, image: UIImage, completion: @escaping () -> ()) {
@@ -360,6 +367,7 @@ class FirebaseAPI {
                 // Uh-oh, an error occurred!
                 return
             }
+            completion()
             let ref = Database.database().reference().child("Users").child(uid).child("imageRef")
             ref.setValue(imageURL)
         }

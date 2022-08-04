@@ -7,7 +7,11 @@
 
 import UIKit
 import Photos
-import PhotosUI
+
+protocol EditProfileViewVCDelegate: AnyObject {
+    func didUpdateImage(profileImage: UIImage)
+    func didUpdateEmoji(emojiString: String)
+    }
 
 class EditProfileViewVC: UIViewController {
     private let baseView = BareBonesBottomModalView(frame: .zero, allowsTapToDismiss: true, allowsSwipeToDismiss: true)
@@ -16,14 +20,14 @@ class EditProfileViewVC: UIViewController {
         view = baseView
         baseView.delegate = self
     }
-    
+    weak var delegate: EditProfileViewVCDelegate?
     private let profileLabel = UILabel()
     private let profilePicImageView = UIImageView()
     private let emojiImageView = UIImageView()
     
     private let emojiLabel = UILabel()
     private let initialProfileImage: UIImage?
-    private let initialEmoji: String?
+    private var initialEmoji: String?
     
     private let invisibleTextField = EmojiTextField()
 
@@ -134,7 +138,7 @@ class EditProfileViewVC: UIViewController {
     
     private func limitedUI() {
 //        let photoCount = PHAsset.fetchAssets(with: nil).count
-        let customAlert = ModalJesus(title: "Status: Denied", description: "This app does not currently support Photo selection, please allow access to your photos to continue.")
+        let customAlert = ModalJesus(title: "Status: Denied", description: "This app does not currently support Photo Selection, please allow access to your photos to continue.")
 //        customAlert.addAction(ModalJesusAction(title: "Select Photos", style: true, action: {self.selectPhotos()}))
         customAlert.addAction(ModalJesusAction(title: "Open Settings", style: true, action: {self.goToPrivacySettings()}))
         customAlert.addAction(ModalJesusAction(title: "Cancel", style: false))
@@ -148,9 +152,9 @@ class EditProfileViewVC: UIViewController {
 
     }
     
-    private func selectPhotos() {
-        PHPhotoLibrary.shared().presentLimitedLibraryPicker(from: self)
-    }
+//    private func selectPhotos() {
+//        PHPhotoLibrary.shared().presentLimitedLibraryPicker(from: self)
+//    }
     
     private func goToPrivacySettings() {
         guard let url = URL(string: UIApplication.openSettingsURLString),
@@ -196,6 +200,9 @@ class EditProfileViewVC: UIViewController {
     private func handleSelectedEmoji(emojiString: String) {
         print(emojiString)
         FirebaseAPI.addEmoji(emoji: emojiString)
+        delegate?.didUpdateEmoji(emojiString: emojiString)
+        self.initialEmoji = emojiString
+        self.emojiImageView.image = emojiString.textToImage()
     }
     
     func showModal(vc: UIViewController) {
@@ -212,13 +219,14 @@ extension EditProfileViewVC: UIImagePickerControllerDelegate, UINavigationContro
 //            showUI(for: status)
 //        }
 //    }
-    
-    
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info:
                                [UIImagePickerController.InfoKey : Any]) {
             if let image = info[UIImagePickerController.InfoKey(rawValue: "UIImagePickerControllerOriginalImage" )]as? UIImage {
                 if let uid = FirebaseAPI.currentUserUID() {
+                    self.profilePicImageView.image = image
+                    delegate?.didUpdateImage(profileImage: image)
                     FirebaseAPI.uploadProfileImages(uid: uid, image: image) {
+                        ImageAssetHelper.clearImage(imageURL: "images/\(uid)/profilePhoto")
                         print("image Uploaded")
                     }
                 }

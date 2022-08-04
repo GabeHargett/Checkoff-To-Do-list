@@ -19,8 +19,6 @@ class GroupManager {
     }    
     func clearGroupID() {
         UserDefaults.standard.set(nil, forKey: "CurrentGroupID")
-//        UserDefaults.standard.set(nil, forKey: "homeImage")
-//        UserDefaults.standard.set(nil, forKey: "profileImage")
     }
 }
 
@@ -29,7 +27,8 @@ enum PhotoType: Int {
     case profile
 }
 
-class HomeViewController: UIViewController, SettingsVCDelegate, ProfileViewDelegate  {
+class HomeViewController: UIViewController, SettingsVCDelegate, ProfileViewDelegate, EditProfileViewVCDelegate  {
+    
     
     override func loadView() {
         view = baseView
@@ -106,8 +105,36 @@ class HomeViewController: UIViewController, SettingsVCDelegate, ProfileViewDeleg
             }
         }
     }
+    
+    func didUpdateImage(profileImage: UIImage) {
+        guard let uid = FirebaseAPI.currentUserUID() else {
+            return
+        }
+        for view in baseView.profileViewStack.arrangedSubviews {
+            if let profileView = view as? ProfileView {
+                if profileView.uid == uid {
+                    profileView.updateImage(profileImage: profileImage)
+                }
+            }
+        }
+    }
+    
+    func didUpdateEmoji(emojiString: String) {
+        guard let uid = FirebaseAPI.currentUserUID() else {
+            return
+        }
+        for view in baseView.profileViewStack.arrangedSubviews {
+            if let profileView = view as? ProfileView {
+                if profileView.uid == uid {
+                    profileView.updateEmoji(emojiString: emojiString)
+                }
+            }
+        }
+    }
+    
     func updateProfileView(image: UIImage?, emoji: String?) {
         let vc = EditProfileViewVC(initialProfileImage: image, initialEmoji: emoji)
+        vc.delegate = self
         vc.showModal(vc: self)
     }
     
@@ -139,19 +166,12 @@ class HomeViewController: UIViewController, SettingsVCDelegate, ProfileViewDeleg
     }
     
     private func downloadImage() {
-        if let data = UserDefaults.standard.data(forKey: "homeImage") {
-            let image = UIImage.init(data: data)
-            self.baseView.couplePhoto.image = image
-        }
         FirebaseAPI.downloadImage(groupID: groupID) {
             image in
             if image == nil {
                return
             }
             self.baseView.couplePhoto.image = image
-            if let data = image?.jpegData(compressionQuality: 0.7) {
-                UserDefaults.standard.set(data, forKey: "homeImage")
-            }
             UIView.animate(withDuration: 0.5, animations: {
             })
         }
@@ -403,6 +423,8 @@ extension HomeViewController: UIImagePickerControllerDelegate, UINavigationContr
             if let image = info[UIImagePickerController.InfoKey(rawValue: "UIImagePickerControllerOriginalImage" )]as? UIImage {
                 baseView.couplePhoto.image = image
                 FirebaseAPI.uploadImage(groupID: groupID, image: image) {
+                    ImageAssetHelper.clearImage(imageURL: "images/\(self.groupID)/couplePhoto")
+
                     print("image Uploaded")
                 }
                 UIView.animate(withDuration: 0.5, animations: {

@@ -313,6 +313,15 @@ class ProfileView: UIView {
         }
     }
     
+    func updateImage(profileImage: UIImage) {
+        self.profileImage.image = profileImage
+    }
+    
+    func updateEmoji(emojiString: String) {
+        self.emojiString = emojiString
+        self.emojiImage.image = emojiString.textToImage()
+    }
+    
     private func loadEmojiImage() {
         FirebaseAPI.getEmoji(uid: uid) {emojiString in
             if emojiString != nil {
