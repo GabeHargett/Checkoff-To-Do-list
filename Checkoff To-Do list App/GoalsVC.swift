@@ -9,10 +9,7 @@ import UIKit
 import Firebase
 
 
-struct MonthAndYear: Equatable {
-    var dateMonth: Int
-    var year: Int
-}
+
 
 
 class GoalsVC: UIViewController {
@@ -29,14 +26,10 @@ class GoalsVC: UIViewController {
     override func loadView() {
         view = baseView
     }
-    private var monthAndYear: MonthAndYear
-    private var weekAndYear: WeekAndYear
     private let groupID: String
     private let sections: [Section] = [.incomplete, .completed]
     
-    init(groupID: String, weekAndYear: WeekAndYear, monthAndYear: MonthAndYear) {
-        self.weekAndYear = weekAndYear
-        self.monthAndYear = monthAndYear
+    init(groupID: String) {
         self.groupID = groupID
         super.init(nibName: nil, bundle: nil)
     }
@@ -55,13 +48,7 @@ class GoalsVC: UIViewController {
     }
     
     private func setupNavBar() {
-        let sunday = Calendar.current.date(from: DateComponents(calendar: .current, timeZone: .current, era: nil, year: nil, month: nil, day: nil, hour: 12, minute: 0, second: 0, nanosecond: 0, weekday: 1, weekdayOrdinal: nil, quarter: nil, weekOfMonth: nil, weekOfYear: weekAndYear.week, yearForWeekOfYear: weekAndYear.year))
-        let saturday = Calendar.current.date(from: DateComponents(calendar: .current, timeZone: .current, era: nil, year: nil, month: nil, day: nil, hour: 12, minute: 0, second: 0, nanosecond: 0, weekday: 7, weekdayOrdinal: nil, quarter: nil, weekOfMonth: nil, weekOfYear: weekAndYear.week, yearForWeekOfYear: weekAndYear.year))
-
-        
-        let weeks = "\(sunday!.dateString()) - \(saturday!.dateString())"
-        
-        title = "Goals: \(weeks)"
+        title = "Group Goals"
         
         navigationItem.rightBarButtonItem = UIBarButtonItem(
             image: UIImage(systemName: "plus"),
@@ -73,11 +60,7 @@ class GoalsVC: UIViewController {
     private func loadGoals() {
         FirebaseAPI.getGoals(groupID: groupID) {result in
             if let allGoals = result {
-                self.goals = allGoals.filter({goal in
-                    let goalDate = Date(timeIntervalSince1970: goal.dateStamp)
-                    let goalWeekAndYear = DateAnalyzer.getWeekAndYearFromDate(date: goalDate)
-                    return self.weekAndYear == goalWeekAndYear
-                })
+                self.goals = allGoals
                 DispatchQueue.main.async {
                     self.baseView.tableView.reloadData()
                 }
@@ -95,7 +78,7 @@ class GoalsVC: UIViewController {
 extension GoalsVC: TextInputVCDelegate {
     func didSubmitText(text: String, text2: String?, textType: TextInputVC.TextType, date: Date?) {
         let dateStamp = date?.timeIntervalSince1970 ?? Date().timeIntervalSince1970
-        let weekAndYear = DateAnalyzer.getWeekAndYearFromDate(date: Date.init(timeIntervalSince1970: dateStamp))
+//        let weekAndYear = DateAnalyzer.getWeekAndYearFromDate(date: Date.init(timeIntervalSince1970: dateStamp))
         if let editedGoalIndex = editedGoalIndex {
             self.editedGoalIndex = nil
             goals[editedGoalIndex].title = text
@@ -108,8 +91,7 @@ extension GoalsVC: TextInputVCDelegate {
                                                        dateStamp: dateStamp,
                                                        isComplete: false,
                                                        author: uid),
-                                            groupID: groupID),
-               self.weekAndYear == weekAndYear {
+                                            groupID: groupID) {
                 goals.append(Goal(id: id,
                                   title: text,
                                   dateStamp: dateStamp,

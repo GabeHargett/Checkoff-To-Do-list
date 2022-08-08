@@ -24,14 +24,14 @@ class DateAnalyzer {
         return WeekAndYear(week: weekOfYear, year: year)
     }
     
-    static func getMonthAndYearFromDate(date: Date) -> MonthAndYear? {
-        let allComponents = Calendar.current.dateComponents([.year, .month], from: date)
-        guard let monthOfYear = allComponents.month,
-              let year = allComponents.year else {
-            return nil
-        }
-        return MonthAndYear(dateMonth: monthOfYear, year: year)
-    }
+//    static func getMonthAndYearFromDate(date: Date) -> MonthAndYear? {
+//        let allComponents = Calendar.current.dateComponents([.year, .month], from: date)
+//        guard let monthOfYear = allComponents.month,
+//              let year = allComponents.year else {
+//            return nil
+//        }
+//        return MonthAndYear(dateMonth: monthOfYear, year: year)
+//    }
 
 
 }

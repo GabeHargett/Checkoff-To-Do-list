@@ -48,7 +48,6 @@ class HomeView: UIView {
     let addQuote = UIStackView()
     let labelquote = UILabel()
     let profileViewStack = UIStackView()
-    let textfield = LimitedLengthField()
 
     private let holder = UIView()
     private let holder2 = UIView()
@@ -156,8 +155,6 @@ class HomeView: UIView {
         weekStack.axis = .vertical
         weekStack.spacing = 12
         weekStack.isLayoutMarginsRelativeArrangement = true
-        textfield.placeholder = "Enter One Emoji"
-        textfield.borderStyle = .line
         
         currentWeekStack.axis = .horizontal
         currentWeekStack.layoutMargins = UIEdgeInsets(top: 10, left: 16, bottom: 0, right: 16)
@@ -206,23 +203,23 @@ class HomeView: UIView {
         otherWeeksLabel.width(constant: 80)
         otherWeeksLabel.cornerRadius(radius: 8)
 
-        nextWeekGoalLabel.text = " Next "
-        nextWeekGoalLabel.width(constant: 80)
-        nextWeekGoalLabel.textAlignment = .center
-        nextWeekGoalLabel.height(constant: 40)
-        nextWeekGoalLabel.cornerRadius(radius: 8)
-
-        previousWeekGoalLabel.text = " Previous "
-        previousWeekGoalLabel.width(constant: 80)
-        previousWeekGoalLabel.textAlignment = .center
-        previousWeekGoalLabel.height(constant: 40)
-        previousWeekGoalLabel.cornerRadius(radius: 8)
-                
-        otherWeeksGoalLabel.text = " Other "
-        otherWeeksGoalLabel.textAlignment = .center
-        otherWeeksGoalLabel.width(constant: 80)
-        otherWeeksGoalLabel.height(constant: 40)
-        otherWeeksGoalLabel.cornerRadius(radius: 8)
+//        nextWeekGoalLabel.text = " Next "
+//        nextWeekGoalLabel.width(constant: 80)
+//        nextWeekGoalLabel.textAlignment = .center
+//        nextWeekGoalLabel.height(constant: 40)
+//        nextWeekGoalLabel.cornerRadius(radius: 8)
+//
+//        previousWeekGoalLabel.text = " Previous "
+//        previousWeekGoalLabel.width(constant: 80)
+//        previousWeekGoalLabel.textAlignment = .center
+//        previousWeekGoalLabel.height(constant: 40)
+//        previousWeekGoalLabel.cornerRadius(radius: 8)
+//
+//        otherWeeksGoalLabel.text = " Other "
+//        otherWeeksGoalLabel.textAlignment = .center
+//        otherWeeksGoalLabel.width(constant: 80)
+//        otherWeeksGoalLabel.height(constant: 40)
+//        otherWeeksGoalLabel.cornerRadius(radius: 8)
         
         currentTaskLabel.text = "Current Week Tasks"
         currentTaskLabel.font = UIFont.systemFont(ofSize: 21)
@@ -250,7 +247,7 @@ class HomeView: UIView {
                 
         scrollStack.stackView.addArrangedSubviews([couplePhoto, weekStack, goalsStack1])
         
-        weekStack.addArrangedSubviews([currentWeekStack, textfield,holder])
+        weekStack.addArrangedSubviews([currentWeekStack, holder])
         
         currentWeekStack.addArrangedSubviews([imageView,labelStack])
         
@@ -267,11 +264,12 @@ class HomeView: UIView {
         goalsStack2.addArrangedSubviews([ goalImageView, goalLabelStack ])
         
         goalLabelStack.addArrangedSubviews([ goalsLabel, openGoalLabel, finishedGoalLabel ])
-        holder2.addAutoLayoutSubview(nextPreviousOtherGoalStack)
-        nextPreviousOtherGoalStack.centerInSuperview()
-        nextPreviousOtherGoalStack.heightAnchor.constraint(equalTo: holder2.heightAnchor).isActive = true
         
-        nextPreviousOtherGoalStack.addArrangedSubviews([ previousWeekGoalLabel, nextWeekGoalLabel, otherWeeksGoalLabel,])
+//        holder2.addAutoLayoutSubview(nextPreviousOtherGoalStack)
+//        nextPreviousOtherGoalStack.centerInSuperview()
+//        nextPreviousOtherGoalStack.heightAnchor.constraint(equalTo: holder2.heightAnchor).isActive = true
+//
+//        nextPreviousOtherGoalStack.addArrangedSubviews([ previousWeekGoalLabel, nextWeekGoalLabel, otherWeeksGoalLabel,])
 }
 }
 protocol ProfileViewDelegate: AnyObject {

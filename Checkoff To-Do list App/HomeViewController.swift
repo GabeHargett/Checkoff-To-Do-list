@@ -105,31 +105,29 @@ class HomeViewController: UIViewController, SettingsVCDelegate, ProfileViewDeleg
             }
         }
     }
-    
-    func didUpdateImage(profileImage: UIImage) {
-        guard let uid = FirebaseAPI.currentUserUID() else {
-            return
-        }
+    private func profileViewFor(uid: String) -> ProfileView? {
         for view in baseView.profileViewStack.arrangedSubviews {
             if let profileView = view as? ProfileView {
                 if profileView.uid == uid {
-                    profileView.updateImage(profileImage: profileImage)
+                    return profileView
                 }
             }
         }
+        return nil
+    }
+    
+    func didUpdateImage(profileImage: UIImage) {
+        guard let uid = FirebaseAPI.currentUserUID(), let profileView = profileViewFor(uid: uid) else {
+            return
+        }
+        profileView.updateImage(profileImage: profileImage)
     }
     
     func didUpdateEmoji(emojiString: String) {
-        guard let uid = FirebaseAPI.currentUserUID() else {
+        guard let uid = FirebaseAPI.currentUserUID(), let profileView = profileViewFor(uid: uid) else {
             return
         }
-        for view in baseView.profileViewStack.arrangedSubviews {
-            if let profileView = view as? ProfileView {
-                if profileView.uid == uid {
-                    profileView.updateEmoji(emojiString: emojiString)
-                }
-            }
-        }
+        profileView.updateEmoji(emojiString: emojiString)
     }
     
     func updateProfileView(image: UIImage?, emoji: String?) {
@@ -211,6 +209,19 @@ class HomeViewController: UIViewController, SettingsVCDelegate, ProfileViewDeleg
         navigationController?.pushViewController(vc, animated: true)
     }
     
+    private func limitedUI() {
+        let customAlert = ModalJesus(title: "Status: Denied", description: "This app does not currently support Photo Selection, please allow access to your photos to continue.")
+        customAlert.addAction(ModalJesusAction(title: "Open Settings", style: true, action: {self.goToPrivacySettings()}))
+        customAlert.addAction(ModalJesusAction(title: "Cancel", style: false))
+        customAlert.showModal(vc: self)
+    }
+    
+    private func restrictedUI() {
+        let customAlert = ModalJesus(title: "Status: Restricted", description: "Your status is restricted by means this app cannot change.")
+        customAlert.addAction(ModalJesusAction(title: "Cancel", style: false))
+        customAlert.showModal(vc: self)
+    }
+    
     private func deniedUI() {
         let customAlert = ModalJesus(title: "Status: Denied", description: "Allow access to your photos to continue")
         customAlert.addAction(ModalJesusAction(title: "Open Settings", style: true, action: {self.goToPrivacySettings()}))
@@ -244,7 +255,9 @@ class HomeViewController: UIViewController, SettingsVCDelegate, ProfileViewDeleg
             case .notDetermined:
                 break
             case .restricted:
-                break
+                DispatchQueue.main.async {
+                    self.restrictedUI()
+                }
             case .denied:
                 DispatchQueue.main.async {
                     self.deniedUI()
@@ -259,7 +272,9 @@ class HomeViewController: UIViewController, SettingsVCDelegate, ProfileViewDeleg
                 self.present(vc, animated: true)
                 }
             case .limited:
-                break
+                DispatchQueue.main.async {
+                    self.limitedUI()
+                }
             @unknown default:
                 break
             }
@@ -290,14 +305,14 @@ class HomeViewController: UIViewController, SettingsVCDelegate, ProfileViewDeleg
         let tapGesture5 = UITapGestureRecognizer(target: self, action: #selector(didTapGoalsStack))
         baseView.goalsStack2.addGestureRecognizer(tapGesture5)
         
-        let tapGesture6 = UITapGestureRecognizer(target: self, action: #selector(didTapPreviousGoalWeek))
-        baseView.previousWeekGoalLabel.addGestureRecognizer(tapGesture6)
-        
-        let tapGesture7 = UITapGestureRecognizer(target: self, action: #selector(didTapNextGoalWeek))
-        baseView.nextWeekGoalLabel.addGestureRecognizer(tapGesture7)
-        
-        let tapGesture8 = UITapGestureRecognizer(target: self, action: #selector(didTapOtherGoalWeek))
-        baseView.otherWeeksGoalLabel.addGestureRecognizer(tapGesture8)
+//        let tapGesture6 = UITapGestureRecognizer(target: self, action: #selector(didTapPreviousGoalWeek))
+//        baseView.previousWeekGoalLabel.addGestureRecognizer(tapGesture6)
+//
+//        let tapGesture7 = UITapGestureRecognizer(target: self, action: #selector(didTapNextGoalWeek))
+//        baseView.nextWeekGoalLabel.addGestureRecognizer(tapGesture7)
+//
+//        let tapGesture8 = UITapGestureRecognizer(target: self, action: #selector(didTapOtherGoalWeek))
+//        baseView.otherWeeksGoalLabel.addGestureRecognizer(tapGesture8)
         
         let tapGesture9 = UITapGestureRecognizer(target: self, action: #selector(addQuote))
         baseView.addQuote.addGestureRecognizer(tapGesture9)
@@ -347,36 +362,35 @@ class HomeViewController: UIViewController, SettingsVCDelegate, ProfileViewDeleg
         navigationController?.pushViewController(vc, animated: true)
     }
     
-    @objc private func didTapPreviousGoalWeek() {
-        guard var weekAndYear = DateAnalyzer.getWeekAndYearFromDate(date: Date()), var monthAndYear = DateAnalyzer.getMonthAndYearFromDate(date: Date()) else{
-            return
-        }
-        weekAndYear.week -= 1
-        let vc = GoalsVC(groupID: groupID, weekAndYear: weekAndYear, monthAndYear: monthAndYear)
-        navigationController?.pushViewController(vc, animated: true)
-    }
+//    @objc private func didTapPreviousGoalWeek() {
+//        guard var weekAndYear = DateAnalyzer.getWeekAndYearFromDate(date: Date()), var monthAndYear = DateAnalyzer.getMonthAndYearFromDate(date: Date()) else{
+//            return
+//        }
+//        weekAndYear.week -= 1
+//        let vc = GoalsVC(groupID: groupID, weekAndYear: weekAndYear, monthAndYear: monthAndYear)
+//        navigationController?.pushViewController(vc, animated: true)
+//    }
     
-    @objc private func didTapNextGoalWeek() {
-        guard var weekAndYear = DateAnalyzer.getWeekAndYearFromDate(date: Date()), var monthAndYear = DateAnalyzer.getMonthAndYearFromDate(date: Date()) else{
-            return
-        }
-        weekAndYear.week += 1
-        let vc = GoalsVC(groupID: groupID, weekAndYear: weekAndYear, monthAndYear: monthAndYear)
-        navigationController?.pushViewController(vc, animated: true)
-    }
+//    @objc private func didTapNextGoalWeek() {
+//        guard var weekAndYear = DateAnalyzer.getWeekAndYearFromDate(date: Date()), var monthAndYear = DateAnalyzer.getMonthAndYearFromDate(date: Date()) else{
+//            return
+//        }
+//        weekAndYear.week += 1
+//        let vc = GoalsVC(groupID: groupID, weekAndYear: weekAndYear, monthAndYear: monthAndYear)
+//        navigationController?.pushViewController(vc, animated: true)
+//    }
 
-    @objc private func didTapOtherGoalWeek() {
-        let vc = DatePickerVC(goalType: .goal)
-        vc.delegate = self
-        navigationController?.pushViewController(vc, animated: true)
-    }
+//    @objc private func didTapOtherGoalWeek() {
+//        let vc = DatePickerVC(goalType: .goal)
+//        vc.delegate = self
+//        navigationController?.pushViewController(vc, animated: true)
+//    }
     
     @objc private func didTapGoalsStack() {
-        guard var weekAndYear = DateAnalyzer.getWeekAndYearFromDate(date: Date()), var monthAndYear = DateAnalyzer.getMonthAndYearFromDate(date: Date()) else{
-            return
-        }
-        
-        let vc = GoalsVC(groupID: groupID, weekAndYear: weekAndYear, monthAndYear: monthAndYear)
+//        guard var weekAndYear = DateAnalyzer.getWeekAndYearFromDate(date: Date()), var monthAndYear = DateAnalyzer.getMonthAndYearFromDate(date: Date()) else{
+//            return
+//        }
+        let vc = GoalsVC(groupID: groupID)
         navigationController?.pushViewController(vc, animated: true)
     }
         
@@ -463,11 +477,11 @@ extension HomeViewController: DatePickerVCDelegate {
     
     func didSubmitGoalDate(date: Date?) {
         let dateStamp = date?.timeIntervalSince1970 ?? Date().timeIntervalSince1970
-        guard var weekAndYear = DateAnalyzer.getWeekAndYearFromDate(date: Date()), var monthAndYear = DateAnalyzer.getMonthAndYearFromDate(date: Date()) else{
+        guard var weekAndYear = DateAnalyzer.getWeekAndYearFromDate(date: Date()) else{
             return
         }
         
-        let vc = GoalsVC(groupID: groupID, weekAndYear: weekAndYear, monthAndYear: monthAndYear)
+        let vc = GoalsVC(groupID: groupID)
         navigationController?.pushViewController(vc, animated: true)
         
     }
