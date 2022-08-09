@@ -31,7 +31,6 @@
 		778728E527FF8F500060B496 /* FirebaseStorageSwift-Beta in Frameworks */ = {isa = PBXBuildFile; productRef = 778728E427FF8F500060B496 /* FirebaseStorageSwift-Beta */; };
 		778728E727FF95750060B496 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 778728E627FF95750060B496 /* GoogleService-Info.plist */; };
 		778728E927FF96170060B496 /* FirebaseAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 778728E827FF96170060B496 /* FirebaseAPI.swift */; };
-		778E1BA2289366CF006473B6 /* ImagePickerVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 778E1BA1289366CF006473B6 /* ImagePickerVC.swift */; };
 		778E1BA4289392F6006473B6 /* CustomClasses.swift in Sources */ = {isa = PBXBuildFile; fileRef = 778E1BA3289392F6006473B6 /* CustomClasses.swift */; };
 		778E1BA7289C318C006473B6 /* SDWebImage in Frameworks */ = {isa = PBXBuildFile; productRef = 778E1BA6289C318C006473B6 /* SDWebImage */; };
 		778E1BA9289C32A5006473B6 /* ImageHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 778E1BA8289C32A5006473B6 /* ImageHelper.swift */; };
@@ -69,7 +68,6 @@
 		778728D427FB934F0060B496 /* ScrollableStackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrollableStackView.swift; sourceTree = "<group>"; };
 		778728E627FF95750060B496 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		778728E827FF96170060B496 /* FirebaseAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseAPI.swift; sourceTree = "<group>"; };
-		778E1BA1289366CF006473B6 /* ImagePickerVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePickerVC.swift; sourceTree = "<group>"; };
 		778E1BA3289392F6006473B6 /* CustomClasses.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomClasses.swift; sourceTree = "<group>"; };
 		778E1BA8289C32A5006473B6 /* ImageHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageHelper.swift; sourceTree = "<group>"; };
 		77956ADE286C034E00A54E81 /* modalJesusAlert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = modalJesusAlert.swift; sourceTree = "<group>"; };
@@ -135,7 +133,6 @@
 				778E1BA3289392F6006473B6 /* CustomClasses.swift */,
 				778728CE27F434090060B496 /* BottomModal.swift */,
 				776B81042822E1F7004BD812 /* DatePickerVC.swift */,
-				778E1BA1289366CF006473B6 /* ImagePickerVC.swift */,
 				77A0C03F283818D8000AC40E /* SettingsVC.swift */,
 				778728C427F42DB20060B496 /* CustomButton.swift */,
 				778728D427FB934F0060B496 /* ScrollableStackView.swift */,
@@ -267,7 +264,6 @@
 				778728B127F42C540060B496 /* SceneDelegate.swift in Sources */,
 				778E1BA9289C32A5006473B6 /* ImageHelper.swift in Sources */,
 				778728D527FB934F0060B496 /* ScrollableStackView.swift in Sources */,
-				778E1BA2289366CF006473B6 /* ImagePickerVC.swift in Sources */,
 				778728C527F42DB20060B496 /* CustomButton.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -413,7 +409,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Checkoff To-Do list App/Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = "Checkoff To-Do list App";
-				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "Checkoff To-Do list App would like access to your photos to display one on your personal homescreen.";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "Couples Connection App would like access to your photos to display one on your personal homescreen.";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
@@ -442,7 +438,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Checkoff To-Do list App/Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = "Checkoff To-Do list App";
-				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "Checkoff To-Do list App would like access to your photos to display one on your personal homescreen.";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "Couples Connection App would like access to your photos to display one on your personal homescreen.";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";

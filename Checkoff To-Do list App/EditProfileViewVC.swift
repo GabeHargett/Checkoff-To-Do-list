@@ -136,25 +136,15 @@ class EditProfileViewVC: UIViewController {
         customAlert.showModal(vc: self)
     }
     
-    private func limitedUI() {
-//        let photoCount = PHAsset.fetchAssets(with: nil).count
-        let customAlert = ModalJesus(title: "Status: Denied", description: "This app does not currently support Photo Selection, please allow access to your photos to continue.")
-//        customAlert.addAction(ModalJesusAction(title: "Select Photos", style: true, action: {self.selectPhotos()}))
-        customAlert.addAction(ModalJesusAction(title: "Open Settings", style: true, action: {self.goToPrivacySettings()}))
-        customAlert.addAction(ModalJesusAction(title: "Cancel", style: false))
-        customAlert.showModal(vc: self)
-    }
-    
     private func restrictedUI() {
         let customAlert = ModalJesus(title: "Status: Restricted", description: "Your status is restricted by means this app cannot change.")
         customAlert.addAction(ModalJesusAction(title: "Cancel", style: false))
         customAlert.showModal(vc: self)
-
     }
     
-//    private func selectPhotos() {
-//        PHPhotoLibrary.shared().presentLimitedLibraryPicker(from: self)
-//    }
+    private func selectPhotos() {
+        PHPhotoLibrary.shared().presentLimitedLibraryPicker(from: self)
+    }
     
     private func goToPrivacySettings() {
         guard let url = URL(string: UIApplication.openSettingsURLString),
@@ -189,7 +179,11 @@ class EditProfileViewVC: UIViewController {
                 }
             case .limited:
                 DispatchQueue.main.async {
-                    self.limitedUI()
+                    let vc = UIImagePickerController()
+                    vc.sourceType = .photoLibrary
+                    vc.delegate = self
+                    vc.allowsEditing = true
+                    self.present(vc, animated: true)
                 }
             @unknown default:
                 break
@@ -221,18 +215,25 @@ extension EditProfileViewVC: UIImagePickerControllerDelegate, UINavigationContro
 //    }
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info:
                                [UIImagePickerController.InfoKey : Any]) {
-            if let image = info[UIImagePickerController.InfoKey(rawValue: "UIImagePickerControllerOriginalImage" )]as? UIImage {
-                if let uid = FirebaseAPI.currentUserUID() {
-                    self.profilePicImageView.image = image
-                    delegate?.didUpdateImage(profileImage: image)
-                    FirebaseAPI.uploadProfileImages(uid: uid, image: image) {
-                        ImageAssetHelper.clearImage(imageURL: "images/\(uid)/profilePhoto")
-                        print("image Uploaded")
-                    }
+        if let image = info[UIImagePickerController.InfoKey(rawValue: "UIImagePickerControllerOriginalImage" )]as? UIImage {
+            if let uid = FirebaseAPI.currentUserUID() {
+                self.profilePicImageView.image = image
+                delegate?.didUpdateImage(profileImage: image)
+                FirebaseAPI.uploadProfileImages(uid: uid, image: image) {
+                    ImageAssetHelper.clearImage(imageURL: "images/\(uid)/profilePhoto")
+                    print("image Uploaded")
                 }
-                UIView.animate(withDuration: 0.5, animations: {
-                })
             }
+            UIView.animate(withDuration: 0.5, animations: {
+            })
+        }
+        else {
+            let customAlert = ModalJesus(title: "Status: Limited", description: "Please allow access to your photos in settings or select more photos below.")
+            customAlert.addAction(ModalJesusAction(title: "Select Photos", style: true, action: {self.selectPhotos()}))
+            customAlert.addAction(ModalJesusAction(title: "Open Settings", style: true, action: {self.goToPrivacySettings()}))
+            customAlert.addAction(ModalJesusAction(title: "Cancel", style: false))
+            customAlert.showModal(vc: self)
+        }
         picker.dismiss(animated: true, completion: nil)
     }
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {

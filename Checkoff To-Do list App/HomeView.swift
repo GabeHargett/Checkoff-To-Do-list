@@ -79,10 +79,10 @@ class HomeView: UIView {
 
     func setColors() {
         authorLabel.quickConfigure(textAlignment: .right, font: .boldSystemFont(ofSize: 12), textColor: .mainColor6)
-        editPhotoButton.addBorders(color: .mainColor6, thickness: 1)
-        editLabel.quickConfigure(textAlignment: .center, font: .systemFont(ofSize:12), textColor: .mainColor6)
-        addQuote.addBorders(color: .mainColor6, thickness: 1)
-        labelquote.quickConfigure(textAlignment: .center, font: .systemFont(ofSize:12), textColor: .mainColor6)
+        editPhotoButton.addBorders(color: .mainColor6, thickness: 2)
+        editLabel.quickConfigure(textAlignment: .center, font: .boldSystemFont(ofSize:12), textColor: .mainColor6)
+        addQuote.addBorders(color: .mainColor6, thickness: 2)
+        labelquote.quickConfigure(textAlignment: .center, font: .boldSystemFont(ofSize:12), textColor: .mainColor6)
         
         quoteImage.tintColor = .mainColor6
         quoteLabel.textColor = .mainColor6
@@ -104,6 +104,15 @@ class HomeView: UIView {
                      otherWeeksGoalLabel] {
             view.isUserInteractionEnabled = true
         }
+//        let photoBlurView = UIVisualEffectView(effect: UIBlurEffect(style: .light))
+//        editPhotoButton.addAutoLayoutSubview(photoBlurView)
+//        photoBlurView.fillSuperview()
+//        let quoteBlurView = UIVisualEffectView(effect: UIBlurEffect(style: .light))
+//        addQuote.addAutoLayoutSubview(quoteBlurView)
+//        quoteBlurView.fillSuperview()
+        
+        
+
         couplePhoto.backgroundColor = .darkGray
 
         editPhotoButton.axis = .horizontal
@@ -123,7 +132,7 @@ class HomeView: UIView {
         labelquote.text = "+"
         quoteLabel.textAlignment = .left
         quoteLabel.font = .boldSystemFont(ofSize: 12)
-        quoteLabel.numberOfLines = 2
+        quoteLabel.numberOfLines = 3
         
         addAutoLayoutSubview(couplePhoto)
         couplePhoto.addAutoLayoutSubview(editPhotoButton)
@@ -137,13 +146,13 @@ class HomeView: UIView {
             editPhotoButton.leftAnchor.constraint(equalTo: couplePhoto.leftAnchor, constant: 12),
             editPhotoButton.topAnchor.constraint(equalTo: couplePhoto.topAnchor,constant: 12),
             addQuote.leftAnchor.constraint(equalTo: couplePhoto.leftAnchor, constant: 12),
-            addQuote.bottomAnchor.constraint(equalTo: couplePhoto.bottomAnchor,constant: -16),
-            quoteLabel.topAnchor.constraint(equalTo: couplePhoto.topAnchor, constant: 250),
+            addQuote.bottomAnchor.constraint(equalTo: couplePhoto.bottomAnchor,constant: -25),
+            quoteLabel.topAnchor.constraint(equalTo: couplePhoto.topAnchor, constant: 235),
             quoteLabel.leftAnchor.constraint(equalTo: couplePhoto.leftAnchor, constant: 55),
             quoteLabel.rightAnchor.constraint(equalTo: couplePhoto.rightAnchor, constant: -3),
-            quoteLabel.bottomAnchor.constraint(equalTo: couplePhoto.bottomAnchor,constant: -8),
+            quoteLabel.bottomAnchor.constraint(equalTo: couplePhoto.bottomAnchor,constant: -13),
             authorLabel.rightAnchor.constraint(equalTo: couplePhoto.rightAnchor,constant: -55),
-            authorLabel.bottomAnchor.constraint(equalTo: couplePhoto.bottomAnchor),
+            authorLabel.bottomAnchor.constraint(equalTo: couplePhoto.bottomAnchor, constant: -2),
             profileViewStack.topAnchor.constraint(equalTo: couplePhoto.topAnchor, constant: 12),
             profileViewStack.rightAnchor.constraint(equalTo: couplePhoto.rightAnchor,constant: -12)
             ])

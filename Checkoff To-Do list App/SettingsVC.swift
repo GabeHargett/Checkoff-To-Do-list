@@ -92,7 +92,7 @@ extension SettingsVC: SettingsButtonCellDelegate {
     }
     
     func createToken() {
-        let customAlert = ModalJesus(title: "Group Token", description: "Share this token with your group member")
+        let customAlert = ModalJesus(title: "Group Token", description: "Share this token with your group member during the account creation phase.")
         let groupID = GroupManager.shared.getCurrentGroupID() ?? ""
         let newToken = getToken()
         currentToken = newToken
