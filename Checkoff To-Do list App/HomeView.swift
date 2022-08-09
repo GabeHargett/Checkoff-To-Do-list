@@ -63,7 +63,7 @@ class HomeView: UIView {
     private let weekStack = UIStackView()
     private let nextPreviousOtherGoalStack = UIStackView()
     private let nextPreviousOtherStack = UIStackView()
-    private let currentTaskLabel = UnderlinedLabel()
+    private let currentTaskLabel = UILabel()
     
     //underlinedLabels getting bugged because of imageview with the stack
     
@@ -72,12 +72,8 @@ class HomeView: UIView {
     private let testStack = UIStackView()
 
     private let goalLabelStack = UIStackView()
-    private let quoteStack = UIStackView()
-    private let quoteOfTheWeek = UnderlinedLabel()
-    private let imageStack = UIStackView()
-    private let imageLabel = UnderlinedLabel()
     private let goalsStack1 = UIStackView()
-    private let goalsLabel = UnderlinedLabel()
+    private let goalsLabel = UILabel()
     private let goalLabelAndArrow = UIStackView()
     private let taskLabelAndArrow = UIStackView()
 
@@ -95,7 +91,7 @@ class HomeView: UIView {
         for color in [previousWeekLabel, previousWeekGoalLabel, nextWeekLabel, nextWeekGoalLabel, otherWeeksLabel, otherWeeksGoalLabel, openGoalLabel, openTaskLabel, finishedGoalLabel, finishedTaskLabel] {
             color.textColor = .mainColor1
         }
-        for backgroundColor in [weekStack, imageStack, goalsStack1, quoteStack] {
+        for backgroundColor in [weekStack, goalsStack1] {
             backgroundColor.backgroundColor = .mainColor6
         }
         for backgroundColor in [previousWeekLabel, previousWeekGoalLabel, nextWeekLabel, nextWeekGoalLabel, otherWeeksLabel, otherWeeksGoalLabel] {
@@ -215,19 +211,19 @@ class HomeView: UIView {
         goalImageView.contentMode = .scaleAspectFit
         goalImageView.tintColor = .black
 
-        nextWeekLabel.text = " Next "
+        nextWeekLabel.text = "Next"
         nextWeekLabel.textAlignment = .center
         nextWeekLabel.height(constant: 40)
         nextWeekLabel.width(constant: 80)
         nextWeekLabel.cornerRadius(radius: 8)
         
-        previousWeekLabel.text = " Previous "
+        previousWeekLabel.text = "Previous"
         previousWeekLabel.textAlignment = .center
         previousWeekLabel.height(constant: 40)
         previousWeekLabel.width(constant: 80)
         previousWeekLabel.cornerRadius(radius: 8)
         
-        otherWeeksLabel.text = " Other "
+        otherWeeksLabel.text = "Other"
         otherWeeksLabel.textAlignment = .center
         otherWeeksLabel.height(constant: 40)
         otherWeeksLabel.width(constant: 80)
@@ -251,8 +247,10 @@ class HomeView: UIView {
 //        otherWeeksGoalLabel.height(constant: 40)
 //        otherWeeksGoalLabel.cornerRadius(radius: 8)
         
-        currentTaskLabel.text = "Current Week Tasks"
+//        currentTaskLabel.text = "Current Week Tasks"
         currentTaskLabel.font = UIFont.systemFont(ofSize: 21)
+        currentTaskLabel.attributedText = "Current Week Task".underLined
+
         
         couplePhoto.height(constant: 300)
         couplePhoto.contentMode = .scaleAspectFill
@@ -270,10 +268,12 @@ class HomeView: UIView {
         goalsStack1.spacing = 12
         goalsStack1.isLayoutMarginsRelativeArrangement = true
 
-        goalsLabel.text = "Group Goals of the Week"
+//        goalsLabel.text = "Group Goals of the Week"
         goalsLabel.textAlignment = .left
         goalsLabel.font = UIFont.systemFont(ofSize: 21)
         goalsLabel.numberOfLines = 0
+        goalsLabel.attributedText = "Group Goals of the Week".underLined
+
                 
         scrollStack.stackView.addArrangedSubviews([couplePhoto, weekStack, goalsStack1])
         
@@ -290,6 +290,7 @@ class HomeView: UIView {
         labelStack.addArrangedSubviews([taskLabelAndArrow, openTaskLabel, finishedTaskLabel])
         
         taskLabelAndArrow.addArrangedSubviews([currentTaskLabel, taskArrowImageView])
+        taskLabelAndArrow.height(constant: 25)
         
         goalsStack1.addArrangedSubviews([ goalsStack2, holder2 ])
         
@@ -298,6 +299,8 @@ class HomeView: UIView {
         goalLabelStack.addArrangedSubviews([ goalLabelAndArrow, openGoalLabel, finishedGoalLabel ])
         
         goalLabelAndArrow.addArrangedSubviews([goalsLabel, goalArrowImageView])
+        goalLabelAndArrow.height(constant: 25)
+
         
 //        holder2.addAutoLayoutSubview(nextPreviousOtherGoalStack)
 //        nextPreviousOtherGoalStack.centerInSuperview()

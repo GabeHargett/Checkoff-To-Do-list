@@ -131,7 +131,10 @@ class GoalCell: UITableViewCell {
     private let pencilImageView = UIImageView(image: UIImage(systemName: "pencil"))
     private let titleLabel = UILabel()
     private let checkbox = CircularCheckbox()
-    private let authorAndDateLabel = UILabel()
+    private let startDateLabel = UILabel()
+    private let endDateLabel = UILabel()
+    private let authorLabel = UILabel()
+
 
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
@@ -151,8 +154,12 @@ class GoalCell: UITableViewCell {
         pencilImageView.isUserInteractionEnabled = true
         
         titleLabel.quickConfigure(textAlignment: .left, font: .systemFont(ofSize: 17), textColor: .mainColor1, numberOfLines: 0)
-        authorAndDateLabel.quickConfigure(textAlignment: .right, font: .systemFont(ofSize: 15, weight: .light), textColor: .white, numberOfLines: 0)
-        authorAndDateLabel.text = "author"
+        startDateLabel.quickConfigure(textAlignment: .right, font: .systemFont(ofSize: 15, weight: .light), textColor: .white, numberOfLines: 1)
+        endDateLabel.quickConfigure(textAlignment: .left, font: .systemFont(ofSize: 15, weight: .light), textColor: .white, numberOfLines: 1)
+        authorLabel.quickConfigure(textAlignment: .left, font: .systemFont(ofSize: 20, weight: .bold), textColor: .mainColor1, numberOfLines: 1)
+        authorLabel.height(constant: 30)
+        endDateLabel.text = "endDate"
+        startDateLabel.text = "startDate"
         
         let stackView = UIStackView()
         stackView.axis = .vertical
@@ -163,18 +170,19 @@ class GoalCell: UITableViewCell {
         addAutoLayoutSubview(stackView)
         stackView.fillSuperview()
         
-        pencilImageView.height(constant: 32)
-        pencilImageView.width(constant: 32)
+        pencilImageView.height(constant: 29)
+        pencilImageView.width(constant: 29)
         
         let titleStack = UIStackView()
         titleStack.alignment = .top
         titleStack.addArrangedSubviews([titleLabel, UIView(), pencilImageView, checkbox])
         titleStack.setCustomSpacing(8, after: titleLabel)
         titleStack.setCustomSpacing(8, after: pencilImageView)
-        checkbox.height(constant: 32)
-        checkbox.width(constant: 32)
+        checkbox.height(constant: 29)
+        checkbox.width(constant: 29)
         
-        stackView.addArrangedSubviews([titleStack, authorAndDateLabel])
+        stackView.addArrangedSubviews([authorLabel, titleStack, endDateLabel, startDateLabel])
+
         
         let gesture = UITapGestureRecognizer(target: self, action: #selector(didTapCheckBox))
         checkbox.addGestureRecognizer(gesture)
@@ -183,8 +191,11 @@ class GoalCell: UITableViewCell {
         pencilImageView.addGestureRecognizer(gesture1)
     }
     override func prepareForReuse() {
-        self.authorAndDateLabel.text = "author"
-        self.authorAndDateLabel.textColor = .white
+        self.startDateLabel.text = "startDate"
+        self.startDateLabel.textColor = .white
+        self.endDateLabel.text = "endDate"
+        self.endDateLabel.textColor = .white
+
     }
     func configureCell(goal: Goal) {
         self.goal = goal
@@ -192,13 +203,13 @@ class GoalCell: UITableViewCell {
         FirebaseAPI.getFullName(uid: goal.author) {result in
             if let fullName = result {
                 DispatchQueue.main.async {
-                    self.authorAndDateLabel.textColor = .mainColor3
+                    self.startDateLabel.textColor = .mainColor4
+                    self.endDateLabel.textColor = .mainColor2
+                    self.authorLabel.text = "\(fullName.firstAndLastInitial())"
+                    let startDate = Date()
                     let goalDate = Date.init(timeIntervalSince1970: goal.dateStamp)
-                    let endGoalDate = Date.init(timeIntervalSince1970: goal.dateStamp)
-                    
-                    //need to pass in a second date through textinput for endGoalDate, also need to figure out how to expand text into 2nd line
-    
-                    self.authorAndDateLabel.text = "Submitted by \(fullName.firstAndLastInitial()), Start Date \(goalDate.dateString()), End Date\(endGoalDate.dateString())"
+                    self.endDateLabel.text = "Expected Finish Date: \(goalDate.dateString())"
+                    self.startDateLabel.text = "\(startDate.dateString())"
                 }
             }
         }

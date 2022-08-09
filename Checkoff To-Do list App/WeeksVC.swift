@@ -98,7 +98,7 @@ class WeeksVC: UIViewController {
         
         let weeks = "\(sunday!.dateString()) - \(saturday!.dateString())"
         
-        title = "Tasks: \(weeks)"
+        title = "\(weeks)"
         navigationItem.rightBarButtonItem = UIBarButtonItem(
             image: UIImage(systemName: "plus"),
             style: .done,

@@ -24,6 +24,13 @@ extension String {
         return image ?? UIImage()
     }
 }
+extension String {
+
+    var underLined: NSAttributedString {
+        NSMutableAttributedString(string: self, attributes: [.underlineStyle: NSUnderlineStyle.single.rawValue])
+    }
+
+}
 
 extension UIViewController {
     func hideKeyboardWhenTappedAround() {
