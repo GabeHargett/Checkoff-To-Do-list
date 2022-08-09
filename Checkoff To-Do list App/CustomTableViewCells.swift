@@ -151,7 +151,7 @@ class GoalCell: UITableViewCell {
         pencilImageView.isUserInteractionEnabled = true
         
         titleLabel.quickConfigure(textAlignment: .left, font: .systemFont(ofSize: 17), textColor: .mainColor1, numberOfLines: 0)
-        authorAndDateLabel.quickConfigure(textAlignment: .right, font: .systemFont(ofSize: 15, weight: .light), textColor: .white, numberOfLines: 1)
+        authorAndDateLabel.quickConfigure(textAlignment: .right, font: .systemFont(ofSize: 15, weight: .light), textColor: .white, numberOfLines: 0)
         authorAndDateLabel.text = "author"
         
         let stackView = UIStackView()
@@ -194,7 +194,11 @@ class GoalCell: UITableViewCell {
                 DispatchQueue.main.async {
                     self.authorAndDateLabel.textColor = .mainColor3
                     let goalDate = Date.init(timeIntervalSince1970: goal.dateStamp)
-                    self.authorAndDateLabel.text = "Submitted by \(fullName.firstAndLastInitial()), due \(goalDate.dateString())"
+                    let endGoalDate = Date.init(timeIntervalSince1970: goal.dateStamp)
+                    
+                    //need to pass in a second date through textinput for endGoalDate, also need to figure out how to expand text into 2nd line
+    
+                    self.authorAndDateLabel.text = "Submitted by \(fullName.firstAndLastInitial()), Start Date \(goalDate.dateString()), End Date\(endGoalDate.dateString())"
                 }
             }
         }
