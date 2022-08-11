@@ -29,7 +29,7 @@ class FirebaseAuthVC: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         setupKeyboardObservers()
     }
-
+    
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         NotificationCenter.default.removeObserver(self)
@@ -45,17 +45,16 @@ class FirebaseAuthVC: UIViewController {
         let keyboardFrame = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect
         let keyboardDuration = notification.userInfo?[UIResponder.keyboardAnimationDurationUserInfoKey] as? Double ?? 0.5
         let height = (keyboardFrame?.height) ?? 400
-        let stackViewBottom = baseView.stackView.frame.maxY
+        let stackViewBottomWithConstant0 = baseView.stackView.frame.maxY - baseView.stackViewCenterContraint.constant
         let baseViewHeight = view.frame.height
-//        let isCovered = height > baseViewHeight - stackViewBottom
-        let coveredVarible = (baseViewHeight - stackViewBottom) - height
-        if coveredVarible < 0 {
-            UIView.animate(withDuration: keyboardDuration, animations: {
-                self.baseView.stackViewCenterContraint.constant = coveredVarible - 40
+        let overlap = (baseViewHeight - stackViewBottomWithConstant0) - height
+        if overlap < 0 {
+            UIView.animate(withDuration: keyboardDuration == 0 ? 0.1 : keyboardDuration, animations: {
+                self.baseView.stackViewCenterContraint.constant = overlap - 10
                 self.baseView.layoutIfNeeded()
             })
         }
-
+        
     }
     
     @objc private func handleKeyboardWillHide(notification: NSNotification) {

@@ -57,6 +57,7 @@ class FirebaseAuthView: UIView {
         
         emailField.placeholder = "Email Address"
         emailField.layer.borderWidth = 1
+        emailField.keyboardType = .emailAddress
         emailField.autocapitalizationType = .none
         emailField.layer.borderColor = UIColor.black.cgColor
         emailField.backgroundColor = .white

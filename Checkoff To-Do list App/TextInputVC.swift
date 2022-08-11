@@ -29,7 +29,7 @@ class TextInputVC: UIViewController {
     }
     
     var textField = UnderlinedTextField()
-    private let textField2 = UnderlinedTextField()
+    let textField2 = UnderlinedTextField()
     private let datePicker = UIDatePicker()
     private let dateInput = UnderlinedTextField()
     private let submitButton = UIButton()

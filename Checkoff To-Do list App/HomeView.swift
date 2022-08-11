@@ -37,6 +37,8 @@ class HomeView: UIView {
     
     let goalsStack2 = UIStackView()
     var couplePhoto = UIImageView()
+    let quoteGradient = Gradient()
+    let quoteStack = UIStackView()
     let quoteLabel = UILabel()
     let authorLabel = UILabel()
     let quoteSignature = UILabel()
@@ -78,10 +80,10 @@ class HomeView: UIView {
     private let taskLabelAndArrow = UIStackView()
 
     func setColors() {
-        authorLabel.quickConfigure(textAlignment: .right, font: .boldSystemFont(ofSize: 12), textColor: .mainColor6)
-        editPhotoButton.addBorders(color: .mainColor6, thickness: 2)
+        authorLabel.quickConfigure(textAlignment: .right, font: .boldSystemFont(ofSize: 13), textColor: .mainColor6)
+        //editPhotoButton.addBorders(color: .mainColor6, thickness: 2)
         editLabel.quickConfigure(textAlignment: .center, font: .boldSystemFont(ofSize:12), textColor: .mainColor6)
-        addQuote.addBorders(color: .mainColor6, thickness: 2)
+        //addQuote.addBorders(color: .mainColor6, thickness: 2)
         labelquote.quickConfigure(textAlignment: .center, font: .boldSystemFont(ofSize:12), textColor: .mainColor6)
         
         quoteImage.tintColor = .mainColor6
@@ -104,12 +106,12 @@ class HomeView: UIView {
                      otherWeeksGoalLabel] {
             view.isUserInteractionEnabled = true
         }
-//        let photoBlurView = UIVisualEffectView(effect: UIBlurEffect(style: .light))
-//        editPhotoButton.addAutoLayoutSubview(photoBlurView)
-//        photoBlurView.fillSuperview()
-//        let quoteBlurView = UIVisualEffectView(effect: UIBlurEffect(style: .light))
-//        addQuote.addAutoLayoutSubview(quoteBlurView)
-//        quoteBlurView.fillSuperview()
+        let photoBlurView = UIVisualEffectView(effect: UIBlurEffect(style: .dark))
+        editPhotoButton.addAutoLayoutSubview(photoBlurView)
+        photoBlurView.fillSuperview()
+        let quoteBlurView = UIVisualEffectView(effect: UIBlurEffect(style: .dark))
+        addQuote.addAutoLayoutSubview(quoteBlurView)
+        quoteBlurView.fillSuperview()
         
         
 
@@ -117,28 +119,47 @@ class HomeView: UIView {
 
         editPhotoButton.axis = .horizontal
         editPhotoButton.alignment = .center
-        editPhotoButton.layoutMargins = UIEdgeInsets(top: 3, left: 3, bottom: 3, right: 3)
+        editPhotoButton.spacing = 4
+        editPhotoButton.layoutMargins = UIEdgeInsets(top: 6, left: 10, bottom: 6, right: 10)
         editPhotoButton.isLayoutMarginsRelativeArrangement = true
         editPhotoButton.cornerRadius(radius: 5)
         editPhotoButton.addArrangedSubviews([camera, editLabel])
         editLabel.text = "Edit"
         
+        addQuote.isHidden = true
+        quoteStack.isHidden = true
         addQuote.axis = .horizontal
         addQuote.alignment = .center
-        addQuote.layoutMargins = UIEdgeInsets(top: 3, left: 3, bottom: 3, right: 3)
+        addQuote.spacing = 4
+        addQuote.layoutMargins = UIEdgeInsets(top: 6, left: 10, bottom: 6, right: 10)
         addQuote.isLayoutMarginsRelativeArrangement = true
         addQuote.cornerRadius(radius: 5)
         addQuote.addArrangedSubviews([quoteImage, labelquote])
         labelquote.text = "+"
         quoteLabel.textAlignment = .left
-        quoteLabel.font = .boldSystemFont(ofSize: 12)
-        quoteLabel.numberOfLines = 3
+        quoteLabel.font = .boldSystemFont(ofSize: 14)
+        quoteLabel.numberOfLines = 0
+        
+        quoteStack.axis = .vertical
+        quoteStack.spacing = 4
+        quoteStack.addArrangedSubviews([quoteLabel, authorLabel])
         
         addAutoLayoutSubview(couplePhoto)
+        
+        quoteGradient.horizontalMode = false
+        quoteGradient.startColor = .clear
+        quoteGradient.endColor = UIColor(hex: "#000000")
+        quoteGradient.startLocation = 0.7
+        quoteGradient.endLocation = 1.1
+        //gradient1.cornerRadius(radius: 24)
+        //gradient1.addBorders(color: UIColor(hex: "#f6f6f6"), thickness: 3)
+        couplePhoto.addAutoLayoutSubview(quoteGradient)
+        quoteGradient.fillSuperview()
+        
         couplePhoto.addAutoLayoutSubview(editPhotoButton)
         couplePhoto.addAutoLayoutSubview(addQuote)
-        couplePhoto.addAutoLayoutSubview(authorLabel)
-        couplePhoto.addAutoLayoutSubview(quoteLabel)
+        couplePhoto.addAutoLayoutSubview(quoteStack)
+        //couplePhoto.addAutoLayoutSubview(quoteLabel)
         couplePhoto.addAutoLayoutSubview(profileViewStack)
         addAutoLayoutSubview(scrollStack)
         
@@ -147,12 +168,12 @@ class HomeView: UIView {
             editPhotoButton.topAnchor.constraint(equalTo: couplePhoto.topAnchor,constant: 12),
             addQuote.leftAnchor.constraint(equalTo: couplePhoto.leftAnchor, constant: 12),
             addQuote.bottomAnchor.constraint(equalTo: couplePhoto.bottomAnchor,constant: -25),
-            quoteLabel.topAnchor.constraint(equalTo: couplePhoto.topAnchor, constant: 235),
-            quoteLabel.leftAnchor.constraint(equalTo: couplePhoto.leftAnchor, constant: 55),
-            quoteLabel.rightAnchor.constraint(equalTo: couplePhoto.rightAnchor, constant: -3),
-            quoteLabel.bottomAnchor.constraint(equalTo: couplePhoto.bottomAnchor,constant: -13),
-            authorLabel.rightAnchor.constraint(equalTo: couplePhoto.rightAnchor,constant: -55),
-            authorLabel.bottomAnchor.constraint(equalTo: couplePhoto.bottomAnchor, constant: -2),
+            //quoteStack.topAnchor.constraint(equalTo: couplePhoto.topAnchor, constant: 235),
+            quoteStack.leftAnchor.constraint(equalTo: couplePhoto.leftAnchor, constant: 16),
+            quoteStack.rightAnchor.constraint(equalTo: couplePhoto.rightAnchor, constant: -16),
+            quoteStack.bottomAnchor.constraint(equalTo: couplePhoto.bottomAnchor,constant: -8),
+            //authorLabel.rightAnchor.constraint(equalTo: couplePhoto.rightAnchor,constant: -55),
+           // authorLabel.bottomAnchor.constraint(equalTo: couplePhoto.bottomAnchor, constant: -2),
             profileViewStack.topAnchor.constraint(equalTo: couplePhoto.topAnchor, constant: 12),
             profileViewStack.rightAnchor.constraint(equalTo: couplePhoto.rightAnchor,constant: -12)
             ])
@@ -258,7 +279,7 @@ class HomeView: UIView {
         
 //        currentTaskLabel.text = "Current Week Tasks"
         currentTaskLabel.font = UIFont.systemFont(ofSize: 21)
-        currentTaskLabel.attributedText = "Current Week Task".underLined
+        currentTaskLabel.attributedText = "Current Week Tasks".underLined
 
         
         couplePhoto.height(constant: 300)
@@ -281,7 +302,7 @@ class HomeView: UIView {
         goalsLabel.textAlignment = .left
         goalsLabel.font = UIFont.systemFont(ofSize: 21)
         goalsLabel.numberOfLines = 0
-        goalsLabel.attributedText = "Group Goals of the Week".underLined
+        goalsLabel.attributedText = "Group Goals".underLined
 
                 
         scrollStack.stackView.addArrangedSubviews([couplePhoto, weekStack, goalsStack1])
@@ -364,6 +385,7 @@ class ProfileView: UIView {
     func updateEmoji(emojiString: String) {
         self.emojiString = emojiString
         self.emojiImage.image = emojiString.textToImage()
+        self.emojiImage.isHidden = false
     }
     
     private func loadEmojiImage() {
@@ -371,7 +393,10 @@ class ProfileView: UIView {
             if emojiString != nil {
                 self.emojiString = emojiString
                 self.emojiImage.image = emojiString?.textToImage()
-           }
+                self.emojiImage.isHidden = false
+            } else {
+                self.emojiImage.isHidden = true
+            }
         }
     }
 
@@ -403,6 +428,7 @@ class ProfileView: UIView {
     private func configureSubviews() {
         profileImage.addBorders(color: .mainColor6, thickness: 5)
         emojiImage.addBorders(color: .mainColor6, thickness: 3)
+        self.emojiImage.isHidden = true
         profileImage.tintColor = .mainColor6
     }
     
@@ -412,7 +438,8 @@ class ProfileView: UIView {
         profileStack.layoutMargins = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
         profileStack.spacing = -20
         profileStack.isLayoutMarginsRelativeArrangement = true
-        profileStack.addArrangedSubviews([profileImage, emojiImage])
+        let emojiHolder = UIView()
+        profileStack.addArrangedSubviews([profileImage, emojiHolder])
         
         profileImage.height(constant: 75)
         profileImage.width(constant: 75)
@@ -422,9 +449,17 @@ class ProfileView: UIView {
         profileImage.contentMode = .scaleAspectFill
         profileImage.layer.masksToBounds = true
         
-        emojiImage.height(constant: 26)
-        emojiImage.width(constant: 26)
-        emojiImage.cornerRadius(radius: 13)
+        let blurView = UIVisualEffectView(effect: UIBlurEffect(style: .regular))
+        emojiHolder.height(constant: 36)
+        emojiHolder.width(constant: 36)
+        emojiHolder.cornerRadius(radius: 18)
+        blurView.cornerRadius(radius: 18)
+        emojiImage.cornerRadius(radius: 18)
+        
+        emojiHolder.addAutoLayoutSubview(blurView)
+        blurView.fillSuperview()
+        emojiHolder.addAutoLayoutSubview(emojiImage)
+        emojiImage.fillSuperview()
         
         addAutoLayoutSubview(profileStack)
         profileStack.fillSuperview()
