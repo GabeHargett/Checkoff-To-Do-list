@@ -36,7 +36,7 @@ class HomeViewController: UIViewController, SettingsVCDelegate, ProfileViewDeleg
     
     let baseView = HomeView()
     public let date = Date()
-    private var temporaryQuote: Quote?
+    private var currentQuote: Quote?
     private var user: User?
     private let groupID: String
     var photoType: PhotoType?
@@ -51,7 +51,10 @@ class HomeViewController: UIViewController, SettingsVCDelegate, ProfileViewDeleg
     override func viewDidLoad(){
         super.viewDidLoad()
                 
-        title = "Home"
+        FirebaseAPI.getGroupTitle(groupID: groupID) {title in
+            self.title = title
+        }
+        
         navigationItem.hidesBackButton = true
         
         configureBackground()
@@ -177,11 +180,25 @@ class HomeViewController: UIViewController, SettingsVCDelegate, ProfileViewDeleg
     
     private func getQuote() {
         FirebaseAPI.getQuote(groupID: groupID) {result in
+            self.currentQuote = result
             DispatchQueue.main.async {
                 if let quote = result {
                     self.updateQuoteButton(quote: quote)
                 }
+                self.updateQuoteUI()
             }
+        }
+    }
+    
+    private func updateQuoteUI() {
+        if self.currentQuote != nil {
+            self.baseView.quoteGradient.isHidden = false
+            self.baseView.quoteStack.isHidden = false
+            self.baseView.addQuote.isHidden = true
+        } else {
+            self.baseView.quoteGradient.isHidden = true
+            self.baseView.quoteStack.isHidden = true
+            self.baseView.addQuote.isHidden = false
         }
     }
     
@@ -265,7 +282,6 @@ class HomeViewController: UIViewController, SettingsVCDelegate, ProfileViewDeleg
                 let vc = UIImagePickerController()
                 vc.sourceType = .photoLibrary
                 vc.delegate = self
-                vc.allowsEditing = true
                 self.present(vc, animated: true)
                 }
             case .limited:
@@ -314,7 +330,8 @@ class HomeViewController: UIViewController, SettingsVCDelegate, ProfileViewDeleg
 //
 //        let tapGesture8 = UITapGestureRecognizer(target: self, action: #selector(didTapOtherGoalWeek))
 //        baseView.otherWeeksGoalLabel.addGestureRecognizer(tapGesture8)
-        
+        let tapGesture95 = UITapGestureRecognizer(target: self, action: #selector(addQuote))
+        baseView.quoteStack.addGestureRecognizer(tapGesture95)
         let tapGesture9 = UITapGestureRecognizer(target: self, action: #selector(addQuote))
         baseView.addQuote.addGestureRecognizer(tapGesture9)
         
@@ -363,34 +380,7 @@ class HomeViewController: UIViewController, SettingsVCDelegate, ProfileViewDeleg
         navigationController?.pushViewController(vc, animated: true)
     }
     
-//    @objc private func didTapPreviousGoalWeek() {
-//        guard var weekAndYear = DateAnalyzer.getWeekAndYearFromDate(date: Date()), var monthAndYear = DateAnalyzer.getMonthAndYearFromDate(date: Date()) else{
-//            return
-//        }
-//        weekAndYear.week -= 1
-//        let vc = GoalsVC(groupID: groupID, weekAndYear: weekAndYear, monthAndYear: monthAndYear)
-//        navigationController?.pushViewController(vc, animated: true)
-//    }
-    
-//    @objc private func didTapNextGoalWeek() {
-//        guard var weekAndYear = DateAnalyzer.getWeekAndYearFromDate(date: Date()), var monthAndYear = DateAnalyzer.getMonthAndYearFromDate(date: Date()) else{
-//            return
-//        }
-//        weekAndYear.week += 1
-//        let vc = GoalsVC(groupID: groupID, weekAndYear: weekAndYear, monthAndYear: monthAndYear)
-//        navigationController?.pushViewController(vc, animated: true)
-//    }
-
-//    @objc private func didTapOtherGoalWeek() {
-//        let vc = DatePickerVC(goalType: .goal)
-//        vc.delegate = self
-//        navigationController?.pushViewController(vc, animated: true)
-//    }
-    
     @objc private func didTapGoalsStack() {
-//        guard var weekAndYear = DateAnalyzer.getWeekAndYearFromDate(date: Date()), var monthAndYear = DateAnalyzer.getMonthAndYearFromDate(date: Date()) else{
-//            return
-//        }
         let vc = GoalsVC(groupID: groupID)
         navigationController?.pushViewController(vc, animated: true)
     }
@@ -403,6 +393,10 @@ class HomeViewController: UIViewController, SettingsVCDelegate, ProfileViewDeleg
     
     @objc private func addQuote() {
             let vc = TextInputVC(textType: .quote)
+        if let currentQuote = currentQuote {
+            vc.textField.text = currentQuote.text
+            vc.textField2.text = currentQuote.author
+        }
         vc.delegate = self
         vc.showModal(vc: self)
     }
@@ -413,13 +407,12 @@ extension HomeViewController: TextInputVCDelegate {
         
         switch textType {
         case .quote:
-            self.temporaryQuote = Quote(text: text, author: "")
-            if var temporaryQuote = temporaryQuote {
-                if let text2 = text2 {
-                    temporaryQuote.author = text2
-                    updateQuoteButton(quote: temporaryQuote)
-                    FirebaseAPI.addQuote(quote: temporaryQuote, groupID: groupID)
-                }
+            if text != "", let authorText = text2 {
+                let newQuote = Quote(text: text, author: authorText)
+                self.currentQuote = newQuote
+                updateQuoteUI()
+                updateQuoteButton(quote: newQuote)
+                FirebaseAPI.addQuote(quote: newQuote, groupID: groupID)
             }
         case .goal:
             break
@@ -435,7 +428,7 @@ extension HomeViewController: UIImagePickerControllerDelegate, UINavigationContr
                                [UIImagePickerController.InfoKey : Any]) {
         switch photoType {
         case.group:
-            if let image = info[UIImagePickerController.InfoKey(rawValue: "UIImagePickerControllerOriginalImage" )]as? UIImage {
+            if let image = info[UIImagePickerController.InfoKey(rawValue: "UIImagePickerControllerEditedImage" )]as? UIImage {
                 baseView.couplePhoto.image = image
                 FirebaseAPI.uploadImage(groupID: groupID, image: image) {
                     ImageAssetHelper.clearImage(imageURL: "images/\(self.groupID)/couplePhoto")

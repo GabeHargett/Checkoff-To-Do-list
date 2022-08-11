@@ -79,6 +79,7 @@ class EditProfileViewVC: UIViewController {
         let keyboardDuration = notification.userInfo?[UIResponder.keyboardAnimationDurationUserInfoKey] as? Double ?? 0.5
         UIView.animate(withDuration: keyboardDuration, animations: {
             self.baseView.modalViewBottomAnchor.constant = 0
+            self.baseView.layoutIfNeeded()
         })
     }
     

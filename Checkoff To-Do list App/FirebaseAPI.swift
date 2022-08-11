@@ -160,6 +160,21 @@ class FirebaseAPI {
         return nil
     }
     
+    static func getGroupTitle(groupID: String, completion: @escaping (String?) -> ()) {
+        if let title = UserDefaults.standard.string(forKey: "groupTitle\(groupID)") {
+            completion(title)
+        }
+        let ref = Database.database().reference().child("Groups").child(groupID).child("title")
+        ref.observeSingleEvent(of: .value, with: {snapshot in
+            if let title = snapshot.value as? String {
+                UserDefaults.standard.set(title, forKey: "groupTitle\(groupID)")
+                completion(title)
+            } else {
+                completion(nil)
+            }
+        })
+    }
+    
     static func addGroup(title: String, completion: @escaping (String?) -> ()) {
         guard let uid = FirebaseAPI.currentUserUID() else {
             return
