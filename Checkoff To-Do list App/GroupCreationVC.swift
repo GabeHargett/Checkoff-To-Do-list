@@ -58,12 +58,14 @@ class GroupCreationVC: UIViewController {
         FirebaseAPI.readGroupToken(token: joinGroup, completion: {
             result in
             if let groupID = result, groupID != "" {
-                FirebaseAPI.joinGroup(groupID: groupID)
-                GroupManager.shared.setCurrentGroupID(groupID: groupID)
-                DispatchQueue.main.async {
-                    let vc = HomeViewController(groupID: groupID)
-                    self.navigationController?.pushViewController(vc, animated: true)
+                FirebaseAPI.joinGroup(groupID: groupID) {
+                    GroupManager.shared.setCurrentGroupID(groupID: groupID)
+                    DispatchQueue.main.async {
+                        let vc = HomeViewController(groupID: groupID)
+                        self.navigationController?.pushViewController(vc, animated: true)
+                    }
                 }
+
             } else {
                 QuickAlert.showQuickAlert(title: "Incorrect group token", vc: self)
             }

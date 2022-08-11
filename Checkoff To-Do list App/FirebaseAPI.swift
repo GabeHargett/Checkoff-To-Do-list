@@ -189,7 +189,7 @@ class FirebaseAPI {
         })
     }
     
-    static func joinGroup(groupID: String) {
+    static func joinGroup(groupID: String, completion: @escaping () -> ()) {
         guard let uid = FirebaseAPI.currentUserUID() else {
             return
         }
@@ -201,7 +201,9 @@ class FirebaseAPI {
             
             var currentUsersIDs = snapshot.value as? [String] ?? []
             currentUsersIDs.append(uid)
-            ref2.setValue(currentUsersIDs)
+            ref2.setValue(currentUsersIDs) {error, ref in
+                completion()
+            }
 
         }, withCancel: {error in
             
