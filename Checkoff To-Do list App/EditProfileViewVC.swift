@@ -46,7 +46,7 @@ class EditProfileViewVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        self.hideKeyboardWhenTappedAround()
 //        PHPhotoLibrary.shared().register(self)
         setupSubviews()
     }

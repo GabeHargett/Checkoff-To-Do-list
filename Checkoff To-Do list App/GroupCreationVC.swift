@@ -26,6 +26,10 @@ class GroupCreationVC: UIViewController {
     private func setGroupTitle(){
         guard let group = baseView.createGroupField.text, !group.isEmpty
         else {
+            let customAlert = ModalJesus(title: "Oops", description: "You forgot to include your group name.")
+            customAlert.addAction(ModalJesusAction(title: "Close", style: false))
+            customAlert.showModal(vc: self)
+
             print("Missing data")
             return
         }
@@ -45,6 +49,9 @@ class GroupCreationVC: UIViewController {
         //error saying must be an empty string, but reloading the app again puts user in the group. unless the token is wrong, then everything breaks.
         guard let joinGroup = baseView.joinGroupField.text, !joinGroup.isEmpty
         else {
+            let customAlert = ModalJesus(title: "Oops", description: "You forgot to include your group token.")
+            customAlert.addAction(ModalJesusAction(title: "Close", style: false))
+            customAlert.showModal(vc: self)
             print("Missing data")
             return
         }

@@ -22,16 +22,51 @@ class FirebaseAuthVC: UIViewController {
         super.viewDidLoad()
         
         navigationItem.hidesBackButton = true
-
+        
         baseView.button.addTarget(self, action: #selector(didTapButton), for: .touchUpInside)
-            }
-
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        if FirebaseAuth.Auth.auth().currentUser == nil {
-            baseView.emailField.becomeFirstResponder()
-        }
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        setupKeyboardObservers()
+    }
+
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        NotificationCenter.default.removeObserver(self)
+    }
+    
+    private func setupKeyboardObservers() {
+        NotificationCenter.default.addObserver(self, selector: #selector(handleKeyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(handleKeyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
+    }
+    
+    
+    @objc private func handleKeyboardWillShow(notification: NSNotification) {
+        let keyboardFrame = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect
+        let keyboardDuration = notification.userInfo?[UIResponder.keyboardAnimationDurationUserInfoKey] as? Double ?? 0.5
+        let height = (keyboardFrame?.height) ?? 400
+        let stackViewBottom = baseView.stackView.frame.maxY
+        let baseViewHeight = view.frame.height
+//        let isCovered = height > baseViewHeight - stackViewBottom
+        let coveredVarible = (baseViewHeight - stackViewBottom) - height
+        if coveredVarible < 0 {
+            UIView.animate(withDuration: keyboardDuration, animations: {
+                self.baseView.stackViewCenterContraint.constant = coveredVarible - 40
+                self.baseView.layoutIfNeeded()
+            })
+        }
+
+    }
+    
+    @objc private func handleKeyboardWillHide(notification: NSNotification) {
+        let keyboardDuration = notification.userInfo?[UIResponder.keyboardAnimationDurationUserInfoKey] as? Double ?? 0.5
+        UIView.animate(withDuration: keyboardDuration, animations: {
+            self.baseView.stackViewCenterContraint.constant = 0
+            self.baseView.layoutIfNeeded()
+        })
+    }
+    
+    
     @objc private func didTapButton() {
         if baseView.segmentedControl.selectedSegmentIndex == 0 {
             signIn()
@@ -40,11 +75,15 @@ class FirebaseAuthVC: UIViewController {
             register()
         }
     }
+
     private func signIn() {
         guard let email = baseView.emailField.text, !email.isEmpty,
               let password = baseView.passField.text, !password.isEmpty
         else {
             print("Missing data")
+            let customAlert = ModalJesus(title: "Oops", description: "You forgot to include a username and/or password.")
+            customAlert.addAction(ModalJesusAction(title: "Close", style: false))
+            customAlert.showModal(vc: self)
             return
         }
         FirebaseAuth.Auth.auth().signIn(withEmail: email, password: password, completion: { [weak self] result, error in
@@ -52,6 +91,12 @@ class FirebaseAuthVC: UIViewController {
                 return
             }
             DispatchQueue.main.async {
+                if let error = error {
+                    let customAlert = ModalJesus(title: "Oops", description: "\(error.localizedDescription)")
+                    customAlert.addAction(ModalJesusAction(title: "Close", style: false))
+                    customAlert.showModal(vc: strongSelf)
+                    return
+                }
                 FirebaseAPI.getUserGroups {groups in
                     if let groupID = groups?.first {
                         GroupManager.shared.setCurrentGroupID(groupID: groupID)
@@ -74,6 +119,9 @@ class FirebaseAuthVC: UIViewController {
               let firstName = baseView.firstNameTF.text, !firstName.isEmpty,
               let lastName = baseView.lastNameTF.text, !lastName.isEmpty
         else {
+            let customAlert = ModalJesus(title: "Oops", description: "Please fill out all information.")
+            customAlert.addAction(ModalJesusAction(title: "Close", style: false))
+            customAlert.showModal(vc: self)
             print("Missing data")
             return
         }
@@ -98,19 +146,18 @@ class FirebaseAuthVC: UIViewController {
         })
     }
     func showCreateAccount(email: String, password: String, fullname: FullName) {
-//        let alert = UIAlertController(title: "Create Account",
-//                                      message: "Would you like to create an account",
-//                                      preferredStyle: .alert)
-//        alert.addAction(UIAlertAction(title: "Continue",
-//                                      style: .default,
-//                                      handler: {_ in
-//
             FirebaseAuth.Auth.auth().createUser(withEmail: email, password: password, completion: { [weak self] result, error in
                 guard let strongSelf = self else{
                     
                     return
                 }
                 guard error == nil else{
+                    if let error = error {
+                        let customAlert = ModalJesus(title: "Oops", description: "\(error.localizedDescription)")
+                        customAlert.addAction(ModalJesusAction(title: "Close", style: false))
+                        customAlert.showModal(vc: strongSelf)
+                        return
+                    }
                     print("Account creation failed")
                     return
                 }
@@ -124,16 +171,8 @@ class FirebaseAuthVC: UIViewController {
                     strongSelf.navigationController?.pushViewController(vc, animated: true)
                     strongSelf.navigationItem.leftBarButtonItem = nil
                 }
-//                print("You have signed in")
             })
-//        }))
-//        alert.addAction(UIAlertAction(title: "Cancel",
-//                                      style: .cancel,
-//                                      handler: {_ in
-//
-//        }))
-//
-//        present(alert, animated: true)
     }
+
 }
 

@@ -29,7 +29,7 @@ class FirebaseAuthView: UIView {
     var lastNameTF = UITextField()
     let button = UIButton()
     let stackView = UIStackView()
-    let stackView2 = UIStackView()
+    var stackViewCenterContraint = NSLayoutConstraint()
     
     
     
@@ -108,11 +108,20 @@ class FirebaseAuthView: UIView {
         stackView.alignment = .fill
         stackView.spacing = 12
         stackView.addArrangedSubviews([segmentedControl, emailField, passField, firstNameTF, lastNameTF, button])
-        stackView2.axis = .horizontal
-        stackView2.alignment = .center
-        stackView2.addArrangedSubviews([stackView])
-        addAutoLayoutSubview(stackView2)
-        stackView2.fillSuperview()
+        addAutoLayoutSubview(stackView)
+        stackViewCenterContraint = stackView.centerYAnchor.constraint(equalTo: centerYAnchor)
+
+        NSLayoutConstraint.activate([stackView.centerXAnchor.constraint(equalTo: centerXAnchor),
+                                     stackViewCenterContraint
+        ])
+//        stackView.centerInSuperview()
+        stackView.width(constant: UIScreen.main.bounds.width)
+        
+//        stackView2.axis = .horizontal
+//        stackView2.alignment = .center
+//        stackView2.addArrangedSubviews([stackView])
+//        addAutoLayoutSubview(stackView2)
+//        stackView2.fillSuperview()
         
     }
 }
