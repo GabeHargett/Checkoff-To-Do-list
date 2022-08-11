@@ -138,6 +138,7 @@ class FirebaseAuthVC: UIViewController {
             print("You have signed in")
             
             DispatchQueue.main.async {
+                //this is where the already created accounts are getting through
                 let vc = GroupCreationVC()
                 strongSelf.navigationController?.pushViewController(vc, animated: true)
                 strongSelf.navigationItem.leftBarButtonItem = nil

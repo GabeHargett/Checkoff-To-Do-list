@@ -170,9 +170,10 @@ class FirebaseAPI {
             let ref = Database.database().reference().child("UserGroups").child(uid)
             ref.setValue(["groups": [groupID]])
             UserDefaults.standard.set(groupID, forKey: "CurrentGroupID")
-            completion(groupID)
             let ref2 = Database.database().reference().child("Groups").child(groupID).child("users")
-            ref2.setValue([uid])
+            ref2.setValue([uid]){error, ref in
+                completion(groupID)
+            }
         }
     }
     
