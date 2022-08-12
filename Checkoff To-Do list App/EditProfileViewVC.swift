@@ -51,7 +51,8 @@ class EditProfileViewVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.hideKeyboardWhenTappedAround()
-        setupSubviews()        
+        setupSubviews()
+        setProfileNames()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -113,10 +114,10 @@ class EditProfileViewVC: UIViewController {
         emojiImageView.backgroundColor = .gray
         emojiImageView.isUserInteractionEnabled = true
         
-        profileLabel.quickConfigure(textAlignment: .left, font: .systemFont(ofSize: 10, weight: .bold), textColor: .mainColor3)
-        profileLabel.text = "Profile Picture".uppercased()
+        profileLabel.quickConfigure(textAlignment: .center, font: .systemFont(ofSize: 10, weight: .bold), textColor: .mainColor3)
+//        profileLabel.text = "Profile Picture".uppercased()
         
-        emojiLabel.quickConfigure(textAlignment: .left, font: .systemFont(ofSize: 10, weight: .bold), textColor: .mainColor3)
+        emojiLabel.quickConfigure(textAlignment: .center, font: .systemFont(ofSize: 10, weight: .bold), textColor: .mainColor3)
         emojiLabel.text = "Current Status".uppercased()
         
         baseView.stack.addArrangedSubviews([profileLabel, profilePicImageView, emojiLabel, emojiHolder])
@@ -128,8 +129,16 @@ class EditProfileViewVC: UIViewController {
         baseView.addAutoLayoutSubview(invisibleTextField)
         invisibleTextField.alpha = 0
         invisibleTextField.delegate = self
-
-
+    }
+    
+    private func setProfileNames() {
+        FirebaseAPI.getFullName(uid: uid) {result in
+            if let fullName = result {
+                DispatchQueue.main.async {
+                    self.profileLabel.text = "\(fullName.firstAndLastName()) Profile Picture".uppercased()
+                }
+            }
+        }
     }
 
     @objc private func didTapEmoji() {

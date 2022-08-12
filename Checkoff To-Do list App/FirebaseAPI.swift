@@ -12,6 +12,14 @@ struct FullName {
     var firstName: String
     var lastName: String
     
+    func firstAndLastName() -> String {
+        var string = ""
+        string.append(firstName)
+        string.append(" ")
+        string.append(lastName)
+        string.append("'s")
+        return string
+    }
     func firstAndLastInitial() -> String {
         var string = ""
         string.append(firstName + " ")
