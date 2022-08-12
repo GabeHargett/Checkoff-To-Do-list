@@ -403,9 +403,10 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_STYLE = Manual;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = 7JH4RJMRTV;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Checkoff To-Do list App/Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = "Checkoff To-Do list App";
@@ -433,9 +434,10 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_STYLE = Manual;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = 7JH4RJMRTV;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Checkoff To-Do list App/Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = "Checkoff To-Do list App";

@@ -340,7 +340,7 @@ class HomeView: UIView {
 }
 }
 protocol ProfileViewDelegate: AnyObject {
-    func updateProfileView(image: UIImage?, emoji: String?)
+    func updateProfileView(image: UIImage?, emoji: String?, uid: String)
 }
 
 class ProfileView: UIView {
@@ -350,8 +350,6 @@ class ProfileView: UIView {
     var emojiString: String?
     weak var delegate: ProfileViewDelegate?
     let profileImage = UIImageView(image: UIImage(systemName: "person.fill"))
-    let emojiFace = "\u{1F600}"
-    var emojiImageTest = UIImageView()
     let uid: String
     
     init(uid: String) {
@@ -363,7 +361,6 @@ class ProfileView: UIView {
         loadProfileImage()
         loadEmojiImage()
         setUpDidTaps()
-        practiceConvertingEmoji()
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -401,18 +398,13 @@ class ProfileView: UIView {
     }
 
     @objc private func didTapProfileImage() {
-        delegate?.updateProfileView(image: profileImage.image, emoji: emojiString)
+        delegate?.updateProfileView(image: profileImage.image, emoji: emojiString, uid: uid)
     }
     
     @objc private func didTapEmojiImage() {
-        delegate?.updateProfileView(image: profileImage.image, emoji: emojiString)
+        delegate?.updateProfileView(image: profileImage.image, emoji: emojiString, uid: uid)
     }
     
-    private func practiceConvertingEmoji() {
-        if let newImage = emojiFace.textToImage() {
-            emojiImageTest.image = newImage
-        }
-    }
     
     private func setUpDidTaps() {
         profileStack.isUserInteractionEnabled = true

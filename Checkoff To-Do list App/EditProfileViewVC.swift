@@ -47,8 +47,7 @@ class EditProfileViewVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.hideKeyboardWhenTappedAround()
-//        PHPhotoLibrary.shared().register(self)
-        setupSubviews()
+        setupSubviews()        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -84,6 +83,7 @@ class EditProfileViewVC: UIViewController {
     }
     
     private func setupSubviews() {
+        
         let emojiHolder = UIView()
         emojiHolder.addAutoLayoutSubview(emojiImageView)
         emojiImageView.centerInSuperview()
@@ -102,12 +102,10 @@ class EditProfileViewVC: UIViewController {
         profilePicImageView.cornerRadius(radius: profilePicHeight.half)
         profilePicImageView.contentMode = .scaleAspectFill
         profilePicImageView.isUserInteractionEnabled = true
-        profilePicImageView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(didTapProfilePic)))
-
+        
         emojiImageView.cornerRadius(radius: 4)
         emojiImageView.backgroundColor = .gray
         emojiImageView.isUserInteractionEnabled = true
-        emojiImageView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(didTapEmoji)))
         
         profileLabel.quickConfigure(textAlignment: .left, font: .systemFont(ofSize: 10, weight: .bold), textColor: .mainColor3)
         profileLabel.text = "Profile Picture".uppercased()
@@ -124,8 +122,12 @@ class EditProfileViewVC: UIViewController {
         baseView.addAutoLayoutSubview(invisibleTextField)
         invisibleTextField.alpha = 0
         invisibleTextField.delegate = self
+        profilePicImageView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(didTapProfilePic)))
+        emojiImageView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(didTapEmoji)))
+
+
     }
-    
+
     @objc private func didTapEmoji() {
         invisibleTextField.becomeFirstResponder()
     }
@@ -206,14 +208,8 @@ class EditProfileViewVC: UIViewController {
     }
 }
 
-extension EditProfileViewVC: UIImagePickerControllerDelegate, UINavigationControllerDelegate { //, PHPhotoLibraryChangeObserver {
-//    func photoLibraryDidChange(_ changeInstance: PHChange) {
-//        DispatchQueue.main.async { [unowned self] in
-//            // Obtain authorization status and update UI accordingly
-//            let status = PHPhotoLibrary.authorizationStatus(for: .readWrite)
-//            showUI(for: status)
-//        }
-//    }
+extension EditProfileViewVC: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info:
                                [UIImagePickerController.InfoKey : Any]) {
         if let image = info[UIImagePickerController.InfoKey(rawValue: "UIImagePickerControllerOriginalImage" )]as? UIImage {
@@ -228,6 +224,7 @@ extension EditProfileViewVC: UIImagePickerControllerDelegate, UINavigationContro
             UIView.animate(withDuration: 0.5, animations: {
             })
         }
+        
         else {
             let customAlert = ModalJesus(title: "Status: Limited", description: "Please allow access to your photos in settings or select more photos below.")
             customAlert.addAction(ModalJesusAction(title: "Select Photos", style: true, action: {self.selectPhotos()}))

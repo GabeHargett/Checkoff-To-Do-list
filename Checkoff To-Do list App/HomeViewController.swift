@@ -129,10 +129,15 @@ class HomeViewController: UIViewController, SettingsVCDelegate, ProfileViewDeleg
         profileView.updateEmoji(emojiString: emojiString)
     }
     
-    func updateProfileView(image: UIImage?, emoji: String?) {
+    func updateProfileView(image: UIImage?, emoji: String?, uid: String) {
+        guard let profileView = profileViewFor(uid: uid), let uid = FirebaseAPI.currentUserUID() else {
+            return
+        }
+        if uid == profileView.uid {
         let vc = EditProfileViewVC(initialProfileImage: image, initialEmoji: emoji)
-        vc.delegate = self
-        vc.showModal(vc: self)
+            vc.delegate = self
+            vc.showModal(vc: self)
+        }
     }
     
     func updateColor() {
@@ -330,14 +335,6 @@ class HomeViewController: UIViewController, SettingsVCDelegate, ProfileViewDeleg
         let tapGesture5 = UITapGestureRecognizer(target: self, action: #selector(didTapGoalsStack))
         baseView.goalsStack2.addGestureRecognizer(tapGesture5)
         
-//        let tapGesture6 = UITapGestureRecognizer(target: self, action: #selector(didTapPreviousGoalWeek))
-//        baseView.previousWeekGoalLabel.addGestureRecognizer(tapGesture6)
-//
-//        let tapGesture7 = UITapGestureRecognizer(target: self, action: #selector(didTapNextGoalWeek))
-//        baseView.nextWeekGoalLabel.addGestureRecognizer(tapGesture7)
-//
-//        let tapGesture8 = UITapGestureRecognizer(target: self, action: #selector(didTapOtherGoalWeek))
-//        baseView.otherWeeksGoalLabel.addGestureRecognizer(tapGesture8)
         let tapGesture95 = UITapGestureRecognizer(target: self, action: #selector(addQuote))
         baseView.quoteStack.addGestureRecognizer(tapGesture95)
         let tapGesture9 = UITapGestureRecognizer(target: self, action: #selector(addQuote))
@@ -347,9 +344,9 @@ class HomeViewController: UIViewController, SettingsVCDelegate, ProfileViewDeleg
         baseView.editPhotoButton.addGestureRecognizer(tapGesture10)
         baseView.editPhotoButton.tag = PhotoType.group.rawValue
 
-        let tapGesture12 = UITapGestureRecognizer(target: self, action: #selector(didTapImageAddButton))
-        baseView.profileViewStack.addGestureRecognizer(tapGesture12)
-        baseView.profileViewStack.tag = PhotoType.profile.rawValue
+//        let tapGesture12 = UITapGestureRecognizer(target: self, action: #selector(didTapImageAddButton))
+//        baseView.profileViewStack.addGestureRecognizer(tapGesture12)
+//        baseView.profileViewStack.tag = PhotoType.profile.rawValue
 
 
 
