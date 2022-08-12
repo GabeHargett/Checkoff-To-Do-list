@@ -78,7 +78,7 @@ class SettingsVC: UIViewController {
 }
 
 extension SettingsVC: SettingsButtonCellDelegate, TextInputVCDelegate {
-        
+    
     func createToken() {
         let customAlert = ModalJesus(title: "Group Token", description: "Share this token with your group member during the account creation phase.")
         let groupID = GroupManager.shared.getCurrentGroupID() ?? ""
@@ -108,11 +108,12 @@ extension SettingsVC: SettingsButtonCellDelegate, TextInputVCDelegate {
             print("An error occurred")
         }
     }
-    //updated
     
     func didSubmitText(text: String, text2: String?, textType: TextInputVC.TextType, date: Date?) {
         let groupID = GroupManager.shared.getCurrentGroupID() ?? ""
         FirebaseAPI.setGroupTitle(groupID: groupID, title: text)
+        let toast = ToastHelper(title: "Group Name Updated", buttonTitle: nil, buttonAction: nil)
+        toast.showToast(view: baseView, duration: 1, bottomInset: 20)
         DispatchQueue.main.async {
             self.delegate?.updateGroupName()
         }
