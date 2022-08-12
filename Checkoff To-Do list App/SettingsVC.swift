@@ -108,6 +108,7 @@ extension SettingsVC: SettingsButtonCellDelegate, TextInputVCDelegate {
             print("An error occurred")
         }
     }
+    //updated
     
     func didSubmitText(text: String, text2: String?, textType: TextInputVC.TextType, date: Date?) {
         let groupID = GroupManager.shared.getCurrentGroupID() ?? ""
