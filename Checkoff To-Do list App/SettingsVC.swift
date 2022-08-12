@@ -110,16 +110,14 @@ extension SettingsVC: SettingsButtonCellDelegate, TextInputVCDelegate {
     }
     
     func didSubmitText(text: String, text2: String?, textType: TextInputVC.TextType, date: Date?) {
-        FirebaseAPI.addGroup(title: text) {result in
-            if let text = result {
-                DispatchQueue.main.async {
-                    self.delegate?.updateGroupName()
-                }
-            }
+        let groupID = GroupManager.shared.getCurrentGroupID() ?? ""
+        FirebaseAPI.setGroupTitle(groupID: groupID, title: text)
+        DispatchQueue.main.async {
+            self.delegate?.updateGroupName()
         }
-        //delegate?.updateGroupName() call here after groupname is added
     }
 }
+
 
 extension SettingsVC: UITableViewDataSource, UITableViewDelegate{
     

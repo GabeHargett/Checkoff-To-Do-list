@@ -174,6 +174,10 @@ class FirebaseAPI {
             }
         })
     }
+    static func setGroupTitle(groupID: String, title: String) {
+    let ref = Database.database().reference().child("Groups").child(groupID).child("title")
+        ref.setValue(title)
+    }
     
     static func addGroup(title: String, completion: @escaping (String?) -> ()) {
         guard let uid = FirebaseAPI.currentUserUID() else {

@@ -141,7 +141,7 @@ class HomeViewController: UIViewController, SettingsVCDelegate, ProfileViewDeleg
     }
     
     func updateGroupName() {
-        self.configureTitle()
+        configureTitle()
     }
     
     func configureTitle() {
