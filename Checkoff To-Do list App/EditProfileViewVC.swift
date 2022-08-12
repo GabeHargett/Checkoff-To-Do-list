@@ -28,12 +28,16 @@ class EditProfileViewVC: UIViewController {
     private let emojiLabel = UILabel()
     private let initialProfileImage: UIImage?
     private var initialEmoji: String?
+    let uid: String
+    let currentUID: Bool
     
     private let invisibleTextField = EmojiTextField()
 
-    init(initialProfileImage: UIImage?, initialEmoji: String?) {
+    init(initialProfileImage: UIImage?, initialEmoji: String?, uid: String) {
         self.initialProfileImage = initialProfileImage
         self.initialEmoji = initialEmoji
+        self.uid = uid
+        self.currentUID = uid == FirebaseAPI.currentUserUID()
         super.init(nibName: nil, bundle: nil)
         
         modalPresentationStyle = .overFullScreen
@@ -95,6 +99,7 @@ class EditProfileViewVC: UIViewController {
         emojiHolder.height(constant: emojiHeight)
         emojiImageView.height(constant: emojiHeight)
         emojiImageView.width(constant: emojiHeight)
+        emojiImageView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(didTapEmoji)))
         
         profilePicImageView.image = initialProfileImage
         emojiImageView.image = initialEmoji?.textToImage()
@@ -102,6 +107,7 @@ class EditProfileViewVC: UIViewController {
         profilePicImageView.cornerRadius(radius: profilePicHeight.half)
         profilePicImageView.contentMode = .scaleAspectFill
         profilePicImageView.isUserInteractionEnabled = true
+        profilePicImageView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(didTapProfilePic)))
         
         emojiImageView.cornerRadius(radius: 4)
         emojiImageView.backgroundColor = .gray
@@ -122,13 +128,12 @@ class EditProfileViewVC: UIViewController {
         baseView.addAutoLayoutSubview(invisibleTextField)
         invisibleTextField.alpha = 0
         invisibleTextField.delegate = self
-        profilePicImageView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(didTapProfilePic)))
-        emojiImageView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(didTapEmoji)))
 
 
     }
 
     @objc private func didTapEmoji() {
+        if !currentUID {return}
         invisibleTextField.becomeFirstResponder()
     }
     
@@ -159,6 +164,7 @@ class EditProfileViewVC: UIViewController {
     }
     
     @objc private func didTapProfilePic() {
+        if !currentUID {return}
         PHPhotoLibrary.requestAuthorization(for: .readWrite, handler: { status in
             switch status {
                 

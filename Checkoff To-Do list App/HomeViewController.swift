@@ -130,14 +130,9 @@ class HomeViewController: UIViewController, SettingsVCDelegate, ProfileViewDeleg
     }
     
     func updateProfileView(image: UIImage?, emoji: String?, uid: String) {
-        guard let profileView = profileViewFor(uid: uid), let uid = FirebaseAPI.currentUserUID() else {
-            return
-        }
-        if uid == profileView.uid {
-        let vc = EditProfileViewVC(initialProfileImage: image, initialEmoji: emoji)
+        let vc = EditProfileViewVC(initialProfileImage: image, initialEmoji: emoji, uid: uid)
             vc.delegate = self
             vc.showModal(vc: self)
-        }
     }
     
     func updateColor() {
