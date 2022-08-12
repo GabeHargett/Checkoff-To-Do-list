@@ -18,6 +18,7 @@ class TextInputVC: UIViewController {
         case quote
         case goal
         case task
+        case groupName
     }
     
     private let textType: TextType
@@ -125,6 +126,10 @@ class TextInputVC: UIViewController {
         case .goal:
             textField.placeholder = "Enter Goal"
             textField2.isHidden = true
+        case .groupName:
+            textField.placeholder = "Enter Group Name"
+            textField2.isHidden = true
+            dateInput.isHidden = true
         default:
             textField.placeholder = "Enter Task"
             textField2.isHidden = true

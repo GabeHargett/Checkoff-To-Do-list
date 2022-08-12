@@ -10,6 +10,7 @@ import Firebase
 
 protocol SettingsVCDelegate: AnyObject {
     func updateColor()
+    func updateGroupName()
 }
 
 class SettingsVC: UIViewController {
@@ -22,6 +23,7 @@ class SettingsVC: UIViewController {
     
     enum ButtonType: Int {
         case token
+        case groupName
         case logOut
     }
     
@@ -75,7 +77,23 @@ class SettingsVC: UIViewController {
     }
 }
 
-extension SettingsVC: SettingsButtonCellDelegate {
+extension SettingsVC: SettingsButtonCellDelegate, TextInputVCDelegate {
+        
+    func createToken() {
+        let customAlert = ModalJesus(title: "Group Token", description: "Share this token with your group member during the account creation phase.")
+        let groupID = GroupManager.shared.getCurrentGroupID() ?? ""
+        let newToken = getToken()
+        currentToken = newToken
+        FirebaseAPI.setGroupToken(groupID: groupID, token: newToken)
+        customAlert.addAction(ModalJesusAction(title: "\(newToken) (Tap to copy)", style: true, action: {self.showToast()}))
+        customAlert.addAction(ModalJesusAction(title: "Cancel", style: false))
+        customAlert.showModal(vc: self)
+    }
+    func changeGroupName() {
+        let vc = TextInputVC(textType: .groupName)
+        vc.delegate = self
+        vc.showModal(vc: self)
+    }
     
     internal func logOutTapped() {
         do{
@@ -91,15 +109,15 @@ extension SettingsVC: SettingsButtonCellDelegate {
         }
     }
     
-    func createToken() {
-        let customAlert = ModalJesus(title: "Group Token", description: "Share this token with your group member during the account creation phase.")
-        let groupID = GroupManager.shared.getCurrentGroupID() ?? ""
-        let newToken = getToken()
-        currentToken = newToken
-        FirebaseAPI.setGroupToken(groupID: groupID, token: newToken)
-        customAlert.addAction(ModalJesusAction(title: "\(newToken) (Tap to copy)", style: true, action: {self.showToast()}))
-        customAlert.addAction(ModalJesusAction(title: "Cancel", style: false))
-        customAlert.showModal(vc: self)
+    func didSubmitText(text: String, text2: String?, textType: TextInputVC.TextType, date: Date?) {
+        FirebaseAPI.addGroup(title: text) {result in
+            if let text = result {
+                DispatchQueue.main.async {
+                    self.delegate?.updateGroupName()
+                }
+            }
+        }
+        //delegate?.updateGroupName() call here after groupname is added
     }
 }
 
@@ -114,7 +132,7 @@ extension SettingsVC: UITableViewDataSource, UITableViewDelegate{
         case .setColorScheme:
             return 8
         case .userTools:
-            return 2
+            return 3
         }
     }
     
@@ -163,6 +181,8 @@ extension SettingsVC: UITableViewDataSource, UITableViewDelegate{
                 createToken()
             case .logOut:
                 logOutTapped()
+            case .groupName:
+                changeGroupName()
             default:
                 break
             }
@@ -304,6 +324,7 @@ class SettingsColorCell: UITableViewCell {
 protocol SettingsButtonCellDelegate: AnyObject {
     func logOutTapped()
     func createToken()
+    func changeGroupName()
 }
 
 class SettingsButtonCell: UITableViewCell {
@@ -338,16 +359,24 @@ class SettingsButtonCell: UITableViewCell {
             button.setImage(image:UIImage(systemName: "barcode"),color:.black)
             button.addTarget(self, action: #selector(didTapBarCode), for: .touchUpInside)
             
+        case .groupName:
+            label.text = "Change Group Name"
+            button.setImage(image:UIImage(systemName: "pencil"),color:.black)
+            button.addTarget(self, action: #selector(didTapPencil), for: .touchUpInside)
+
         case .logOut:
             label.text = "Log Out"
             button.setImage(image:UIImage(systemName: "hand.wave"),color:.black)
             button.addTarget(self, action: #selector(didTapLogOut), for: .touchUpInside)
-            
-        }
+            }
     }
     
     @objc func didTapBarCode() {
         delegate?.createToken()
+    }
+    
+    @objc func didTapPencil() {
+        delegate?.changeGroupName()
     }
     
     @objc func didTapLogOut() {
@@ -366,7 +395,6 @@ class SettingsButtonCell: UITableViewCell {
         stackView.layoutMargins = UIEdgeInsets(top: 8, left: 16, bottom: 8, right: 16)
         stackView.isLayoutMarginsRelativeArrangement = true
         stackView.addArrangedSubviews([label,button])
-//        stackView.addBorders(color: .black, thickness: 1)
         addAutoLayoutSubview(stackView)
         stackView.fillSuperview()
         

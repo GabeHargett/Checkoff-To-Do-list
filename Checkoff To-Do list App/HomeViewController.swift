@@ -28,8 +28,7 @@ enum PhotoType: Int {
 }
 
 class HomeViewController: UIViewController, SettingsVCDelegate, ProfileViewDelegate, EditProfileViewVCDelegate  {
-    
-    
+
     override func loadView() {
         view = baseView
     }
@@ -51,10 +50,7 @@ class HomeViewController: UIViewController, SettingsVCDelegate, ProfileViewDeleg
     override func viewDidLoad(){
         super.viewDidLoad()
                 
-        FirebaseAPI.getGroupTitle(groupID: groupID) {title in
-            self.title = title
-        }
-        
+        configureTitle()
         navigationItem.hidesBackButton = true
         
         configureBackground()
@@ -143,6 +139,18 @@ class HomeViewController: UIViewController, SettingsVCDelegate, ProfileViewDeleg
         baseView.setColors()
         configureBackground()
     }
+    
+    func updateGroupName() {
+        self.configureTitle()
+    }
+    
+    func configureTitle() {
+        FirebaseAPI.getGroupTitle(groupID: groupID) {title in
+            self.title = title
+        }
+    }
+    
+
     
     private func getGoalCount() {
         FirebaseAPI.getGoals(groupID: groupID) {result in
@@ -289,7 +297,7 @@ class HomeViewController: UIViewController, SettingsVCDelegate, ProfileViewDeleg
                     let vc = UIImagePickerController()
                     vc.sourceType = .photoLibrary
                     vc.delegate = self
-                    vc.allowsEditing = true
+//                    vc.allowsEditing = true
                     self.present(vc, animated: true)
                 }
             @unknown default:
@@ -418,6 +426,8 @@ extension HomeViewController: TextInputVCDelegate {
             break
         case .task:
             break
+        case .groupName:
+            break
         }
     }
 }
@@ -426,9 +436,13 @@ extension HomeViewController: UIImagePickerControllerDelegate, UINavigationContr
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info:
                                [UIImagePickerController.InfoKey : Any]) {
+        
         switch photoType {
         case.group:
-            if let image = info[UIImagePickerController.InfoKey(rawValue: "UIImagePickerControllerEditedImage" )]as? UIImage {
+//            guard let image = info[.editedImage] as? UIImage else { return }
+
+            if let image = info[UIImagePickerController.InfoKey(rawValue: "UIImagePickerControllerOriginalImage" )]as? UIImage {
+//                guard let image = info[.editedImage] as? UIImage else { return }
                 baseView.couplePhoto.image = image
                 FirebaseAPI.uploadImage(groupID: groupID, image: image) {
                     ImageAssetHelper.clearImage(imageURL: "images/\(self.groupID)/couplePhoto")
@@ -445,6 +459,18 @@ extension HomeViewController: UIImagePickerControllerDelegate, UINavigationContr
                 customAlert.addAction(ModalJesusAction(title: "Cancel", style: false))
                 customAlert.showModal(vc: self)
             }
+            
+//            guard let image = info[.editedImage] as? UIImage else { return }
+//            baseView.couplePhoto.image = image
+//            FirebaseAPI.uploadImage(groupID: groupID, image: image) {
+//                ImageAssetHelper.clearImage(imageURL: "images/\(self.groupID)/couplePhoto")
+//
+//                print("image Uploaded")
+//            }
+//            UIView.animate(withDuration: 0.5, animations: {
+//            })
+
+
         case.profile:
             if let image = info[UIImagePickerController.InfoKey(rawValue: "UIImagePickerControllerOriginalImage" )]as? UIImage {
                 if let uid = FirebaseAPI.currentUserUID() {

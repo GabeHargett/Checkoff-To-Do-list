@@ -131,18 +131,15 @@ class FirebaseAuthVC: UIViewController {
             guard error == nil else{
                 let fullName = FullName(firstName: firstName, lastName: lastName)
                 strongSelf.showCreateAccount(email: email, password: password, fullname: fullName)
-                
                 return
             }
-            print("You have signed in")
-            
             DispatchQueue.main.async {
-                //this is where the already created accounts are getting through
                 let vc = GroupCreationVC()
                 strongSelf.navigationController?.pushViewController(vc, animated: true)
-                strongSelf.navigationItem.leftBarButtonItem = nil
-                
+                strongSelf.navigationItem.leftBarButtonItem = nil                
             }
+
+
         })
     }
     func showCreateAccount(email: String, password: String, fullname: FullName) {
