@@ -170,16 +170,16 @@ class GoalCell: UITableViewCell {
         addAutoLayoutSubview(stackView)
         stackView.fillSuperview()
         
-        pencilImageView.height(constant: 29)
-        pencilImageView.width(constant: 29)
+        pencilImageView.height(constant: 32)
+        pencilImageView.width(constant: 32)
         
         let titleStack = UIStackView()
         titleStack.alignment = .top
         titleStack.addArrangedSubviews([titleLabel, UIView(), pencilImageView, checkbox])
         titleStack.setCustomSpacing(8, after: titleLabel)
         titleStack.setCustomSpacing(8, after: pencilImageView)
-        checkbox.height(constant: 29)
-        checkbox.width(constant: 29)
+        checkbox.height(constant: 32)
+        checkbox.width(constant: 32)
         
         stackView.addArrangedSubviews([authorLabel, titleStack, endDateLabel, startDateLabel])
 

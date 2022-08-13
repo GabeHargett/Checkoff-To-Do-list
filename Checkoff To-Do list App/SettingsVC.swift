@@ -385,8 +385,8 @@ class SettingsButtonCell: UITableViewCell {
     
     func setUpSubviews() {
         label.quickConfigure(textAlignment: .center, font: .systemFont(ofSize: 17), textColor: .mainColor1, numberOfLines: 0)
-        button.setImageWidth(size: 24)
-        button.setImageHeight(size: 24)
+        button.setImageWidth(size: 28)
+        button.setImageHeight(size: 28)
         button.layoutMargins = UIEdgeInsets(top: 3, left: 3, bottom: 3, right:3)
         button.quickConfigure(font: .systemFont(ofSize: 15), titleColor: .black, backgroundColor: .systemGray4, cornerRadius: 8)
         
