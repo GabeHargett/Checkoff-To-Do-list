@@ -290,6 +290,7 @@ class HomeViewController: UIViewController, SettingsVCDelegate, ProfileViewDeleg
                 let vc = UIImagePickerController()
                 vc.sourceType = .photoLibrary
                 vc.delegate = self
+                vc.allowsEditing = true
                 self.present(vc, animated: true)
                 }
             case .limited:
@@ -297,7 +298,7 @@ class HomeViewController: UIViewController, SettingsVCDelegate, ProfileViewDeleg
                     let vc = UIImagePickerController()
                     vc.sourceType = .photoLibrary
                     vc.delegate = self
-//                    vc.allowsEditing = true
+                    vc.allowsEditing = true
                     self.present(vc, animated: true)
                 }
             @unknown default:
@@ -431,10 +432,8 @@ extension HomeViewController: UIImagePickerControllerDelegate, UINavigationContr
         
         switch photoType {
         case.group:
-//            guard let image = info[.editedImage] as? UIImage else { return }
 
-            if let image = info[UIImagePickerController.InfoKey(rawValue: "UIImagePickerControllerOriginalImage" )]as? UIImage {
-//                guard let image = info[.editedImage] as? UIImage else { return }
+            if let image = info[.editedImage]as? UIImage {
                 baseView.couplePhoto.image = image
                 FirebaseAPI.uploadImage(groupID: groupID, image: image) {
                     ImageAssetHelper.clearImage(imageURL: "images/\(self.groupID)/couplePhoto")
@@ -450,28 +449,6 @@ extension HomeViewController: UIImagePickerControllerDelegate, UINavigationContr
                 customAlert.addAction(ModalJesusAction(title: "Open Settings", style: true, action: {self.goToPrivacySettings()}))
                 customAlert.addAction(ModalJesusAction(title: "Cancel", style: false))
                 customAlert.showModal(vc: self)
-            }
-            
-//            guard let image = info[.editedImage] as? UIImage else { return }
-//            baseView.couplePhoto.image = image
-//            FirebaseAPI.uploadImage(groupID: groupID, image: image) {
-//                ImageAssetHelper.clearImage(imageURL: "images/\(self.groupID)/couplePhoto")
-//
-//                print("image Uploaded")
-//            }
-//            UIView.animate(withDuration: 0.5, animations: {
-//            })
-
-
-        case.profile:
-            if let image = info[UIImagePickerController.InfoKey(rawValue: "UIImagePickerControllerOriginalImage" )]as? UIImage {
-                if let uid = FirebaseAPI.currentUserUID() {
-                    FirebaseAPI.uploadProfileImages(uid: uid, image: image) {
-                        print("image Uploaded")
-                    }
-                }
-                UIView.animate(withDuration: 0.5, animations: {
-                })
             }
         default:
            break

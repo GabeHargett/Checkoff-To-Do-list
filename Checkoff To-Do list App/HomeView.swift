@@ -346,6 +346,7 @@ protocol ProfileViewDelegate: AnyObject {
 class ProfileView: UIView {
     
     let profileStack = UIStackView()
+    private let emojiHolder = UIView()
     var emojiImage = UIImageView()
     var emojiString: String?
     weak var delegate: ProfileViewDelegate?
@@ -367,6 +368,10 @@ class ProfileView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
+    override func layoutSubviews() {
+        profileImage.cornerRadius(radius: profileImage.frame.height / 2)
+    }
+    
     private func loadProfileImage() {
         FirebaseAPI.downloadProfileImage(uid: uid) {image in
             if image != nil {
@@ -382,7 +387,7 @@ class ProfileView: UIView {
     func updateEmoji(emojiString: String) {
         self.emojiString = emojiString
         self.emojiImage.image = emojiString.textToImage()
-        self.emojiImage.isHidden = false
+        self.emojiHolder.isHidden = false
     }
     
     private func loadEmojiImage() {
@@ -390,9 +395,9 @@ class ProfileView: UIView {
             if emojiString != nil {
                 self.emojiString = emojiString
                 self.emojiImage.image = emojiString?.textToImage()
-                self.emojiImage.isHidden = false
+                self.emojiHolder.isHidden = false
             } else {
-                self.emojiImage.isHidden = true
+                self.emojiHolder.isHidden = true
             }
         }
     }
@@ -418,9 +423,9 @@ class ProfileView: UIView {
     }
     
     private func configureSubviews() {
-        profileImage.addBorders(color: .mainColor6, thickness: 5)
+        profileImage.addBorders(color: .mainColor6, thickness: 3)
         emojiImage.addBorders(color: .mainColor6, thickness: 3)
-        self.emojiImage.isHidden = true
+        self.emojiHolder.isHidden = true
         profileImage.tintColor = .mainColor6
     }
     
@@ -430,12 +435,12 @@ class ProfileView: UIView {
         profileStack.layoutMargins = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
         profileStack.spacing = -20
         profileStack.isLayoutMarginsRelativeArrangement = true
-        let emojiHolder = UIView()
         profileStack.addArrangedSubviews([profileImage, emojiHolder])
         
-        profileImage.height(constant: 75)
-        profileImage.width(constant: 75)
-        profileImage.cornerRadius(radius: 37.5)
+        NSLayoutConstraint.activate([
+            profileImage.heightAnchor.constraint(equalToConstant: 75),
+            profileImage.widthAnchor.constraint(equalTo: profileImage.heightAnchor),
+        ])
         profileImage.backgroundColor = .black        
 
         profileImage.contentMode = .scaleAspectFill

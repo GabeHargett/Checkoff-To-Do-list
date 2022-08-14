@@ -264,7 +264,7 @@ extension EditProfileViewVC: UIImagePickerControllerDelegate, UINavigationContro
 
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info:
                                [UIImagePickerController.InfoKey : Any]) {
-        if let image = info[UIImagePickerController.InfoKey(rawValue: "UIImagePickerControllerOriginalImage" )]as? UIImage {
+        if let image = info[.editedImage] as? UIImage {
             if let uid = FirebaseAPI.currentUserUID() {
                 self.profilePicImageView.image = image
                 delegate?.didUpdateImage(profileImage: image)
