@@ -91,28 +91,28 @@ class EditProfileViewVC: UIViewController {
     }
     
     private func setupSubviews() {
-        let stackHolder = UIView()
-        let photoBlurView = UIVisualEffectView(effect: UIBlurEffect(style: .dark))
-        let editLabel = UILabel()
-        let camera = UIImageView(image: UIImage(systemName: "camera.fill"))
-        camera.tintColor = .mainColor6
-        camera.height(constant: 15)
-        camera.width(constant: 15)
-        camera.contentMode = .scaleAspectFit
-        editLabel.text = "Edit"
-        editLabel.quickConfigure(textAlignment: .center, font: .boldSystemFont(ofSize:10), textColor: .mainColor6)
-        editPhotoStack.axis = .horizontal
-        editPhotoStack.alignment = .center
-        editPhotoStack.spacing = 4
-        editPhotoStack.layoutMargins = UIEdgeInsets(top: 6, left: 10, bottom: 6, right: 10)
-        editPhotoStack.isLayoutMarginsRelativeArrangement = true
-        editPhotoStack.cornerRadius(radius: 5)
-        stackHolder.addAutoLayoutSubview(editPhotoStack)
-        stackHolder.centerInSuperview()
-//        baseView.modalView.addAutoLayoutSubview(editPhotoStack)
-        editPhotoStack.addAutoLayoutSubview(photoBlurView)
-        editPhotoStack.addArrangedSubviews([camera, editLabel])
-        photoBlurView.fillSuperview()
+//        let stackHolder = UIView()
+//        let photoBlurView = UIVisualEffectView(effect: UIBlurEffect(style: .dark))
+//        let editLabel = UILabel()
+//        let camera = UIImageView(image: UIImage(systemName: "camera.fill"))
+//        camera.tintColor = .mainColor6
+//        camera.height(constant: 15)
+//        camera.width(constant: 15)
+//        camera.contentMode = .scaleAspectFit
+//        editLabel.text = "Edit"
+//        editLabel.quickConfigure(textAlignment: .center, font: .boldSystemFont(ofSize:10), textColor: .mainColor6)
+//        editPhotoStack.axis = .horizontal
+//        editPhotoStack.alignment = .center
+//        editPhotoStack.spacing = 4
+//        editPhotoStack.layoutMargins = UIEdgeInsets(top: 6, left: 10, bottom: 6, right: 10)
+//        editPhotoStack.isLayoutMarginsRelativeArrangement = true
+//        editPhotoStack.cornerRadius(radius: 5)
+//        stackHolder.addAutoLayoutSubview(editPhotoStack)
+//        stackHolder.centerInSuperview()
+//        baseView.modalView.addAutoLayoutSubview(stackHolder)
+//        editPhotoStack.addAutoLayoutSubview(photoBlurView)
+//        editPhotoStack.addArrangedSubviews([camera, editLabel])
+//        photoBlurView.fillSuperview()
 
 //        NSLayoutConstraint.activate([//editPhotoStack.centerXAnchor.constraint(equalTo: view.centerXAnchor),
 ////                                     editPhotoStack.widthAnchor.constraint(equalToConstant: UIScreen.main.bounds.width),
@@ -144,17 +144,18 @@ class EditProfileViewVC: UIViewController {
         
         emojiImageView.cornerRadius(radius: 4)
         emojiImageView.isUserInteractionEnabled = true
+        emojiImageView.contentMode = .scaleAspectFill
         
         profileLabel.quickConfigure(textAlignment: .left, font: .systemFont(ofSize: 10, weight: .bold), textColor: .mainColor3)
        
         emojiLabel.quickConfigure(textAlignment: .left, font: .systemFont(ofSize: 10, weight: .bold), textColor: .mainColor3)
         emojiLabel.text = "Current Status".uppercased()
         
-        baseView.stack.addArrangedSubviews([profileLabel, profilePicImageView, stackHolder, emojiLabel, emojiHolder])
+        baseView.stack.addArrangedSubviews([profileLabel, profilePicImageView, emojiLabel, emojiHolder])
         baseView.stack.spacing = 24
         baseView.stack.setCustomSpacing(12, after: profileLabel)
-        baseView.stack.setCustomSpacing(-profilePicHeight.half, after: profilePicImageView)
-        baseView.stack.setCustomSpacing(profilePicHeight.half, after: stackHolder)
+//        baseView.stack.setCustomSpacing(-profilePicHeight.half, after: profilePicImageView)
+//        baseView.stack.setCustomSpacing(profilePicHeight.half, after: stackHolder)
         baseView.stack.setCustomSpacing(8, after: emojiLabel)
         baseView.stack.layoutMargins = UIEdgeInsets(top: 24, left: 50, bottom: 24, right: 50)
         

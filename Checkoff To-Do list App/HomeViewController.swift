@@ -136,8 +136,13 @@ class HomeViewController: UIViewController, SettingsVCDelegate, ProfileViewDeleg
     }
     
     func updateColor() {
+        guard let uid = FirebaseAPI.currentUserUID(), let profileView = profileViewFor(uid: uid) else {
+            return
+        }
         baseView.setColors()
         configureBackground()
+        profileView.profileImage.tintColor = .mainColor1
+        
     }
     
     func updateGroupName() {
