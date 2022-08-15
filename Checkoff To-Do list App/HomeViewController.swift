@@ -89,6 +89,29 @@ class HomeViewController: UIViewController, SettingsVCDelegate, ProfileViewDeleg
         }
     }
     
+    private func getGoalCount() {
+        FirebaseAPI.getGoals(groupID: groupID) {result in
+            if let allGoals = result {
+                let currentWeekGoal = allGoals.filter({goal in
+                    let goalDate = Date(timeIntervalSince1970: goal.dateStamp)
+                    let goalWeekAndYear = DateAnalyzer.getWeekAndYearFromDate(date: goalDate)
+                    return DateAnalyzer.getWeekAndYearFromDate(date: Date()) == goalWeekAndYear
+                })
+                DispatchQueue.main.async {
+                    var completedGoals = 0
+                    for goal in currentWeekGoal {
+                        if goal.isComplete {
+                            completedGoals += 1
+                        }
+                    }
+                    self.baseView.finishedGoalLabel.text = "\(completedGoals) Finished Goals"
+                    self.baseView.openGoalLabel.text = "\(currentWeekGoal.count - completedGoals) Started Goals"
+                }
+            }
+        }
+    }
+
+    
     private func addProfileViewsForUIDs() {
         FirebaseAPI.getUIDsForGroup(groupID: groupID) {result in
             if let uids = result {
@@ -152,30 +175,6 @@ class HomeViewController: UIViewController, SettingsVCDelegate, ProfileViewDeleg
     func configureTitle() {
         FirebaseAPI.getGroupTitle(groupID: groupID) {title in
             self.title = title
-        }
-    }
-    
-
-    
-    private func getGoalCount() {
-        FirebaseAPI.getGoals(groupID: groupID) {result in
-            if let allGoals = result {
-                let currentWeekGoal = allGoals.filter({goal in
-                    let goalDate = Date(timeIntervalSince1970: goal.dateStamp)
-                    let goalWeekAndYear = DateAnalyzer.getWeekAndYearFromDate(date: goalDate)
-                    return DateAnalyzer.getWeekAndYearFromDate(date: Date()) == goalWeekAndYear
-                })
-                DispatchQueue.main.async {
-                    var completedGoals = 0
-                    for goal in currentWeekGoal {
-                        if goal.isComplete {
-                            completedGoals += 1
-                        }
-                    }
-                    self.baseView.finishedGoalLabel.text = "\(completedGoals) Finished Goals"
-                    self.baseView.openGoalLabel.text = "\(currentWeekGoal.count - completedGoals) Started Goals"
-                }
-            }
         }
     }
     

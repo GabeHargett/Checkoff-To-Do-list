@@ -91,43 +91,13 @@ class EditProfileViewVC: UIViewController {
     }
     
     private func setupSubviews() {
-//        let stackHolder = UIView()
-//        let photoBlurView = UIVisualEffectView(effect: UIBlurEffect(style: .dark))
-//        let editLabel = UILabel()
-//        let camera = UIImageView(image: UIImage(systemName: "camera.fill"))
-//        camera.tintColor = .mainColor6
-//        camera.height(constant: 15)
-//        camera.width(constant: 15)
-//        camera.contentMode = .scaleAspectFit
-//        editLabel.text = "Edit"
-//        editLabel.quickConfigure(textAlignment: .center, font: .boldSystemFont(ofSize:10), textColor: .mainColor6)
-//        editPhotoStack.axis = .horizontal
-//        editPhotoStack.alignment = .center
-//        editPhotoStack.spacing = 4
-//        editPhotoStack.layoutMargins = UIEdgeInsets(top: 6, left: 10, bottom: 6, right: 10)
-//        editPhotoStack.isLayoutMarginsRelativeArrangement = true
-//        editPhotoStack.cornerRadius(radius: 5)
-//        stackHolder.addAutoLayoutSubview(editPhotoStack)
-//        stackHolder.centerInSuperview()
-//        baseView.modalView.addAutoLayoutSubview(stackHolder)
-//        editPhotoStack.addAutoLayoutSubview(photoBlurView)
-//        editPhotoStack.addArrangedSubviews([camera, editLabel])
-//        photoBlurView.fillSuperview()
-
-//        NSLayoutConstraint.activate([//editPhotoStack.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-////                                     editPhotoStack.widthAnchor.constraint(equalToConstant: UIScreen.main.bounds.width),
-//            editPhotoStack.bottomAnchor = baseView.modalViewBottomAnchor
-//
-//                                    ])
-
-
         let emojiHolder = UIView()
         emojiHolder.addAutoLayoutSubview(emojiImageView)
         emojiImageView.centerInSuperview()
-        
+
         let profilePicHeight = UIScreen.main.bounds.width - 100
         profilePicImageView.height(constant: profilePicHeight)
-        
+
         let emojiHeight: CGFloat = 40
         emojiHolder.height(constant: emojiHeight)
         emojiImageView.height(constant: emojiHeight)
@@ -154,8 +124,6 @@ class EditProfileViewVC: UIViewController {
         baseView.stack.addArrangedSubviews([profileLabel, profilePicImageView, emojiLabel, emojiHolder])
         baseView.stack.spacing = 24
         baseView.stack.setCustomSpacing(12, after: profileLabel)
-//        baseView.stack.setCustomSpacing(-profilePicHeight.half, after: profilePicImageView)
-//        baseView.stack.setCustomSpacing(profilePicHeight.half, after: stackHolder)
         baseView.stack.setCustomSpacing(8, after: emojiLabel)
         baseView.stack.layoutMargins = UIEdgeInsets(top: 24, left: 50, bottom: 24, right: 50)
         
@@ -167,6 +135,37 @@ class EditProfileViewVC: UIViewController {
     private func setUpProfiles() {
         if !currentUID {return}
         emojiImageView.backgroundColor = .gray
+        
+        let stackHolder = UIView()
+        let photoBlurView = UIVisualEffectView(effect: UIBlurEffect(style: .dark))
+        let editLabel = UILabel()
+        let camera = UIImageView(image: UIImage(systemName: "camera.fill"))
+        
+        camera.tintColor = .mainColor6
+        camera.height(constant: 15)
+        camera.width(constant: 15)
+        camera.contentMode = .scaleAspectFit
+        
+        editLabel.text = "Edit"
+        editLabel.quickConfigure(textAlignment: .center, font: .boldSystemFont(ofSize:10), textColor: .mainColor6)
+        
+        editPhotoStack.axis = .horizontal
+        editPhotoStack.alignment = .center
+        editPhotoStack.spacing = 4
+        editPhotoStack.layoutMargins = UIEdgeInsets(top: 6, left: 10, bottom: 6, right: 10)
+        editPhotoStack.isLayoutMarginsRelativeArrangement = true
+        editPhotoStack.cornerRadius(radius: 5)
+        stackHolder.addAutoLayoutSubview(editPhotoStack)
+        baseView.modalView.addAutoLayoutSubview(stackHolder)
+        editPhotoStack.addAutoLayoutSubview(photoBlurView)
+        editPhotoStack.addArrangedSubviews([camera, editLabel])
+        photoBlurView.fillSuperview()
+        
+        let editPhotoStackWidth = view.frame.width - 110
+        
+        NSLayoutConstraint.activate([stackHolder.centerXAnchor.constraint(equalTo: baseView.modalView.centerXAnchor, constant: editPhotoStackWidth),
+                                     stackHolder.centerYAnchor.constraint(equalTo: baseView.modalView.centerYAnchor, constant: -100)
+                                    ])
     }
     
     private func setUpProfileNames() {
