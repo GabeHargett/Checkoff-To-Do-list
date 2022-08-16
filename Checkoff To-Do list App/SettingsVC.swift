@@ -25,6 +25,7 @@ class SettingsVC: UIViewController {
         case token
         case groupName
         case logOut
+        case deleteUser
     }
     
     
@@ -75,6 +76,20 @@ class SettingsVC: UIViewController {
         let toast2 = ToastHelper(title: "Color Updated", buttonTitle: nil, buttonAction: nil)
         toast2.showToast(view: baseView, duration: 1, bottomInset: 20)
     }
+    
+    private func deleteUser() {
+        let user = Auth.auth().currentUser
+        user?.delete { error in
+          if let error = error {
+              let customAlert = ModalJesus(title: "Oops", description: "\(error.localizedDescription)")
+              customAlert.addAction(ModalJesusAction(title: "Close", style: false))
+              customAlert.showModal(vc: self)
+          } else {
+                  let vc = FirebaseAuthVC()
+                  self.navigationController?.pushViewController(vc, animated: true)
+                       }
+        }
+    }
 }
 
 extension SettingsVC: SettingsButtonCellDelegate, TextInputVCDelegate {
@@ -109,6 +124,14 @@ extension SettingsVC: SettingsButtonCellDelegate, TextInputVCDelegate {
         }
     }
     
+    func trashTapped() {
+        let customAlert = ModalJesus(title: "User Deletion", description: "Are you sure you want to delete your User Account?")
+        customAlert.addAction(ModalJesusAction(title: "Delete User", style: true, action: {self.deleteUser()}))
+        customAlert.addAction(ModalJesusAction(title: "Cancel", style: false))
+        customAlert.showModal(vc: self)
+
+    }
+    
     func didSubmitText(text: String, text2: String?, textType: TextInputVC.TextType, date: Date?) {
         let groupID = GroupManager.shared.getCurrentGroupID() ?? ""
         FirebaseAPI.setGroupTitle(groupID: groupID, title: text)
@@ -132,7 +155,7 @@ extension SettingsVC: UITableViewDataSource, UITableViewDelegate{
         case .setColorScheme:
             return 8
         case .userTools:
-            return 3
+            return 4
         }
     }
     
@@ -183,6 +206,8 @@ extension SettingsVC: UITableViewDataSource, UITableViewDelegate{
                 logOutTapped()
             case .groupName:
                 changeGroupName()
+            case .deleteUser:
+                trashTapped()
             default:
                 break
             }
@@ -325,6 +350,7 @@ protocol SettingsButtonCellDelegate: AnyObject {
     func logOutTapped()
     func createToken()
     func changeGroupName()
+    func trashTapped()
 }
 
 class SettingsButtonCell: UITableViewCell {
@@ -363,11 +389,16 @@ class SettingsButtonCell: UITableViewCell {
             label.text = "Change Group Name"
             button.setImage(image:UIImage(systemName: "pencil"),color:.black)
             button.addTarget(self, action: #selector(didTapPencil), for: .touchUpInside)
-
+            
         case .logOut:
             label.text = "Log Out"
             button.setImage(image:UIImage(systemName: "hand.wave"),color:.black)
             button.addTarget(self, action: #selector(didTapLogOut), for: .touchUpInside)
+            
+        case . deleteUser:
+            label.text = "Delete Your User Account"
+            button.setImage(image:UIImage(systemName: "trash.fill"),color:.black)
+            button.addTarget(self, action: #selector(didTapTrash), for: .touchUpInside)
             }
     }
     
@@ -382,6 +413,11 @@ class SettingsButtonCell: UITableViewCell {
     @objc func didTapLogOut() {
         delegate?.logOutTapped()
     }
+    
+    @objc func didTapTrash() {
+        delegate?.trashTapped()
+    }
+    
     
     func setUpSubviews() {
         label.quickConfigure(textAlignment: .center, font: .systemFont(ofSize: 17), textColor: .mainColor1, numberOfLines: 0)
