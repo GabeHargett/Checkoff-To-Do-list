@@ -36,6 +36,7 @@ class HomeViewController: UIViewController, SettingsVCDelegate, ProfileViewDeleg
     let baseView = HomeView()
     public let date = Date()
     private var currentQuote: Quote?
+    private var allGoals: Goal?
     private var user: User?
     private let groupID: String
     var photoType: PhotoType?
@@ -92,20 +93,20 @@ class HomeViewController: UIViewController, SettingsVCDelegate, ProfileViewDeleg
     private func getGoalCount() {
         FirebaseAPI.getGoals(groupID: groupID) {result in
             if let allGoals = result {
-                let currentWeekGoal = allGoals.filter({goal in
-                    let goalDate = Date(timeIntervalSince1970: goal.dateStamp)
-                    let goalWeekAndYear = DateAnalyzer.getWeekAndYearFromDate(date: goalDate)
-                    return DateAnalyzer.getWeekAndYearFromDate(date: Date()) == goalWeekAndYear
-                })
+//                let currentWeekGoal = allGoals.filter({goal in
+//                    let goalDate = Date(timeIntervalSince1970: goal.dateStamp)
+//                    let goalWeekAndYear = DateAnalyzer.getWeekAndYearFromDate(date: goalDate)
+//                    return DateAnalyzer.getWeekAndYearFromDate(date: Date()) == goalWeekAndYear
+//                })
                 DispatchQueue.main.async {
                     var completedGoals = 0
-                    for goal in currentWeekGoal {
+                    for goal in allGoals {
                         if goal.isComplete {
                             completedGoals += 1
                         }
                     }
                     self.baseView.finishedGoalLabel.text = "\(completedGoals) Finished Goals"
-                    self.baseView.openGoalLabel.text = "\(currentWeekGoal.count - completedGoals) Started Goals"
+                    self.baseView.openGoalLabel.text = "\(allGoals.count - completedGoals) Started Goals"
                 }
             }
         }
@@ -424,6 +425,8 @@ extension HomeViewController: TextInputVCDelegate {
         case .task:
             break
         case .groupName:
+            break
+        case .editTitle:
             break
         }
     }

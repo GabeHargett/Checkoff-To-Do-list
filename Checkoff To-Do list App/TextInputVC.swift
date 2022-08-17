@@ -19,6 +19,7 @@ class TextInputVC: UIViewController {
         case goal
         case task
         case groupName
+        case editTitle
     }
     
     private let textType: TextType
@@ -31,8 +32,8 @@ class TextInputVC: UIViewController {
     
     var textField = UnderlinedTextField()
     let textField2 = UnderlinedTextField()
-    private let datePicker = UIDatePicker()
-    private let dateInput = UnderlinedTextField()
+    var datePicker = UIDatePicker()
+    let dateInput = UnderlinedTextField()
     private let submitButton = UIButton()
         
     weak var delegate: TextInputVCDelegate?
@@ -128,6 +129,9 @@ class TextInputVC: UIViewController {
             textField2.isHidden = true
         case .groupName:
             textField.placeholder = "Enter Group Name"
+            textField2.isHidden = true
+            dateInput.isHidden = true
+        case .editTitle:
             textField2.isHidden = true
             dateInput.isHidden = true
         default:

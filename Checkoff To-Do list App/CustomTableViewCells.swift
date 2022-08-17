@@ -115,7 +115,7 @@ extension TaskCell: TextInputVCDelegate {
 }
 
 protocol GoalCellDelegate: AnyObject {
-    func didTapPencil(goal: Goal)
+    func didTapPencil(goal: Goal, date: Date)
     func didCheckBox(goal: Goal)
 
     
@@ -226,7 +226,8 @@ class GoalCell: UITableViewCell {
     
     @objc func didTapTableViewPencil() {
         if let goal = goal {
-            delegate?.didTapPencil(goal: goal)
+            let goalDate = Date.init(timeIntervalSince1970: goal.dateStamp)
+            delegate?.didTapPencil(goal: goal, date: goalDate)
         }
     }
 }

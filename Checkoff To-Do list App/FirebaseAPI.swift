@@ -48,14 +48,14 @@ struct Task {
     let id: String
     var title: String
     var isComplete: Bool
-    let dateStamp: Double
+    var dateStamp: Double
     let author: String
 }
 
 struct Goal {
     let id: String
     var title: String
-    let dateStamp: Double
+    var dateStamp: Double
     var isComplete: Bool
     let author: String
 }
@@ -114,6 +114,12 @@ class FirebaseAPI {
         let ref = groupRef.child("Goals").child(goal.id).child("title")
         ref.setValue(goal.title)
     }
+    static func editGoalDate(goal: Goal, groupID: String) {
+        let groupRef = FirebaseAPI.getGroupRef(groupID: groupID)
+        let ref = groupRef.child("Goals").child(goal.id).child("dateStamp")
+        ref.setValue(goal.dateStamp)
+    }
+
     static func removeGoal(goal: Goal, groupID: String) {
         let groupRef = FirebaseAPI.getGroupRef(groupID: groupID)
         let ref = groupRef.child("Goals").child(goal.id)
@@ -293,6 +299,11 @@ class FirebaseAPI {
         let groupRef = FirebaseAPI.getGroupRef(groupID: groupID)
         let ref = groupRef.child("Tasks").child(task.id).child("title")
         ref.setValue(task.title)
+    }
+    static func editTaskDate(task: Task, groupID: String) {
+        let groupRef = FirebaseAPI.getGroupRef(groupID: groupID)
+        let ref = groupRef.child("Tasks").child(task.id).child("dateStamp")
+        ref.setValue(task.dateStamp)
     }
     static func removeTask(task: Task, groupID: String) {
         let groupRef = FirebaseAPI.getGroupRef(groupID: groupID)

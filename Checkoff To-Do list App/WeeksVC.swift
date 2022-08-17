@@ -23,16 +23,6 @@ class DateAnalyzer {
         }
         return WeekAndYear(week: weekOfYear, year: year)
     }
-    
-//    static func getMonthAndYearFromDate(date: Date) -> MonthAndYear? {
-//        let allComponents = Calendar.current.dateComponents([.year, .month], from: date)
-//        guard let monthOfYear = allComponents.month,
-//              let year = allComponents.year else {
-//            return nil
-//        }
-//        return MonthAndYear(dateMonth: monthOfYear, year: year)
-//    }
-
 
 }
 
@@ -136,8 +126,10 @@ extension WeeksVC: TextInputVCDelegate {
 
         if let editedTaskIndex = editedTaskIndex {
             self.editedTaskIndex = nil
+            tasks[editedTaskIndex].dateStamp = dateStamp
             tasks[editedTaskIndex].title = text
             FirebaseAPI.editTask(task:tasks[editedTaskIndex], groupID: groupID)
+            FirebaseAPI.editTaskDate(task:tasks[editedTaskIndex], groupID: groupID)
         } else {
             if let uid = FirebaseAPI.currentUserUID(),
                let id = FirebaseAPI.addTask(task: Task(id: "",
@@ -161,6 +153,7 @@ extension WeeksVC: TaskCellDelegate {
             editedTaskIndex = taskIndex
             let vc = TextInputVC(textType: .task)
             vc.textField.text = task.title
+//            vc.dateInput.text = task.dateStamp
             vc.delegate = self
             vc.showModal(vc: self)
         }

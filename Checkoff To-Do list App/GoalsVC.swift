@@ -78,11 +78,12 @@ class GoalsVC: UIViewController {
 extension GoalsVC: TextInputVCDelegate {
     func didSubmitText(text: String, text2: String?, textType: TextInputVC.TextType, date: Date?) {
         let dateStamp = date?.timeIntervalSince1970 ?? Date().timeIntervalSince1970
-//        let weekAndYear = DateAnalyzer.getWeekAndYearFromDate(date: Date.init(timeIntervalSince1970: dateStamp))
         if let editedGoalIndex = editedGoalIndex {
             self.editedGoalIndex = nil
             goals[editedGoalIndex].title = text
+            goals[editedGoalIndex].dateStamp = dateStamp
             FirebaseAPI.editGoal(goal:goals[editedGoalIndex], groupID: groupID)
+            FirebaseAPI.editGoalDate(goal:goals[editedGoalIndex], groupID: groupID)
         }
         else {
             if let uid = FirebaseAPI.currentUserUID(),
@@ -104,11 +105,13 @@ extension GoalsVC: TextInputVCDelegate {
 }
 
 extension GoalsVC: GoalCellDelegate {
-    func didTapPencil(goal: Goal) {
+    
+    func didTapPencil(goal: Goal, date: Date) {
         if let goalIndex = goals.firstIndex(where: {$0.id == goal.id}) {
             editedGoalIndex = goalIndex
             let vc = TextInputVC(textType: .goal)
             vc.textField.text = goal.title
+//            vc.dateInput.inputView =
             vc.delegate = self
             vc.showModal(vc: self)
         }

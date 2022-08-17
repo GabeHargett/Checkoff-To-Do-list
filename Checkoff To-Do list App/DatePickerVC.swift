@@ -64,7 +64,6 @@ class DatePickerVC: UIViewController {
            submitButton.backgroundColor = .mainColor3
            submitButton.cornerRadius(radius: 8)
            
-           
            view.backgroundColor = .mainColor6
 
            NSLayoutConstraint.activate([
@@ -74,7 +73,7 @@ class DatePickerVC: UIViewController {
             datePicker.heightAnchor.constraint(equalTo: view.heightAnchor),
             
             submitButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            submitButton.centerYAnchor.constraint(equalTo:view.safeAreaLayoutGuide.centerYAnchor, constant: 10),
+            submitButton.centerYAnchor.constraint(equalTo:view.centerYAnchor, constant: 80),
            ])
            
            submitButton.addTarget(self, action: #selector(didSubmit), for: .touchUpInside)
