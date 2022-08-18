@@ -197,7 +197,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 778728A627F42C540060B496 /* Build configuration list for PBXProject "The Same Page" */;
+			buildConfigurationList = 778728A627F42C540060B496 /* Build configuration list for PBXProject "OnTheSamePage" */;
 			compatibilityVersion = "Xcode 13.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -409,7 +409,7 @@
 				DEVELOPMENT_TEAM = 7JH4RJMRTV;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Checkoff To-Do list App/Info.plist";
-				INFOPLIST_KEY_CFBundleDisplayName = "The Same Page";
+				INFOPLIST_KEY_CFBundleDisplayName = OnTheSamePage;
 				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "Couples Connection App would like access to your photos to display one on your personal homescreen.";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
@@ -435,12 +435,12 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_IDENTITY = "Apple Development";
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 7JH4RJMRTV;
+				DEVELOPMENT_TEAM = "";
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Checkoff To-Do list App/Info.plist";
-				INFOPLIST_KEY_CFBundleDisplayName = "The Same Page";
+				INFOPLIST_KEY_CFBundleDisplayName = OnTheSamePage;
 				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "Couples Connection App would like access to your photos to display one on your personal homescreen.";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
@@ -463,7 +463,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		778728A627F42C540060B496 /* Build configuration list for PBXProject "The Same Page" */ = {
+		778728A627F42C540060B496 /* Build configuration list for PBXProject "OnTheSamePage" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				778728BD27F42C560060B496 /* Debug */,
