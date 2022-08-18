@@ -197,7 +197,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 778728A627F42C540060B496 /* Build configuration list for PBXProject "Checkoff To-Do list App" */;
+			buildConfigurationList = 778728A627F42C540060B496 /* Build configuration list for PBXProject "The Same Page" */;
 			compatibilityVersion = "Xcode 13.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -409,7 +409,7 @@
 				DEVELOPMENT_TEAM = 7JH4RJMRTV;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Checkoff To-Do list App/Info.plist";
-				INFOPLIST_KEY_CFBundleDisplayName = "Checkoff To-Do list App";
+				INFOPLIST_KEY_CFBundleDisplayName = "The Same Page";
 				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "Couples Connection App would like access to your photos to display one on your personal homescreen.";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
@@ -420,12 +420,12 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "GabeHargett.Group-Task-List";
+				PRODUCT_BUNDLE_IDENTIFIER = "GabeHargett.Same-Page";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "Gabe Hargett Provisioning Profile";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -440,7 +440,7 @@
 				DEVELOPMENT_TEAM = 7JH4RJMRTV;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Checkoff To-Do list App/Info.plist";
-				INFOPLIST_KEY_CFBundleDisplayName = "Checkoff To-Do list App";
+				INFOPLIST_KEY_CFBundleDisplayName = "The Same Page";
 				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "Couples Connection App would like access to your photos to display one on your personal homescreen.";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
@@ -451,19 +451,19 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "GabeHargett.Group-Task-List";
+				PRODUCT_BUNDLE_IDENTIFIER = "GabeHargett.Same-Page";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		778728A627F42C540060B496 /* Build configuration list for PBXProject "Checkoff To-Do list App" */ = {
+		778728A627F42C540060B496 /* Build configuration list for PBXProject "The Same Page" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				778728BD27F42C560060B496 /* Debug */,
