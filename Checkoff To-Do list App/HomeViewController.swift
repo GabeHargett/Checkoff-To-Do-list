@@ -58,7 +58,7 @@ class HomeViewController: UIViewController, SettingsVCDelegate, ProfileViewDeleg
         downloadImage()
         setUpDidTaps()
         getQuote()
-//        Practice.startPractice()
+        Practice.startPractice()
         addProfileViewsForUIDs()
     }
     
