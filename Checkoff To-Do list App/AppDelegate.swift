@@ -2,7 +2,7 @@
 //  AppDelegate.swift
 //  Checkoff To-Do list App
 //
-//  Created by Tanner Rozier on 3/30/22.
+//  Created by Gabe Hargett on 3/30/22.
 //
 
 import UIKit

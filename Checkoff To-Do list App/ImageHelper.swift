@@ -2,7 +2,7 @@
 //  ImageHelper.swift
 //  Checkoff To-Do list App
 //
-//  Created by Tanner Rozier on 8/4/22.
+//  Created by Gabe Hargett on 8/4/22.
 //
 
 import UIKit

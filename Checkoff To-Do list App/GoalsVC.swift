@@ -2,15 +2,11 @@
 //  File.swift
 //  Checkoff To-Do list App
 //
-//  Created by Tanner Rozier on 5/10/22.
+//  Created by Gabe Hargett on 5/10/22.
 //
 
 import UIKit
 import Firebase
-
-
-
-
 
 class GoalsVC: UIViewController {
  

@@ -2,7 +2,7 @@
 //  CustomCollectionView.swift
 //  Checkoff To-Do list App
 //
-//  Created by Tanner Rozier on 4/20/22.
+//  Created by Gabe Hargett on 4/20/22.
 //
 
 //import UIKit

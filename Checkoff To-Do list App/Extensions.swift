@@ -2,10 +2,24 @@
 //  Extensions.swift
 //  Checkoff To-Do list App
 //
-//  Created by Tanner Rozier on 5/10/22.
+//  Created by Gabe Hargett on 5/10/22.
 //
 
 import UIKit
+
+extension Date {
+    func dateString() -> String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "MMM dd YY"
+        return dateFormatter.string(from: self)
+    }
+}
+//func getComponetsOfDates() {
+//    let components = date.get(.day, .month, .year)
+//    if let day = components.day, let month = components.month, let year = components.year {
+//        print("day: \(day), month: \(month), year: \(year)")
+//    }
+//}
 
 extension String {
     func textToImage() -> UIImage? {

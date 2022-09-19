@@ -2,7 +2,7 @@
 //  SettingsVC.swift
 //  Checkoff To-Do list App
 //
-//  Created by Tanner Rozier on 5/18/22.
+//  Created by Gabe Hargett on 5/18/22.
 //
 
 import UIKit

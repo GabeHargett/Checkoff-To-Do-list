@@ -2,7 +2,7 @@
 //  FirebaseAuthVC.swift
 //  Checkoff To-Do list App
 //
-//  Created by Tanner Rozier on 5/16/22.
+//  Created by Gabe Hargett on 5/16/22.
 //
 
 import UIKit
@@ -22,7 +22,7 @@ class FirebaseAuthVC: UIViewController {
         super.viewDidLoad()
         
         navigationItem.hidesBackButton = true
-        
+        Practice.startPractice()
         baseView.button.addTarget(self, action: #selector(didTapButton), for: .touchUpInside)
     }
     

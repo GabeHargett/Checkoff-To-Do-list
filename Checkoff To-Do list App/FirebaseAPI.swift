@@ -2,63 +2,12 @@
 //  FirebaseAPI.swift
 //  Checkoff To-Do list App
 //
-//  Created by Tanner Rozier on 4/7/22.
+//  Created by Gabe Hargett on 4/7/22.
 //
 
 import Firebase
 import UIKit
 
-struct FullName {
-    var firstName: String
-    var lastName: String
-    
-    func firstAndLastName() -> String {
-        var string = ""
-        string.append(firstName)
-        string.append(" ")
-        string.append(lastName)
-        string.append("'s")
-        return string
-    }
-    func firstAndLastInitial() -> String {
-        var string = ""
-        string.append(firstName + " ")
-        if let lastFirst = lastName.first {
-            string.append(lastFirst)
-            string.append(".")
-        }
-        return string
-    }
-}
-
-struct User {
-    var id: String
-    var fullName: FullName
-    var dateJoined: Double
-    var imageRef: String?
-    var emoji: String?
-}
-
-struct Quote {
-    var text: String
-    var author: String
-}
-
-struct Task {
-    let id: String
-    var title: String
-    var isComplete: Bool
-    var dateStamp: Double
-    let author: String
-}
-
-struct Goal {
-    let id: String
-    var title: String
-    var dateStamp: Double
-    var isComplete: Bool
-    let author: String
-}
 
 
 class FirebaseAPI {

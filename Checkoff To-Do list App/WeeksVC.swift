@@ -2,35 +2,42 @@
 //  FirstVC.swift
 //  Checkoff To-Do list App
 //
-//  Created by Tanner Rozier on 3/30/22.
+//  Created by Gabe Hargett on 3/30/22.
 //
 
 
 import UIKit
 import Firebase
 
-struct WeekAndYear: Equatable {
-    var week: Int
-    var year: Int
+struct User {
+    var id: String
+    var fullName: FullName
+    var dateJoined: Double
+    var imageRef: String?
+    var emoji: String?
 }
 
-class DateAnalyzer {
-    static func getWeekAndYearFromDate(date: Date) -> WeekAndYear? {
-        let allComponents = Calendar.current.dateComponents([.year, .weekOfYear], from: date)
-        guard let weekOfYear = allComponents.weekOfYear,
-              let year = allComponents.year else {
-            return nil
-        }
-        return WeekAndYear(week: weekOfYear, year: year)
+struct FullName {
+    var firstName: String
+    var lastName: String
+    
+    func firstAndLastName() -> String {
+        var string = ""
+        string.append(firstName)
+        string.append(" ")
+        string.append(lastName)
+        string.append("'s")
+        return string
     }
-
-}
-
-extension Date {
-    func dateString() -> String {
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "MMM dd YY"
-        return dateFormatter.string(from: self)
+    
+    func firstAndLastInitial() -> String {
+        var string = ""
+        string.append(firstName + " ")
+        if let lastFirst = lastName.first {
+            string.append(lastFirst)
+            string.append(".")
+        }
+        return string
     }
 }
 class NameCache {

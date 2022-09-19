@@ -2,14 +2,14 @@
 //  File.swift
 //  Checkoff To-Do list App
 //
-//  Created by Tanner Rozier on 5/4/22.
+//  Created by Gabe Hargett on 5/4/22.
 //
 
 import UIKit
 
 protocol DatePickerVCDelegate: AnyObject {
     func didSubmitDate(date: Date?)
-    func didSubmitGoalDate(date: Date?)
+//    func didSubmitGoalDate(date: Date?)
 }
 
 class DatePickerVC: UIViewController {
@@ -87,7 +87,8 @@ class DatePickerVC: UIViewController {
         
         switch goalType {
         case .goal:
-            self.delegate?.didSubmitGoalDate(date: self.datePicker.date)
+            break
+//            self.delegate?.didSubmitGoalDate(date: self.datePicker.date)
 
         case .task:
             self.delegate?.didSubmitDate(date: self.datePicker.date)

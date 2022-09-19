@@ -2,7 +2,7 @@
 //  modalJesusAlert.swift
 //  Checkoff To-Do list App
 //
-//  Created by Tanner Rozier on 6/28/22.
+//  Created by Gabe Hargett on 6/28/22.
 //
 
 import UIKit
