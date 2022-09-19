@@ -7,6 +7,31 @@
 
 import UIKit
 
+class GroupManager {
+    static var shared = GroupManager()
+    
+    func getCurrentGroupID() -> String? {
+        return UserDefaults.standard.string(forKey: "CurrentGroupID")
+    }
+    func setCurrentGroupID(groupID: String) {
+        UserDefaults.standard.set(groupID, forKey: "CurrentGroupID")
+    }
+    func clearGroupID() {
+        UserDefaults.standard.set(nil, forKey: "CurrentGroupID")
+    }
+}
+
+class DateAnalyzer {
+    static func getWeekAndYearFromDate(date: Date) -> WeekAndYear? {
+        let allComponents = Calendar.current.dateComponents([.year, .weekOfYear], from: date)
+        guard let weekOfYear = allComponents.weekOfYear,
+              let year = allComponents.year else {
+            return nil
+        }
+        return WeekAndYear(week: weekOfYear, year: year)
+    }
+}
+
 extension Date {
     func dateString() -> String {
         let dateFormatter = DateFormatter()

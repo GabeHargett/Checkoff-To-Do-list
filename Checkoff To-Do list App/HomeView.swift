@@ -12,7 +12,9 @@ class HomeView: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         
-        setupView()
+        configureViews()
+        layoutViews()
+        layoutStackViews()
         setColors()
     }
     
@@ -24,7 +26,6 @@ class HomeView: UIView {
     let nextWeekLabel = UILabel()
     let previousWeekLabel = UILabel()
     let otherWeeksLabel = UILabel()
-    
     let openTasksLabel = UILabel()
     let finishedTasksLabel = UILabel()
     
@@ -84,11 +85,120 @@ class HomeView: UIView {
         }
     }
     
-    private func setupView() {
+    private func configureViews() {
         for view in [couplePhoto, addQuoteButtonStack, editPhotoButtonStack, currentWeekTasksStack, previousWeekLabel, nextWeekLabel, otherWeeksLabel, mainGoalsStack] {
             view.isUserInteractionEnabled = true
         }
         
+        for stackAxis in [quoteStack, taskslabelStack, goalsLabelStack, mainTasksStack] {
+            stackAxis.axis = .vertical
+        }
+        
+        for stackAlignment in [editPhotoButtonStack, addQuoteButtonStack, currentWeekTasksStack, nextPreviousOtherStack, mainGoalsStack] {
+            stackAlignment.alignment = .center
+        }
+        
+        for stackSpacing in [mainScreenScrollStack.stackView, mainTasksStack, currentWeekTasksStack, nextPreviousOtherStack, mainGoalsStack] {
+            stackSpacing.spacing = 12
+        }
+        
+        for stackLayoutMargins in [editPhotoButtonStack, addQuoteButtonStack, mainScreenScrollStack.stackView, mainTasksStack, currentWeekTasksStack, nextPreviousOtherStack, mainGoalsStack] {
+            stackLayoutMargins.isLayoutMarginsRelativeArrangement = true
+        }
+        for cornerRadius in [currentWeekTasksStack, mainGoalsStack, nextWeekLabel, previousWeekLabel, otherWeeksLabel] {
+            cornerRadius.cornerRadius(radius: 8)
+        }
+        
+        editPhotoButtonStack.spacing = 4
+        editPhotoButtonStack.layoutMargins = UIEdgeInsets(top: 6, left: 10, bottom: 6, right: 10)
+        editPhotoButtonStack.cornerRadius(radius: 5)
+        
+        editPhotoLabel.text = "Edit"
+        
+        quoteStack.isHidden = true
+        
+        addQuoteButtonStack.isHidden = true
+        addQuoteButtonStack.spacing = 4
+        addQuoteButtonStack.layoutMargins = UIEdgeInsets(top: 6, left: 10, bottom: 6, right: 10)
+        addQuoteButtonStack.cornerRadius(radius: 5)
+        
+        addQuoteLabel.text = "+"
+        
+        quoteLabel.textAlignment = .left
+        quoteLabel.font = .boldSystemFont(ofSize: 14)
+        quoteLabel.numberOfLines = 0
+        
+        quoteStack.spacing = 4
+        
+        quoteGradient.horizontalMode = false
+        quoteGradient.startColor = .clear
+        quoteGradient.endColor = UIColor(hex: "#000000")
+        quoteGradient.startLocation = 0.7
+        quoteGradient.endLocation = 1.1
+        
+        mainScreenScrollStack.stackView.layoutMargins = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+        
+        mainTasksStack.layoutMargins = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+        
+        currentWeekTasksStack.layoutMargins = UIEdgeInsets(top: 10, left: 16, bottom: 0, right: 16)
+        
+        nextPreviousOtherStack.layoutMargins = UIEdgeInsets(top: 0, left: 12, bottom: 10, right: 12)
+        
+        mainGoalsStack.layoutMargins = UIEdgeInsets(top: 10, left: 16, bottom: 0, right: 16)
+        
+        for imageContentMode in [weekTasksimageView, goalsArrowImageView, taskArrowImageView, goalFlagImageView] {
+            imageContentMode.contentMode = .scaleAspectFit
+        }
+        
+        for imageTint in [weekTasksimageView, goalsArrowImageView, taskArrowImageView, goalFlagImageView] {
+            imageTint.tintColor = .black
+        }
+        
+        weekTasksimageView.height(constant: 55)
+        weekTasksimageView.width(constant: 55)
+        
+        goalsArrowImageView.height(constant: 20)
+        goalsArrowImageView.width(constant: 20)
+        
+        taskArrowImageView.height(constant: 20)
+        taskArrowImageView.width(constant: 20)
+        
+        goalFlagImageView.height(constant: 55)
+        goalFlagImageView.width(constant: 55)
+        
+        for labelHeight in [nextWeekLabel, previousWeekLabel, otherWeeksLabel] {
+            labelHeight.height(constant: 40)
+        }
+        
+        for labelWidth in [nextWeekLabel, previousWeekLabel, otherWeeksLabel] {
+            labelWidth.width(constant: 80)
+        }
+        
+        for labelTextAlignment in [nextWeekLabel, previousWeekLabel, otherWeeksLabel] {
+            labelTextAlignment.textAlignment = .center
+        }
+        
+        nextWeekLabel.text = "Next"
+        
+        previousWeekLabel.text = "Previous"
+        
+        otherWeeksLabel.text = "Other"
+        
+        currentWeekTasksLabel.font = UIFont.systemFont(ofSize: 21)
+        currentWeekTasksLabel.attributedText = "Current Week Tasks".underLined
+        
+        couplePhoto.backgroundColor = .darkGray
+        couplePhoto.height(constant: 300)
+        couplePhoto.contentMode = .scaleAspectFill
+        couplePhoto.layer.masksToBounds = true
+                
+        goalsLabel.textAlignment = .left
+        goalsLabel.font = UIFont.systemFont(ofSize: 21)
+        goalsLabel.numberOfLines = 0
+        goalsLabel.attributedText = "Group Goals".underLined
+    }
+    
+    private func layoutViews() {
         let photoBlurView = UIVisualEffectView(effect: UIBlurEffect(style: .dark))
         editPhotoButtonStack.addAutoLayoutSubview(photoBlurView)
         photoBlurView.fillSuperview()
@@ -97,43 +207,8 @@ class HomeView: UIView {
         addQuoteButtonStack.addAutoLayoutSubview(quoteBlurView)
         quoteBlurView.fillSuperview()
         
-        couplePhoto.backgroundColor = .darkGray
         addAutoLayoutSubview(couplePhoto)
-        
-        editPhotoButtonStack.axis = .horizontal
-        editPhotoButtonStack.alignment = .center
-        editPhotoButtonStack.spacing = 4
-        editPhotoButtonStack.layoutMargins = UIEdgeInsets(top: 6, left: 10, bottom: 6, right: 10)
-        editPhotoButtonStack.isLayoutMarginsRelativeArrangement = true
-        editPhotoButtonStack.cornerRadius(radius: 5)
-        editPhotoButtonStack.addArrangedSubviews([cameraImageView, editPhotoLabel])
-        editPhotoLabel.text = "Edit"
-        
-        quoteStack.isHidden = true
-        addQuoteButtonStack.isHidden = true
-        addQuoteButtonStack.axis = .horizontal
-        addQuoteButtonStack.alignment = .center
-        addQuoteButtonStack.spacing = 4
-        addQuoteButtonStack.layoutMargins = UIEdgeInsets(top: 6, left: 10, bottom: 6, right: 10)
-        addQuoteButtonStack.isLayoutMarginsRelativeArrangement = true
-        addQuoteButtonStack.cornerRadius(radius: 5)
-        addQuoteButtonStack.addArrangedSubviews([quoteBubbleImageView, addQuoteLabel])
-        addQuoteLabel.text = "+"
-        quoteLabel.textAlignment = .left
-        quoteLabel.font = .boldSystemFont(ofSize: 14)
-        quoteLabel.numberOfLines = 0
-        
-        quoteStack.axis = .vertical
-        quoteStack.spacing = 4
-        quoteStack.addArrangedSubviews([quoteLabel, quoteSignature])
-        
-        
-        quoteGradient.horizontalMode = false
-        quoteGradient.startColor = .clear
-        quoteGradient.endColor = UIColor(hex: "#000000")
-        quoteGradient.startLocation = 0.7
-        quoteGradient.endLocation = 1.1
-        
+
         couplePhoto.addAutoLayoutSubview(quoteGradient)
         quoteGradient.fillSuperview()
         
@@ -142,7 +217,8 @@ class HomeView: UIView {
         couplePhoto.addAutoLayoutSubview(quoteStack)
         couplePhoto.addAutoLayoutSubview(profileViewStack)
         addAutoLayoutSubview(mainScreenScrollStack)
-        
+        mainScreenScrollStack.fillSuperview()
+
         NSLayoutConstraint.activate([
             editPhotoButtonStack.leftAnchor.constraint(equalTo: couplePhoto.leftAnchor, constant: 12),
             editPhotoButtonStack.topAnchor.constraint(equalTo: couplePhoto.topAnchor,constant: 12),
@@ -154,90 +230,14 @@ class HomeView: UIView {
             profileViewStack.topAnchor.constraint(equalTo: couplePhoto.topAnchor, constant: 12),
             profileViewStack.rightAnchor.constraint(equalTo: couplePhoto.rightAnchor,constant: -12)
         ])
+    }
+    
+    private func layoutStackViews() {
+        editPhotoButtonStack.addArrangedSubviews([cameraImageView, editPhotoLabel])
         
-        taskslabelStack.axis = .vertical
-        goalsLabelStack.axis = .vertical
+        addQuoteButtonStack.addArrangedSubviews([quoteBubbleImageView, addQuoteLabel])
         
-        mainScreenScrollStack.stackView.layoutMargins = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
-        mainScreenScrollStack.stackView.spacing = 12
-        mainScreenScrollStack.stackView.isLayoutMarginsRelativeArrangement = true
-        
-        mainScreenScrollStack.fillSuperview()
-        
-        mainTasksStack.layoutMargins = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
-        mainTasksStack.axis = .vertical
-        mainTasksStack.spacing = 12
-        mainTasksStack.isLayoutMarginsRelativeArrangement = true
-        
-        currentWeekTasksStack.axis = .horizontal
-        currentWeekTasksStack.layoutMargins = UIEdgeInsets(top: 10, left: 16, bottom: 0, right: 16)
-        currentWeekTasksStack.isLayoutMarginsRelativeArrangement = true
-        currentWeekTasksStack.alignment = .center
-        currentWeekTasksStack.spacing = 12
-        currentWeekTasksStack.cornerRadius(radius: 8)
-        
-        nextPreviousOtherStack.layoutMargins = UIEdgeInsets(top: 0, left: 12, bottom: 10, right: 12)
-        nextPreviousOtherStack.isLayoutMarginsRelativeArrangement = true
-        nextPreviousOtherStack.alignment = .center
-        nextPreviousOtherStack.spacing = 12
-        nextPreviousOtherStack.cornerRadius(radius: 8)
-        
-        weekTasksimageView.height(constant: 55)
-        weekTasksimageView.width(constant: 55)
-        weekTasksimageView.contentMode = .scaleAspectFit
-        weekTasksimageView.tintColor = .black
-        
-        goalsArrowImageView.height(constant: 20)
-        goalsArrowImageView.width(constant: 20)
-        goalsArrowImageView.contentMode = .scaleAspectFit
-        goalsArrowImageView.tintColor = .black
-        
-        taskArrowImageView.height(constant: 20)
-        taskArrowImageView.width(constant: 20)
-        taskArrowImageView.contentMode = .scaleAspectFit
-        taskArrowImageView.tintColor = .black
-        
-        goalFlagImageView.height(constant: 55)
-        goalFlagImageView.width(constant: 55)
-        goalFlagImageView.contentMode = .scaleAspectFit
-        goalFlagImageView.tintColor = .black
-        
-        nextWeekLabel.text = "Next"
-        nextWeekLabel.textAlignment = .center
-        nextWeekLabel.height(constant: 40)
-        nextWeekLabel.width(constant: 80)
-        nextWeekLabel.cornerRadius(radius: 8)
-        
-        previousWeekLabel.text = "Previous"
-        previousWeekLabel.textAlignment = .center
-        previousWeekLabel.height(constant: 40)
-        previousWeekLabel.width(constant: 80)
-        previousWeekLabel.cornerRadius(radius: 8)
-        
-        otherWeeksLabel.text = "Other"
-        otherWeeksLabel.textAlignment = .center
-        otherWeeksLabel.height(constant: 40)
-        otherWeeksLabel.width(constant: 80)
-        otherWeeksLabel.cornerRadius(radius: 8)
-        
-        currentWeekTasksLabel.font = UIFont.systemFont(ofSize: 21)
-        currentWeekTasksLabel.attributedText = "Current Week Tasks".underLined
-        
-        couplePhoto.height(constant: 300)
-        couplePhoto.contentMode = .scaleAspectFill
-        couplePhoto.layer.masksToBounds = true
-        
-        mainGoalsStack.axis = .horizontal
-        mainGoalsStack.layoutMargins = UIEdgeInsets(top: 10, left: 16, bottom: 0, right: 16)
-        mainGoalsStack.isLayoutMarginsRelativeArrangement = true
-        mainGoalsStack.alignment = .center
-        mainGoalsStack.spacing = 12
-        mainGoalsStack.cornerRadius(radius: 8)
-        
-        goalsLabel.textAlignment = .left
-        goalsLabel.font = UIFont.systemFont(ofSize: 21)
-        goalsLabel.numberOfLines = 0
-        goalsLabel.attributedText = "Group Goals".underLined
+        quoteStack.addArrangedSubviews([quoteLabel, quoteSignature])
         
         mainScreenScrollStack.stackView.addArrangedSubviews([couplePhoto, mainTasksStack, mainGoalsStack])
         
@@ -262,9 +262,9 @@ class HomeView: UIView {
         
         goalsLabelAndArrow.addArrangedSubviews([goalsLabel, goalsArrowImageView])
         goalsLabelAndArrow.height(constant: 25)
-        
     }
 }
+
 protocol ProfileViewDelegate: AnyObject {
     func updateProfileView(image: UIImage?, emoji: String?, uid: String)
 }
@@ -357,7 +357,6 @@ class ProfileView: UIView {
     
     private func configureLayout() {
         profileStack.alignment = .top
-        profileStack.axis = .horizontal
         profileStack.layoutMargins = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
         profileStack.spacing = -20
         profileStack.isLayoutMarginsRelativeArrangement = true

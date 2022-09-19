@@ -8,31 +8,6 @@ import Firebase
 import UIKit
 import Photos
 
-class GroupManager {
-    static var shared = GroupManager()
-    
-    func getCurrentGroupID() -> String? {
-        return UserDefaults.standard.string(forKey: "CurrentGroupID")
-    }
-    func setCurrentGroupID(groupID: String) {
-        UserDefaults.standard.set(groupID, forKey: "CurrentGroupID")
-    }
-    func clearGroupID() {
-        UserDefaults.standard.set(nil, forKey: "CurrentGroupID")
-    }
-}
-
-class DateAnalyzer {
-    static func getWeekAndYearFromDate(date: Date) -> WeekAndYear? {
-        let allComponents = Calendar.current.dateComponents([.year, .weekOfYear], from: date)
-        guard let weekOfYear = allComponents.weekOfYear,
-              let year = allComponents.year else {
-            return nil
-        }
-        return WeekAndYear(week: weekOfYear, year: year)
-    }
-}
-
 class HomeViewController: UIViewController  {
     
     override func loadView() {
@@ -253,29 +228,14 @@ class HomeViewController: UIViewController  {
     }
     
     func setUpTapGestures() {
-        let tapGesture1 = UITapGestureRecognizer(target: self, action: #selector(didTapCurrentWeek))
-        baseView.currentWeekTasksStack.addGestureRecognizer(tapGesture1)
-        
-        let tapGesture2 = UITapGestureRecognizer(target: self, action: #selector(didTapPreviousWeek))
-        baseView.previousWeekLabel.addGestureRecognizer(tapGesture2)
-        
-        let tapGesture3 = UITapGestureRecognizer(target: self, action: #selector(didTapNextWeek))
-        baseView.nextWeekLabel.addGestureRecognizer(tapGesture3)
-        
-        let tapGesture4 = UITapGestureRecognizer(target: self, action: #selector(didTapOtherWeek))
-        baseView.otherWeeksLabel.addGestureRecognizer(tapGesture4)
-        
-        let tapGesture5 = UITapGestureRecognizer(target: self, action: #selector(didTapGoalsStack))
-        baseView.mainGoalsStack.addGestureRecognizer(tapGesture5)
-        
-        let tapGesture9 = UITapGestureRecognizer(target: self, action: #selector(addQuote))
-        baseView.quoteStack.addGestureRecognizer(tapGesture9)
-        
-        let tapGesture10 = UITapGestureRecognizer(target: self, action: #selector(addQuote))
-        baseView.addQuoteButtonStack.addGestureRecognizer(tapGesture10)
-        
-        let tapGesture11 = UITapGestureRecognizer(target: self, action: #selector(showImagePicker))
-        baseView.editPhotoButtonStack.addGestureRecognizer(tapGesture11)
+        baseView.currentWeekTasksStack.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(didTapCurrentWeek)))
+        baseView.previousWeekLabel.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(didTapPreviousWeek)))
+        baseView.nextWeekLabel.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(didTapNextWeek)))
+        baseView.otherWeeksLabel.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(didTapOtherWeek)))
+        baseView.mainGoalsStack.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(didTapGoalsStack)))
+        baseView.quoteStack.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(addQuote)))
+        baseView.addQuoteButtonStack.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(addQuote)))        
+        baseView.editPhotoButtonStack.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(showImagePicker)))
     }
     
     @objc private func didTapCurrentWeek() {
@@ -337,7 +297,9 @@ class HomeViewController: UIViewController  {
         navigationController?.pushViewController(vc, animated: true)
     }
 }
+
 extension HomeViewController: ProfileViewDelegate {
+    
     func didUpdateImage(profileImage: UIImage) {
         guard let uid = FirebaseAPI.currentUserUID(), let profileView = profileViewFor(uid: uid) else {
             return
@@ -352,7 +314,9 @@ extension HomeViewController: ProfileViewDelegate {
         profileView.updateEmoji(emojiString: emojiString)
     }
 }
+
 extension HomeViewController:  EditProfileViewVCDelegate {
+    
     func updateProfileView(image: UIImage?, emoji: String?, uid: String) {
         let vc = EditProfileViewVC(initialProfileImage: image, initialEmoji: emoji, uid: uid)
         vc.delegate = self
@@ -375,7 +339,6 @@ extension HomeViewController: SettingsVCDelegate{
         configureBackground()
     }
 }
-
 
 extension HomeViewController: TextInputVCDelegate {
     func didSubmitText(text: String, text2: String?, textType: TextInputVC.TextType, date: Date?) {
@@ -410,18 +373,7 @@ extension HomeViewController: UIImagePickerControllerDelegate, UINavigationContr
             baseView.couplePhoto.image = image
             FirebaseAPI.uploadImage(groupID: groupID, image: image) {
                 ImageAssetHelper.clearImage(imageURL: "images/\(self.groupID)/couplePhoto")
-                
-                print("image Uploaded")
             }
-            UIView.animate(withDuration: 0.5, animations: {
-            })
-        }
-        else {
-            let customAlert = ModalJesus(title: "Status: Limited", description: "Please allow access to your photos in settings or select more photos below.")
-            customAlert.addAction(ModalJesusAction(title: "Select Photos", style: true, action: {self.selectPhotos()}))
-            customAlert.addAction(ModalJesusAction(title: "Open Settings", style: true, action: {self.goToPrivacySettings()}))
-            customAlert.addAction(ModalJesusAction(title: "Cancel", style: false))
-            customAlert.showModal(vc: self)
         }
         
         picker.dismiss(animated: true, completion: nil)
