@@ -2,7 +2,7 @@
 //  GroupCreationVC.swift
 //  Checkoff To-Do list App
 //
-//  Created by Gabe Hargett on 6/2/22.
+//  Created by Tanner Rozier on 6/2/22.
 //
 
 import UIKit

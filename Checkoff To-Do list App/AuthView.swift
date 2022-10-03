@@ -2,7 +2,7 @@
 //  FirebaseAuthViewController.swift
 //  Checkoff To-Do list App
 //
-//  Created by Gabe Hargett on 5/16/22.
+//  Created by Tanner Rozier on 5/16/22.
 //
 
 import UIKit

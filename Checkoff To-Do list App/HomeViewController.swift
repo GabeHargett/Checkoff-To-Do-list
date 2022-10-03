@@ -34,12 +34,105 @@ class HomeViewController: UIViewController  {
         setUpTapGestures()
         getQuote()
         addProfileViewsForUIDs()
+        sendNotification(title: "hi", message: "notif")
     }
     
     override func viewDidAppear(_ animated: Bool) {
         getTaskCount()
         getGoalCount()
     }
+//    func updateDeviceID(deviceID: String, completion: @escaping () -> ()) {
+//
+//            guard let uid = FirebaseAPI.shared.currentUserID() else {
+//
+//                completion()
+//
+//                return
+//
+//            }
+//
+//            let ref = Database.database().reference().child("Users").child(uid).child("deviceID")
+//
+//            ref.setValue(deviceID) {error, ref in
+//
+//                completion()
+//
+//            }
+//
+//        }
+//
+//        func getDeviceID(uid: String, completion: @escaping (String?) -> ()) {
+//
+//            let ref = Database.database().reference().child("Users").child(uid).child("deviceID")
+//
+//            ref.observeSingleEvent(of: .value, with: {snapshot in
+//
+//                completion(snapshot.value as? String)
+//
+//            })
+//
+//        }
+
+        
+
+        func sendNotification(title: String, message: String) { //userID: String,
+
+//            getDeviceID(uid: userID) {deviceID in
+//
+//                guard let deviceID = deviceID else {
+//
+//                    return
+//
+//                }
+            let deviceID = "dO6ZYp2rcEk1sQjDiyw6V_:APA91bGMB7AmVi8NTgvUp3f2ugcPHPHBYznxrbF9jxgsdOfG5AHHXwvRg77ZIdfjZD7SMHDm32FGi54_a2wVIoLk7-cOJ8pDaZ8-Nw1MxIguErvJH6U_NEyDMZshAPiK1xPgs9vbIVIg"
+
+
+                let urlString = "https://fcm.googleapis.com/fcm/send"
+
+                let url = NSURL(string: urlString)!
+
+                let paramString: [String : Any] = ["to" : deviceID,
+
+                                                   "notification" : ["title" : title, "body" : message]
+
+                ]
+
+                let request = NSMutableURLRequest(url: url as URL)
+
+                request.httpMethod = "POST"
+
+                request.httpBody = try? JSONSerialization.data(withJSONObject:paramString, options: [.prettyPrinted])
+
+                request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+
+                request.setValue("key=\(self.serverKey)", forHTTPHeaderField: "Authorization")
+
+                let task =  URLSession.shared.dataTask(with: request as URLRequest)  { (data, response, error) in
+
+                    do {
+
+                        if let jsonData = data {
+
+                            if let jsonDataDict  = try JSONSerialization.jsonObject(with: jsonData, options: JSONSerialization.ReadingOptions.allowFragments) as? [String: AnyObject] {
+
+                                NSLog("Received data:\n\(jsonDataDict))")
+
+                            }
+
+                        }
+
+                    } catch let err as NSError {
+
+                        print(err.debugDescription)
+
+                    }
+
+                }
+
+                task.resume()
+
+
+        }
     
     private func configureBackground() {
         FirebaseAPI.getGroupTitle(groupID: groupID) {title in
