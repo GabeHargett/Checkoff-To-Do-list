@@ -18,6 +18,8 @@ class HomeViewController: UIViewController  {
     public let date = Date()
     private var currentQuote: Quote?
     private let groupID: String
+    let serverKey = "AAAACGeB3PI:APA91bHMp1ssgQnkL7jbSjM00hdTtT0OBgsYYVGJfnKiJsWawXEjqgjb7b_foELO5MKuKs8uAIL0x3gXrbn8_grffFAGtWrq-NyfM09yEudyZFrI_wVAOPB6VUEAghSKXJbkmkdFbzsf"
+
     
     init(groupID: String) {
         self.groupID = groupID
@@ -84,8 +86,7 @@ class HomeViewController: UIViewController  {
 //                    return
 //
 //                }
-            let deviceID = "dO6ZYp2rcEk1sQjDiyw6V_:APA91bGMB7AmVi8NTgvUp3f2ugcPHPHBYznxrbF9jxgsdOfG5AHHXwvRg77ZIdfjZD7SMHDm32FGi54_a2wVIoLk7-cOJ8pDaZ8-Nw1MxIguErvJH6U_NEyDMZshAPiK1xPgs9vbIVIg"
-
+            let deviceID = "ft24zeTvZUT0rJ6iSzzv9V:APA91bE4DRxAiCxQyXFzQJOrGEL_JIhQkcIvDga9oKcJxPafr3dsil0s6x_nVKvICIg8sZwZ6zQnI-RjuuK9-W4sd7p0Oi8m2phUB9YjV5xkuAoqOpPl7Tjnv_6TfkfAkVmvj-EzNxF7"
 
                 let urlString = "https://fcm.googleapis.com/fcm/send"
 
