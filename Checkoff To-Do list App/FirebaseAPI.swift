@@ -23,6 +23,19 @@ class FirebaseAPI {
         ref.setValue(["fullName": ["firstName": user.fullName.firstName, "lastName": user.fullName.lastName], "dateJoined": user.dateJoined])
     }
     
+    static func updateDeviceID(deviceID: String, uid: String, completion: @escaping () -> ()) {
+        let ref = Database.database().reference().child("Users").child(uid).child("deviceID")
+        ref.setValue(deviceID) {error, ref in
+            completion()
+        }
+    }
+    
+    static func getDeviceID(uid: String, completion: @escaping (String?) -> ()) {
+        let ref = Database.database().reference().child("Users").child(uid).child("deviceID")
+        ref.observeSingleEvent(of: .value, with: {snapshot in
+            completion(snapshot.value as? String)
+        })
+    }
     
     static func getFullName(uid: String, completion: @escaping (FullName?) -> ()) {
         if let nameCache = NameCache.shared.getName(uid: uid) {

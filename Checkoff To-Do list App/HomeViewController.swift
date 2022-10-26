@@ -8,6 +8,20 @@ import Firebase
 import UIKit
 import Photos
 
+struct IceCream {
+    var name: String
+    var price: Int
+    var awesomeness: Int
+}
+
+class Dummy {
+//    static var shared = Dummy(myName: "hey")
+    var myName: String
+    init(myName: String) {
+        self.myName = myName
+    }
+}
+
 class HomeViewController: UIViewController  {
     
     override func loadView() {
@@ -16,10 +30,16 @@ class HomeViewController: UIViewController  {
     
     let baseView = HomeView()
     public let date = Date()
+    let dummyClass = Dummy.init(myName: "Gabe")
     private var currentQuote: Quote?
     private let groupID: String
-    let serverKey = "AAAACGeB3PI:APA91bHMp1ssgQnkL7jbSjM00hdTtT0OBgsYYVGJfnKiJsWawXEjqgjb7b_foELO5MKuKs8uAIL0x3gXrbn8_grffFAGtWrq-NyfM09yEudyZFrI_wVAOPB6VUEAghSKXJbkmkdFbzsf"
-
+    let iceCreams: [IceCream] = [
+        IceCream(name: "vanilla", price: 4, awesomeness: 5),
+        IceCream(name: "choc", price: 4, awesomeness: 5),
+        IceCream(name: "straw", price: 4, awesomeness: 5),
+        IceCream(name: "rockyroad", price: 4, awesomeness: 5),
+        IceCream(name: "superman", price: 4, awesomeness: 5),
+        IceCream(name: "napolean", price: 4, awesomeness: 5)]
     
     init(groupID: String) {
         self.groupID = groupID
@@ -30,18 +50,28 @@ class HomeViewController: UIViewController  {
     
     override func viewDidLoad(){
         super.viewDidLoad()
-        
+        if let getIceCream = getIceCream(name: "choc") {
+            print(getIceCream)
+        }
         configureBackground()
         downloadImage()
         setUpTapGestures()
         getQuote()
         addProfileViewsForUIDs()
-        sendNotification(title: "hi", message: "notif")
     }
     
     override func viewDidAppear(_ animated: Bool) {
         getTaskCount()
         getGoalCount()
+    }
+    
+    func getIceCream(name: String) -> IceCream? {
+        for iceCream in iceCreams {
+            if name == iceCream.name{
+                return iceCream
+            }
+        }
+        return nil
     }
 //    func updateDeviceID(deviceID: String, completion: @escaping () -> ()) {
 //
@@ -75,65 +105,6 @@ class HomeViewController: UIViewController  {
 //
 //        }
 
-        
-
-        func sendNotification(title: String, message: String) { //userID: String,
-
-//            getDeviceID(uid: userID) {deviceID in
-//
-//                guard let deviceID = deviceID else {
-//
-//                    return
-//
-//                }
-            let deviceID = "ft24zeTvZUT0rJ6iSzzv9V:APA91bE4DRxAiCxQyXFzQJOrGEL_JIhQkcIvDga9oKcJxPafr3dsil0s6x_nVKvICIg8sZwZ6zQnI-RjuuK9-W4sd7p0Oi8m2phUB9YjV5xkuAoqOpPl7Tjnv_6TfkfAkVmvj-EzNxF7"
-
-                let urlString = "https://fcm.googleapis.com/fcm/send"
-
-                let url = NSURL(string: urlString)!
-
-                let paramString: [String : Any] = ["to" : deviceID,
-
-                                                   "notification" : ["title" : title, "body" : message]
-
-                ]
-
-                let request = NSMutableURLRequest(url: url as URL)
-
-                request.httpMethod = "POST"
-
-                request.httpBody = try? JSONSerialization.data(withJSONObject:paramString, options: [.prettyPrinted])
-
-                request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-
-                request.setValue("key=\(self.serverKey)", forHTTPHeaderField: "Authorization")
-
-                let task =  URLSession.shared.dataTask(with: request as URLRequest)  { (data, response, error) in
-
-                    do {
-
-                        if let jsonData = data {
-
-                            if let jsonDataDict  = try JSONSerialization.jsonObject(with: jsonData, options: JSONSerialization.ReadingOptions.allowFragments) as? [String: AnyObject] {
-
-                                NSLog("Received data:\n\(jsonDataDict))")
-
-                            }
-
-                        }
-
-                    } catch let err as NSError {
-
-                        print(err.debugDescription)
-
-                    }
-
-                }
-
-                task.resume()
-
-
-        }
     
     private func configureBackground() {
         FirebaseAPI.getGroupTitle(groupID: groupID) {title in
@@ -337,6 +308,7 @@ class HomeViewController: UIViewController  {
             return
         }
         let vc = WeeksVC(groupID: groupID, weekAndYear: weekAndYear)
+        vc.dummy = self.dummyClass
         navigationController?.pushViewController(vc, animated: true)
     }
     

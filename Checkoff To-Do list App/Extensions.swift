@@ -7,6 +7,49 @@
 
 import UIKit
 
+struct User {
+    var id: String
+    var fullName: FullName
+    var dateJoined: Double
+    var imageRef: String?
+    var emoji: String?
+}
+
+struct FullName {
+    var firstName: String
+    var lastName: String
+    
+    func firstAndLastName() -> String {
+        var string = ""
+        string.append(firstName)
+        string.append(" ")
+        string.append(lastName)
+        string.append("'s")
+        return string
+    }
+    
+    func firstAndLastInitial() -> String {
+        var string = ""
+        string.append(firstName + " ")
+        if let lastFirst = lastName.first {
+            string.append(lastFirst)
+            string.append(".")
+        }
+        return string
+    }
+}
+
+class NameCache {
+    static let shared = NameCache()
+    var nameDictionary: [String: FullName] = [:]
+    func insertName(uid: String, name: FullName) {
+        nameDictionary[uid] = name
+    }
+    func getName(uid: String) -> FullName? {
+        return nameDictionary[uid]
+    }
+}
+
 class GroupManager {
     static var shared = GroupManager()
     

@@ -9,49 +9,6 @@
 import UIKit
 import Firebase
 
-struct User {
-    var id: String
-    var fullName: FullName
-    var dateJoined: Double
-    var imageRef: String?
-    var emoji: String?
-}
-
-struct FullName {
-    var firstName: String
-    var lastName: String
-    
-    func firstAndLastName() -> String {
-        var string = ""
-        string.append(firstName)
-        string.append(" ")
-        string.append(lastName)
-        string.append("'s")
-        return string
-    }
-    
-    func firstAndLastInitial() -> String {
-        var string = ""
-        string.append(firstName + " ")
-        if let lastFirst = lastName.first {
-            string.append(lastFirst)
-            string.append(".")
-        }
-        return string
-    }
-}
-class NameCache {
-    static let shared = NameCache()
-    var nameDictionary: [String: FullName] = [:]
-    func insertName(uid: String, name: FullName) {
-        nameDictionary[uid] = name
-    }
-    func getName(uid: String) -> FullName? {
-        return nameDictionary[uid]
-    }
-}
-
-
 class WeeksVC: UIViewController {
     
     enum Section: Int {
@@ -67,7 +24,10 @@ class WeeksVC: UIViewController {
     
     private var weekAndYear: WeekAndYear
     private let groupID: String
+    public var dummy: Dummy?
     private let sections: [Section] = [.incomplete, .completed]
+    private let serverKey = "AAAACGeB3PI:APA91bHMp1ssgQnkL7jbSjM00hdTtT0OBgsYYVGJfnKiJsWawXEjqgjb7b_foELO5MKuKs8uAIL0x3gXrbn8_grffFAGtWrq-NyfM09yEudyZFrI_wVAOPB6VUEAghSKXJbkmkdFbzsf"
+    
     
     init(groupID: String, weekAndYear: WeekAndYear) {
         self.weekAndYear = weekAndYear
@@ -77,7 +37,7 @@ class WeeksVC: UIViewController {
     
     private var tasks = [Task]()
     private var editedTaskIndex: Int?
-//    let textInput = TextInputVC(textType: .task)
+    //    let textInput = TextInputVC(textType: .task)
     
     required init?(coder aDecoder: NSCoder) { fatalError() }
     
@@ -87,6 +47,7 @@ class WeeksVC: UIViewController {
         baseView.tableView.dataSource = self
         setupNavbar()
         loadTasks()
+        print(dummy?.myName)
     }
     
     private func setupNavbar() {
@@ -124,13 +85,43 @@ class WeeksVC: UIViewController {
         vc.delegate = self
         vc.showModal(vc: self)
     }
+    
+    func sendNotification(title: String, uid: String, message: String) {
+        FirebaseAPI.getDeviceID(uid: uid) {deviceID in
+                        guard let deviceID = deviceID else {
+                            return
+                        }
+        let urlString = "https://fcm.googleapis.com/fcm/send"
+        let url = NSURL(string: urlString)!
+        let paramString: [String : Any] = ["to" : deviceID,
+                                           "notification" : ["title" : title, "body" : message]
+        ]
+        let request = NSMutableURLRequest(url: url as URL)
+        request.httpMethod = "POST"
+        request.httpBody = try? JSONSerialization.data(withJSONObject:paramString, options: [.prettyPrinted])
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.setValue("key=\(self.serverKey)", forHTTPHeaderField: "Authorization")
+        let task =  URLSession.shared.dataTask(with: request as URLRequest)  { (data, response, error) in
+            do {
+                if let jsonData = data {
+                    if let jsonDataDict  = try JSONSerialization.jsonObject(with: jsonData, options: JSONSerialization.ReadingOptions.allowFragments) as? [String: AnyObject] {
+                        NSLog("Received data:\n\(jsonDataDict))")
+                    }
+                }
+            } catch let err as NSError {
+                print(err.debugDescription)
+            }
+        }
+        task.resume()
+    }
+}
 }
 
 extension WeeksVC: TextInputVCDelegate {
     func didSubmitText(text: String, text2: String?, textType: TextInputVC.TextType, date: Date?) {
         let dateStamp = date?.timeIntervalSince1970 ?? Date().timeIntervalSince1970
         let weekAndYear = DateAnalyzer.getWeekAndYearFromDate(date: Date.init(timeIntervalSince1970: dateStamp))
-
+        
         if let editedTaskIndex = editedTaskIndex {
             self.editedTaskIndex = nil
             tasks[editedTaskIndex].dateStamp = dateStamp
@@ -138,15 +129,29 @@ extension WeeksVC: TextInputVCDelegate {
             FirebaseAPI.editTask(task:tasks[editedTaskIndex], groupID: groupID)
             FirebaseAPI.editTaskDate(task:tasks[editedTaskIndex], groupID: groupID)
         } else {
-            if let uid = FirebaseAPI.currentUserUID(),
+            if let personalUid = FirebaseAPI.currentUserUID(),
                let id = FirebaseAPI.addTask(task: Task(id: "",
                                                        title: text,
                                                        isComplete: false,
                                                        dateStamp: dateStamp,
-                                                       author: uid),
+                                                       author: personalUid),
                                             groupID: groupID),
                self.weekAndYear == weekAndYear {
-                tasks.append(Task(id: id, title: text, isComplete: false, dateStamp: dateStamp, author: uid))
+                tasks.append(Task(id: id, title: text, isComplete: false, dateStamp: dateStamp, author: personalUid))
+                FirebaseAPI.getFullName(uid: personalUid) {result in
+                    if let fullName = result {
+                        FirebaseAPI.getUIDsForGroup(groupID: self.groupID) {result in
+                            if let uids = result {
+                                for uid in uids {
+                                    if uid != personalUid {
+                                        self.sendNotification(title: "\(fullName.firstName) created a new task", uid: uid, message: "\"\(text)\"")
+                                    }
+                                    
+                                }
+                            }
+                        }
+                    }
+                }
             }
         }
         baseView.tableView.reloadData()

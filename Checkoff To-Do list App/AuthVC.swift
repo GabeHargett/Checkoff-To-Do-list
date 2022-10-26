@@ -7,6 +7,7 @@
 
 import UIKit
 import Firebase
+import FirebaseMessaging
 
 
 class FirebaseAuthVC: UIViewController {
@@ -16,7 +17,6 @@ class FirebaseAuthVC: UIViewController {
     }
     
     let baseView = FirebaseAuthView()
-
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -163,6 +163,10 @@ class FirebaseAuthVC: UIViewController {
                 }
                 let newUser = User(id: result.user.uid, fullName: fullname, dateJoined: Date().timeIntervalSince1970)
                 FirebaseAPI.addUser(user: newUser)
+                if let fcmToken = Messaging.messaging().fcmToken {
+                    FirebaseAPI.updateDeviceID(deviceID: fcmToken, uid: result.user.uid){
+                        print("\(fcmToken) this token was updated for \(fullname)")
+                    } }
                 DispatchQueue.main.async {
                     let vc = GroupCreationVC()
                     strongSelf.navigationController?.pushViewController(vc, animated: true)

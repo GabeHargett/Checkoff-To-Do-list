@@ -9,8 +9,8 @@ import UIKit
 
 class Practice {
     static func startPractice() {
-        let answer = twoSum(nums: [2,7,11,15], target: 9)
-        print("The answer1 of two sum qeustion is \(answer)")
+//        let answer = twoSum([2,7,11,15], 9)
+//        print("The answer1 of two sum qeustion is \(answer)")
 //        // Should print [0,1]
 //        let answer2 = increaseIntBy1(nums: [9])
 //        print("The answer2 is \(answer2)")
@@ -40,7 +40,46 @@ class Practice {
         print(isIsomorphic)
         let climbingStairs = climbingStairs(n: 4)
         print(climbingStairs)
+        let longprefix = longestCommonPrefix(["hello", "helicopter", "hill"])
+        print(longprefix)
     }
+    static func longestCommonPrefix(_ strs: [String]) -> String {
+            guard strs.count > 0 else { return "" }
+            let chars_array = strs.map({ Array($0) })
+            var string = ""
+            var i = 0
+            
+            while true {
+                var c: Character? = nil
+                for chars in chars_array {
+                    if i >= chars.count {
+                        return string
+                    } else {
+                        if c == nil {
+                            c = chars[i] }
+                        
+                        else if chars[i] != c! { return string }
+                    }
+                }
+                string += String(c!)
+                i += 1
+            }
+            
+            return string
+        }
+        
+    static func isPalindrome(_ x: Int) -> Bool {
+        var stringInt = String(x)
+         var rString = stringInt.reversed()
+        var reversedString = String(rString)
+         if stringInt == reversedString {
+             return(true)
+         } else {return(false)}
+         // for letter in 0..<stringInt.count {
+         //     if stri
+         // }
+     }
+
     
 //    Given an array of integers nums and an integer target, return indices of the two numbers such that they add up to target.
 //
@@ -70,18 +109,36 @@ class Practice {
 //    -109 <= target <= 109
 //    Only one valid answer exists.
     
-    static private func twoSum(nums: [Int], target: Int) -> [Int] {
-        for index1 in 0..<(nums.count-1) {
-            let leftNumber = index1
-            for index2 in (index1+1)..<nums.count{
-            let rightNumber = index2
-                if nums[leftNumber] + nums[rightNumber] == target {
-                    return [leftNumber, rightNumber]
-                }
-            }
-        }
-        return []
-    }
+//    static private func twoSum(nums: [Int], target: Int) -> [Int] {
+//        for index1 in 0..<(nums.count-1) {
+//            let leftNumber = index1
+//            for index2 in (index1+1)..<nums.count{
+//            let rightNumber = index2
+//                if nums[leftNumber] + nums[rightNumber] == target {
+//                    return [leftNumber, rightNumber]
+//                }
+//            }
+//        }
+//        return []
+//    }
+//    static func twoSum(_ nums: [Int], _ target: Int) -> [Int] {
+//        var nums = nums
+//        nums.sort()
+//        var rightI = nums.count-1
+//        var leftI = 0
+//        while rightI > leftI {
+//            if nums[leftI] + nums[rightI] == target {
+//                return[leftI, rightI]
+//            }
+//            else if nums[leftI] + nums[rightI] >= target {
+//               rightI = nums[rightI-1]
+//            }
+//            else{
+//            leftI = nums[leftI+1]
+//            }
+//        }
+//        return[]
+//    }
     
     //You are given a large integer represented as an integer array digits, where each digits[i] is the ith digit of the integer. The digits are ordered from most significant to least significant in left-to-right order. The large integer does not contain any leading 0's.
 //
@@ -529,7 +586,7 @@ static func addedIndexs(nums: [Int]) -> [Int] {
         guard !nums.isEmpty else {return 0}
         var i = 0
         for num in nums {
-            if num != val {}
+            if num != val {continue}
             nums[i] = num
             i += 1
         }
@@ -635,4 +692,40 @@ static func addedIndexs(nums: [Int]) -> [Int] {
 
     }
 
-
+//class Solution {
+//    func twoSum(_ nums: [Int], _ target: Int) -> [Int] {
+//        var numbers = nums
+//        numbers.sort()
+//        var rightI = numbers.count-1
+//        var leftI = 0
+//        while rightI > leftI {
+//            if numbers[leftI] + numbers[rightI] == target {
+//                if numbers[leftI] == numbers[rightI] {
+//                    var ogLeftI = -1
+//                    var ogRightI = -1
+//                    for (index, element) in nums.enumerated() {
+//                        if element == numbers[leftI] {
+//                            if ogLeftI == -1 {
+//                               ogLeftI = index
+//                            } else {
+//                               ogRightI = index
+//                                 return[ogLeftI, ogRightI]
+//                            }
+//
+//                        }
+//                    }
+//                } else {
+//                    let ogLeftI = nums.firstIndex(where: {$0 == numbers[leftI]})!
+//                    let ogRightI = nums.firstIndex(where: {$0 == numbers[rightI]})!
+//                    return[ogLeftI, ogRightI]
+//                }
+//            }
+//            else if numbers[leftI] + numbers[rightI] > target {
+//               rightI = rightI-1
+//            } else{
+//                leftI = leftI+1
+//            }
+//        }
+//        return[]
+//    }
+//}
